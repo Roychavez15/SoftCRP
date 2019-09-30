@@ -2,27 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
-
+using SWDLCondelpi;
 namespace SoftCRP.Web.Controllers
 {
-    
+
+    //[Authorize(Roles = "Manager")]
+    [Authorize]
     public class ClientesController : Controller
     {
-        private readonly DataContext _context;
+        
 
-        public ClientesController(DataContext context)
+        private readonly DataContext _context;
+        private readonly WSDLCondelpiData.Service1Soap _service1Soap;
+
+        public ClientesController(
+            DataContext context,
+            WSDLCondelpiData.Service1Soap service1Soap)
         {
             _context = context;
+            _service1Soap = service1Soap;
         }
 
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
+            var data = await _service1Soap.Consulta_Data_autoAsync("1791287835001", "pcu1955");
+            //WSDLCondelpiData.ArrayOfXElement arrayOfXElement = new WSDLCondelpiData.ArrayOfXElement();
+            
             return View(await _context.Clientes.ToListAsync());
         }
 
