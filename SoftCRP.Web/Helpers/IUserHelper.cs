@@ -12,6 +12,7 @@ namespace SoftCRP.Web.Helpers
     {
         Task<User> GetUserByEmailAsync(string email);
 
+        Task<User> GetUserAsync(string user);
         Task<IdentityResult> AddUserAsync(User user, string password);
 
         Task CheckRoleAsync(string roleName);

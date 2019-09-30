@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
@@ -16,13 +17,16 @@ namespace SoftCRP.Web.Controllers
         //private SWDLCondelpi.Service1SoapClient Service1SoapClient = new Service1SoapClient();
         private readonly IUserHelper _userHelper;
         private readonly Service1Soap _service1Soap;
+        private readonly IConfiguration _configuration;
 
         public AccountController(
             IUserHelper userHelper,
-            Service1Soap service1Soap)
+            Service1Soap service1Soap,
+            IConfiguration configuration)
         {
             _userHelper = userHelper;
             _service1Soap = service1Soap;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -40,11 +44,36 @@ namespace SoftCRP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-
+            var key = _configuration.GetConnectionString("KeyWs");
             if(ModelState.IsValid)
             {
-                var result1 = await _service1Soap.LOGIsAuthenticatedAsync("1791287835001", "rchavez", "rchavez");
+                
+                var result1 = await _service1Soap.LOGIsAuthenticatedAsync(key, model.Username, model.Password);
+                if (result1)
+                {
+                    var user = await _userHelper.GetUserAsync(model.Username);
+                    if (user == null)
+                    {
+                        user = new User
+                        {
+                            Cedula = "0000000000",
+                            FirstName = model.Username,
+                            LastName = model.Username,
+                            //Email = model.Username,
+                            //PhoneNumber = model.PhoneNumber,
+                            UserName = model.Username,
+                        };
+                        var result2 = await _userHelper.AddUserAsync(user, model.Password);
+                        if (result2 != IdentityResult.Success)
+                        {
+                            //this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                            //return this.View(model);
+                        }
 
+                        await this._userHelper.AddUserToRoleAsync(user, "Cliente");
+
+                    }
+                }
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
@@ -79,14 +108,17 @@ namespace SoftCRP.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                //var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                var user = await _userHelper.GetUserAsync(model.Username);
                 if (user == null)
                 {
                     user = new User
                     {
+                        Cedula=model.Cedula,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Username,
+                        Email = model.Email,
+                        PhoneNumber=model.PhoneNumber,
                         UserName = model.Username
                     };
 
@@ -97,7 +129,7 @@ namespace SoftCRP.Web.Controllers
                         return this.View(model);
                     }
 
-                    await this._userHelper.AddUserToRoleAsync(user, "Usuario");
+                    await this._userHelper.AddUserToRoleAsync(user, "Cliente");
 
                     var loginViewModel = new LoginViewModel
                     {

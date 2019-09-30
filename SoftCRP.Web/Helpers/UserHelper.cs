@@ -43,6 +43,12 @@ namespace SoftCRP.Web.Helpers
             }
         }
 
+        public async Task<User> GetUserAsync(string user)
+        {
+            //throw new System.NotImplementedException();
+            return await _userManager.FindByNameAsync(user);
+        }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {            
             return await _userManager.FindByEmailAsync(email); ;

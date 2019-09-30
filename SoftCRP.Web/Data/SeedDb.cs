@@ -33,7 +33,8 @@ namespace SoftCRP.Web.Data
                     FirstName = "Roy",
                     LastName = "Chavez",
                     Email = "roy_chavez15@hotmail.com",
-                    UserName = "roy_chavez15@hotmail.com"
+                    PhoneNumber="0989605062",
+                    UserName = "rchavez"
                 };
 
                 var result = await this._userHelper.AddUserAsync(user, "123456");
@@ -41,7 +42,7 @@ namespace SoftCRP.Web.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
-                await this._userHelper.AddUserToRoleAsync(user, "Admin");
+                //await this._userHelper.AddUserToRoleAsync(user, "Admin");
             }
             var isInRole = await this._userHelper.IsUserInRoleAsync(user, "Admin");
             if (!isInRole)
@@ -54,7 +55,8 @@ namespace SoftCRP.Web.Data
         private async Task CheckRoles()
         {
             await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("Usuario");
+            await _userHelper.CheckRoleAsync("Renting");
+            await _userHelper.CheckRoleAsync("Cliente");
         }
 
     }

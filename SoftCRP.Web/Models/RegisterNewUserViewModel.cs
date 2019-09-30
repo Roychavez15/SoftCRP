@@ -8,6 +8,9 @@ namespace SoftCRP.Web.Models
 {
     public class RegisterNewUserViewModel
     {
+        [Display(Name = "Cedula")]
+        public string Cedula { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -16,8 +19,7 @@ namespace SoftCRP.Web.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
+        [Required]       
         public string Username { get; set; }
 
         [Required]
@@ -27,5 +29,11 @@ namespace SoftCRP.Web.Models
         [Required]
         [Compare("Password")]
         public string Confirm { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
     }
 }

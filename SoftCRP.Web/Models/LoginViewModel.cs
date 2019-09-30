@@ -9,7 +9,7 @@ namespace SoftCRP.Web.Models
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         public string Username { get; set; }
 
         [Required]
@@ -17,6 +17,7 @@ namespace SoftCRP.Web.Models
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
 
     }
 }

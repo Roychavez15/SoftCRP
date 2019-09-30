@@ -41,7 +41,7 @@ namespace SoftCRP.Web
             //
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
-                cfg.User.RequireUniqueEmail = true;
+                cfg.User.RequireUniqueEmail = false;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
