@@ -30,6 +30,6 @@ namespace SoftCRP.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Cedula}";
-
+        
     }
 }

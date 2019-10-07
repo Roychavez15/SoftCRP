@@ -1,20 +1,24 @@
-﻿@model SoftCRP.Web.Models.RegisterNewUserViewModel
-
+﻿@model SoftCRP.Web.Models.UserRoleViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Registrar</h2>
+<h2>Update User</h2>
 
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly"></div>
+            @*<input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Roles" />
+        <input type="hidden" asp-for="UserName" />
+        <input type="hidden" asp-for="SecurityStamp" />*@
             @for (int j = 0; j < Model.Roles.Count; j++)
             {
                 <input type="hidden" asp-for="Roles[j].Id" />
                 <input type="hidden" asp-for="Roles[j].Name" />
             }
+
             <div class="form-group">
                 <label asp-for="Cedula">Cedula</label>
                 <input asp-for="Cedula" class="form-control" />
@@ -32,57 +36,50 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-warning"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Email">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-warning"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="PhoneNumber">PhoneNumber</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-warning"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-warning"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Confirm">Confirm</label>
-                <input asp-for="Confirm" type="password" class="form-control" />
-                <span asp-validation-for="Confirm" class="text-warning"></span>
-            </div>
+            <hr />
             <h2>Roles</h2>
             <div class="row">
-
-                @for (int i = 0; i < Model.Roles.Count; i++)
+                @if (Model.Roles.Count > 0)
                 {
-                    <div class="form-check m-1">
-                        <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
-                        <label class="form-check-label">
-                            @Model.Roles[i].Name
-                        </label>
-                    </div>
+                    @for (int i = 0; i < Model.Roles.Count; i++)
+                    {
+                        <div class="form-check m-1">
+                            <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label">
+                                @Model.Roles[i].Name
+                            </label>
+                        </div>
+                    }
                 }
-
+                else
+                {
+                    <h3>NO TIENE ROLES ASIGNADOS</h3>
+                }
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Register New User" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
             </div>
-
-
-
+            <div class="text-success">@ViewBag.UserMessage</div>
         </form>
     </div>
 </div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -128,6 +128,10 @@ namespace WSDLCondelpiData
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_autoAsync(string key, string Placa);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Consulta_clientes", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_clientesAsync(string key, string ruc);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Ingreso_Incidencias", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<bool> Ingreso_IncidenciasAsync(string key, string Placa, int submotivo, string Observacion, string usuario, string usuario_solucion, string motivo);
@@ -322,6 +326,11 @@ namespace WSDLCondelpiData
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_autoAsync(string key, string Placa)
         {
             return base.Channel.Consulta_Data_autoAsync(key, Placa);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_clientesAsync(string key, string ruc)
+        {
+            return base.Channel.Consulta_clientesAsync(key, ruc);
         }
         
         public System.Threading.Tasks.Task<bool> Ingreso_IncidenciasAsync(string key, string Placa, int submotivo, string Observacion, string usuario, string usuario_solucion, string motivo)

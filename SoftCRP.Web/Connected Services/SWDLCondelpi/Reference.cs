@@ -279,6 +279,18 @@ namespace SWDLCondelpi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LOG_LOGIN", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<bool> LOG_LOGINAsync(string key, string Aplicacion, string Usuario, string Equipo, string Tipo, string Descripcion, int error);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GET_DATA_FAMILIA_FULL", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULLAsync(string key, string CEDULA);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GET_DATA_FAMILIA_FULL_iess", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_iessAsync(string key, string CEDULA);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GET_DATA_FAMILIA_FULL_MUERTO", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_MUERTOAsync(string key, string CEDULA);
     }
     
     /// <remarks/>
@@ -1249,6 +1261,21 @@ namespace SWDLCondelpi
         public System.Threading.Tasks.Task<bool> LOG_LOGINAsync(string key, string Aplicacion, string Usuario, string Equipo, string Tipo, string Descripcion, int error)
         {
             return base.Channel.LOG_LOGINAsync(key, Aplicacion, Usuario, Equipo, Tipo, Descripcion, error);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULLAsync(string key, string CEDULA)
+        {
+            return base.Channel.GET_DATA_FAMILIA_FULLAsync(key, CEDULA);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_iessAsync(string key, string CEDULA)
+        {
+            return base.Channel.GET_DATA_FAMILIA_FULL_iessAsync(key, CEDULA);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_MUERTOAsync(string key, string CEDULA)
+        {
+            return base.Channel.GET_DATA_FAMILIA_FULL_MUERTOAsync(key, CEDULA);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

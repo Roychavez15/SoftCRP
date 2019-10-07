@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Models
 {
-    public class RegisterNewUserViewModel
+    public class ChangeUserViewModel
     {
         [Display(Name = "Cedula")]
         public string Cedula { get; set; }
@@ -19,23 +19,12 @@ namespace SoftCRP.Web.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]       
-        public string Username { get; set; }
-
-        [Required]
-        [MinLength(6)]
-        public string Password { get; set; }
-
-        [Required]
-        [Compare("Password")]
-        public string Confirm { get; set; }
-
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-                                 
+
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        public List<RoleViewModel> Roles { get; set; }
+        
     }
 }

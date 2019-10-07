@@ -39,13 +39,7 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var dataxml = await _service1Soap.Consulta_Data_autoAsync("1791287835001", "pcu1955");
-            //WSDLCondelpiData.ArrayOfXElement arrayOfXElement = new WSDLCondelpiData.ArrayOfXElement();
-            //XDocument document = XDocument.Load(dataxml.Nodes[0].ToString());
-
-            //var booksQuery = from b in document.Elements("NewDataSet").Elements("data1")
-            //                 select b;
-
-            //DataTable table = booksQuery.ToDataTable();
+           
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());
@@ -218,9 +212,9 @@ namespace SoftCRP.Web.Controllers
         }
 
         // POST: Clientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        
+        public async Task<IActionResult> Delete(int id)
         {
             var cliente = await _context.Clientes.FindAsync(id);
             _context.Clientes.Remove(cliente);
