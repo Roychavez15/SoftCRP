@@ -9,10 +9,10 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-        <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
+
 
         <link rel="stylesheet" href="~/css/site.css" />
-
+        
 
     </environment>
     <environment exclude="Development">
@@ -21,6 +21,9 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+
+    <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="~/sweetalert/sweetalert.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -39,15 +42,16 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li><a asp-area="" asp-controller="Account" asp-action="Index">Usuarios</a></li>
-                        }
-                        @if (User.Identity.IsAuthenticated)
-                        {                            
-                            <li><a asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
-                        }
-                    </ul>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Account" asp-action="Index">Usuarios</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        //<li><a asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                        <li><a asp-area="" asp-controller="Informacion" asp-action="Index">Información General</a></li>
+                    }
+                </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
@@ -71,8 +75,10 @@
 
 
     <div class="container body-content">
-        @RenderBody()
         
+        <partial name="_NotificationPanel" />
+        @RenderBody()
+
         <hr />
         <footer>
             <p>&copy; 2019 - SoftCRP.Web</p>
@@ -84,7 +90,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
-        <script src="~/sweetalert/sweetalert.js"></script>
+        
 
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>

@@ -20,7 +20,7 @@ namespace SoftCRP.Web.Controllers
 
     //[Authorize(Roles = "Manager")]
     [Authorize]
-    public class ClientesController : Controller
+    public class ClientesController : BaseController
     {
         
 
@@ -39,7 +39,9 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var dataxml = await _service1Soap.Consulta_Data_autoAsync("1791287835001", "pcu1955");
-           
+
+            
+
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());
@@ -130,14 +132,16 @@ namespace SoftCRP.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Cedula")] Cliente cliente)
+        public async Task<IActionResult> Create(Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
+                //Alert("Cliente Agregado con EXITO", Enum.Enum.NotificationType.success);
                 return RedirectToAction(nameof(Index));
             }
+            //Alert("No se pudo agregar el cliente, revise los datos", Enum.Enum.NotificationType.error);
             return View(cliente);
         }
 

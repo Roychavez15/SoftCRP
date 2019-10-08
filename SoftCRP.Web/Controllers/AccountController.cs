@@ -421,6 +421,7 @@ namespace SoftCRP.Web.Controllers
                 }
 
                 await _userHelper.UpdateUserAsync(user);
+                
 
                 return RedirectToAction(nameof(Index));
             }

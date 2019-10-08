@@ -128,6 +128,10 @@ namespace WSDLCondelpiData
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_autoAsync(string key, string Placa);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Consulta_Data_nit_auto", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_nit_autoAsync(string key, string NIT);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Consulta_clientes", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_clientesAsync(string key, string ruc);
@@ -326,6 +330,11 @@ namespace WSDLCondelpiData
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_autoAsync(string key, string Placa)
         {
             return base.Channel.Consulta_Data_autoAsync(key, Placa);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_Data_nit_autoAsync(string key, string NIT)
+        {
+            return base.Channel.Consulta_Data_nit_autoAsync(key, NIT);
         }
         
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Consulta_clientesAsync(string key, string ruc)
