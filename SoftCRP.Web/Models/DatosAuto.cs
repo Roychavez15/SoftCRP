@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -12,86 +13,128 @@ namespace SoftCRP.Web.Models
 
     public class DatosAuto
     {
-        [XmlElement(ElementName = "adendum")]
+        [Display(Name = "Adendum")]
         public string Adendum { get; set; }
-        [XmlElement(ElementName = "año")]
+
+        [Display(Name = "Año")]
         public string Año { get; set; }
-        [XmlElement(ElementName = "canon")]
+
+        [Display(Name = "Canon")]        
         public string Canon { get; set; }
-        [XmlElement(ElementName = "chasis")]
+
+        [Display(Name = "Chasis")]
         public string Chasis { get; set; }
-        [XmlElement(ElementName = "ciudad_operacion")]
+
+        [Display(Name = "Ciudad de Operación")]
         public string Ciudad_operacion { get; set; }
-        [XmlElement(ElementName = "clase")]
+
+        [Display(Name = "Clase")]
         public string Clase { get; set; }
-        [XmlElement(ElementName = "cliente")]
+
+        [Display(Name = "Cliente")]
         public string Cliente { get; set; }
-        [XmlElement(ElementName = "color")]
+
+        [Display(Name = "Color")]
         public string Color { get; set; }
-        [XmlElement(ElementName = "contrato")]
+
+        [Display(Name = "Contrato")]
         public string Contrato { get; set; }
-        [XmlElement(ElementName = "cotizacion")]
+
+        [Display(Name = "Cotización")]
         public string Cotizacion { get; set; }
-        [XmlElement(ElementName = "des_modelo")]
+
+        [Display(Name = "Descripción Modelo")]
         public string Des_modelo { get; set; }
-        [XmlElement(ElementName = "dispositivo")]
+
+        [Display(Name = "Dispositivo")]
         public string Dispositivo { get; set; }
-        [XmlElement(ElementName = "ejecutivo")]
+
+        [Display(Name = "Ejecutivo")]
         public string Ejecutivo { get; set; }
-        [XmlElement(ElementName = "estatus")]
+
+        [Display(Name = "Estado")]
         public string Estatus { get; set; }
-        [XmlElement(ElementName = "fecha_entrega")]
+
+        [Display(Name = "Fecha Entrega")]
         public string Fecha_entrega { get; set; }
-        [XmlElement(ElementName = "fecha_km")]
+
+        [Display(Name = "Fecha Km")]
         public string Fecha_km { get; set; }
-        [XmlElement(ElementName = "fecha_ultima_rutina")]
+
+        [Display(Name = "Fecha última rutina")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Fecha_ultima_rutina { get; set; }
-        [XmlElement(ElementName = "fechacontrato")]
+
+        [Display(Name = "Fecha de Contrato")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Fechacontrato { get; set; }
-        [XmlElement(ElementName = "fechafinContrato")]
+
+        [Display(Name = "Fecha Fin de Contrato")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string FechafinContrato { get; set; }
-        [XmlElement(ElementName = "FormaFacturacion")]
+
+        [Display(Name = "Forma de Facturación")]
         public string FormaFacturacion { get; set; }
-        
-        [XmlElement(ElementName = "id_ultima_rutina")]
+
+        [Display(Name = "Id última rutina")]
         public string Id_ultima_rutina { get; set; }
-        [XmlElement(ElementName = "km")]
+
+        [Display(Name = "Km")]
         public string Km { get; set; }
-        [XmlElement(ElementName = "KmAnual")]
+
+        [Display(Name = "Km Anual")]
         public string KmAnual { get; set; }
-        [XmlElement(ElementName = "marca")]
+
+        [Display(Name = "Marca")]
         public string Marca { get; set; }
-        [XmlElement(ElementName = "modelo")]
+
+        [Display(Name = "Modelo")]
         public string Modelo { get; set; }
-        [XmlElement(ElementName = "motor")]
+
+        [Display(Name = "Motor")]
         public string Motor { get; set; }
-        [XmlElement(ElementName = "mto_correctivo")]
+
+        [Display(Name = "Mantenimiento Correctivo")]
         public string Mto_correctivo { get; set; }
-        [XmlElement(ElementName = "mto_llantas")]
+
+        [Display(Name = "Mantenimiento Llantas")]
         public string Mto_llantas { get; set; }
-        [XmlElement(ElementName = "mto_preventivo")]
+
+        [Display(Name = "Mantenimiento Preventivo")]
         public string Mto_preventivo { get; set; }
-        [XmlElement(ElementName = "mto_sustituto")]
+
+        [Display(Name = "Mantenimiento Sustituto")]
         public string Mto_sustituto { get; set; }
-        [XmlElement(ElementName = "nom_cliente")]
+
+        [Display(Name = "Nombre Cliente")]
         public string Nom_cliente { get; set; }
-        [XmlElement(ElementName = "nom_ejecutivo")]
+
+        [Display(Name = "Nombre Ejecutivo")]
         public string Nom_ejecutivo { get; set; }
-        [XmlElement(ElementName = "NombreAseguradora")]
+
+        [Display(Name = "Nombre Aseguradora")]
         public string NombreAseguradora { get; set; }
-        [XmlElement(ElementName = "placa")]
+
+        [Display(Name = "Placa")]
         public string Placa { get; set; }
-        [XmlElement(ElementName = "Plan_Seguro")]
+
+        [Display(Name = "Plan Seguro")]
         public string Plan_Seguro { get; set; }
-        [XmlElement(ElementName = "Plazo")]
+
+        [Display(Name = "Plazo")]
         public string Plazo { get; set; }
-        [XmlElement(ElementName = "Plazo_pago")]
+
+        [Display(Name = "Plazo Pago")]
         public string Plazo_pago { get; set; }
-        [XmlElement(ElementName = "ramv")]
+
+        [Display(Name = "Ramv")]
         public string Ramv { get; set; }
-        [XmlElement(ElementName = "siniestros")]
+
+        [Display(Name = "Siniestros")]
         public string Siniestros { get; set; }
-        [XmlElement(ElementName = "ultima_rutina")]
+
+        [Display(Name = "Ultima rutina")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Ultima_rutina { get; set; }
     }
 

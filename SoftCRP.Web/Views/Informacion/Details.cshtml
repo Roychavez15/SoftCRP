@@ -1,0 +1,207 @@
+﻿@model SoftCRP.Web.Models.DatosAuto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2> Placa : @Model.Placa - Cliente : @Model.Nom_cliente</h2>
+
+<div class="row">
+    <h4>
+        Informacion de Contrato
+    </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Dispositivo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Dispositivo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mto_sustituto)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mto_sustituto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mto_preventivo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mto_preventivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mto_correctivo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mto_correctivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mto_llantas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mto_llantas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreAseguradora)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NombreAseguradora)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plan_Seguro)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Plan_Seguro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plazo_pago)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Plazo_pago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormaFacturacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FormaFacturacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KmAnual)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KmAnual)
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <h4>
+        Informacion de Vehículo
+    </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Marca)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Marca)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Año)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Año)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Motor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Chasis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Chasis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ramv)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ramv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clase)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Clase)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ciudad_operacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ciudad_operacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fechacontrato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fechacontrato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechafinContrato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FechafinContrato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Plazo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Plazo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Canon)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Canon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ultima_rutina)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ultima_rutina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_ultima_rutina)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_ultima_rutina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Siniestros)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Siniestros)
+        </dd>
+    </dl>
+</div>
+
+<div>    
+    <a asp-action="Index" class="btn btn-success"><i class="fa fa-chevron-circle-left"></i> Regresar a la Lista</a>
+</div>

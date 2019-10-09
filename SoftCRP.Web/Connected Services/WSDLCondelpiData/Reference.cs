@@ -386,6 +386,8 @@ namespace WSDLCondelpiData
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
+                result.MaxBufferPoolSize = int.MaxValue;
+                
                 return result;
             }
             if ((endpointConfiguration == EndpointConfiguration.Service1Soap12))

@@ -49,7 +49,8 @@ namespace SoftCRP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var key = _configuration.GetConnectionString("KeyWs");
+            var key = _configuration["KeyWs"];
+
             if(ModelState.IsValid)
             {
                 

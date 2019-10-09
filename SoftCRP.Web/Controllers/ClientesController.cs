@@ -39,9 +39,6 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var dataxml = await _service1Soap.Consulta_Data_autoAsync("1791287835001", "pcu1955");
-
-            
-
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SoftCRP.Web.Models.VehiculosClientesViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Vehiculos del Cliente</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.codigo_activo)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.placa)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.historial_vh)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.codigo_activo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.placa)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.historial_vh)
+                </td>
+                <td id="@item.placa">
+                    <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

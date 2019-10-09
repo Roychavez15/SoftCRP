@@ -351,6 +351,7 @@
       "WindowsBase, {Microsoft.NETCore.App, 2.1.0}"
     ],
     "targetFramework": "netcoreapp2.1",
+    
     "typeReuseMode": "All"
   }
 }

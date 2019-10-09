@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
+using SoftCRP.Web.Repositories;
 using SWDLCondelpi;
 
 namespace SoftCRP.Web
@@ -70,13 +71,24 @@ namespace SoftCRP.Web
 
             services.AddTransient<SeedDb>();//
             services.AddScoped<IUserHelper, UserHelper>();//
-            
+            services.AddScoped<IDatosRepository, DatosRepository>();
+
             var url = Configuration["WsdlUser"];
+             
             services.AddScoped<Service1Soap>(provider =>
-            {                 
-                  var client = new Service1SoapClient(
-                      //new BasicHttpsBinding(BasicHttpsSecurityMode.Transport), 
-                      new BasicHttpBinding(BasicHttpSecurityMode.None),
+            {
+                BasicHttpBinding result = new BasicHttpBinding();
+                result.MaxBufferSize = int.MaxValue;
+                result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
+                result.MaxReceivedMessageSize = int.MaxValue;
+                result.AllowCookies = true;
+                result.MaxBufferPoolSize = int.MaxValue;
+                //result.Security = BasicHttpSecurityMode.None;
+
+                var client = new Service1SoapClient(
+                      
+                      //new BasicHttpBinding(BasicHttpSecurityMode.None),
+                      result,
                       new EndpointAddress(url));
                 return client;
             });
@@ -84,8 +96,16 @@ namespace SoftCRP.Web
             var url1 = Configuration["WsdlData"];
             services.AddScoped<WSDLCondelpiData.Service1Soap>(provider =>
             {
+                BasicHttpBinding result = new BasicHttpBinding();
+                result.MaxBufferSize = int.MaxValue;
+                result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
+                result.MaxReceivedMessageSize = int.MaxValue;
+                result.AllowCookies = true;
+                result.MaxBufferPoolSize = int.MaxValue;
+
                 var client1 = new WSDLCondelpiData.Service1SoapClient(
-                    new BasicHttpBinding(BasicHttpSecurityMode.None),
+                    //new BasicHttpBinding(BasicHttpSecurityMode.None),
+                    result,
                     new EndpointAddress(url1));
                 return client1;
             });
