@@ -15,35 +15,56 @@ namespace SoftCRP.Web.Controllers
 {
     public class InformacionController : Controller
     {
-        private readonly DataContext _context;        
+        private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly IDatosRepository _datosRepository;
-        
+
         public InformacionController(
-            DataContext context,            
+            DataContext context,
             IUserHelper userHelper,
-            IDatosRepository datosRepository)            
+            IDatosRepository datosRepository)
         {
-            _context = context;            
+            _context = context;
             _userHelper = userHelper;
-            _datosRepository = datosRepository;            
+            _datosRepository = datosRepository;
         }
         public async Task<IActionResult> Index()
-        {            
+        {
+            
+
             List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
 
             var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
-            if(user != null)
+            if (user != null)
             {
                 if (this.User.IsInRole("Cliente"))
                 {
                     Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
                 }
             }
-            
+
             return View(Vehiculos);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(string buscarcliente)
+        {
+            
+            List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
+
+            //var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+            //if (user != null)
+            //{
+            //    if (this.User.IsInRole("Cliente"))
+            //    {
+            //        Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+            //    }
+            //}
+
+            Vehiculos = await _datosRepository.GetVehiculosClienteAsync(buscarcliente);
+
+            return View(Vehiculos);
+        }
         public async Task<IActionResult> Details(string id)
         {
             if (string.IsNullOrEmpty(id))
