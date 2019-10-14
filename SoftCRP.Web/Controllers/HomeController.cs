@@ -4,15 +4,41 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
+using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserHelper _userHelper;
+        private readonly IDatosRepository _datosRepository;
+
+        public HomeController(
+            IUserHelper userHelper,
+            IDatosRepository datosRepository)
         {
-            return View();
+            _userHelper = userHelper;
+            _datosRepository = datosRepository;
+        }
+        public async Task<IActionResult> Index()
+        {
+
+            List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
+
+            if (!string.IsNullOrEmpty(this.User.Identity.Name))
+            {
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                if (user != null)
+                {
+                    if (this.User.IsInRole("Cliente"))
+                    {
+                        Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+                    }
+                }
+            }
+            return View(Vehiculos);
         }
 
         public IActionResult About()

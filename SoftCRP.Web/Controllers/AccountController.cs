@@ -85,18 +85,21 @@ namespace SoftCRP.Web.Controllers
                     }
                     else
                     {
+                        
                         //await _userHelper.ChangePasswordAsync(user,user.PasswordHash)
                     }
                 }
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
+                    
                     if (Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         return Redirect(Request.Query["ReturnUrl"].First());
                     }
 
                     return RedirectToAction("Index", "Home");
+
                 }
 
 

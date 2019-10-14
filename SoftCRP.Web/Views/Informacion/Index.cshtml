@@ -5,17 +5,17 @@
 }
 
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />*@
 <br />
 
 <div class="row">
     <div class="col-md-10">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title">Flota del Cliente</h2>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Flota del Cliente</h2>
             </div>
-            <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="tableVehiculos">
+            <div class="card-body">
+                <table class="table table-bordered table-striped" id="tableVehiculos">
                     <thead>
                         <tr>
 
@@ -48,7 +48,7 @@
                                     @Html.DisplayFor(modelItem => item.historial_vh)
                                 </td>
                                 <td id="@item.placa">
-                                    <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="glyphicon glyphicon-list"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="fa fa-list"></i></a>
                                 </td>
                             </tr>
                         }
@@ -62,11 +62,24 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    @*<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
+        <script>
+            $(document).ready(function () {
+                $('#tableVehiculos').DataTable();
+            });
+        </script>*@
     <script>
-        $(document).ready(function () {
-            $('#tableVehiculos').DataTable();
+        $(function () {
+            $("#tableVehiculos").DataTable();
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
         });
     </script>
 }
