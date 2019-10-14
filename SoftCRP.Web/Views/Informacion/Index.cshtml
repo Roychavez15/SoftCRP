@@ -1,51 +1,149 @@
 ﻿@model IEnumerable<SoftCRP.Web.Models.VehiculosClientesViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Información General";
 }
 
-<h2>Vehiculos del Cliente</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.codigo_activo)
-            </th>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<br />
 
-            <th>
-                @Html.DisplayNameFor(model => model.placa)
-            </th>
+<div class="row">
+    <div class="col-md-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Flota del Cliente</h2>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-responsive table-striped" id="tableVehiculos">
+                    <thead>
+                        <tr>
 
-            <th>
-                @Html.DisplayNameFor(model => model.historial_vh)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.codigo_activo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.placa)
-                </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.codigo_activo)
+                            </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.historial_vh)
-                </td>
-                <td id="@item.placa">
-                    <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            <th>
+                                @Html.DisplayNameFor(model => model.placa)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.historial_vh)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="Search">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.codigo_activo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.placa)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.historial_vh)
+                                </td>
+                                <td id="@item.placa">
+                                    <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="glyphicon glyphicon-list"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tableVehiculos').DataTable();
+        });
+    </script>
 }
+
+@*<h2>Vehiculos del Cliente</h2>
+    <div class="container">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                <input type="text" id="Search" placeholder="Search" class="form-control"/>
+            </div>
+
+        </div>
+    </div>
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.codigo_activo)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.placa)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.historial_vh)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="Search">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.codigo_activo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.placa)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.historial_vh)
+                    </td>
+                    <td id="@item.placa">
+                        <a asp-action="Details" asp-route-id="@item.placa" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script>
+            $(document).ready(function () {
+                function Contains(text_one, text_two) {
+                    if (text_one.indexOf(text_two) != -1)
+                        return true;
+                }
+                $('#Search').keyup(function () {
+                    var searchText = $('#Search').val().toLowerCase();
+                    $(".Search").each(function () {
+                        if (!Contains($(this).text().toLowerCase(), searchText)) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
+    }*@

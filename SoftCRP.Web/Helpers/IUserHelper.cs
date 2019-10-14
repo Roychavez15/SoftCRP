@@ -37,5 +37,11 @@ namespace SoftCRP.Web.Helpers
 
         Task<IEnumerable<RoleViewModel>> GetAllListRoles(User user);
         Task<IEnumerable<RoleViewModel>> GetAllListRoles();
+
+
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+
+        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
     }
 }

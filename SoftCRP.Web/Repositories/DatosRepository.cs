@@ -46,53 +46,64 @@ namespace SoftCRP.Web.Repositories
             {
                 datos= new DatosAuto
                 {
-                    Adendum = nodo.GetElementsByTagName("adendum")[0].InnerText,
-                    Año = nodo.GetElementsByTagName("año")[0].InnerText,
-                    Canon = nodo.GetElementsByTagName("canon")[0].InnerText,
-                    Chasis = nodo.GetElementsByTagName("chasis")[0].InnerText,
-                    Ciudad_operacion = nodo.GetElementsByTagName("ciudad_operacion")[0].InnerText,
-                    Clase = nodo.GetElementsByTagName("clase")[0].InnerText,
-                    Cliente = nodo.GetElementsByTagName("cliente")[0].InnerText,
-                    Color = nodo.GetElementsByTagName("color")[0].InnerText,
-                    Contrato = nodo.GetElementsByTagName("contrato")[0].InnerText,
-                    Cotizacion = nodo.GetElementsByTagName("cotizacion")[0].InnerText,
-                    Des_modelo = nodo.GetElementsByTagName("des_modelo")[0].InnerText,
-                    Dispositivo = nodo.GetElementsByTagName("dispositivo")[0].InnerText,
-                    Ejecutivo = nodo.GetElementsByTagName("ejecutivo")[0].InnerText,
-                    Estatus = nodo.GetElementsByTagName("estatus")[0].InnerText,
-                    Fechacontrato = nodo.GetElementsByTagName("fechacontrato")[0].InnerText.Substring(0,10),
-                    FechafinContrato = nodo.GetElementsByTagName("fechafinContrato")[0].InnerText.Substring(0, 10),
-                    Fecha_entrega = nodo.GetElementsByTagName("fecha_entrega")[0].InnerText.Substring(0, 10),
-                    Fecha_km = nodo.GetElementsByTagName("fecha_km")[0].InnerText.Substring(0, 10),
-                    Fecha_ultima_rutina = nodo.GetElementsByTagName("fecha_ultima_rutina")[0].InnerText.Substring(0, 10),
-                    FormaFacturacion = nodo.GetElementsByTagName("FormaFacturacion")[0].InnerText,
+                    Adendum = verificanodo(nodo, "adendum"),
+                    Año = verificanodo(nodo, "año"),
+                    Canon = verificanodo(nodo, "canon"),
+                    Chasis = verificanodo(nodo, "chasis"),
+                    Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
+                    Clase = verificanodo(nodo, "clase"),
+                    Cliente = verificanodo(nodo, "cliente"),
+                    Color = verificanodo(nodo, "color"),
+                    Contrato = verificanodo(nodo, "contrato"),
+                    Cotizacion = verificanodo(nodo, "cotizacion"),
+                    Des_modelo = verificanodo(nodo, "des_modelo"),
+                    Dispositivo = verificanodo(nodo, "dispositivo"),
+                    Ejecutivo = verificanodo(nodo, "ejecutivo"),
+                    Estatus = verificanodo(nodo, "estatus"),
+                    Fechacontrato = verificanodo(nodo, "fechacontrato"),
+                    FechafinContrato = verificanodo(nodo, "fechafinContrato"),
+                    Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
+                    Fecha_km = verificanodo(nodo, "fecha_km"),
+                    Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
+                    FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
 
-                    Id_ultima_rutina = nodo.GetElementsByTagName("id_ultima_rutina")[0].InnerText,
-                    Km = nodo.GetElementsByTagName("km")[0].InnerText,
-                    KmAnual = nodo.GetElementsByTagName("KmAnual")[0].InnerText,
-                    Marca = nodo.GetElementsByTagName("marca")[0].InnerText,
-                    Modelo = nodo.GetElementsByTagName("modelo")[0].InnerText,
-                    Motor = nodo.GetElementsByTagName("motor")[0].InnerText,
-                    Mto_correctivo = nodo.GetElementsByTagName("mto_correctivo")[0].InnerText,
-                    Mto_llantas = nodo.GetElementsByTagName("mto_llantas")[0].InnerText,
-                    Mto_preventivo = nodo.GetElementsByTagName("mto_preventivo")[0].InnerText,
-                    Mto_sustituto = nodo.GetElementsByTagName("mto_sustituto")[0].InnerText,
-                    NombreAseguradora = nodo.GetElementsByTagName("NombreAseguradora")[0].InnerText,
-                    Nom_cliente = nodo.GetElementsByTagName("nom_cliente")[0].InnerText,
-                    Nom_ejecutivo = nodo.GetElementsByTagName("nom_ejecutivo")[0].InnerText,
-                    Placa = nodo.GetElementsByTagName("placa")[0].InnerText,
-                    Plan_Seguro = nodo.GetElementsByTagName("Plan_Seguro")[0].InnerText,
-                    Plazo = nodo.GetElementsByTagName("Plazo")[0].InnerText,
-                    Plazo_pago = nodo.GetElementsByTagName("Plazo_pago")[0].InnerText,
-                    Ramv = nodo.GetElementsByTagName("ramv")[0].InnerText,
-                    Siniestros = nodo.GetElementsByTagName("siniestros")[0].InnerText,
-                    Ultima_rutina = nodo.GetElementsByTagName("ultima_rutina")[0].InnerText,
+                    Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
+                    Km = verificanodo(nodo, "km"),
+                    KmAnual = verificanodo(nodo, "KmAnual"),
+                    Marca = verificanodo(nodo, "marca"),
+                    Modelo = verificanodo(nodo, "modelo"),
+                    Motor = verificanodo(nodo, "motor"),
+                    Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
+                    Mto_llantas = verificanodo(nodo, "mto_llantas"),
+                    Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
+                    Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
+                    NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
+                    Nom_cliente = verificanodo(nodo, "nom_cliente"),
+                    Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
+                    Placa = verificanodo(nodo, "placa"),
+                    Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
+                    Plazo = verificanodo(nodo, "Plazo"),
+                    Plazo_pago = verificanodo(nodo, "Plazo_pago"),
+                    Ramv = verificanodo(nodo, "ramv"),
+                    Siniestros = verificanodo(nodo, "siniestros"),
+                    Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
+                    pickup = verificanodo(nodo, "pickup"),
+
                 };
                 
             }
             return datos;
         }
-
+        private string verificanodo(XmlElement lista1, string nodo)
+        {
+            var aux = "";
+            try
+            {
+                aux = lista1.GetElementsByTagName(nodo)[0].InnerText;
+            }
+            catch { aux = ""; }
+            return aux;
+        }
         public async Task<List<VehiculosClientesViewModel>> GetVehiculosClienteAsync(string nit)
         {
             var key = _configuration["KeyWs"];
@@ -105,37 +116,40 @@ namespace SoftCRP.Web.Repositories
             document.LoadXml(dataxml.Nodes[1].ToString());
             XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
 
+            if(Datos.Count>0)
+            { 
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
 
-            XmlNodeList lista1 =
-                ((XmlElement)Datos[0]).GetElementsByTagName("data");
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList codigo_activo =
+                        nodo.GetElementsByTagName("codigo_activo");
 
-            foreach (XmlElement nodo in lista1)
-            {
-                //var dat= nodo[0].InnerText
-                XmlNodeList codigo_activo =
-                    nodo.GetElementsByTagName("codigo_activo");
+                    XmlNodeList nom_cliente =
+                        nodo.GetElementsByTagName("nom_cliente");
 
-                XmlNodeList nom_cliente =
-                    nodo.GetElementsByTagName("nom_cliente");
+                    XmlNodeList nit_cliente =
+                        nodo.GetElementsByTagName("nit_cliente");
 
-                XmlNodeList nit_cliente =
-                    nodo.GetElementsByTagName("nit_cliente");
+                    XmlNodeList placa =
+                        nodo.GetElementsByTagName("placa");
 
-                XmlNodeList placa =
-                    nodo.GetElementsByTagName("placa");
+                    XmlNodeList historial_vh =
+                        nodo.GetElementsByTagName("historial_vh");
 
-                XmlNodeList historial_vh =
-                    nodo.GetElementsByTagName("historial_vh");
+                    VehiculosClientesViewModel vehiculos = new VehiculosClientesViewModel();
 
-                VehiculosClientesViewModel vehiculos = new VehiculosClientesViewModel();
+                    vehiculos.codigo_activo = codigo_activo[0].InnerText;
+                    vehiculos.nom_cliente = nom_cliente[0].InnerText;
+                    vehiculos.nit_cliente = nit_cliente[0].InnerText;
+                    vehiculos.placa = placa[0].InnerText;
+                    vehiculos.historial_vh = historial_vh[0].InnerText;
 
-                vehiculos.codigo_activo = codigo_activo[0].InnerText;
-                vehiculos.nom_cliente = nom_cliente[0].InnerText;
-                vehiculos.nit_cliente = nit_cliente[0].InnerText;
-                vehiculos.placa = placa[0].InnerText;
-                vehiculos.historial_vh = historial_vh[0].InnerText;
-
-                Vehiculos.Add(vehiculos);
+                    Vehiculos.Add(vehiculos);
+                }
+                
             }
 
             return Vehiculos

@@ -44,13 +44,16 @@ namespace SoftCRP.Web
             //
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.User.RequireUniqueEmail = false;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<DataContext>();
+            })
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<DataContext>();
             //
             services.AddAuthentication()
             .AddCookie()
@@ -72,6 +75,7 @@ namespace SoftCRP.Web
             services.AddTransient<SeedDb>();//
             services.AddScoped<IUserHelper, UserHelper>();//
             services.AddScoped<IDatosRepository, DatosRepository>();
+            services.AddScoped<IMailHelper, MailHelper>();
 
             var url = Configuration["WsdlUser"];
              

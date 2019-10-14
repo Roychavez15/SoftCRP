@@ -5,6 +5,49 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <Content Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <EmbeddedResource Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <None Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\css\adminlte.css" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\css\adminlte.min.css" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\AdminLTELogo.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\avatar.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\avatar04.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\avatar2.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\avatar3.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\avatar5.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\boxed-bg.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\boxed-bg.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\american-express.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\cirrus.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\mastercard.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\mestro.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\paypal.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\paypal2.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\credit\visa.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\default-150x150.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\icons.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\photo1.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\photo2.png" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\photo3.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\photo4.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\prod-1.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\prod-2.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\prod-3.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\prod-4.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\prod-5.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user1-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user2-160x160.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user3-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user4-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user5-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user6-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user7-128x128.jpg" />
+    <Content Include="wwwroot\node_modules\AdminLTE\dist\img\user8-128x128.jpg" />
     <Content Include="wwwroot\node_modules\font-awesome\css\font-awesome.css" />
     <Content Include="wwwroot\node_modules\font-awesome\css\font-awesome.min.css" />
     <Content Include="wwwroot\node_modules\font-awesome\fonts\fontawesome-webfont.eot" />
@@ -16,6 +59,112 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AdminLTE" Version="2.4.0" />
+    <PackageReference Include="MailKit" Version="2.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="SweetAlert.Bootstrap" Version="1.0.1" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\sweetalert\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\node_modules\AdminLTE\build\config\postcss.config.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\config\rollup.config.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\.jscsrc" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\AdminLTE.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\CardRefresh.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\CardWidget.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\ControlSidebar.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\DirectChat.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\Dropdown.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\Layout.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\PushMenu.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\SiteSearch.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\Toasts.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\TodoList.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\js\Treeview.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\npm\DocsPlugins.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\npm\DocsPublish.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\npm\Plugins.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\npm\Publish.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\.csslintrc" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\AdminLTE-raw.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\AdminLTE.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_404_500_errors.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_e_commerce.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_invoice.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_lockscreen.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_login_and_register.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_mailbox.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_profile.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\pages\_projects.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_bootstrap-slider.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_bootstrap-switch.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_fullcalendar.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_icheck-bootstrap.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_jqvmap.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_mapael.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_miscellaneous.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_mixins.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_pace.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_select2.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_sweetalert2.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\plugins\_toastr.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_alerts.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_bootstrap-variables.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_brand.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_buttons.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_callout.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_cards.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_carousel.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_colors.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_control-sidebar.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_direct-chat.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_dropdown.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_elevation.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_forms.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_info-box.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_layout.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_main-header.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_main-sidebar.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_miscellaneous.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_mixins.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_modals.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_navs.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_print.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_products.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_progress-bars.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_sidebar-mini.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_small-box.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_social-widgets.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_table.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_text.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_timeline.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_toasts.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_users-list.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\build\scss\_variables.scss" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\css\adminlte.css.map" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\css\adminlte.min.css.map" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\adminlte.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\adminlte.js.map" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\adminlte.min.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\adminlte.min.js.map" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\demo.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\pages\dashboard.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\pages\dashboard2.js" />
+    <None Include="wwwroot\node_modules\AdminLTE\dist\js\pages\dashboard3.js" />
     <None Include="wwwroot\node_modules\font-awesome\.npmignore" />
     <None Include="wwwroot\node_modules\font-awesome\css\font-awesome.css.map" />
     <None Include="wwwroot\node_modules\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -49,25 +198,6 @@
     <None Include="wwwroot\node_modules\font-awesome\scss\_screen-reader.scss" />
     <None Include="wwwroot\node_modules\font-awesome\scss\_stacked.scss" />
     <None Include="wwwroot\node_modules\font-awesome\scss\_variables.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
-    <PackageReference Include="SweetAlert.Bootstrap" Version="1.0.1" />
-    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\sweetalert\" />
   </ItemGroup>
 
 </Project>

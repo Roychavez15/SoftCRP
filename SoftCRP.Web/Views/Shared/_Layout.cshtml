@@ -6,13 +6,15 @@
     <title>@ViewData["Title"] - SoftCRP.Web</title>
 
     <environment include="Development">
+
+
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-
+        <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
+        <script src="~/sweetalert/sweetalert.js"></script>
 
         <link rel="stylesheet" href="~/css/site.css" />
-        
 
     </environment>
     <environment exclude="Development">
@@ -20,10 +22,14 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+
+        <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
+        <script src="~/sweetalert/sweetalert.js"></script>
     </environment>
 
-    <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
-    <script src="~/sweetalert/sweetalert.js"></script>
+
+
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">

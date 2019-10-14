@@ -62,15 +62,15 @@ namespace SoftCRP.Web.Models
         public string Fecha_km { get; set; }
 
         [Display(Name = "Fecha última rutina")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Fecha_ultima_rutina { get; set; }
 
         [Display(Name = "Fecha de Contrato")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Fechacontrato { get; set; }
 
         [Display(Name = "Fecha Fin de Contrato")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string FechafinContrato { get; set; }
 
         [Display(Name = "Forma de Facturación")]
@@ -134,8 +134,12 @@ namespace SoftCRP.Web.Models
         public string Siniestros { get; set; }
 
         [Display(Name = "Ultima rutina")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public string Ultima_rutina { get; set; }
+
+        [Display(Name = "Pickup")]
+        public string pickup { get; set; }
+         
     }
 
 }

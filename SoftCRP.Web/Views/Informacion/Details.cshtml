@@ -1,7 +1,7 @@
 ﻿@model SoftCRP.Web.Models.DatosAuto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Información General - Detalles";
 }
 
 <h2> Placa : @Model.Placa - Cliente : @Model.Nom_cliente</h2>
@@ -24,7 +24,12 @@
         <dd>
             @Html.DisplayFor(model => model.Mto_sustituto)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.pickup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.pickup)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Mto_preventivo)
         </dt>
