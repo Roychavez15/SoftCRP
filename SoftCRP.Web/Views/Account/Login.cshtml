@@ -31,54 +31,59 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>Soft</b>CRP</a>
+            <img src="~/images/RP.png" width="200" alt="AdminLTE Logo"
+                 style="opacity: .8">
+            @*<a href="#"><b>Soft</b>CRP</a>*@
         </div>
+        <br />
         <!-- /.login-logo -->
-        <div class="card">
+        <div class="card" style="width:500">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Ingresa tus datos para iniciar sesión</p>
 
                 <form method="post">
                     <div asp-validation-summary="ModelOnly"></div>
                     <div class="input-group mb-3">
-                        <label asp-for="Username">Username </label>
+                        <label asp-for="Username">Usuario: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input asp-for="Username" class="form-control" />
-                        <span asp-validation-for="Username" class="text-warning"></span>
+
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
+                        <span asp-validation-for="Username" class="text-warning"></span>
                     </div>
                     <div class="input-group mb-3">
-                        <label asp-for="Password">Password </label>
+                        <label asp-for="Password">Contraseña: </label>&nbsp;&nbsp;
                         <input asp-for="Password" type="password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-warning"></span>
+
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        <span asp-validation-for="Password" class="text-warning"></span>
                     </div>
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
                                 <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
-                                <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
+                                <label asp-for="RememberMe" class="form-check-label">Recordarme?</label>
                             </div>
                             <span asp-validation-for="RememberMe" class="text-warning"></span>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
                             @*<button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login</button>*@
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <p class="mb-1">
-                    <a asp-action="RecoverPassword" class="btn btn-link">Forgot your password?</a>
+                    <a asp-action="RecoverPassword" class="btn btn-link">Olvidó su contraseña?</a>
 
                 </p>
 
