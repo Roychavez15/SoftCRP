@@ -10,9 +10,9 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly"></div>
             @*<input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="Roles" />
-        <input type="hidden" asp-for="UserName" />
-        <input type="hidden" asp-for="SecurityStamp" />*@
+                <input type="hidden" asp-for="Roles" />
+                <input type="hidden" asp-for="UserName" />
+                <input type="hidden" asp-for="SecurityStamp" />*@
             @for (int j = 0; j < Model.Roles.Count; j++)
             {
                 <input type="hidden" asp-for="Roles[j].Id" />
@@ -71,7 +71,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" id="editar"/>
+                <input type="submit" value="Update" class="btn btn-primary" id="editar" />
                 <a asp-action="Index" class="btn btn-success">Back to List</a>
             </div>
             <div class="text-success">@ViewBag.UserMessage</div>
@@ -81,21 +81,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script>
-    
-    $(document).ready(function () {
-        
-
-        $('#editar').click(function () {
-            debugger;
-            var Cedula = @Model.Cedula;
-            var FirtName =@Model.FirstName;
-            var data = JSON.stringify(@Model);
-
-        });
-    });
-
-</script>
+    <script type="text/javascript">
+            @Html.Raw(ViewBag.SweetAlertShowMessage)
+    </script>
 }
 
 

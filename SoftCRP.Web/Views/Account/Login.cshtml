@@ -23,6 +23,10 @@
     <link rel="stylesheet" href="~/node_modules/AdminLTE/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
+    <script src="~/sweetalert/sweetalert.js"></script>
+
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -92,12 +96,13 @@
 
 </body>
 </html>
+<script type="text/javascript">
+            @Html.Raw(ViewBag.SweetAlertShowMessage)
+</script>
 
-
-
-
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+@*@section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script type="text/javascript">
+                @Html.Raw(ViewBag.SweetAlertShowMessage)
+        </script>
+    }*@

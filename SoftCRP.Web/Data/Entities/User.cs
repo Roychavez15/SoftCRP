@@ -9,13 +9,9 @@ namespace SoftCRP.Web.Data.Entities
 {
     public class User : IdentityUser
     {
-
- 
-         
         [Display(Name = "Cedula")]
         [MaxLength(20, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         //[Required(ErrorMessage = "The field {0} is mandatory.")]
-        
         public string Cedula { get; set; }
 
         [Display(Name = "First Name")]
