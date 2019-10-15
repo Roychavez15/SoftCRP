@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace SoftCRP.Web.Models
         public string Username { get; set; }
 
         [Required]
-        [MinLength(6)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
         public string Password { get; set; }
 
         [Required]
@@ -38,6 +39,9 @@ namespace SoftCRP.Web.Models
                                  
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
+
+        [Display(Name = "Foto")]
+        public IFormFile FotoFile { get; set; }
 
         public List<RoleViewModel> Roles { get; set; }
     }

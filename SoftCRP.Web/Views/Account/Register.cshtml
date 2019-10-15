@@ -14,28 +14,18 @@
 
 
 
-                    <form method="post" role="form">
-                        <div class="card-body">
-                            <div asp-validation-summary="ModelOnly"></div>
-                            @for (int j = 0; j < Model.Roles.Count; j++)
-                            {
-                                <input type="hidden" asp-for="Roles[j].Id" />
-                                <input type="hidden" asp-for="Roles[j].Name" />
-                            }
+                <form method="post" role="form">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        @for (int j = 0; j < Model.Roles.Count; j++)
+                        {
+                            <input type="hidden" asp-for="Roles[j].Id" />
+                            <input type="hidden" asp-for="Roles[j].Name" />
+                        }
                         <div class="form-group">
-                            <label asp-for="Cedula">Cédula</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-id-card">
-
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="Cedula" id="Cedula" class="form-control form-control-sm" />
-                                <span asp-validation-for="Cedula" class="text-warning"></span>
-                            </div>
+                            <label asp-for="Cedula">Cedula</label>
+                            <input asp-for="Cedula" id="Cedula" class="form-control form-control-sm" />
+                            <span asp-validation-for="Cedula" class="text-warning"></span>
                         </div>
 
                         <div class="form-group">
