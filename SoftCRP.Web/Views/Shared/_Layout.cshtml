@@ -156,7 +156,9 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SoftCRP</a>
+                    @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SoftCRP</a>*@
+                    <img src="~/images/RP.png" width="150" alt="AdminLTE Logo"
+                         style="opacity: .8">
                 </li>
 
             </ul>
@@ -386,17 +388,18 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <br />
             <!-- Content Header (Page header) -->
-            <div class="content-header">
+            @*<div class="container-fluid">
 
-            </div>
+            </div>*@
             <!-- /.content-header -->
             <!-- Main content -->
-            <partial name="_CookieConsentPartial" />
+            @*<partial name="_CookieConsentPartial" />*@
             <section class="content">
                 <partial name="_NotificationPanel" />
                 <div class="container-fluid">
-                    @RenderBody()
+                        @RenderBody()
                     <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
             </section>
