@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -88,6 +89,7 @@ namespace SoftCRP.Web.Controllers
                         
                         //await _userHelper.ChangePasswordAsync(user,user.PasswordHash)
                     }
+                    
                 }
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
@@ -135,6 +137,27 @@ namespace SoftCRP.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
+                var pathFoto = string.Empty;                
+
+                if (model.FotoFile != null && model.FotoFile.Length > 0)
+                {
+                    var guid = Guid.NewGuid().ToString();
+                    //var file = $"{guid}.jpg";
+                    var file = $"{model.Username}.jpg";
+
+                    pathFoto = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Usuarios",
+                        file);
+
+                    using (var stream = new FileStream(pathFoto, FileMode.Create))
+                    {
+                        await model.FotoFile.CopyToAsync(stream);
+                    }
+
+                    pathFoto = $"~/images/Usuarios/{file}";
+                }
+
                 //var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 var user = await _userHelper.GetUserAsync(model.Username);
                 
@@ -147,7 +170,8 @@ namespace SoftCRP.Web.Controllers
                         LastName = model.LastName,
                         Email = model.Email,
                         PhoneNumber=model.PhoneNumber,
-                        UserName = model.Username
+                        UserName = model.Username,
+                        ImageUrl=pathFoto
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -211,6 +235,8 @@ namespace SoftCRP.Web.Controllers
                 model.LastName = user.LastName;
                 model.Email = user.Email;
                 model.PhoneNumber = user.PhoneNumber;
+                model.ImageUrl = user.ImageUrl;
+                model.UserName = user.UserName;
             }
 
             return this.View(model);
@@ -221,6 +247,26 @@ namespace SoftCRP.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
+                var pathFoto = model.ImageUrl;
+                var guid = Guid.NewGuid().ToString();
+                //var file = $"{guid}.jpg";
+                var file = $"{model.UserName}.jpg";
+
+                if (model.FotoFile != null && model.FotoFile.Length > 0)
+                {
+                    pathFoto = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Usuarios",
+                        file);
+
+                    using (var stream = new FileStream(pathFoto, FileMode.Create))
+                    {
+                        await model.FotoFile.CopyToAsync(stream);
+                    }
+
+                    pathFoto = $"~/images/Usuarios/{file}";
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 if (user != null)
                 {
@@ -229,6 +275,8 @@ namespace SoftCRP.Web.Controllers
                     user.Cedula = model.Cedula;
                     user.Email = model.Email;
                     user.PhoneNumber = model.PhoneNumber;
+                    user.ImageUrl = pathFoto;
+                    user.UserName = model.UserName;
 
                     var respose = await _userHelper.UpdateUserAsync(user);
                     if (respose.Succeeded)
@@ -413,13 +461,14 @@ namespace SoftCRP.Web.Controllers
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
-                    Cedula=user.Cedula,
-                    Email=user.Email,
-                    FirstName=user.FirstName,
-                    LastName=user.LastName,
-                    Id=user.Id,
-                    PhoneNumber=user.PhoneNumber,
-                    UserName=user.UserName,
+                    Cedula = user.Cedula,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Id = user.Id,
+                    PhoneNumber = user.PhoneNumber,
+                    UserName = user.UserName,
+                    ImageUrl = user.ImageUrl,
                 };
                 var usermodel = await _userHelper.GetUserAsync(user.UserName);
                 var roles = await _userHelper.GetAllListRoles(usermodel);
@@ -452,6 +501,7 @@ namespace SoftCRP.Web.Controllers
                 Id = user.Id,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
+                ImageUrl=user.ImageUrl,
             };
             //var usermodel = await _userHelper.GetUserAsync(user.UserName);
 
@@ -471,23 +521,35 @@ namespace SoftCRP.Web.Controllers
                 {
                     return NotFound();
                 }
-                //var useredit = new User
-                //{
-                //    Id=userRoleViewModel.Id,
-                //    Cedula = userRoleViewModel.Cedula,
-                //    Email = userRoleViewModel.Email,
-                //    FirstName = userRoleViewModel.FirstName,
-                //    LastName = userRoleViewModel.LastName,
-                //    PhoneNumber = userRoleViewModel.PhoneNumber,
-                //    UserName=userRoleViewModel.UserName,
-                //    //SecurityStamp=userRoleViewModel.SecurityStamp
-                //};
+                var pathFoto = userRoleViewModel.ImageUrl;
+                
+
+                if (userRoleViewModel.FotoFile != null && userRoleViewModel.FotoFile.Length > 0)
+                {
+                    var guid = Guid.NewGuid().ToString();
+                    //var file = $"{guid}.jpg";
+                    var file = $"{userRoleViewModel.UserName}.jpg";
+                    pathFoto = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Usuarios",
+                        file);
+
+                    using (var stream = new FileStream(pathFoto, FileMode.Create))
+                    {
+                        await userRoleViewModel.FotoFile.CopyToAsync(stream);
+                    }
+
+                    pathFoto = $"~/images/Usuarios/{file}";
+                }
 
                 user.Cedula = userRoleViewModel.Cedula;
                 user.Email = userRoleViewModel.Email;
                 user.FirstName = userRoleViewModel.FirstName;
                 user.LastName = userRoleViewModel.LastName;
                 user.PhoneNumber = userRoleViewModel.PhoneNumber;
+                user.ImageUrl = pathFoto;
+                user.UserName = userRoleViewModel.UserName;
+
                 //user.UserName = userRoleViewModel.UserName;
 
                 for (int i = 0; i < userRoleViewModel.Roles.Count; i++)

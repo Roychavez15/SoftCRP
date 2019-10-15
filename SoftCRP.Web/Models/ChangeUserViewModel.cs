@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,6 +28,12 @@ namespace SoftCRP.Web.Models
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        
+        [Display(Name = "Fotografía")]
+        public string ImageUrl { get; set; }
+
+        [Display(Name = "Foto")]
+        public IFormFile FotoFile { get; set; }
+
+        public string UserName { get; set; }
     }
 }

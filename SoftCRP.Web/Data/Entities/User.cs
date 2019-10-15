@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 namespace SoftCRP.Web.Data.Entities
 {
     public class User : IdentityUser
-    {
-        [Display(Name = "Cedula")]
+    {        
+
+        [Display(Name = "RUC/Cedula")]
         [MaxLength(20, ErrorMessage = "The {0} field can not have more than {1} characters.")]
-        //[Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Cedula { get; set; }
 
         [Display(Name = "First Name")]
@@ -30,6 +31,15 @@ namespace SoftCRP.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Cedula}";
-        
+
+        [Display(Name = "Fotografía")]
+        public string ImageUrl { get; set; }
+
+        // TODO: Change the path when publish
+        public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
+            ? "https://localhost:44338/images/Usuarios/noImage.jpg"
+            : $"https://localhost:44338/{ImageUrl.Substring(1)}";
     }
+
 }
+

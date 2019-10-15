@@ -31,7 +31,7 @@ namespace SoftCRP.Web.Controllers
             {
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 if (user != null)
-                {
+                {                    
                     if (this.User.IsInRole("Cliente"))
                     {
                         Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
