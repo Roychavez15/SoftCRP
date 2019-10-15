@@ -101,10 +101,16 @@ namespace SoftCRP.Web.Controllers
                     return RedirectToAction("Index", "Home");
 
                 }
-
+                else
+                {                    
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario", SweetAlertMessageType.error);
+                    //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+                    return View(model);
+                }
 
             }
-            ModelState.AddModelError(string.Empty, "Failed to login.");
+            //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+            ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Fallo en Loguear Usuario", SweetAlertMessageType.error);
             return View(model);
         }
 
@@ -187,7 +193,8 @@ namespace SoftCRP.Web.Controllers
                     //return this.View(model);
                 }
 
-                this.ModelState.AddModelError(string.Empty, "The username is already registered.");
+                //this.ModelState.AddModelError(string.Empty, "The username is already registered.");
+                ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Registrar Usuario", "El usuario esta actualmente registrado", SweetAlertMessageType.error);
             }
 
             return this.View(model);
@@ -334,7 +341,8 @@ namespace SoftCRP.Web.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+                    //ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "El correo no corresponde al usuario registrado", SweetAlertMessageType.error);
                     return View(model);
                 }
 
@@ -346,7 +354,10 @@ namespace SoftCRP.Web.Controllers
                 _mailHelper.SendMail(model.Email, "SoftCRP Password Reset", $"<h1>SoftCRP Password Reset</h1>" +
                     $"To reset the password click in this link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
-                ViewBag.Message = "The instructions to recover your password has been sent to email.";
+
+                //ViewBag.Message = "The instructions to recover your password has been sent to email.";
+                ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Las Instrucciones para recuperar su clave fueron enviadas a su correo", SweetAlertMessageType.info);
+
                 return View();
 
             }
