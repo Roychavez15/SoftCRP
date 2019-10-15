@@ -226,16 +226,19 @@ namespace SoftCRP.Web.Controllers
                     var respose = await _userHelper.UpdateUserAsync(user);
                     if (respose.Succeeded)
                     {
-                        this.ViewBag.UserMessage = "User updated!";
+                        //this.ViewBag.UserMessage = "User updated!";
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", "Usuario Actualizado", SweetAlertMessageType.success);
                     }
                     else
                     {
-                        this.ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
+                        //this.ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", respose.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
                     }
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
+                    //this.ModelState.AddModelError(string.Empty, "User no found.");
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", "Usuario No Encontrado", SweetAlertMessageType.error);
                 }
             }
 
@@ -258,16 +261,18 @@ namespace SoftCRP.Web.Controllers
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", "Password Actualizado", SweetAlertMessageType.success);
                         return this.RedirectToAction("ChangeUser");
                     }
                     else
                     {
-                        this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", result.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
                     }
                 }
                 else
                 {
-                    this.ModelState.AddModelError(string.Empty, "User no found.");
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", "Usuario no encontrado", SweetAlertMessageType.error);
+                    //this.ModelState.AddModelError(string.Empty, "User no found.");
                 }
             }
 
@@ -364,15 +369,18 @@ namespace SoftCRP.Web.Controllers
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
-                    ViewBag.Message = "Password reset successful.";
+                    //   ViewBag.Message = "Password reset successful.";
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Password Actualizado", SweetAlertMessageType.success);
                     return View();
                 }
 
-                ViewBag.Message = "Error while resetting the password.";
+                //ViewBag.Message = "Error while resetting the password.";
+                ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Error en resetear Password", SweetAlertMessageType.error);
                 return View(model);
             }
 
-            ViewBag.Message = "User not found.";
+            //ViewBag.Message = "User not found.";
+            ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Usuario No encontrado", SweetAlertMessageType.error);
             return View(model);
         }
 
@@ -488,11 +496,19 @@ namespace SoftCRP.Web.Controllers
                     }
                 }
 
-                await _userHelper.UpdateUserAsync(user);
-                
+                var result = await _userHelper.UpdateUserAsync(user);
+                if (result.Succeeded)
+                {
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Usuario", "Usuario Actualizado", SweetAlertMessageType.success);
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Usuario", result.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
+                }
             }
+            
             return View(userRoleViewModel);
         }
 

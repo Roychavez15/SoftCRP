@@ -8,7 +8,10 @@ namespace SoftCRP.Web.Models
 {
     public class RegisterNewUserViewModel
     {
-        [Display(Name = "Cedula")]
+        [Display(Name = "RUC/Cedula")]
+        [MaxLength(20, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Required(ErrorMessage = "The field {0} is mandatory.")]
+
         public string Cedula { get; set; }
 
         [Required]
