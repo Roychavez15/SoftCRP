@@ -2,55 +2,108 @@
 @{
     ViewData["Title"] = "Editar Usuario";
 }
+    <div align="center">
+        <div align="left" class="col-md-6">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h2 class="card-title">Modificar Usuario</h2>
+                </div>
+                <form method="post">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        @*<input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Roles" />
+            <input type="hidden" asp-for="UserName" />
+            <input type="hidden" asp-for="SecurityStamp" />*@
+                        @for (int j = 0; j < Model.Roles.Count; j++)
+                        {
+                            <input type="hidden" asp-for="Roles[j].Id" />
+                            <input type="hidden" asp-for="Roles[j].Name" />
+                        }
 
-<h2>Update User</h2>
+                    <div class="form-group">
+                        <label asp-for="Cedula">Cédula:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-id-card">
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            @*<input type="hidden" asp-for="Id" />
-                <input type="hidden" asp-for="Roles" />
-                <input type="hidden" asp-for="UserName" />
-                <input type="hidden" asp-for="SecurityStamp" />*@
-            @for (int j = 0; j < Model.Roles.Count; j++)
-            {
-                <input type="hidden" asp-for="Roles[j].Id" />
-                <input type="hidden" asp-for="Roles[j].Name" />
-            }
+                                    </i>
+                                </span>
+                            </div>
 
-                        <div class="form-group">
-                            <label asp-for="Cedula">Cédula</label>
                             <input asp-for="Cedula" class="form-control" />
                             <span asp-validation-for="Cedula" class="text-warning"></span>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="FirstName">Nombre</label>
+                    <div class="form-group">
+                        <label asp-for="FirstName">Nombre:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user">
+
+                                    </i>
+                                </span>
+                            </div>
+
                             <input asp-for="FirstName" class="form-control" />
                             <span asp-validation-for="FirstName" class="text-warning"></span>
                         </div>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="LastName">Apellido:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user">
 
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-warning"></span>
-            </div>
+                                    </i>
+                                </span>
+                            </div>
 
-                        <div class="form-group">
-                            <label asp-for="PhoneNumber">Número telefónico</label>
+
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-warning"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Email">Email:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-envelope">
+
+                                    </i>
+                                </span>
+                            </div>
+
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-warning"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Número telefónico:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone">
+
+                                    </i>
+                                </span>
+                            </div>
+
                             <input asp-for="PhoneNumber" class="form-control" />
                             <span asp-validation-for="PhoneNumber" class="text-warning"></span>
                         </div>
+                    </div>
 
 
-                        <h3 style="font-style:oblique">Roles</h3>
+                        <h3 style="font-style:oblique"><b>Roles</b></h3>
                         <hr />
                         <div class="row">
                             @if (Model.Roles.Count > 0)
@@ -70,19 +123,21 @@
                                 <h3>NO TIENE ROLES ASIGNADOS</h3>
                             }
                         </div>
-
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" id="editar" />
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
+                    </div>
+                    <div class="card-footer">
+                        <input type="submit" value="Modificar" class="btn btn-success" id="editar" />
+                        <a asp-action="Index" class="btn btn-info"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    </div>
+                    <div class="text-success">@ViewBag.UserMessage</div>
+                </form>
+                    </div>
+                </div>
             </div>
-            <div class="text-success">@ViewBag.UserMessage</div>
-        </form>
+        </div>
     </div>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            <script type="text/javascript">
             @Html.Raw(ViewBag.SweetAlertShowMessage)
             </script>
         }
