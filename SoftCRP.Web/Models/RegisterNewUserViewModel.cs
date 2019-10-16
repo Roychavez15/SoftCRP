@@ -40,6 +40,9 @@ namespace SoftCRP.Web.Models
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
+        [Display(Name = "Fotografía")]
+        public string ImageUrl { get; set; }
+
         [Display(Name = "Foto")]
         public IFormFile FotoFile { get; set; }
 

@@ -14,7 +14,7 @@
 
 
 
-                <form method="post" role="form">
+                <form method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div asp-validation-summary="ModelOnly"></div>
                         @for (int j = 0; j < Model.Roles.Count; j++)
@@ -22,21 +22,21 @@
                             <input type="hidden" asp-for="Roles[j].Id" />
                             <input type="hidden" asp-for="Roles[j].Name" />
                         }
-                    <div class="form-group">
-                        <label asp-for="Cedula">Cédula:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fa fa-id-card">
+                        <div class="form-group">
+                            <label asp-for="Cedula">Ruc/Cédula:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-id-card">
 
-                                    </i>
-                                </span>
+                                        </i>
+                                    </span>
+                                </div>
+
+                                <input asp-for="Cedula" id="Cedula" class="form-control form-control-sm" />
+                                <span asp-validation-for="Cedula" class="text-warning"></span>
                             </div>
-
-                            <input asp-for="Cedula" id="Cedula" class="form-control form-control-sm" />
-                            <span asp-validation-for="Cedula" class="text-warning"></span>
                         </div>
-                    </div>
 
                         <div class="form-group">
                             <label asp-for="FirstName">Nombre:</label>
@@ -67,6 +67,21 @@
 
                                 <input asp-for="LastName" class="form-control form-control-sm" />
                                 <span asp-validation-for="LastName" class="text-warning"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="FotoFile" class="control-label"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-upload">
+
+                                        </i>
+                                    </span>
+                                </div>
+                                <input asp-for="FotoFile" class="form-control" type="file" />
+                                <span asp-validation-for="FotoFile" class="text-danger"></span>
                             </div>
                         </div>
 
