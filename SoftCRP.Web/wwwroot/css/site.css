@@ -35,3 +35,12 @@ body {
         display: none;
     }
 }
+
+td.details-control {
+    background: url('~/images/RP.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('~/images/RP.png') no-repeat center center;
+}
