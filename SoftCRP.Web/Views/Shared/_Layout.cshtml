@@ -121,9 +121,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link id="favicon1" runat="server" rel="shortcut icon" href="~/images/IconoRP.png" type="image/x-icon" />
-
-    <title>SoftCRP | Principal</title>
+    <title>Clientes Renting Pichincha</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -370,24 +368,55 @@
                                 </a>
                             </li>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Account" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    Usuarios
-                                </a>
-                            </li>
-                        }
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Account" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        Usuarios
+                                    </a>
+                                </li>
+                            }
                             @if (User.Identity.IsAuthenticated)
-                        {
+                            {
 
-                            <li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    Información General
-                                </a>
-                            </li>
-                        }
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        Información General
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-server"></i>
+                                        Análisis de su Flota
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Seguimiento" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-map-marked-alt"></i>
+                                        Seguimiento de novedades
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-paste"></i>
+                                        Trámites
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Capacitaciones" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-street-view"></i>
+                                        Capacitaciones Renting
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        Reportes
+                                    </a>
+                                </li>
+                            }
 
                         </ul>
                     </nav>
