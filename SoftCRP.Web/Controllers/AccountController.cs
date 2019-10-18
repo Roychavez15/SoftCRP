@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
@@ -25,13 +27,17 @@ namespace SoftCRP.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly Service1Soap _service1Soap;
         private readonly IConfiguration _configuration;
+        private readonly DataContext _context;
+
 
         public AccountController(
+            DataContext context,
             IUserHelper userHelper,
             IMailHelper mailHelper,
             Service1Soap service1Soap,
             IConfiguration configuration)
         {
+            _context = context;
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _service1Soap = service1Soap;
@@ -585,6 +591,38 @@ namespace SoftCRP.Web.Controllers
             return View(userRoleViewModel);
         }
 
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var usuario = await _context.Usuarios
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (usuario == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(usuario);
+        //}
+
+        //// POST: Clientes/Delete/5
+        //[HttpPost]
+
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var usuario = await _context.Usuarios.FindAsync(id);
+        //    _context.Usuarios.Remove(usuario);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //private bool ClienteExists(int id)
+        //{
+        //    return _context.Usuarios.Any(e => e.Id == id);
+        //}
 
     }
 }

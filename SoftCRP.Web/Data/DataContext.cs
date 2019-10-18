@@ -15,6 +15,8 @@ namespace SoftCRP.Web.Data
 
         }
         public DbSet<Cliente> Clientes { get; set; }
-        
+
+        //public DbSet<User> Usuarios { get; set; }
+
     }
 }
