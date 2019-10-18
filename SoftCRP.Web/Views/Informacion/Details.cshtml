@@ -4,18 +4,18 @@
     ViewData["Title"] = "Información General - Detalles";
 }
     <div class="right">
-        <a asp-action="Index" class="btn btn-info"><i class="fa fa-angle-double-left"></i>&nbsp;Regresar</a>
+        <a asp-action="Index" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-angle-double-left"></i>&nbsp;Regresar</a>
     </div>
 <hr>
-<h2> Placa : @Model.Placa - Cliente : @Model.Nom_cliente</h2>
+<h2><b> PLACA : @Model.Placa - CLIENTE : @Model.Nom_cliente</b></h2>
 
 <div class="row">
     <div class="col-sm-6 col-md-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" style="background-color:#002D73; color:#ffffff;">
                 <h3 class="card-title">
-                    <i class="fas fa-text-width"></i>
-                    Informacion de Contrato
+                    <i class="fas fa-text-width"></i>&nbsp;
+                    <b>INFORMACIÓN DE CONTRATO</b>
                 </h3>
             </div>
             <div class="card-body p-0">
@@ -117,10 +117,10 @@
     <div class="col-sm-6 col-md-6">
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
                 <h3 class="card-title">
-                    <i class="fas fa-text-width"></i>
-                    Informacion de Vehículo
+                    <i class="fas fa-text-width"></i>&nbsp;
+                    <b>INFORMACIÓN DE VEHÍCULO</b>
                 </h3>
             </div>
             <div class="card-body">
