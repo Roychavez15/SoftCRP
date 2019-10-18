@@ -3,12 +3,71 @@
 @{
     ViewData["Title"] = "Registar Nuevo Usuario";
 } 
+<style>
+    .btn1-blue {
+          
+        display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    background-color: transparent;
+    color: #5472D2;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    top: 0;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    line-height: normal;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    font-size: 14px;
+    padding: 14px 20px;
+    }
+
+     .btn1-yellow {
+          
+        display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    background-color: transparent;
+    color: #5472D2;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    top: 0;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    line-height: normal;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    font-size: 14px;
+    padding: 14px 20px;
+    }
+</style>
     <div>
         <div align="center">
             <div align="left" class="col-md-6">
                 <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title" style="font-style:oblique"><b>REGISTRAR USUARIO</b></h3>
+                    <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                        <h2 class="card-title" style="font-style:oblique"><b>REGISTRAR USUARIO</b></h2>
 
                     </div>
 
@@ -183,8 +242,8 @@
                     </div>
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-success" ><i class="fa fa-save">&nbsp;</i>Guardar</button>
-                            <a asp-action="Index" class="btn btn-info"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                            <button type="submit" style="background-color:#002D73; color:#ffffff;" class="btn btn" ><i class="fa fa-save">&nbsp;</i>Guardar</button>
+                            <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
                         </div>
 
                     </form>
