@@ -31,83 +31,83 @@
 
 </head>
 <body class="hold-transition login-page" style="background-image:url('http://192.168.248.3/SoftCRPWeb/images/Logo2.jpg');background-size:100% 100%;">
-    <div class="login-box">
-       
-        <br />
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="login-logo">
-                <br />
+        <div class="login-box">
 
-                <img src="~/images/RP.png" width="200" alt="AdminLTE Logo"
-                     style="opacity: .8">
-                <br />
-
-                @*<a href="#"><b>Soft</b>CRP</a>*@
-            </div>
-            <hr />
-            <div class="card-body login-card-body">
-                <p class="login-box-msg" style="font-style: oblique"><b>Ingresa tus datos para iniciar sesión</b></p>
-
-
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <div class="input-group mb-3">
-                        <label asp-for="Username" style="font-style: oblique">Usuario: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input asp-for="Username" class="form-control" />
-
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span style="background-color:#ffffff; color:#F2AE0B;" class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <span asp-validation-for="Username" class="text-warning"></span>
-                    </div>
-                    <div class="input-group mb-3">
-                        <label asp-for="Password" style="font-style: oblique">Contraseña: </label>&nbsp;&nbsp;
-                        <input asp-for="Password" type="password" class="form-control" />
-
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span style="background-color:#ffffff; color:#F2AE0B;" class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                        <span asp-validation-for="Password" class="text-warning"></span>
-                    </div>
+            <br />
+            <!-- /.login-logo -->
+            <div class="card">
+                <div class="login-logo">
                     <br />
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="icheck-primary">
-                                <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
-                                <label asp-for="RememberMe" class="form-check-label" style="font-style: oblique">Recordarme?</label>
+
+                    <img src="~/images/RP.png" width="200" alt="AdminLTE Logo"
+                         style="opacity: .8">
+                    <br />
+
+                    @*<a href="#"><b>Soft</b>CRP</a>*@
+                </div>
+                <hr />
+                <div class="card-body login-card-body">
+                    <p class="login-box-msg" style="font-style: oblique"><b>Ingresa tus datos para iniciar sesión</b></p>
+
+
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div class="input-group mb-3">
+                            <label asp-for="Username" style="font-style: oblique">Usuario: </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input asp-for="Username" class="form-control" />
+
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span style="background-color:#ffffff; color:#F2AE0B;" class="fas fa-user"></span>
+                                </div>
                             </div>
-                            <span asp-validation-for="RememberMe" class="text-warning"></span>
+                            <span asp-validation-for="Username" class="text-warning"></span>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-6">
-                            @*<button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login</button>*@
-                            <button type="submit" style="background-color:#002D73; color:#ffffff; font-style: oblique" class="btn btn-primary btn-block btn-flat"><i class="fa fa-sign-in"></i>Ingresar</button>
+                        <div class="input-group mb-3">
+                            <label asp-for="Password" style="font-style: oblique">Contraseña: </label>&nbsp;&nbsp;
+                            <input asp-for="Password" type="password" class="form-control" />
+
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span style="background-color:#ffffff; color:#F2AE0B;" class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Password" class="text-warning"></span>
                         </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
+                        <br />
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="icheck-primary">
+                                    <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                                    <label asp-for="RememberMe" class="form-check-label" style="font-style: oblique">Recordarme?</label>
+                                </div>
+                                <span asp-validation-for="RememberMe" class="text-warning"></span>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                @*<button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login</button>*@
+                                <button type="submit" style="background-color:#002D73; color:#ffffff; font-style: oblique" class="btn btn-primary btn-block btn-flat"><i class="fa fa-sign-in"></i>Ingresar</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
 
-                <p class="mb-1">
-                    <a asp-action="RecoverPassword" class="btn btn-link" style="font-style: oblique">Olvidó su contraseña?</a>
+                    <p class="mb-1">
+                        <a asp-action="RecoverPassword" class="btn btn-link" style="font-style: oblique">Olvidó su contraseña?</a>
 
-                </p>
+                    </p>
 
+                </div>
+                <!-- /.login-card-body -->
             </div>
-            <!-- /.login-card-body -->
         </div>
-    </div>
-    <!-- /.login-box -->
-    <!-- jQuery -->
-    <script src="~/node_modules/AdminLTE/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/node_modules/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/node_modules/AdminLTE/dist/js/adminlte.min.js"></script>
+        <!-- /.login-box -->
+        <!-- jQuery -->
+        <script src="~/node_modules/AdminLTE/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="~/node_modules/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="~/node_modules/AdminLTE/dist/js/adminlte.min.js"></script>
 
 </body>
 </html>
