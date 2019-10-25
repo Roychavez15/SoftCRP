@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191024160212_newfield")]
+    partial class newfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,13 +151,9 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<int>("tipoAnalisisId");
 
-                    b.Property<string>("userId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("tipoAnalisisId");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Analises");
                 });
@@ -166,23 +164,15 @@ namespace SoftCRP.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AnalisisId");
+
                     b.Property<string>("ArchivoPath");
 
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("TipoArchivo");
-
-                    b.Property<int?>("analisisId");
-
-                    b.Property<long>("tamanio");
-
-                    b.Property<string>("userId");
+                    b.Property<int>("Orden");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("analisisId");
-
-                    b.HasIndex("userId");
+                    b.HasIndex("AnalisisId");
 
                     b.ToTable("ArchivosAnalisis");
                 });
@@ -344,21 +334,14 @@ namespace SoftCRP.Web.Migrations
                         .WithMany()
                         .HasForeignKey("tipoAnalisisId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoAnalisis", b =>
                 {
-                    b.HasOne("SoftCRP.Web.Data.Entities.Analisis", "analisis")
+                    b.HasOne("SoftCRP.Web.Data.Entities.Analisis", "Analisis")
                         .WithMany("ArchivosAnalisis")
-                        .HasForeignKey("analisisId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("AnalisisId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

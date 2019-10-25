@@ -110,7 +110,7 @@ namespace SoftCRP.Web.Repositories
             List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
 
             var dataxml = await _service1Soap.Consulta_Data_nit_autoAsync(key, nit);
-
+            
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());
@@ -158,5 +158,89 @@ namespace SoftCRP.Web.Repositories
                 .ToList();            
         }
 
+
+        public async Task<ClienteViewModel> GetDatosCliente(string ruc)
+        {
+            ClienteViewModel cliente = new ClienteViewModel();
+
+            var key = _configuration["KeyWs"];
+            var dataxml = await _service1Soap.Consulta_clientesAsync(key, ruc);
+            
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    cliente.nit = nodo.GetElementsByTagName("nit_cliente")[0].InnerText;
+                    cliente.nombre = nodo.GetElementsByTagName("nom_cliente")[0].InnerText;
+                    cliente.correo = nodo.GetElementsByTagName("correo")[0].InnerText;
+                    cliente.correo_factura = nodo.GetElementsByTagName("correo_facturacion")[0].InnerText;
+                }
+            }
+
+            return cliente;
+            //throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<VehiculosClientesViewModel>> GetPlacasClienteAsync(string nit)
+        {
+            var key = _configuration["KeyWs"];
+            List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
+
+            var dataxml = await _service1Soap.Consulta_Data_nit_autoAsync(key, nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList codigo_activo =
+                        nodo.GetElementsByTagName("codigo_activo");
+
+                    XmlNodeList nom_cliente =
+                        nodo.GetElementsByTagName("nom_cliente");
+
+                    XmlNodeList nit_cliente =
+                        nodo.GetElementsByTagName("nit_cliente");
+
+                    XmlNodeList placa =
+                        nodo.GetElementsByTagName("placa");
+
+                    XmlNodeList historial_vh =
+                        nodo.GetElementsByTagName("historial_vh");
+
+                    VehiculosClientesViewModel vehiculos = new VehiculosClientesViewModel();
+
+                    vehiculos.codigo_activo = codigo_activo[0].InnerText;
+                    vehiculos.nom_cliente = nom_cliente[0].InnerText;
+                    vehiculos.nit_cliente = nit_cliente[0].InnerText;
+                    vehiculos.placa = placa[0].InnerText;
+                    vehiculos.historial_vh = historial_vh[0].InnerText;
+
+                    Vehiculos.Add(vehiculos);
+                }
+
+            }
+
+            return Vehiculos
+                .Where(s => s.historial_vh == "VIGENTE CON CONTRATO")
+                .OrderBy(o => o.codigo_activo);
+
+        }
     }
 }

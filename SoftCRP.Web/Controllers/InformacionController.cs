@@ -39,7 +39,13 @@ namespace SoftCRP.Web.Controllers
             {
                 if (this.User.IsInRole("Cliente"))
                 {
-                    Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+                    var datosc = await _datosRepository.GetDatosCliente(user.Cedula);
+
+                    if (datosc != null)
+                    {
+                        ViewBag.ClienteViewModel = datosc;
+                        Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+                    }
                 }
             }
 
@@ -52,16 +58,14 @@ namespace SoftCRP.Web.Controllers
             
             List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
 
-            //var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
-            //if (user != null)
-            //{
-            //    if (this.User.IsInRole("Cliente"))
-            //    {
-            //        Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
-            //    }
-            //}
+            var datosc = await _datosRepository.GetDatosCliente(buscarcliente);
 
-            Vehiculos = await _datosRepository.GetVehiculosClienteAsync(buscarcliente);
+            if(datosc!=null)
+            {
+                ViewBag.ClienteViewModel = datosc;
+                Vehiculos = await _datosRepository.GetVehiculosClienteAsync(buscarcliente);
+            }
+            
 
             return View(Vehiculos);
         }

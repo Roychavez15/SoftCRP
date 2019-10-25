@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191020033805_dbtipoanalisis")]
+    partial class dbtipoanalisis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,64 +129,6 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Analisis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Cedula")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("Observaciones");
-
-                    b.Property<string>("Placa")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<int>("tipoAnalisisId");
-
-                    b.Property<string>("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("tipoAnalisisId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("Analises");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoAnalisis", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ArchivoPath");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("TipoArchivo");
-
-                    b.Property<int?>("analisisId");
-
-                    b.Property<long>("tamanio");
-
-                    b.Property<string>("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("analisisId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("ArchivosAnalisis");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Cliente", b =>
@@ -336,29 +280,6 @@ namespace SoftCRP.Web.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Analisis", b =>
-                {
-                    b.HasOne("SoftCRP.Web.Data.Entities.TipoAnalisis", "tipoAnalisis")
-                        .WithMany()
-                        .HasForeignKey("tipoAnalisisId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoAnalisis", b =>
-                {
-                    b.HasOne("SoftCRP.Web.Data.Entities.Analisis", "analisis")
-                        .WithMany("ArchivosAnalisis")
-                        .HasForeignKey("analisisId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,8 +15,28 @@ namespace SoftCRP.Web.Data
 
         }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<TipoAnalisis> TiposAnalisis { get; set; }
 
-        //public DbSet<User> Usuarios { get; set; }
+        public DbSet<Analisis> Analises { get; set; }
+        public DbSet<ArchivoAnalisis> ArchivosAnalisis { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<Menu>()
+            //.Property(p => p.Price)
+            //.HasColumnType("decimal(18,2)");
+
+            var cascadeFKs = modelBuilder.Model
+                .G­etEntityTypes()
+                .SelectMany(t => t.GetForeignKeys())
+                .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Casca­de);
+            foreach (var fk in cascadeFKs)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restr­ict;
+            }
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

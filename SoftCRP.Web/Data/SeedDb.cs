@@ -2,6 +2,7 @@
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Data
@@ -23,6 +24,7 @@ namespace SoftCRP.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
             await CheckRoles();
+            await CheckAnalisisTypesAsync();
 
             var user = await this._userHelper.GetUserByEmailAsync("roy_chavez15@hotmail.com");
             if (user == null)
@@ -57,6 +59,18 @@ namespace SoftCRP.Web.Data
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Renting");
             await _userHelper.CheckRoleAsync("Cliente");
+        }
+        private async Task CheckAnalisisTypesAsync()
+        {
+            if (!_context.TiposAnalisis.Any())
+            {
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Auditoría" });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Gerencial" });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Administración Flota" });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Entrega" });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Recepción" });
+                await _context.SaveChangesAsync();
+            }
         }
 
     }
