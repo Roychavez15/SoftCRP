@@ -147,11 +147,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.UserName)
                                 </td>
-                                <td>
+                                <td id="@item.Id">
                                     <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
                                     @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>*@
-                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" id="btnDeleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fa fa-trash"></i></button>
-
+                                    @*<button data-id="@item.Id" class="btn btn-danger" id="btnDeleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fa fa-trash"></i></button>*@                                    
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>
                             }
@@ -205,8 +205,8 @@
 
                 id = $(this).parent()[0].id;
                 swal({
-                    title: "Are you sure?",
-                    text: "Si eliminar este cliente no lo prodras recuperar!",
+                    title: "Estas seguro?",
+                    text: "Si eliminas este cliente no lo podras recuperar!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
@@ -230,7 +230,7 @@
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Eliminado', 'success');
-                                        window.location.href = '/Clientes';
+                                        window.location.href = '/Account';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
@@ -246,6 +246,7 @@
                         }
 
                     });
+                
                 return false
             });
 

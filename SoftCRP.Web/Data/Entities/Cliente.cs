@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Data.Entities
 {
-    public class Cliente
+    public class Cliente : IEntity
     {
         public int Id { get; set; }
 

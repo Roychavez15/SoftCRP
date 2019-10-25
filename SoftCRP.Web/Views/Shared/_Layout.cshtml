@@ -268,7 +268,7 @@
                     </li>*@
 
                     @if (User.Identity.IsAuthenticated)
-            {
+                    {
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image">
@@ -364,12 +364,13 @@
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
                                     <i class="nav-icon fas fa-th"></i>
                                     Clientes
                                 </a>
-                            </li>
+                            </li>*@
+
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -420,7 +421,16 @@
                                     </a>
                                 </li>
                             }
-
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <li class="nav-header">Configuraciones</li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <p>Tipos Análisis</p>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </nav>
                     <!-- /.sidebar-menu -->
