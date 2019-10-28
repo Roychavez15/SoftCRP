@@ -43,68 +43,39 @@ namespace SoftCRP.Web.Helpers
             return $"~/Files/{modulo}/{file}";
         }
 
-        //public async Task<IActionResult> Download(string file)
-        //{
-        //    //var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-        //    var filePath = Path.Combine(
-        //        Directory.GetCurrentDirectory(),
-        //        $"wwwroot\\",
-        //        file);
-
-        //    if (!System.IO.File.Exists(filePath))
-        //    {
-
-        //    }
-        //        //return NotFound();
-
-        //    var memory = new MemoryStream();
-        //    using (var stream = new FileStream(filePath, FileMode.Open))
-        //    {
-        //        await stream.CopyToAsync(memory);
-        //    }
-        //    memory.Position = 0;
-
-        //    //return PhysicalFile()
-        //    return File(memory, GetContentType(filePath), file);
-        //}
-
-        public FileStreamResult GetFileAsStream(string file)
+        public FileContentResult GetFile(string filename)
         {
-            //var filePath = Path.Combine(
-            //    Directory.GetCurrentDirectory(),
-            //    $"wwwroot",
-            //    file);
+            var filePath = Path.Combine($"{_hostingEnvironment.WebRootPath}\\{filename.Substring(1).Replace("/", @"\")}");
 
-            var filePath = Path.Combine($"{_hostingEnvironment.WebRootPath}\\{file.Substring(1).Replace("/",@"\")}");
+            var mimeType = this.GetMimeType(filename);
 
-            //var rut = _hostingEnvironment.WebRootPath;
+            byte[] fileBytes=null;
 
-            var stream = _fileProvider
-                .GetFileInfo(filePath)
-                .CreateReadStream();
+            if (File.Exists(filePath))
+            {
+                fileBytes = File.ReadAllBytes(filePath);
+            }
+            else
+            {
+                // Code to handle if file is not present
+            }
 
-            return new FileStreamResult(stream, GetContentType(filePath));
+            return new FileContentResult(fileBytes, mimeType)
+            {
+                FileDownloadName = filename
+            };
         }
-        private string GetContentType(string path)
+        private string GetMimeType(string fileName)
         {
+            // Make Sure Microsoft.AspNetCore.StaticFiles Nuget Package is installed
             var provider = new FileExtensionContentTypeProvider();
             string contentType;
-            if (!provider.TryGetContentType(path, out contentType))
+            if (!provider.TryGetContentType(fileName, out contentType))
             {
                 contentType = "application/octet-stream";
             }
             return contentType;
         }
-
-        //Task<string> IFileHelper.UploadFileAsync(IFormFile File, string modulo)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //Task<FileStreamResult> IFileHelper.GetFileAsStream(string file)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 
 }
