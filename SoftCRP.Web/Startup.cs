@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
@@ -77,6 +79,9 @@ namespace SoftCRP.Web
 
 
             services.AddSingleton(_env.ContentRootFileProvider); //Inject IFileProvider
+
+            //services.AddSingleton<IFileProvider>(
+            //        new PhysicalFileProvider($"{Directory.GetCurrentDirectory()}\\wwwroot\\Files\\Analisis"));
 
             services.AddTransient<SeedDb>();//
             services.AddScoped<IUserHelper, UserHelper>();//

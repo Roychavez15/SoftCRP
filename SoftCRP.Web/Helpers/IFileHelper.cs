@@ -10,6 +10,6 @@ namespace SoftCRP.Web.Helpers
     public interface IFileHelper
     {
         Task<string> UploadFileAsync(IFormFile File, string modulo);
-        FileStreamResult GetFileAsStream(string file);
+        FileContentResult GetFile(string filename);
     }
 }
