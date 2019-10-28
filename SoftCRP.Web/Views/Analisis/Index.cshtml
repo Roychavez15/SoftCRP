@@ -45,64 +45,90 @@
 
 @if (Model.analisis != null)
 {
-<table class="table table-bordered table-striped" id="table">
-    <thead>
-        <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
-                Tipo
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
-                Placa
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
-                Fecha
-            </th>
-            <th>Archivos</th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
-                Observaciones
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.analisis)
-        {
+    <table class="table table-bordered table-striped" id="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Placa)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fecha)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArchivosAnalisis.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observaciones)
-                </td>
-                <td>
-                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
+                    Tipo
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
+                    Placa
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                    Fecha
+                </th>
+                <th>Archivos</th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                    Observaciones
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.analisis)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Placa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArchivosAnalisis.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observaciones)
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
         <a asp-action="Details" asp-route-id="@item.Id">Details</a>
         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
 
-                    <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>                    
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="fa fa-trash"></i></a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile" id="btnDeleteItem"><i class="fa fa-trash"></i></a>*@
+                        <button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
+
+
+
+<!--Delete Item-->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Borrar Analisis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete the record?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -143,7 +169,21 @@
 
             //table.buttons().container()
             //    .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+            debugger;
+
+            var item_to_delete;
+            
+            $('.deletefile').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 1;
+            });            
+
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Analisis/Delete/' + item_to_delete;
+            });
 
         });
     </script>
+
+
 }

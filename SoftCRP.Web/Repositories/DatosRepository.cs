@@ -32,7 +32,7 @@ namespace SoftCRP.Web.Repositories
             var key = _configuration["KeyWs"];
 
             var dataxml = await _service1Soap.Consulta_Data_autoAsync(key, placa);
-
+            
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());

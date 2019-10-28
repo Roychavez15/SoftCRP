@@ -24,9 +24,12 @@ namespace SoftCRP.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -71,6 +74,9 @@ namespace SoftCRP.Web
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            services.AddSingleton(_env.ContentRootFileProvider); //Inject IFileProvider
 
             services.AddTransient<SeedDb>();//
             services.AddScoped<IUserHelper, UserHelper>();//
@@ -138,7 +144,7 @@ namespace SoftCRP.Web
             app.UseStaticFiles();
             app.UseAuthentication();//
             app.UseCookiePolicy();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

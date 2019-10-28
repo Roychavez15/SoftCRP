@@ -41,7 +41,8 @@
 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @*<a asp-action="Index">Back to List</a>*@
+    <a asp-action="Retorno" class="btn btn-primary" asp-route-id="@Model.Cedula">Back to List</a>
 </div>
 
 

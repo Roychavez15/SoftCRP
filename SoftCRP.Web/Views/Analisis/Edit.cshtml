@@ -42,7 +42,8 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
-                <a asp-action="Index" class="btn btn-primary">Regresar</a>
+                @*<a asp-action="Index" class="btn btn-primary">Regresar</a>*@
+                <a asp-action="Retorno" class="btn btn-primary" asp-route-id="@Model.Cedula">Back to List</a>
             </div>
         </form>
     </div>
