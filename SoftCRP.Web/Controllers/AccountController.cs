@@ -506,7 +506,7 @@ namespace SoftCRP.Web.Controllers
             //var usermodel = await _userHelper.GetUserAsync(user.UserName);
 
             var roles = await _userHelper.GetAllListRoles(user);
-            userRoleViewModel.Roles = roles.ToList();
+            userRoleViewModel.Roles = roles.ToList();    
 
             return View(userRoleViewModel);
             
