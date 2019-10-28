@@ -4,107 +4,111 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Analisis de Flota</h2>
-
+<div class="card-header" style="background-color:#002D73; color:#ffffff;">
+    <h2 class="card-title"><strong>ANÁLISIS DE FLOTA</strong></h2>
+</div>
+<hr />
 @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
 {
-<div class="row">
-    <!-- SEARCH FORM -->
-    <form method="post" class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
-            <div class="input-group-append">
-                @*<button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>*@
-                @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
+    <div class="row">
+        <!-- SEARCH FORM -->
+        <form method="post" class="form-inline ml-3">
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
+                <div class="input-group-append">
+                    @*<button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>*@
+                    @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
 
-                <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>
+                    <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
 
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-12 col-sm-6">
+        <div class="card">
+            <div class="card-header" style="background-color:#002D73; color:#ffffff;">
+                @if (ViewBag.ClienteViewModel != null)
+                {
+                    <h2 class="card-title"><b>CLIENTE @ViewBag.ClienteViewModel.nombre</b></h2>
+                    @*<h2 id="nit" name="nit">@ViewBag.ClienteViewModel.nit</h2>*@
+                }
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped" id="table">
+                    @if (Model.analisis != null)
+                    {
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
+                                    Tipo
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
+                                    Placa
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                                    Fecha
+                                </th>
+                                <th>Archivos</th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                                    Observaciones
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.analisis)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Placa)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ArchivosAnalisis.Count)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observaciones)
+                                    </td>
+                                    <td>
+                                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+
+                                        <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile" id="btnDeleteItem"><i class="fa fa-trash"></i></a>*@
+                                        <button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
+            </div>
+    </div>
 </div>
-<br />
-
-
-<p>
-    <a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn-primary">Crear Nuevo</a>
-</p>
-}
-
-<br />
-
-@if (ViewBag.ClienteViewModel != null)
-{
-<h2>Cliente: @ViewBag.ClienteViewModel.nombre</h2>
-<h2 id="nit" name="nit">@ViewBag.ClienteViewModel.nit</h2>
-}
-
-<br />
-
-@if (Model.analisis != null)
-{
-<table class="table table-bordered table-striped" id="table">
-    <thead>
-        <tr>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
-                Tipo
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
-                Placa
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
-                Fecha
-            </th>
-            <th>Archivos</th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
-                Observaciones
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.analisis)
-            {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Placa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArchivosAnalisis.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-
-                <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
-                @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile" id="btnDeleteItem"><i class="fa fa-trash"></i></a>*@
-                <button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
-                    <i class="far fa-trash-alt"></i>
-                </button>
-
-            </td>
-        </tr>
-            }
-    </tbody>
-</table>
-}
 
 
 
@@ -129,6 +133,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

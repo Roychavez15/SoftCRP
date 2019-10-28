@@ -3,50 +3,59 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h4>Crear Analisis Cliente - @Model.cedula</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
+    <div align="left">
+        <div align="left" class="col-md-6">
+            <div class="card card-info">
+                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                    <h2 class="card-title" style="font-style:oblique"><b>CREAR ANÁLISIS CLIENTE - @Model.cedula</b></h2>
+                </div>
+           
+                        <form asp-action="Create">
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                @*<div class="form-group">
             <label asp-for="Placa" class="control-label"></label>
             <input asp-for="Placa" class="form-control" />
             <span asp-validation-for="Placa" class="text-danger"></span>
         </div>*@
-            @*<div class="form-group">
+                                @*<div class="form-group">
             <label asp-for="Fecha" class="control-label"></label>
             <input asp-for="Fecha" class="form-control" />
             <span asp-validation-for="Fecha" class="text-danger"></span>
         </div>*@
+
+                                <input type="hidden" asp-for="cedula" />
+
+                                <div class="form-group">
+                                    <label asp-for="PlacaId" class="control-label"></label>
+                                    <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control"></select>
+                                    <span asp-validation-for="PlacaId" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="TipoAnalisisId" class="control-label"></label>
+                                    <select asp-for="TipoAnalisisId" asp-items="Model.AnalisisTypes" class="form-control"></select>
+                                    <span asp-validation-for="TipoAnalisisId" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Observaciones" class="control-label"></label>
+                                    <textarea asp-for="Observaciones" class="form-control" ></textarea>
+                                    <span asp-validation-for="Observaciones" class="text-danger"></span>
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer">
+
+                                <button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
+                                <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        <div>
             
-            <input type="hidden" asp-for="cedula" />
-
-            <div class="form-group">
-                <label asp-for="PlacaId" class="control-label"></label>
-                <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control"></select>
-                <span asp-validation-for="PlacaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoAnalisisId" class="control-label"></label>
-                <select asp-for="TipoAnalisisId" asp-items="Model.AnalisisTypes" class="form-control"></select>
-                <span asp-validation-for="TipoAnalisisId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Observaciones" class="control-label"></label>
-                <input asp-for="Observaciones" class="form-control"/>
-                <span asp-validation-for="Observaciones" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Retorno" asp-route-id="@Model.cedula">Back to List</a>
-</div>
+        </div>
 
