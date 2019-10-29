@@ -13,13 +13,14 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class AnalisisController : Controller
+    public class AnalisisController : BaseController
     {
         private readonly IUserHelper _userHelper;
         private readonly IDatosRepository _datosRepository;
         private readonly IAnalisisRepository _analisisRepository;
         private readonly ICombosHelper _combosHelper;
         private readonly IFileHelper _fileHelper;
+        private readonly IMailHelper _mailHelper;
         private readonly DataContext _dataContext;
 
         public AnalisisController(
@@ -28,6 +29,7 @@ namespace SoftCRP.Web.Controllers
             IAnalisisRepository analisisRepository,
             ICombosHelper combosHelper,     
             IFileHelper fileHelper,
+            IMailHelper mailHelper,
             DataContext dataContext
             )
         {
@@ -36,6 +38,7 @@ namespace SoftCRP.Web.Controllers
             _analisisRepository = analisisRepository;
             _combosHelper = combosHelper;
             _fileHelper = fileHelper;
+            _mailHelper = mailHelper;
             _dataContext = dataContext;
         }
         // GET: TipoAnalisis
@@ -66,10 +69,11 @@ namespace SoftCRP.Web.Controllers
         {
 
             AnalisisViewModel model = new AnalisisViewModel();
-
-            model = await _analisisRepository.GetAnalisis(id);
-            ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
-
+            if (!string.IsNullOrEmpty(id))
+            {
+                model = await _analisisRepository.GetAnalisis(id);
+                ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
+            }
             return View(model);
         }
 
@@ -78,13 +82,15 @@ namespace SoftCRP.Web.Controllers
         {
 
             AnalisisViewModel model = new AnalisisViewModel();
-            var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
-            if (user != null)
+            if (!string.IsNullOrEmpty(buscarcliente))
             {
-                model = await _analisisRepository.GetAnalisis(buscarcliente);
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                if (user != null)
+                {
+                    model = await _analisisRepository.GetAnalisis(buscarcliente);
+                }
+                ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(buscarcliente);
             }
-            ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(buscarcliente);
-
             return View(model);
         }
 
@@ -108,12 +114,49 @@ namespace SoftCRP.Web.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create(AnalisisCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                var analisis = new Analisis
+                {
+                    Cedula = model.cedula,
+                    Fecha = DateTime.Now,
+                    Observaciones = model.Observaciones,
+                    Placa = model.PlacaId,
+                    tipoAnalisisId = model.TipoAnalisisId,
+                    user = user
+                };
+
+                _dataContext.Analises.Add(analisis);
+                await _dataContext.SaveChangesAsync();
+                //enviar correo
+                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+
+                var emails = "damian.navarrete@flobegroup.com";
+
+                _mailHelper.SendMail(emails, "SoftCRP Nuevo Analisis Creado", $"<h1>SoftCRP Nuevo Analisis</h1><table class='table table-bordered table-striped'>" +                                                   
+                $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
+                $"<tr><td style='font-weight:bold'>Tipo</td><td>{model.TipoAnalisisId}</td></tr>" +
+                $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
+                $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table>");
+
+                return Ok(model);
+            }
+            //Alert("No se pudo agregar el cliente, revise los datos", Enum.Enum.NotificationType.error);
+            //return View(model);
+            return BadRequest(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Crear(AnalisisCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
                 var analisis = new Analisis
                 {
                     Cedula = model.cedula,
@@ -126,14 +169,15 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
-                //Alert("Cliente Agregado con EXITO", Enum.Enum.NotificationType.success);
+                //Alert("Registro Agregado con EXITO", Enum.Enum.NotificationType.success);
 
-                return RedirectToAction(nameof(Retorno), new { id= model.cedula});
+                //return RedirectToAction(nameof(Retorno), new { id = model.cedula });
+                return Ok();
             }
             //Alert("No se pudo agregar el cliente, revise los datos", Enum.Enum.NotificationType.error);
-            return View(model);
+            //return View(model);
+            return BadRequest();
         }
-
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
