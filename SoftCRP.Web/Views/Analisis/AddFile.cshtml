@@ -3,28 +3,43 @@
 @{
     ViewData["Title"] = "Create";
 }
+    <div align="left">
+        <div align="left" class="col-md-6">
+            <div class="card card-info">
+                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                    <h2 class="card-title" style="font-style:oblique"><strong>AGREGAR ARCHIVO</strong></h2>
+                </div>
+                
+                <form asp-action="AddFile" enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
 
-<h2>Add File</h2>
+                        <div class="form-group">
+                            <label asp-for="Archivo" class="control-label"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-upload">
 
-<h4>Analisis</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddFile" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+                                        </i>
+                                    </span>
+                                </div>
+                                <input asp-for="Archivo" class="form-control" type="file" />
+                                <span asp-validation-for="Archivo" class="text-danger"></span>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label asp-for="Archivo" class="control-label"></label>
-                <input asp-for="Archivo" class="form-control" type="file" />
-                <span asp-validation-for="Archivo" class="text-danger"></span>
-            </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Back to Analisis</a>
-            </div>
-        </form>
-    </div>
-</div>
+                        </div>
+                    <div class="card-footer">
+                        <button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-plus">&nbsp;</i>Agregar</button>
+                        <a asp-action="Details" asp-route-id="@Model.Id" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar a Analisis</a>
+                    </div>
+                </form>
+                </div>
+                    </div>
+                </div>
+            
+
 

@@ -4,28 +4,30 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+    <div align="left">
+        <div align="left" class="col-md-6">
+            <div class="card card-info">
+                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                    <h2 class="card-title" style="font-style:oblique"><strong>EDITAR TIPO ANÁLISIS</strong></h2>
+                </div>
 
-<h4>TipoAnalisis</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
-                <span asp-validation-for="Tipo" class="text-danger"></span>
+                <form asp-action="Edit">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Tipo" class="control-label"></label>
+                            <input asp-for="Tipo" class="form-control" />
+                            <span asp-validation-for="Tipo" class="text-danger"></span>
+                        </div>
+                    </div>
+                        <div class="card-footer">
+                            <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                            <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                        </div>
+                    
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
