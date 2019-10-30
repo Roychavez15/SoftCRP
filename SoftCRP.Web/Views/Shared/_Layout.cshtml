@@ -180,7 +180,7 @@
                     }
                 </ul>*@
 
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto" >
                     <!-- Messages Dropdown Menu -->
                     @*<li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -270,16 +270,16 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >
                             <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image">
-                            <span class="d-none d-md-inline">@User.Identity.Name</span>
+                            <span class="d-none d-md-inline" >@User.Identity.Name</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <!-- User image -->
-                            <li class="user-header bg-primary">
+                            <li class="user-header" style="background-color:#002D73; border:5px">
                                 <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="img-circle elevation-2" alt="User Image">
 
-                                <p>
+                                <p style="color:white">
                                     @User.Identity.Name
                                     @*<small>Member since Nov. 2012</small>*@
                                 </p>
@@ -300,11 +300,11 @@
                                 <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
-                            <li class="user-footer">
+                            <li class="user-footer" >
                                 @*<a href="#" class="btn btn-default btn-flat">Profile</a>
                                 <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>*@
-                                <a asp-area="" asp-controller="Account" asp-action="ChangeUser" class="btn btn-default btn-flat">Perfil</a>
-                                <a asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat float-right">Logout</a>
+                                <a asp-area="" asp-controller="Account" asp-action="ChangeUser" class="btn btn-default btn-flat float-left">Perfil</a>
+                                <a asp-area="" asp-controller="Account" asp-action="Logout"   class="btn btn-default btn-flat float-right"><i class="fa fa-sign-out">&nbsp;</i>Logout</a>
                             </li>
                         </ul>
                     </li>
