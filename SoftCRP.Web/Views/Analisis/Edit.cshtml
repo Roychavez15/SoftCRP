@@ -147,7 +147,7 @@
                                             @*<button type="button" class="btn btn-default btn-sm">
                                                     <i class="fas fa-cloud-download-alt"></i>
                                                 </button>*@
-                                            <a asp-action="DownloadFile" asp-route-id="@item.Id" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
+                                            <a asp-action="DownloadFile" asp-route-id="@item.Id" style="background-color:#002D73; color:#ffffff" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
                                         </div>
                                         <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
                                             <i class="far fa-trash-alt"></i>
