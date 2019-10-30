@@ -57,7 +57,7 @@
 <hr />
 
 
-@if (Model.ArchivosAnalisis.Count <= 5)
+@if (Model.ArchivosAnalisis.Count < 5)
 {
     <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
 
