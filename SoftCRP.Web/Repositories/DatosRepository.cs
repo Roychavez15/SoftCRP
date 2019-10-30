@@ -194,7 +194,7 @@ namespace SoftCRP.Web.Repositories
             var key = _configuration["KeyWs"];
             List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
 
-            var dataxml = await _service1Soap.Consulta_Data_nit_autoAsync(key, nit);
+            var dataxml = await _service1Soap.Consulta_Data_nit_autoAsync(key, nit);           
 
             XmlDocument document = new XmlDocument();
 

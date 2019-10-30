@@ -12,12 +12,12 @@ namespace SoftCRP.Web.Controllers
 
         public void Alert(string message, NotificationType notificationType)
         {
-            //var msg = "swal('" + notificationType.ToString().ToUpper() + "', '" + message + "','" + notificationType + "')" + "";
-            var msg = "swal({" +
-                "type: 'success'," +
-                "title: 'Cliente Guardado con Exito',"+
-                "showConfirmButton: false,"+              
-                "});";
+            var msg = "swal('" + notificationType.ToString().ToUpper() + "', '" + message + "','" + notificationType + "')" + "";
+            //var msg = "swal({" +
+            //    "type: 'success'," +
+            //    "title: 'Registro Guardado con Exito',"+
+            //    "showConfirmButton: false,"+              
+            //    "});";
 
             TempData["notification"] = msg;
 
