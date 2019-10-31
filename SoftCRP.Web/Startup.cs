@@ -92,6 +92,8 @@ namespace SoftCRP.Web
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IFileHelper, FileHelper>();
 
+            services.AddScoped<INovedadesRepository, NovedadesRepository>();
+
             var url = Configuration["WsdlUser"];
              
             services.AddScoped<Service1Soap>(provider =>

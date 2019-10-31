@@ -73,12 +73,7 @@
             function (isConfirm) {
                 debugger;
                 if (isConfirm) {
-                    
-                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
-                    //window.location.href = '/Clientes/Delete/' + id;                   
-                    
-                    //return false
-
+                   
                         $.ajax({
                         type: 'post',
                         url: '/Clientes/Delete/'+ id,

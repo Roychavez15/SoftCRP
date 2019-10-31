@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191030032654_changenovedad")]
+    partial class changenovedad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,14 +249,11 @@ namespace SoftCRP.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<string>("EstadoSolucion");
-
                     b.Property<DateTime>("Fecha");
 
-                    b.Property<DateTime?>("FechaSolucion");
+                    b.Property<DateTime>("FechaSolucion");
 
-                    b.Property<string>("Motivo")
-                        .IsRequired();
+                    b.Property<string>("Motivo");
 
                     b.Property<string>("Observaciones");
 
@@ -264,17 +263,17 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("Solucion");
 
-                    b.Property<string>("SubMotivo")
-                        .IsRequired();
+                    b.Property<string>("ViaIngreso");
 
-                    b.Property<string>("ViaIngreso")
-                        .IsRequired();
+                    b.Property<int>("tipoNovedadesId");
 
                     b.Property<string>("userId");
 
                     b.Property<string>("userSolucionId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("tipoNovedadesId");
 
                     b.HasIndex("userId");
 
@@ -462,6 +461,11 @@ namespace SoftCRP.Web.Migrations
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Novedad", b =>
                 {
+                    b.HasOne("SoftCRP.Web.Data.Entities.TipoNovedades", "tipoNovedades")
+                        .WithMany()
+                        .HasForeignKey("tipoNovedadesId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");

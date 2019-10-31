@@ -77,7 +77,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Files\Analisis\" />
-    <Folder Include="wwwroot\Files\" />
+    <Folder Include="wwwroot\Files\Novedades\" />
     <Folder Include="wwwroot\sweetalert\" />
   </ItemGroup>
 

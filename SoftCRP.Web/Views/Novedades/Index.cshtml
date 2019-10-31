@@ -1,0 +1,272 @@
+﻿@model SoftCRP.Web.Models.NovedadesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card-header" style="background-color:#002D73; color:#ffffff;">
+    <h2 class="card-title"><strong>SEGUIMIENTO DE NOVEDADES</strong></h2>
+</div>
+<hr />
+
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+{
+    <div class="row">
+        <!-- SEARCH FORM -->
+        <form method="post" class="form-inline ml-3">
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
+                <div class="input-group-append">
+                    @*<button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>*@
+                    @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
+
+                    <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+}
+
+@if (User.Identity.IsAuthenticated && (User.IsInRole("Cliente")))
+{
+    <a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-12 col-sm-6">
+        <div class="card">
+            <div class="card-header" style="background-color:#002D73; color:#ffffff;">
+                @if (ViewBag.ClienteViewModel != null)
+                {
+
+                    <h2 class="card-title"><b>CLIENTE @ViewBag.ClienteViewModel.nombre</b></h2>
+                    @*<h2 class="card-title" id="nit" name="nit"><strong>@ViewBag.ClienteViewModel.nit</strong></h2>*@
+
+                }
+            </div>
+
+            <div class="card-body">
+                <table class="table table-bordered table-striped" id="table">
+                    @if (Model.novedades != null)
+                    {
+
+                        <thead>
+                            <tr>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
+                                    Tipo
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
+                                    Placa
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                                    Fecha
+                                </th>
+                                <th>
+                                    
+                                    Novedad
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                                    Estado
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                                    Solución
+                                </th>
+                                <th>Archivos</th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                                    Fecha Solución
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.novedades)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubMotivo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Placa)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observaciones)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EstadoSolucion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Solucion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.archivoNovedades.Count)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaSolucion)
+                                    </td>
+                                    <td id="@item.Id">
+                                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                                        }
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+
+                                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                        {
+
+                                            @*<button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>*@
+
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+
+                                            @*<button type="button" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>*@
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete Item-->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Borrar Novedad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Está seguro que desea eliminar este registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Confirmar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
+
+    <script type="text/javascript">
+                    @Html.Raw(ViewBag.SweetAlertShowMessage)
+
+                    $(document).ready(function () {
+
+                        var table = $("#table").DataTable({
+                            autoFill: true,
+                            paging: true,
+                            lengthChange: true,
+                            searching: true,
+                            ordering: true,
+                            info: true,
+                            autoWidth: false,
+                            responsive: true,
+                            processing: true,
+
+                            language: {
+
+                                url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                            },
+
+                            //order: [[1, 'desc']]
+                        });
+
+                        //var item_to_delete;
+
+                        //$('.deletefile').click((e) => {
+                        //    //debugger;
+                        //    item_to_delete = e.currentTarget.dataset.id;
+                        //    action_to_delete = 1;
+                        //});
+
+                        //$("#btnYesDelete").click(function () {
+                        //    window.location.href = '/Novedades/Delete/' + item_to_delete;
+                        //});
+
+
+                        var id = 0;        
+                        $('a[id*=btnDeleteItem]').click(function () {
+                        debugger;
+                        id = $(this).parent()[0].id;
+                        swal({
+                            title: "Are you sure?",
+                            text: "Si eliminas esta Novedad no la prodras recuperar!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-danger",
+                            confirmButtonText: "Yes, Eliminarlo!",
+                            cancelButtonText: "No, Cancelar Borrar!",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                            function (isConfirm) {
+                                
+                                if (isConfirm) {
+                   
+                                        $.ajax({
+                                        type: 'post',
+                                        url: '/Novedades/Delete/'+ id,
+                                        success: function (data) {
+                                            if (data) {
+                                                swal('Registro Eliminado', 'success');
+                                                window.location.href = '/Novedades/Retorno/' +@Model.cedula;
+                                                //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
+                                            }
+                                            else {
+                                                swal('No se pudo eliminar','warning');
+                                                return false;
+                                            }
+                                        }
+                                        });
+
+                                } else {
+                                    swal("Cancelar", "Borrado cancelado :)", "error");
+                                    return false
+                                }
+                
+                            });
+                            return false
+                        });
+
+
+                    });
+    </script>
+
+
+}

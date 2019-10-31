@@ -27,6 +27,7 @@ namespace SoftCRP.Web.Helpers
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(from));
             message.To.Add(new MailboxAddress(to));
+           
             message.Subject = subject;
             var bodyBuilder = new BodyBuilder
             {

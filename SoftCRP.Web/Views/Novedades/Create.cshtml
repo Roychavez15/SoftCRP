@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Models.AnalisisCreateViewModel
+﻿@model SoftCRP.Web.Models.NovedadesCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,15 +14,15 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @*<div class="form-group">
-                            <label asp-for="Placa" class="control-label"></label>
-                            <input asp-for="Placa" class="form-control" />
-                            <span asp-validation-for="Placa" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Placa" class="control-label"></label>
+            <input asp-for="Placa" class="form-control" />
+            <span asp-validation-for="Placa" class="text-danger"></span>
+        </div>*@
                     @*<div class="form-group">
-                            <label asp-for="Fecha" class="control-label"></label>
-                            <input asp-for="Fecha" class="form-control" />
-                            <span asp-validation-for="Fecha" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Fecha" class="control-label"></label>
+            <input asp-for="Fecha" class="form-control" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>*@
 
                     <input type="hidden" asp-for="cedula" />
 
@@ -32,9 +32,21 @@
                         <span asp-validation-for="PlacaId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TipoAnalisisId" class="control-label"></label>
-                        <select asp-for="TipoAnalisisId" asp-items="Model.AnalisisTypes" class="form-control" id="Tipoobj"></select>
-                        <span asp-validation-for="TipoAnalisisId" class="text-danger"></span>
+                        <label asp-for="MotivoId" class="control-label"></label>
+                        <select asp-for="MotivoId" asp-items="Model.MotivoTypes" class="form-control" id="Motivoobj"></select>
+                        <span asp-validation-for="MotivoId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SubMotivoId" class="control-label"></label>
+                        <select asp-for="SubMotivoId" asp-items="Model.SubMotivoTypes" class="form-control" id="SubMotivoobj"></select>
+                        <span asp-validation-for="SubMotivoId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ViaIngresoId" class="control-label"></label>
+                        <select asp-for="ViaIngresoId" asp-items="Model.ViaIngresoTypes" class="form-control" id="Viaobj"></select>
+                        <span asp-validation-for="ViaIngresoId" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
@@ -46,8 +58,8 @@
                 </div>
                 <div class="card-footer">
 
-                                <button type="submit" id ="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
-                                <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    <button type="submit" id="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
+                    <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
 
                 </div>
             </form>
@@ -68,14 +80,18 @@
         $(document).ready(function () {
             $("#btnsubmit").click(function () {
                 var placas = $('#Placasobj').val();
-                var Tipo = $('#Tipoobj').val();
+                var Motivo = $('#Motivoobj').val();
+                var SubMotivo = $('#SubMotivoobj').val();
+                var Via = $('#Viaobj').val();
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
 
                 var viewModel = {
                     "Cedula":@Model.cedula,
                     "PlacaId": placas,
-                    "tipoAnalisisId": Tipo,
+                    "MotivoId": Motivo,
+                    "SubMotivoId": SubMotivo,
+                    "ViaIngresoId": Via,
                     "Observaciones": Obs
                 };
                 swal({
@@ -90,13 +106,13 @@
                         closeOnCancel: false
                     },
                     function (isConfirm) {
-                        
+
                         if (isConfirm) {
-                        
+
                                 $.ajax({
                                 type: 'post',
-                                url: '/Analisis/Create',
-                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
+                                url: '/Novedades/Create',
+                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
                                 data:viewModel,
                                 dataType: 'json',
                                 success: function (result, textStatus, jqXHR) {
@@ -105,8 +121,8 @@
                                     //console.log(result.statusText);
                                     console.log(textStatus);
                                     if (result) {
-                                        swal("Buen trabajo!","Registro Creado", "success");                                        
-                                        window.location.href = '/Analisis/Retorno/@Model.cedula';                                     
+                                        swal("Buen trabajo!","Registro Creado", "success");
+                                        window.location.href = '/Novedades/Retorno/@Model.cedula';
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -118,11 +134,11 @@
                                     swal("Error", jqXHR.statusText, "error");
                                     //window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     return false;
-                                    
+
                                     }
                                 });
 
-                            
+
                             @*swal('Registro Creado', 'success');
                             window.location.href = '/Analisis/Retorno/@Model.cedula';
                             return false*@
@@ -131,14 +147,14 @@
                             swal("Cancelar", "Crear cancelado :)", "error");
                             return false
                         }
-                
+
                     });
-                   
+
                     return false
             });
 
         });
-       
+
     </script>
 
 

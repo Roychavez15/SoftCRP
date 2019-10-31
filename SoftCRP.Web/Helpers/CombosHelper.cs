@@ -42,19 +42,7 @@ namespace SoftCRP.Web.Helpers
         }
         public async Task<IEnumerable<SelectListItem>> GetComboPlacas(string nit)
         {
-            //var list = _datosRepository.GetPlacasClienteAsync(nit).Select(ta => new SelectListItem
-            //{
-            //    Text = ta,
-            //    Value = $"{ta.Id}",
-            //})
-            //    .OrderBy(ta => ta.Text)
-            //    .ToList();
 
-            //list.Insert(0, new SelectListItem
-            //{
-            //    Text = "(Seleccionar una Placa...)",
-            //    Value = "0"
-            //});
             List<VehiculosClientesViewModel> placas = new List<VehiculosClientesViewModel>();
 
             placas = await _datosRepository.GetVehiculosClienteAsync(nit);
@@ -72,13 +60,6 @@ namespace SoftCRP.Web.Helpers
                 myList.Add(data);
                 id = id + 1;
             };
-
-            //myList.Insert(0, new SelectListItem
-            //{
-            //    Text = "(Seleccionar una Placa...)",
-            //    Value = ""
-            //});
-
             myList.Insert(0, new SelectListItem
             {
                 Text = "Flota",
@@ -87,6 +68,126 @@ namespace SoftCRP.Web.Helpers
 
             return myList;
 
+            //throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboTipoNovedades()
+        {
+            List<TiposIncidenciaViewModel> tipos = new List<TiposIncidenciaViewModel>();
+
+            tipos = await _datosRepository.GetTipoIncidenciasAsync();
+            List<SelectListItem> myList = new List<SelectListItem>();
+            int id = 1;
+            foreach (var Data in tipos)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.Tipo,
+                     Text = Data.Tipo
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+
+            myList.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un tipo de Novedad...)",
+                Value = ""
+            });
+
+            return myList;
+            //throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboSubMotivos()
+        {
+            List<SubMotivosIncidenciasViewModel> tipos = new List<SubMotivosIncidenciasViewModel>();
+
+            tipos = await _datosRepository.GetSubMotivosIncidenciasAsync();
+            List<SelectListItem> myList = new List<SelectListItem>();
+            int id = 1;
+            foreach (var Data in tipos)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.Submotivo,
+                     Text = Data.Submotivo
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+
+            myList.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un SubMotivo...)",
+                Value = ""
+            });
+
+            return myList;
+            //throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboViaIngreso()
+        {
+            List<ViaIngresoViewModel> tipos = new List<ViaIngresoViewModel>();
+
+            tipos = await _datosRepository.GetViaIngresoAsync();
+            List<SelectListItem> myList = new List<SelectListItem>();
+            int id = 1;
+            foreach (var Data in tipos)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.Estado,
+                     Text = Data.Estado
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+
+            myList.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar una Via de Ingreso...)",
+                Value = ""
+            });
+
+            return myList;
+            //throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetComboEstadoNovedad()
+        {
+            List<EstadoIncidenciaViewModel> tipos = new List<EstadoIncidenciaViewModel>();
+
+            tipos = await _datosRepository.GetEstadosIncidenciaAsync();
+            List<SelectListItem> myList = new List<SelectListItem>();
+            int id = 1;
+            foreach (var Data in tipos)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.Estado,
+                     Text = Data.Estado
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+
+            myList.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un Estado...)",
+                Value = ""
+            });
+
+            return myList;
             //throw new NotImplementedException();
         }
     }

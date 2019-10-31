@@ -15,10 +15,16 @@ namespace SoftCRP.Web.Data
 
         }
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<TipoAnalisis> TiposAnalisis { get; set; }
 
+        public DbSet<TipoAnalisis> TiposAnalisis { get; set; }
         public DbSet<Analisis> Analises { get; set; }
         public DbSet<ArchivoAnalisis> ArchivosAnalisis { get; set; }
+
+
+        public DbSet<TipoNovedades> tipoNovedades { get; set; }
+        public DbSet<Novedad> novedades { get; set; }
+        public DbSet<ArchivoNovedades> archivoNovedades { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

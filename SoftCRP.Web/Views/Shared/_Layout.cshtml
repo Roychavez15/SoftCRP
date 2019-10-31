@@ -365,11 +365,11 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             @*<li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    Clientes
-                                </a>
-                            </li>*@
+            <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
+                <i class="nav-icon fas fa-th"></i>
+                Clientes
+            </a>
+        </li>*@
 
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
@@ -396,7 +396,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Seguimiento" asp-action="Index" style="color:#ffffff">
+                                    <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="Index" style="color:#ffffff">
                                         <i class="nav-icon fas fa-map-marked-alt"></i>
                                         Seguimiento de novedades
                                     </a>
@@ -428,6 +428,12 @@
                                     <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
                                         <i class="nav-icon fas fa-chart-line"></i>
                                         <p>Tipos Análisis</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="TipoNovedades" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <p>Tipos Novedades</p>
                                     </a>
                                 </li>
                             }

@@ -13,10 +13,13 @@ namespace SoftCRP.Web.Repositories
 
         Task<IEnumerable<VehiculosClientesViewModel>> GetPlacasClienteAsync(string nit);
         
-
         Task<DatosAuto> GetDatosAutoAsync(string placa);
 
         Task<ClienteViewModel> GetDatosCliente(string ruc);
 
+        Task<List<EstadoIncidenciaViewModel>> GetEstadosIncidenciaAsync();
+        Task<List<ViaIngresoViewModel>> GetViaIngresoAsync();
+        Task<List<SubMotivosIncidenciasViewModel>> GetSubMotivosIncidenciasAsync();
+        Task<List<TiposIncidenciaViewModel>> GetTipoIncidenciasAsync();
     }
 }
