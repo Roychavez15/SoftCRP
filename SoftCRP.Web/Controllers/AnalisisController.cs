@@ -161,12 +161,11 @@ namespace SoftCRP.Web.Controllers
             return BadRequest(model);
         }
 
-        [HttpPost]
         public async Task<IActionResult> Crear(AnalisisCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var analisis = new Analisis
                 {
                     Cedula = model.cedula,
@@ -174,19 +173,38 @@ namespace SoftCRP.Web.Controllers
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
                     tipoAnalisisId = model.TipoAnalisisId,
-                    user = await _userHelper.GetUserAsync(this.User.Identity.Name)
+                    user = user
                 };
 
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
-                //Alert("Registro Agregado con EXITO", Enum.Enum.NotificationType.success);
+                //enviar correo
+                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
-                //return RedirectToAction(nameof(Retorno), new { id = model.cedula });
-                return Ok();
+                var emails = "roy_chavez15@hotmail.com";
+
+                //TODO: cambiar direccion de correo
+                _mailHelper.SendMail(emails, "SoftCRP Nuevo Analisis Creado",
+                    $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
+                    $"<head>" +
+                    $"<title>" +
+                    $"</title>" +
+                    $"</head>" +
+                    $"<body>" +
+                    $"<h1>SoftCRP Nuevo Analisis</h1>" +
+                    $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
+                    $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoAnalisis.Tipo}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>");
+
+                return Ok(model);
             }
             //Alert("No se pudo agregar el cliente, revise los datos", Enum.Enum.NotificationType.error);
             //return View(model);
-            return BadRequest();
+            return BadRequest(model);
         }
         public async Task<IActionResult> Details(int? id)
         {

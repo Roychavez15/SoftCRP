@@ -169,32 +169,55 @@ namespace SoftCRP.Web.Controllers
             return BadRequest(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Crear(AnalisisCreateViewModel model)
+
+        public async Task<IActionResult> Crear(NovedadesCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-
-                var analisis = new Analisis
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                var novedad = new Novedad
                 {
                     Cedula = model.cedula,
                     Fecha = DateTime.Now,
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
-                    tipoAnalisisId = model.TipoAnalisisId,
-                    user = await _userHelper.GetUserAsync(this.User.Identity.Name)
+                    Motivo = model.MotivoId,
+                    SubMotivo = model.SubMotivoId,
+                    ViaIngreso = model.ViaIngresoId,
+                    user = user
                 };
 
-                _dataContext.Analises.Add(analisis);
+                _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
-                //Alert("Registro Agregado con EXITO", Enum.Enum.NotificationType.success);
+                //enviar correo
+                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                //var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
-                //return RedirectToAction(nameof(Retorno), new { id = model.cedula });
-                return Ok();
+                var emails = "roy_chavez15@hotmail.com";
+
+                //TODO: cambiar direccion de correo
+                _mailHelper.SendMail(emails, "SoftCRP Nueva Novedad Creado",
+                    $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
+                    $"<head>" +
+                    $"<title>" +
+                    $"</title>" +
+                    $"</head>" +
+                    $"<body>" +
+                    $"<h1>SoftCRP Nuevo Novedad</h1>" +
+                    $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
+                    $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Motivo</td><td>{model.MotivoId}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>SubMotivo</td><td>{model.SubMotivoId}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>");
+
+                return Ok(model);
             }
             //Alert("No se pudo agregar el cliente, revise los datos", Enum.Enum.NotificationType.error);
             //return View(model);
-            return BadRequest();
+            return BadRequest(model);
         }
 
         public async Task<IActionResult> Details(int? id)
