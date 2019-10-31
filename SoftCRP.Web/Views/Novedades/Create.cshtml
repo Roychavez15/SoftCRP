@@ -112,7 +112,7 @@
 
                                 $.ajax({
                                 type: 'post',
-                                url: '/Novedades/Crear',
+                                url: '~/Novedades/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
                                 data:viewModel,
                                 dataType: 'json',
@@ -123,7 +123,7 @@
                                     console.log(textStatus);
                                     if (result) {
                                         swal("Buen trabajo!","Registro Creado", "success");
-                                        window.location.href = '/Novedades/Retorno/@Model.cedula';
+                                        window.location.href = '~/Novedades/Retorno/@Model.cedula';
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -134,7 +134,7 @@
                                     debugger;
                                     //Do Stuff or Nothing
                                     swal("Error", jqXHR.statusText, "error");
-                                    window.location.href = '/Novedades/Retorno/@Model.cedula';
+                                    window.location.href = '~/Novedades/Retorno/@Model.cedula';
                                     return false;
 
                                     }
