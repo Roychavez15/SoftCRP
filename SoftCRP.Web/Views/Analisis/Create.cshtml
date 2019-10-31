@@ -79,7 +79,7 @@
                     "Observaciones": Obs
                 };
 
-                debugger;
+                
 
                 swal({
                         title: "Estan los datos correctos?",
@@ -118,8 +118,9 @@
                                     },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     //Do Stuff or Nothing
+                                    debugger;
                                     swal("Error", jqXHR.statusText, "error");
-                                    //window.location.href = '/Analisis/Retorno/@Model.cedula';
+                                    window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     return false;
                                     
                                     }

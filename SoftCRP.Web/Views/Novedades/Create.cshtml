@@ -130,10 +130,11 @@
                                         return false;
                                     }
                                     },
-                                error: function(jqXHR, textStatus, errorThrown) {
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                    debugger;
                                     //Do Stuff or Nothing
                                     swal("Error", jqXHR.statusText, "error");
-                                    //window.location.href = '/Analisis/Retorno/@Model.cedula';
+                                    window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     return false;
 
                                     }
