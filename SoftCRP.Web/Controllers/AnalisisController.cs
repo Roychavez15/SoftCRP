@@ -114,7 +114,7 @@ namespace SoftCRP.Web.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create(AnalisisCreateViewModel model)
         {
             if (ModelState.IsValid)
