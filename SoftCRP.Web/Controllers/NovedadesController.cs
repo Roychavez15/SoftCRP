@@ -95,6 +95,7 @@ namespace SoftCRP.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create(string id)
         {
             NovedadesCreateViewModel novedadesCreateViewModel = new NovedadesCreateViewModel();

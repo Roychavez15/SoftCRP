@@ -94,6 +94,7 @@ namespace SoftCRP.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         // GET: Clientes/Create
         public async Task<IActionResult> Create(string id)
         {
@@ -114,7 +115,6 @@ namespace SoftCRP.Web.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> Create(AnalisisCreateViewModel model)
         {
             if (ModelState.IsValid)
