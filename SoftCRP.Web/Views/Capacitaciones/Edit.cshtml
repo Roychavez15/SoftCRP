@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Data.Entities.Analisis
+﻿@model SoftCRP.Web.Data.Entities.Capacitacion
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,38 +15,27 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Fecha" />
-                    <input type="hidden" asp-for="ArchivosAnalisis" />
-                    <input type="hidden" asp-for="tipoAnalisisId" />
-                    <input type="hidden" asp-for="Placa" />
-                    <input type="hidden" asp-for="Cedula" />
+                    <input type="hidden" asp-for="archivoCapacitaciones" />
+                    <input type="hidden" asp-for="tipoCapacitacionId" />
+
 
                     <div class="form-group">
-                        <label asp-for="tipoAnalisis.Tipo" class="control-label"></label>
-                        <input asp-for="tipoAnalisis.Tipo" class="form-control" disabled />
-                        <span asp-validation-for="tipoAnalisis.Tipo" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Placa" class="control-label"></label>
-                        <input asp-for="Placa" class="form-control" disabled />
-                        <span asp-validation-for="Placa" class="text-danger"></span>
+                        <label asp-for="tipoCapacitacion.Tipo" class="control-label"></label>
+                        <input asp-for="tipoCapacitacion.Tipo" class="form-control" disabled />
+                        <span asp-validation-for="tipoCapacitacion.Tipo" class="text-danger"></span>
                     </div>
 
-                    @*<div class="form-group">
-                            <label asp-for="Fecha" class="control-label"></label>
-                            <input asp-for="Fecha" class="form-control" />
-                            <span asp-validation-for="Fecha" class="text-danger"></span>
-                        </div>*@
                     <div class="form-group">
-                        <label asp-for="Observaciones" class="control-label"></label>
-                        <textarea asp-for="Observaciones" class="form-control"></textarea>
-                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                        <label asp-for="Test" class="control-label"></label>
+                        <textarea asp-for="Test" class="form-control"></textarea>
+                        <span asp-validation-for="Test" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="card-footer">
                     <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
                     @*<a asp-action="Index" class="btn btn-primary">Regresar</a>*@
-                    <a asp-action="Retorno" asp-route-id="@Model.Cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
                 </div>
             </form>
         </div>
@@ -57,7 +46,7 @@
 <hr />
 
 
-@if (Model.ArchivosAnalisis.Count < 5)
+@if (Model.archivoCapacitaciones.Count < 5)
 {
     <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
 
@@ -77,7 +66,7 @@
 
 
 
-                @if (Model.ArchivosAnalisis.Count == 0)
+                @if (Model.archivoCapacitaciones.Count == 0)
                 {
                     <h5>No contiene archivos cargados aun.</h5>
                 }
@@ -111,7 +100,7 @@
                         </table>*@
                     <div class="row">
 
-                        @foreach (var item in Model.ArchivosAnalisis)
+                        @foreach (var item in Model.archivoCapacitaciones)
                         {
                             var tamaniokb = item.tamanio / 1024;
                             <div class="col-md-3">
@@ -139,21 +128,24 @@
 
                                         <p>Tamaño: @tamaniokb.ToString() KB</p>
                                         <p>Fecha Carga: @item.Fecha</p>
-                                        <p>Creador por: @item.analisis.user.FullName </p>
+                                        <p>Creador por: @item.capacitacion.user.FullName </p>
                                     </div>
                                     <div class="card-footer">
                                         <div class="float-right">
 
                                             @*<button type="button" class="btn btn-default btn-sm">
-                                                    <i class="fas fa-cloud-download-alt"></i>
-                                                </button>*@
+                                                <i class="fas fa-cloud-download-alt"></i>
+                                            </button>*@
                                             <a asp-action="DownloadFile" asp-route-id="@item.Id" style="background-color:#002D73; color:#ffffff" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
                                         </div>
-                                        <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                        @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
-                                    </div>
+                                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                        {
+                                            <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        }
+                                            @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
+                                        </div>
                                     <!-- /.card-body -->
                                 </div>
                                 <!-- /.card -->

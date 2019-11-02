@@ -26,6 +26,15 @@ namespace SoftCRP.Web.Data
         public DbSet<ArchivoNovedades> archivoNovedades { get; set; }
 
 
+        public DbSet<TipoTramite> tipoTramites { get; set; }
+        public DbSet<Tramite> tramites { get; set; }
+        public DbSet<ArchivoTramites> archivoTramites { get; set; }
+
+
+        public DbSet<TipoCapacitacion> tipoCapacitaciones { get; set; }
+        public DbSet<Capacitacion> capacitaciones { get; set; }
+        public DbSet<ArchivoCapacitaciones> archivoCapacitaciones { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

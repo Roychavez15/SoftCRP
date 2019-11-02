@@ -87,12 +87,14 @@ namespace SoftCRP.Web
             services.AddScoped<IUserHelper, UserHelper>();//
             services.AddScoped<IDatosRepository, DatosRepository>();
             services.AddScoped<IMailHelper, MailHelper>();
-            services.AddScoped<ITiposAnalisis, TiposAnalisis>();
-            services.AddScoped<IAnalisisRepository, AnalisisRepository>();
+            services.AddScoped<ITiposAnalisis, TiposAnalisis>();            
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IFileHelper, FileHelper>();
 
+            services.AddScoped<IAnalisisRepository, AnalisisRepository>();
             services.AddScoped<INovedadesRepository, NovedadesRepository>();
+            services.AddScoped<ITramitesRepository, TramitesRepository>();
+            services.AddScoped<ICapacitacionesRepository, CapacitacionesRepository>();
 
             var url = Configuration["WsdlUser"];
              

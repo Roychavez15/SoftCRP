@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Data.Entities.Analisis
+﻿@model SoftCRP.Web.Data.Entities.Tramite
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
         <div align="left" class="col-md-6">
             <div class="card card-info">
                 <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES ANÁLISIS</b></h2>
+                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES TRAMITE</b></h2>
                 </div>
 
                 <div class="card-body">
@@ -17,13 +17,25 @@
                             Tipo
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.tipoAnalisis.Tipo)
+                            @Html.DisplayFor(model => model.tipoTramite.Tipo)
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.Placa)
                         </dt>
                         <dd>
                             @Html.DisplayFor(model => model.Placa)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Anio)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Anio)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Mes)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Mes)
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.Fecha)
@@ -64,7 +76,7 @@
                         <div class="row">
 
 
-                            @if (Model.ArchivosAnalisis.Count == 0)
+                            @if (Model.archivoTramites.Count == 0)
                             {
                                 <h5>No contiene archivos cargados aun.</h5>
                             }
@@ -98,7 +110,7 @@
                             </table>*@
                                 <div class="row">
 
-                                    @foreach (var item in Model.ArchivosAnalisis)
+                                    @foreach (var item in Model.archivoTramites)
                                     {
                                         var tamaniokb = item.tamanio / 1024;
                                         <div class="col-md-3">
@@ -126,7 +138,7 @@
 
                                                     <p>Tamaño: @tamaniokb.ToString() KB</p>
                                                     <p>Fecha Carga: @item.Fecha</p>
-                                                    <p>Creador por: @item.analisis.user.UserName </p>
+                                                    <p>Creador por: @item.tramite.user.UserName </p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="float-right">
@@ -203,7 +215,8 @@
 
                         $("#btnYesDelete").click(function () {
                             if (action_to_delete == 1) {
-                                window.location.href = '/SoftCRPWeb/Analisis/DeleteFile/' + item_to_delete;
+                                //window.location.href = '/SoftCRPWeb/Tramites/DeleteFile/' + item_to_delete;
+                                window.location.href = '/Tramites/DeleteFile/' + item_to_delete;
                             } else {
                                 window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                             }

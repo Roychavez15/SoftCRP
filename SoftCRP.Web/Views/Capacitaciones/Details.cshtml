@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Data.Entities.Analisis
+﻿@model SoftCRP.Web.Data.Entities.Capacitacion
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
         <div align="left" class="col-md-6">
             <div class="card card-info">
                 <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES ANÁLISIS</b></h2>
+                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES CAPACITACIONES</b></h2>
                 </div>
 
                 <div class="card-body">
@@ -17,13 +17,13 @@
                             Tipo
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.tipoAnalisis.Tipo)
+                            @Html.DisplayFor(model => model.tipoCapacitacion.Tipo)
                         </dd>
                         <dt>
-                            @Html.DisplayNameFor(model => model.Placa)
+                            @Html.DisplayNameFor(model => model.Test)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.Placa)
+                            @Html.DisplayFor(model => model.Test)
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.Fecha)
@@ -31,21 +31,19 @@
                         <dd>
                             @Html.DisplayFor(model => model.Fecha)
                         </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Observaciones)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Observaciones)
-                        </dd>
+
                     </dl>
                 </div>
 
 
 
                 <div class="card-footer">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-edit"></i>&nbsp;Editar</a>
-                    @*<a asp-action="Index">Back to List</a>*@
-                    <a asp-action="Retorno" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn" asp-route-id="@Model.Cedula"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+                    }
+                        @*<a asp-action="Index">Back to List</a>*@
+                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
                 </div>
 
             </div>
@@ -64,7 +62,7 @@
                         <div class="row">
 
 
-                            @if (Model.ArchivosAnalisis.Count == 0)
+                            @if (Model.archivoCapacitaciones.Count == 0)
                             {
                                 <h5>No contiene archivos cargados aun.</h5>
                             }
@@ -98,7 +96,7 @@
                             </table>*@
                                 <div class="row">
 
-                                    @foreach (var item in Model.ArchivosAnalisis)
+                                    @foreach (var item in Model.archivoCapacitaciones)
                                     {
                                         var tamaniokb = item.tamanio / 1024;
                                         <div class="col-md-3">
@@ -126,21 +124,24 @@
 
                                                     <p>Tamaño: @tamaniokb.ToString() KB</p>
                                                     <p>Fecha Carga: @item.Fecha</p>
-                                                    <p>Creador por: @item.analisis.user.UserName </p>
+                                                    <p>Creador por: @item.capacitacion.user.UserName </p>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="float-right">
 
                                                         @*<button type="button" class="btn btn-default btn-sm">
-                                                        <i class="fas fa-cloud-download-alt"></i>
-                                                    </button>*@
+                                                            <i class="fas fa-cloud-download-alt"></i>
+                                                        </button>*@
                                                         <a asp-action="DownloadFile" asp-route-id="@item.Id" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
                                                     </div>
-                                                    <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>
-                                                    @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
-                                                </div>
+                                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                                    {
+                                                        <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    }
+                                                        @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
+                                                    </div>
                                                 <!-- /.card-body -->
                                             </div>
                                             <!-- /.card -->
@@ -203,7 +204,8 @@
 
                         $("#btnYesDelete").click(function () {
                             if (action_to_delete == 1) {
-                                window.location.href = '/SoftCRPWeb/Analisis/DeleteFile/' + item_to_delete;
+                                //window.location.href = '/SoftCRPWeb/Analisis/DeleteFile/' + item_to_delete;
+                                window.location.href = '/Capacitaciones/DeleteFile/' + item_to_delete;
                             } else {
                                 window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                             }

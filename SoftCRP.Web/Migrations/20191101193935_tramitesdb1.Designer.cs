@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191101193935_tramitesdb1")]
+    partial class tramitesdb1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,37 +189,6 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("ArchivosAnalisis");
                 });
 
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ArchivoPath");
-
-                    b.Property<int?>("CapacitacionId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("TipoArchivo");
-
-                    b.Property<long>("tamanio");
-
-                    b.Property<int?>("tramiteId");
-
-                    b.Property<string>("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CapacitacionId");
-
-                    b.HasIndex("tramiteId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("archivoCapacitaciones");
-                });
-
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoNovedades", b =>
                 {
                     b.Property<int>("Id")
@@ -270,29 +241,6 @@ namespace SoftCRP.Web.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("archivoTramites");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Capacitacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("Test");
-
-                    b.Property<int>("tipoCapacitacionId");
-
-                    b.Property<string>("userId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("tipoCapacitacionId");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("capacitaciones");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Cliente", b =>
@@ -377,21 +325,6 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TiposAnalisis");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.TipoCapacitacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tipoCapacitaciones");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.TipoNovedades", b =>
@@ -597,21 +530,6 @@ namespace SoftCRP.Web.Migrations
                         .HasForeignKey("userId");
                 });
 
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
-                {
-                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion")
-                        .WithMany("archivoCapacitaciones")
-                        .HasForeignKey("CapacitacionId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
-                        .WithMany()
-                        .HasForeignKey("tramiteId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
-                });
-
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoNovedades", b =>
                 {
                     b.HasOne("SoftCRP.Web.Data.Entities.Novedad", "novedad")
@@ -628,18 +546,6 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
                         .WithMany("archivoTramites")
                         .HasForeignKey("tramiteId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
-                });
-
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Capacitacion", b =>
-                {
-                    b.HasOne("SoftCRP.Web.Data.Entities.TipoCapacitacion", "tipoCapacitacion")
-                        .WithMany()
-                        .HasForeignKey("tipoCapacitacionId")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
