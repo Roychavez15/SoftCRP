@@ -46,7 +46,15 @@ namespace SoftCRP.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //
+            //////
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
+            ////
+            
+
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
@@ -148,6 +156,8 @@ namespace SoftCRP.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}");//
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

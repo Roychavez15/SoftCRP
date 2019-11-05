@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <PackageReference Include="AdminLTE" Version="2.4.0" />
+    <PackageReference Include="dropzone" Version="4.3.0" />
     <PackageReference Include="MailKit" Version="2.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -205,6 +206,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Capacitaciones\AddFile2.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Capacitaciones\AddFile.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

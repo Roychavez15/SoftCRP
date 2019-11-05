@@ -56,7 +56,7 @@ namespace SoftCRP.Web.Controllers
                     if (this.User.IsInRole("Cliente"))
                     {
                         //Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
-                        model.VehiculosClientesViewModel=await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+                        model.VehiculosClientesViewModel = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
                         model.novedad = _novedadesRepository.GetNovedadAllNotSolution(user.Cedula);
                         model.Tramite = _tramitesRepository.GetCountAllTramites(user.Cedula);
                         model.Capacitaciones = _capacitacionesRepository.GetCountAllCapacitaciones();
@@ -90,6 +90,12 @@ namespace SoftCRP.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
         }
     }
 }

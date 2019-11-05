@@ -188,7 +188,7 @@
                         });
 
                         $("#btnYesDelete").click(function () {
-                            window.location.href = '/Tramites/Delete/' + item_to_delete;
+                            window.location.href = '/SoftCRPWeb/Tramites/Delete/' + item_to_delete;
                         });
 
 
@@ -217,7 +217,7 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        url: '/Tramites/Delete/'+ id,
+                                        url: '/SoftCRPWeb/Tramites/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');

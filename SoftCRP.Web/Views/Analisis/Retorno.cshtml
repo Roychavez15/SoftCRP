@@ -212,7 +212,7 @@
 
 
             $("#btnYesDelete").click(function () {
-                window.location.href = '/Analisis/Delete/' + item_to_delete;
+                window.location.href = '/SoftCRPWeb/Analisis/Delete/' + item_to_delete;
             });
 
 
@@ -237,7 +237,7 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        url: '/Analisis/Delete/'+ id,
+                                        url: '/SoftCRPWeb/Analisis/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');

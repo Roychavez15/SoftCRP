@@ -102,8 +102,8 @@
 
                                 $.ajax({
                                 type: 'POST',
-                                //url: '/SoftCRPWeb/Tramites/Crear',
-                                url: '/Tramites/Crear',
+                                url: '/SoftCRPWeb/Tramites/Crear',
+                                //url: '/Tramites/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
                                 data:viewModel,
                                 dataType: 'json',
@@ -114,8 +114,8 @@
                                     console.log(textStatus);
                                     if (result) {
                                         swal("Buen trabajo!","Registro Creado", "success");
-                                        //window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
-                                        window.location.href = '/Tramites/Retorno/@Model.cedula';
+                                        window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
+                                        //window.location.href = '/Tramites/Retorno/@Model.cedula';
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -126,8 +126,8 @@
                                     //Do Stuff or Nothing
                                     debugger;
                                     swal("Error", jqXHR.statusText, "error");
-                                    //window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
-                                    window.location.href = '/Tramites/Retorno/@Model.cedula';
+                                    window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
+                                    //window.location.href = '/Tramites/Retorno/@Model.cedula';
                                     return false;
 
                                     }

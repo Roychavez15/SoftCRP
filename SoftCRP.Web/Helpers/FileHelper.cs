@@ -43,6 +43,7 @@ namespace SoftCRP.Web.Helpers
             return $"~/Files/{modulo}/{file}";
         }
 
+
         public FileContentResult GetFile(string filename)
         {
             var filePath = Path.Combine($"{_hostingEnvironment.WebRootPath}\\{filename.Substring(1).Replace("/", @"\")}");

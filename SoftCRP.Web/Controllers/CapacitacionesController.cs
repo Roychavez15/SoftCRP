@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace SoftCRP.Web.Controllers
 {
     public class CapacitacionesController : BaseController
@@ -317,9 +318,30 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> AddFile2(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var capacitacion = await _dataContext.capacitaciones.FindAsync(id.Value);
+            if (capacitacion == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ArchivoCapacitacionesViewModel
+            {
+                Id = capacitacion.Id
+            };
+
+            return View(model);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> AddFile(ArchivoAnalisisViewModel model)
+        public async Task<IActionResult> AddFile(ArchivoCapacitacionesViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -350,6 +372,79 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+
+
+        public async Task<IActionResult> AddFile1(ArchivoCapacitacionesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+                var extension = string.Empty;
+
+                if (model.Archivo != null)
+                {
+                    path = await _fileHelper.UploadFileAsync(model.Archivo, "Capacitaciones");
+                    extension = Path.GetExtension(model.Archivo.FileName);
+                }
+
+                var archivoCapacitaciones = new ArchivoCapacitaciones
+                {
+                    capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                    ArchivoPath = path,
+                    user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                    Fecha = DateTime.Now,
+                    tamanio = model.Archivo.Length,
+                    TipoArchivo = extension,
+                    //Property = await _dataContext.Properties.FindAsync(model.Id)
+                };
+
+                _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
+                await _dataContext.SaveChangesAsync();
+
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AddFile), new { id = model.Id });
+                
+            }
+
+            
+            return View(model);
+        }
+
+        public async Task<IActionResult> AddFile3(ArchivoCapacitacionesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+                var extension = string.Empty;
+
+                if (model.Archivo != null)
+                {
+                    path = await _fileHelper.UploadFileAsync(model.Archivo, "Capacitaciones");
+                    extension = Path.GetExtension(model.Archivo.FileName);
+                }
+
+                var archivoCapacitaciones = new ArchivoCapacitaciones
+                {
+                    capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                    ArchivoPath = path,
+                    user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                    Fecha = DateTime.Now,
+                    tamanio = model.Archivo.Length,
+                    TipoArchivo = extension,
+                    //Property = await _dataContext.Properties.FindAsync(model.Id)
+                };
+
+                _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
+                await _dataContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(AddFile), new { id = model.Id });
+                
+            }
+            return View(model);
+            //return Json(new { state = 0, message = string.Empty });
+        }
+
         [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> DeleteFile(int? id)
         {
