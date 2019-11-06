@@ -14,15 +14,21 @@ namespace SoftCRP.Web.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly INovedadesRepository _novedadesRepository;
+        private readonly ITramitesRepository _tramitesRepository;
+        private readonly ICapacitacionesRepository _capacitacionesRepository;
         private readonly IDatosRepository _datosRepository;
 
         public HomeController(
             IUserHelper userHelper,
             INovedadesRepository novedadesRepository,
+            ITramitesRepository tramitesRepository,
+            ICapacitacionesRepository capacitacionesRepository,
             IDatosRepository datosRepository)
         {
             _userHelper = userHelper;
             _novedadesRepository = novedadesRepository;
+            _tramitesRepository = tramitesRepository;
+            _capacitacionesRepository = capacitacionesRepository;
             _datosRepository = datosRepository;
         }
         public async Task<IActionResult> Index()
@@ -50,8 +56,10 @@ namespace SoftCRP.Web.Controllers
                     if (this.User.IsInRole("Cliente"))
                     {
                         //Vehiculos = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
-                        model.VehiculosClientesViewModel=await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
+                        model.VehiculosClientesViewModel = await _datosRepository.GetVehiculosClienteAsync(user.Cedula);
                         model.novedad = _novedadesRepository.GetNovedadAllNotSolution(user.Cedula);
+                        model.Tramite = _tramitesRepository.GetCountAllTramites(user.Cedula);
+                        model.Capacitaciones = _capacitacionesRepository.GetCountAllCapacitaciones();
                     }
                 }
             }
@@ -82,6 +90,12 @@ namespace SoftCRP.Web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Route("error/404")]
+        public IActionResult Error404()
+        {
+            return View();
         }
     }
 }

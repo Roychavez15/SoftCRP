@@ -1,0 +1,45 @@
+﻿@model SoftCRP.Web.Models.ArchivoTramitesViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+    <div align="left">
+        <div align="left" class="col-md-6">
+            <div class="card card-info">
+                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                    <h2 class="card-title" style="font-style:oblique"><strong>AGREGAR ARCHIVO</strong></h2>
+                </div>
+                
+                <form asp-action="AddFile" enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="form-group">
+                            <label asp-for="Archivo" class="control-label"></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-upload">
+
+                                        </i>
+                                    </span>
+                                </div>
+                                <input asp-for="Archivo" class="form-control" type="file" />
+                                <span asp-validation-for="Archivo" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        </div>
+                    <div class="card-footer">
+                        <button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-plus">&nbsp;</i>Agregar</button>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar a Trámites</a>
+                    </div>
+                </form>
+                </div>
+                    </div>
+                </div>
+            
+
+

@@ -25,6 +25,8 @@ namespace SoftCRP.Web.Data
             await _context.Database.EnsureCreatedAsync();
             await CheckRoles();
             await CheckAnalisisTypesAsync();
+            await CheckTramitesTypesAsync();
+            await CheckCapacitacionesTypesAsync();
 
             var user = await this._userHelper.GetUserByEmailAsync("roy_chavez15@hotmail.com");
             if (user == null)
@@ -72,6 +74,38 @@ namespace SoftCRP.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckTramitesTypesAsync()
+        {
+            if (!_context.tipoTramites.Any())
+            {
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Matrícula" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Certificado Matrícula" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Titulo Habilitante" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 085" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 004 O006" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Pesos y Medidas" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Permiso ARCSA" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Infracciones" });
+                await _context.SaveChangesAsync();
+            }
+        }
 
+        private async Task CheckCapacitacionesTypesAsync()
+        {
+            if (!_context.tipoCapacitaciones.Any())
+            {
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como cuidar mi vehículo?" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Debemos Reportar" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Cobertura póliza de seguros y exclusiones" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Siniestros y reclamación" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Documentos habilitantes" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Infracciones" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como ocurre un accidente de tránsito?" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito"});
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura" });
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

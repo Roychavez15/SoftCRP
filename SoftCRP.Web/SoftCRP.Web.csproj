@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <PackageReference Include="AdminLTE" Version="2.4.0" />
+    <PackageReference Include="dropzone" Version="4.3.0" />
     <PackageReference Include="MailKit" Version="2.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -77,6 +78,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Files\Analisis\" />
+    <Folder Include="wwwroot\Files\Capacitaciones\" />
+    <Folder Include="wwwroot\Files\Tramites\" />
     <Folder Include="wwwroot\Files\Novedades\" />
     <Folder Include="wwwroot\sweetalert\" />
   </ItemGroup>
@@ -200,6 +203,33 @@
     <None Include="wwwroot\node_modules\font-awesome\scss\_screen-reader.scss" />
     <None Include="wwwroot\node_modules\font-awesome\scss\_stacked.scss" />
     <None Include="wwwroot\node_modules\font-awesome\scss\_variables.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Capacitaciones\AddFile2.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Capacitaciones\AddFile.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Capacitaciones\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Capacitaciones\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Capacitaciones\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Tramites\AddFile.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Tramites\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Tramites\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

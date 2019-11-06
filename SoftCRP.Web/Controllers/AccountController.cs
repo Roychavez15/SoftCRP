@@ -585,6 +585,11 @@ namespace SoftCRP.Web.Controllers
             return View(userRoleViewModel);
         }
 
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
+
 
     }
 }

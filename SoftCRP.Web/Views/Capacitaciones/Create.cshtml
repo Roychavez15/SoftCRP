@@ -1,0 +1,129 @@
+﻿@model SoftCRP.Web.Models.CapacitacionesCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><b>CREAR CAPACITACION</b></h2>
+            </div>
+
+            <form id="PlanForm" method="post" action="Create">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="tipoCapacitacionId" class="control-label"></label>
+                        <select asp-for="tipoCapacitacionId" asp-items="Model.CapacitacionesTypes" class="form-control" id="Tipoobj"></select>
+                        <span asp-validation-for="tipoCapacitacionId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Test" class="control-label"></label>
+                        <textarea asp-for="Test" class="form-control" id="Obsobj"></textarea>
+                        <span asp-validation-for="Test" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <button type="submit" id ="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
+                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.SweetAlertShowMessage)
+        $(document).ready(function () {
+            $("#btnsubmit").click(function () {
+
+                var Tipo = $('#Tipoobj').val();
+                var Obs = $('#Obsobj').val();
+                var formu = $('#PlanForm').serialize();
+
+                var viewModel = {
+                    "tipoCapacitacionId": Tipo,
+                    "Test": Obs
+                };
+
+                debugger;
+                swal({
+                        title: "Estan los datos correctos?",
+                        text: "Recuerde que al crearlo se enviran correos al cliente!!",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Si, Crearlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        
+                        if (isConfirm) {
+                        
+                                $.ajax({
+                                type: 'POST',
+                                //url: '/SoftCRPWeb/Capacitaciones/Crear',
+                                url: '/SoftCRPWeb/Capacitaciones/Crear',
+                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
+                                data:viewModel,
+                                dataType: 'json',
+                                success: function (result, textStatus, jqXHR) {
+
+                                    //swal(data.Cedula, 'success');
+                                    //console.log(result.statusText);
+                                    console.log(textStatus);
+                                    if (result) {
+                                        swal("Buen trabajo!","Registro Creado", "success");                                        
+                                        
+                                        window.location.href = '/SoftCRPWeb/Capacitaciones/';                                     
+                                    }
+                                    else {
+                                        swal('No se pudo crear','warning');
+                                        return false;
+                                    }
+                                    },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    //Do Stuff or Nothing
+                                    debugger;
+                                    swal("Error", jqXHR.statusText, "error");
+                                    window.location.href = '/SoftCRPWeb/Capacitaciones/'
+                                    return false;
+                                    
+                                    }
+                                });
+
+                            
+                            @*swal('Registro Creado', 'success');
+                            window.location.href = '/Analisis/Retorno/@Model.cedula';
+                            return false*@
+
+                        } else {
+                            swal("Cancelar", "Crear cancelado :)", "error");
+                            return false
+                        }
+                
+                    });
+                   
+                    return false
+            });
+
+        });
+       
+    </script>
+
+
+}

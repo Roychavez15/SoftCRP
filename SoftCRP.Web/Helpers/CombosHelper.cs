@@ -21,6 +21,57 @@ namespace SoftCRP.Web.Helpers
             _datosRepository = datosRepository;
             _dataContext = dataContext;
         }
+        public IEnumerable<SelectListItem> GetComboMes()
+        {
+            var list = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Enero", Value = "Enero"},
+                new SelectListItem {Text = "Febrero", Value = "Febrero"},
+                new SelectListItem {Text = "Marzo", Value = "Marzo"},
+                new SelectListItem {Text = "Abril", Value = "Abril"},
+                new SelectListItem {Text = "Mayo", Value = "Mayo"},
+                new SelectListItem {Text = "Junio", Value = "Junio"},
+                new SelectListItem {Text = "Julio", Value = "Julio"},
+                new SelectListItem {Text = "Agosto", Value = "Agosto"},
+                new SelectListItem {Text = "Septiembre", Value = "Septiembre"},
+                new SelectListItem {Text = "Octubre", Value = "Octubre"},
+                new SelectListItem {Text = "Noviembre", Value = "Noviembre"},
+                new SelectListItem {Text = "Diciembre", Value = "Diciembre"}                
+            };
+
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un Mes...)",
+                Value = ""
+            });
+
+            return list;
+            //throw new NotImplementedException();
+        }
+        public IEnumerable<SelectListItem> GetComboAnio()
+        {
+            var list = new List<SelectListItem>
+            {
+                new SelectListItem {Text = (DateTime.Now.Year - 3).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 2).ToString(), Value =  (DateTime.Now.Year - 2).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 1).ToString(), Value =  (DateTime.Now.Year - 1).ToString()},                
+                new SelectListItem {Text = DateTime.Now.Year.ToString(), Value = DateTime.Now.Year.ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year + 1).ToString(), Value =  (DateTime.Now.Year + 1).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year + 2).ToString(), Value =  (DateTime.Now.Year + 2).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year + 3).ToString(), Value =  (DateTime.Now.Year + 3).ToString()},
+            };
+
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un Año...)",
+                Value = ""
+            });
+
+            return list;
+            //throw new NotImplementedException();
+        }
         public IEnumerable<SelectListItem> GetComboTipoAnalisis()
         {
             var list = _dataContext.TiposAnalisis.Select(ta => new SelectListItem
@@ -34,6 +85,25 @@ namespace SoftCRP.Web.Helpers
             list.Insert(0, new SelectListItem
             {
                 Text = "(Seleccionar un tipo de Analisis...)",
+                Value = "0"
+            });
+
+            return list;
+            //throw new NotImplementedException();
+        }
+        public IEnumerable<SelectListItem> GetComboTipoTramites()
+        {
+            var list = _dataContext.tipoTramites.Select(ta => new SelectListItem
+            {
+                Text = ta.Tipo,
+                Value = $"{ta.Id}",
+            })
+            .OrderBy(ta => ta.Text)
+            .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un tipo de Trámite...)",
                 Value = "0"
             });
 
@@ -188,6 +258,26 @@ namespace SoftCRP.Web.Helpers
             });
 
             return myList;
+            //throw new NotImplementedException();
+        }
+
+        public IEnumerable<SelectListItem> GetComboTipoCapacitaciones()
+        {
+            var list = _dataContext.tipoCapacitaciones.Select(ta => new SelectListItem
+            {
+                Text = ta.Tipo,
+                Value = $"{ta.Id}",
+            })
+                .OrderBy(ta => ta.Text)
+                .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un tipo de Capacitación...)",
+                Value = "0"
+            });
+
+            return list;
             //throw new NotImplementedException();
         }
     }

@@ -46,7 +46,15 @@ namespace SoftCRP.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //
+            //////
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
+            ////
+            
+
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
@@ -87,12 +95,14 @@ namespace SoftCRP.Web
             services.AddScoped<IUserHelper, UserHelper>();//
             services.AddScoped<IDatosRepository, DatosRepository>();
             services.AddScoped<IMailHelper, MailHelper>();
-            services.AddScoped<ITiposAnalisis, TiposAnalisis>();
-            services.AddScoped<IAnalisisRepository, AnalisisRepository>();
+            services.AddScoped<ITiposAnalisis, TiposAnalisis>();            
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IFileHelper, FileHelper>();
 
+            services.AddScoped<IAnalisisRepository, AnalisisRepository>();
             services.AddScoped<INovedadesRepository, NovedadesRepository>();
+            services.AddScoped<ITramitesRepository, TramitesRepository>();
+            services.AddScoped<ICapacitacionesRepository, CapacitacionesRepository>();
 
             var url = Configuration["WsdlUser"];
              
@@ -146,6 +156,8 @@ namespace SoftCRP.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/error/{0}");//
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

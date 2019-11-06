@@ -187,6 +187,37 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("ArchivosAnalisis");
                 });
 
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ArchivoPath");
+
+                    b.Property<int?>("CapacitacionId");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("TipoArchivo");
+
+                    b.Property<long>("tamanio");
+
+                    b.Property<int?>("tramiteId");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CapacitacionId");
+
+                    b.HasIndex("tramiteId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("archivoCapacitaciones");
+                });
+
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoNovedades", b =>
                 {
                     b.Property<int>("Id")
@@ -212,6 +243,56 @@ namespace SoftCRP.Web.Migrations
                     b.HasIndex("userId");
 
                     b.ToTable("archivoNovedades");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoTramites", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ArchivoPath");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("TipoArchivo");
+
+                    b.Property<long>("tamanio");
+
+                    b.Property<int?>("tramiteId");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("tramiteId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("archivoTramites");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Capacitacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("Test");
+
+                    b.Property<int>("tipoCapacitacionId");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("tipoCapacitacionId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("capacitaciones");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Cliente", b =>
@@ -298,6 +379,21 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("TiposAnalisis");
                 });
 
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.TipoCapacitacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tipoCapacitaciones");
+                });
+
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.TipoNovedades", b =>
                 {
                     b.Property<int>("Id")
@@ -311,6 +407,58 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tipoNovedades");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.TipoTramite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tipoTramites");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Tramite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Anio")
+                        .IsRequired();
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("Mes")
+                        .IsRequired();
+
+                    b.Property<string>("Observaciones");
+
+                    b.Property<string>("Placa")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<int>("tipoTramiteId");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("tipoTramiteId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("tramites");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.User", b =>
@@ -449,11 +597,49 @@ namespace SoftCRP.Web.Migrations
                         .HasForeignKey("userId");
                 });
 
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion")
+                        .WithMany("archivoCapacitaciones")
+                        .HasForeignKey("CapacitacionId");
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
+                        .WithMany()
+                        .HasForeignKey("tramiteId");
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoNovedades", b =>
                 {
                     b.HasOne("SoftCRP.Web.Data.Entities.Novedad", "novedad")
                         .WithMany("archivoNovedades")
                         .HasForeignKey("novedadId");
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoTramites", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
+                        .WithMany("archivoTramites")
+                        .HasForeignKey("tramiteId");
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Capacitacion", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.TipoCapacitacion", "tipoCapacitacion")
+                        .WithMany()
+                        .HasForeignKey("tipoCapacitacionId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
@@ -469,6 +655,18 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "userSolucion")
                         .WithMany()
                         .HasForeignKey("userSolucionId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Tramite", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.TipoTramite", "tipoTramite")
+                        .WithMany()
+                        .HasForeignKey("tipoTramiteId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
                 });
 #pragma warning restore 612, 618
         }

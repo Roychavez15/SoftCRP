@@ -1,0 +1,242 @@
+﻿@model SoftCRP.Web.Data.Entities.Tramite
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><strong>EDITAR TRAMITE</strong></h2>
+            </div>
+
+            <form asp-action="Edit">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Fecha" />
+                    <input type="hidden" asp-for="archivoTramites" />
+                    <input type="hidden" asp-for="tipoTramiteId" />
+                    <input type="hidden" asp-for="Placa" />
+                    <input type="hidden" asp-for="Cedula" />
+                    <input type="hidden" asp-for="Anio" />
+                    <input type="hidden" asp-for="Mes" />
+
+                    <div class="form-group">
+                        <label asp-for="tipoTramite.Tipo" class="control-label"></label>
+                        <input asp-for="tipoTramite.Tipo" class="form-control" disabled />
+                        <span asp-validation-for="tipoTramite.Tipo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Placa" class="control-label"></label>
+                        <input asp-for="Placa" class="form-control" disabled />
+                        <span asp-validation-for="Placa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Anio" class="control-label"></label>
+                        <input asp-for="Anio" class="form-control" disabled />
+                        <span asp-validation-for="Anio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mes" class="control-label"></label>
+                        <input asp-for="Mes" class="form-control" disabled />
+                        <span asp-validation-for="Mes" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <textarea asp-for="Observaciones" class="form-control"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
+                    @*<a asp-action="Index" class="btn btn-primary">Regresar</a>*@
+                    <a asp-action="Retorno" asp-route-id="@Model.Cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<hr />
+
+
+@if (Model.archivoTramites.Count < 5)
+{
+    <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
+
+}
+<br />
+<br />
+
+
+<div class="col-md-12 col-sm-6">
+    <div class="card">
+        <div class="card-header" style="background-color:#002D73; color:#ffffff;">
+            <h2 class="card-title" style="font-style:oblique"><b>ARCHIVOS</b></h2>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+
+
+
+                @if (Model.archivoTramites.Count == 0)
+                {
+                    <h5>No contiene archivos cargados aun.</h5>
+                }
+                else
+                {
+                    @*<table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ArchivosAnalisis.FirstOrDefault().ArchivoPath)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ArchivosAnalisis)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ArchivoPath))
+                                            {
+                                                <img src="@Url.Content(item.ArchivoPath)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>*@
+                    <div class="row">
+
+                        @foreach (var item in Model.archivoTramites)
+                        {
+                            var tamaniokb = item.tamanio / 1024;
+                            <div class="col-md-3">
+                                <div class="card card-navy">
+                                    <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                                        <h3 class="card-title">@item.TipoArchivo</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="maximize">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                        <!-- /.card-tools -->
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        @if (item.TipoArchivo == ".jpg" || item.TipoArchivo == ".png")
+                                        {
+                                            <img class="card-img-top img-thumbnail img-fluid" src="@item.ArchivoPath" asp-append-version="true" />
+                                        }
+                                        else
+                                        {
+                                            <img class="card-img-top img-thumbnail img-fluid" src="~/images/nofiles.png" asp-append-version="true" />
+                                        }
+
+                                        <p>Tamaño: @tamaniokb.ToString() KB</p>
+                                        <p>Fecha Carga: @item.Fecha</p>
+                                        <p>Creador por: @item.tramite.user.FullName </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="float-right">
+
+                                            @*<button type="button" class="btn btn-default btn-sm">
+                                                    <i class="fas fa-cloud-download-alt"></i>
+                                                </button>*@
+                                            <a asp-action="DownloadFile" asp-route-id="@item.Id" style="background-color:#002D73; color:#ffffff" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
+                                        </div>
+                                        <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                        @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        }
+
+                    </div>
+                }
+                @*@if (Model.ArchivosAnalisis.Count <= 5)
+                    {
+                        <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" OnClientClick="disabled(this.id)" class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
+
+                    }*@
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--Delete Item-->
+<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Está seguro que desea eliminar este archivo?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" id="btnYesDelete">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript" language="javascript">
+        function disabled(btn_agregar) {
+            document.getElementById(btn_agregar).style.visibility = 'hidden';
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
+            var action_to_delete;
+
+            $('.deletefile').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 1;
+            });
+
+            $('.deleteContract').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 2;
+            });
+
+            $("#btnYesDelete").click(function () {
+                if (action_to_delete == 1) {
+                    window.location.href = '/SoftCRPWeb/Tramites/DeleteFile/' + item_to_delete;
+                    //window.location.href = '/Tramites/DeleteFile/' + item_to_delete;
+                } else {
+                    window.location.href = '/Owners/DeleteContract/' + item_to_delete;
+                }
+            });
+        });
+    </script>
+}
