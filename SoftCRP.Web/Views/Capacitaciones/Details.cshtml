@@ -7,7 +7,7 @@
         <div align="left" class="col-md-6">
             <div class="card card-info">
                 <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES CAPACITACIONES</b></h2>
+                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES CAPACITACION</b></h2>
                 </div>
 
                 <div class="card-body">
@@ -134,12 +134,14 @@
                                                         </button>*@
                                                         <a asp-action="DownloadFile" asp-route-id="@item.Id" class="btn btn-default btn-sm"><i class="fas fa-cloud-download-alt"></i></a>
                                                     </div>
-                                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+
+                                                    @*@if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                                                     {
                                                         <button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
                                                             <i class="far fa-trash-alt"></i>
                                                         </button>
-                                                    }
+                                                    }*@
+
                                                         @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
                                                     </div>
                                                 <!-- /.card-body -->

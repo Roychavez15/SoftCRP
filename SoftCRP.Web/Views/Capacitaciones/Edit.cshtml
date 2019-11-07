@@ -7,7 +7,7 @@
     <div align="left" class="col-md-6">
         <div class="card card-info">
             <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                <h2 class="card-title" style="font-style:oblique"><strong>EDITAR ANÁLISIS</strong></h2>
+                <h2 class="card-title" style="font-style:oblique"><strong>EDITAR CAPACITACION</strong></h2>
             </div>
 
             <form asp-action="Edit">
@@ -217,8 +217,8 @@
 
             $("#btnYesDelete").click(function () {
                 if (action_to_delete == 1) {
-                    //window.location.href = '/SoftCRPWeb/Capacitaciones/DeleteFile/' + item_to_delete;
-                    window.location.href = '/Capacitaciones/DeleteFile/' + item_to_delete;
+                    window.location.href = '/SoftCRPWeb/Capacitaciones/DeleteFile/' + item_to_delete;
+                    //window.location.href = '/Capacitaciones/DeleteFile/' + item_to_delete;
                 } else {
                     window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                 }

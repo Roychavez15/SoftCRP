@@ -18,11 +18,17 @@
                 <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
                 <div class="input-group-append">
                     @*<button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>*@
+            <i class="fas fa-search"></i>
+        </button>*@
                     @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
 
-                    <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+
+                    <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;
+                    @*<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>*@
+                    @if (!string.IsNullOrEmpty(@Model.cedula))
+                    {
+                        <a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+                    }
 
                 </div>
             </div>

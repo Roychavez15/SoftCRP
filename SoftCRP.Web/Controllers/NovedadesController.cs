@@ -374,22 +374,25 @@ namespace SoftCRP.Web.Controllers
                 {
                     path = await _fileHelper.UploadFileAsync(model.Archivo, "Novedades");
                     extension = Path.GetExtension(model.Archivo.FileName);
+
+                    var archivoNovedades = new ArchivoNovedades
+                    {
+                        novedad = await _dataContext.novedades.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = model.Archivo.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+
+                    _dataContext.archivoNovedades.Add(archivoNovedades);
+                    await _dataContext.SaveChangesAsync();
+                    //return RedirectToAction($"{nameof(Retorno)}/{archivoNovedades.novedad.Cedula}");
+                    return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
 
-                var archivoNovedades = new ArchivoNovedades
-                {
-                    novedad = await _dataContext.novedades.FindAsync(model.Id),
-                    ArchivoPath = path,
-                    user = await _userHelper.GetUserAsync(this.User.Identity.Name),
-                    Fecha = DateTime.Now,
-                    tamanio = model.Archivo.Length,
-                    TipoArchivo = extension,
-                    //Property = await _dataContext.Properties.FindAsync(model.Id)
-                };
 
-                _dataContext.archivoNovedades.Add(archivoNovedades);
-                await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Retorno)}/{archivoNovedades.novedad.Cedula}");
             }
 
             return View(model);
@@ -413,7 +416,8 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.archivoNovedades.Remove(file);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction($"{nameof(Retorno)}/{file.novedad.Cedula}");
+            //return RedirectToAction($"{nameof(Retorno)}/{file.novedad.Cedula}");
+            return RedirectToAction($"{nameof(Edit)}/{file.novedad.Id}");
         }
 
         public async Task<IActionResult> DownloadFile(int? id)

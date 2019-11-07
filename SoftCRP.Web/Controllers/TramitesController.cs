@@ -339,22 +339,25 @@ namespace SoftCRP.Web.Controllers
                 {
                     path = await _fileHelper.UploadFileAsync(model.Archivo, "Tramites");
                     extension = Path.GetExtension(model.Archivo.FileName);
+
+                    var archivoTramites = new ArchivoTramites
+                    {
+                        tramite = await _dataContext.tramites.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = model.Archivo.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+
+                    _dataContext.archivoTramites.Add(archivoTramites);
+                    await _dataContext.SaveChangesAsync();
+                    //return RedirectToAction($"{nameof(Retorno)}/{archivoTramites.tramite.Cedula}");
+                    return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
 
-                var archivoTramites = new ArchivoTramites
-                {
-                    tramite = await _dataContext.tramites.FindAsync(model.Id),
-                    ArchivoPath = path,
-                    user = await _userHelper.GetUserAsync(this.User.Identity.Name),
-                    Fecha = DateTime.Now,
-                    tamanio = model.Archivo.Length,
-                    TipoArchivo = extension,
-                    //Property = await _dataContext.Properties.FindAsync(model.Id)
-                };
 
-                _dataContext.archivoTramites.Add(archivoTramites);
-                await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Retorno)}/{archivoTramites.tramite.Cedula}");
             }
 
             return View(model);
@@ -376,7 +379,8 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.archivoTramites.Remove(file);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction($"{nameof(Retorno)}/{file.tramite.Cedula}");
+            //return RedirectToAction($"{nameof(Retorno)}/{file.tramite.Cedula}");
+            return RedirectToAction($"{nameof(Edit)}/{file.tramite.Id}");
         }
 
         public async Task<IActionResult> DownloadFile(int? id)

@@ -11,29 +11,33 @@
 
 @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
 {
-    <div class="row">
-        <!-- SEARCH FORM -->
-        <form method="post" class="form-inline ml-3">
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
-                <div class="input-group-append">
-                    @*<button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>*@
-                    @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
+<div class="row">
+    <!-- SEARCH FORM -->
+    <form method="post" class="form-inline ml-3">
+        <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" id="buscarcliente" name="buscarcliente" type="text" placeholder="RUC Cliente" aria-label="Search">
+            <div class="input-group-append">
+                @*<button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>*@
+                @*<a asp-action="Index" asp-route-id="{buscarcliente}" class="btn-navbar"><i class="fa fa-search"></i></a>*@
 
-                    <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
-
-                </div>
+                <button type="submit" asp-route-id="{buscarcliente}" class="btn btn" style="background-color:#F2AE0B   ; color:#ffffff;"><i class="fa fa-search"></i>&nbsp;Buscar</button>&nbsp;&nbsp;
+                @*<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>*@
+                @if (!string.IsNullOrEmpty(@Model.cedula))
+                    {
+                <a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+                    }
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
 }
 
 @if (User.Identity.IsAuthenticated && (User.IsInRole("Cliente")))
 {
-    <a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
+<a asp-action="Create" asp-route-id="@Model.cedula" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-plus">&nbsp;</i>Crear Nuevo</a>
 }
 
 <hr />
@@ -44,8 +48,8 @@
                 @if (ViewBag.ClienteViewModel != null)
                 {
 
-                    <h2 class="card-title"><b>CLIENTE @ViewBag.ClienteViewModel.nombre</b></h2>
-                    @*<h2 class="card-title" id="nit" name="nit"><strong>@ViewBag.ClienteViewModel.nit</strong></h2>*@
+                <h2 class="card-title"><b>CLIENTE @ViewBag.ClienteViewModel.nombre</b></h2>
+                @*<h2 class="card-title" id="nit" name="nit"><strong>@ViewBag.ClienteViewModel.nit</strong></h2>*@
 
                 }
             </div>
@@ -55,96 +59,97 @@
                     @if (Model.novedades != null)
                     {
 
-                        <thead>
-                            <tr>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
-                                    Tipo
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
-                                    Placa
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
-                                    Fecha
-                                </th>
-                                <th>
+                    <thead>
+                        <tr>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.tipoAnalisis.Tipo.FirstOrDefault)*@
+                                Tipo
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
+                                Placa
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                                Fecha
+                            </th>
+                            <th>
 
-                                    Novedad
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
-                                    Estado
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
-                                    Solución
-                                </th>
-                                <th>Archivos</th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
-                                    Fecha Solución
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.novedades)
+                                Novedad
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                                Estado
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
+                                Solución
+                            </th>
+                            <th>Archivos</th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
+                                Fecha Solución
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.novedades)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubMotivo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Placa)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Fecha)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Observaciones)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EstadoSolucion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Solucion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.archivoNovedades.Count)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.FechaSolucion)
-                                    </td>
-                                    <td id="@item.Id">
-                                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SubMotivo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Placa)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Observaciones)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EstadoSolucion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Solucion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.archivoNovedades.Count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaSolucion)
+                            </td>
+                            <td id="@item.Id">
+                                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                                         {
-                                            <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
                                         }
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
 
-                                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                                         {
-                                            
-                                            @*<button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>*@
-                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
 
-                                            @*<button type="button" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">
-                                                    <i class="far fa-trash-alt"></i>
-                                            </button>*@
+                                @*<button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>*@
+
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+
+                                @*<button type="button" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>*@
                                         }
 
-                                    </td>
-                                </tr>
+                            </td>
+                        </tr>
                             }
 
-                        </tbody>
+                    </tbody>
                     }
                 </table>
             </div>
@@ -244,7 +249,7 @@
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
-                                                window.location.href = '/Novedades/Retorno/' +@Model.cedula;
+                                                window.location.href = '/SoftCRPWeb/Novedades/Retorno/' +@Model.cedula;
                                                 //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                             }
                                             else {
