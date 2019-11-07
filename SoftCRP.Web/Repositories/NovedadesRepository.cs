@@ -12,26 +12,33 @@ namespace SoftCRP.Web.Repositories
     public class NovedadesRepository : GenericRepository<Novedad>, INovedadesRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IDatosRepository _datosRepository;
 
         public NovedadesRepository(
-            DataContext dataContext) : base(dataContext)
+            DataContext dataContext,
+            IDatosRepository datosRepository) : base(dataContext)
         {
             _dataContext = dataContext;
+            _datosRepository = datosRepository;
         }
 
         public async Task<NovedadesViewModel> GetNovedadAsync(string cedula)
         {
             NovedadesViewModel novedadesViewModel = new NovedadesViewModel();
+            var cliente = _datosRepository.GetDatosCliente(cedula);
 
-            List<Novedad> novedades = await _dataContext.novedades
+            if (cliente.Result.nit != null)
+            {
+                List<Novedad> novedades = await _dataContext.novedades
                 .Include(a => a.archivoNovedades)
                 .Include(u => u.user)
-                .Include(us=>us.userSolucion)
+                .Include(us => us.userSolucion)
                 .Where(c => c.Cedula == cedula)
                 .OrderByDescending(o => o.Fecha).ToListAsync();
 
-            novedadesViewModel.cedula = cedula;
-            novedadesViewModel.novedades = novedades;
+                novedadesViewModel.cedula = cedula;
+                novedadesViewModel.novedades = novedades;
+            }
 
             return novedadesViewModel;
             //throw new NotImplementedException();

@@ -12,25 +12,32 @@ namespace SoftCRP.Web.Repositories
     public class TramitesRepository : GenericRepository<Tramite>, ITramitesRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IDatosRepository _datosRepository;
 
         public TramitesRepository(
-            DataContext dataContext) : base(dataContext)
+            DataContext dataContext,
+            IDatosRepository datosRepository) : base(dataContext)
         {
-            _dataContext = dataContext;            
+            _dataContext = dataContext;
+            _datosRepository = datosRepository;
         }
         public async Task<TramitesViewModel> GetTramiteAsync(string cedula)
         {
             TramitesViewModel tramitesViewModel = new TramitesViewModel();
+            var cliente = _datosRepository.GetDatosCliente(cedula);
 
-            List<Tramite> tramites = await _dataContext.tramites
-                .Include(t=>t.tipoTramite)
+            if (cliente.Result.nit != null)
+            {
+                List<Tramite> tramites = await _dataContext.tramites
+                .Include(t => t.tipoTramite)
                 .Include(a => a.archivoTramites)
                 .Include(u => u.user)
                 .Where(c => c.Cedula == cedula)
                 .OrderByDescending(o => o.Fecha).ToListAsync();
 
-            tramitesViewModel.cedula = cedula;
-            tramitesViewModel.tramites = tramites;
+                tramitesViewModel.cedula = cedula;
+                tramitesViewModel.tramites = tramites;
+            }
 
             return tramitesViewModel;
         }

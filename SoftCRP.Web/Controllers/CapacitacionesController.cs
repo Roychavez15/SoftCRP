@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
+using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
-using SoftCRP.Web.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Microsoft.AspNetCore.Authorization;
 
 
 namespace SoftCRP.Web.Controllers
@@ -352,22 +352,24 @@ namespace SoftCRP.Web.Controllers
                 {
                     path = await _fileHelper.UploadFileAsync(model.Archivo, "Capacitaciones");
                     extension = Path.GetExtension(model.Archivo.FileName);
+
+                    var archivoCapacitaciones = new ArchivoCapacitaciones
+                    {
+                        capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = model.Archivo.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+
+                    _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
+                    await _dataContext.SaveChangesAsync();
+                    //return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
 
-                var archivoCapacitaciones = new ArchivoCapacitaciones
-                {
-                    capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
-                    ArchivoPath = path,
-                    user = await _userHelper.GetUserAsync(this.User.Identity.Name),
-                    Fecha = DateTime.Now,
-                    tamanio = model.Archivo.Length,
-                    TipoArchivo = extension,
-                    //Property = await _dataContext.Properties.FindAsync(model.Id)
-                };
-
-                _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
-                await _dataContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
 
             return View(model);
@@ -401,8 +403,8 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
                 await _dataContext.SaveChangesAsync();
 
-                //return RedirectToAction(nameof(Index));
-                return RedirectToAction(nameof(AddFile), new { id = model.Id });
+                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(AddFile), new { id = model.Id });
                 
             }
 
@@ -410,6 +412,7 @@ namespace SoftCRP.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddFile3(ArchivoCapacitacionesViewModel model)
         {
             if (ModelState.IsValid)
@@ -437,8 +440,8 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
                 await _dataContext.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
-                //return RedirectToAction(nameof(AddFile), new { id = model.Id });
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
                 
             }
             return View(model);
@@ -463,7 +466,8 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.archivoCapacitaciones.Remove(file);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction($"{nameof(Edit)}/{file.capacitacion.Id}");
         }
 
         public async Task<IActionResult> DownloadFile(int? id)

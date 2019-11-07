@@ -11,7 +11,7 @@
             </div>
 
             <form asp-action="AddFile" enctype="multipart/form-data">
-            @*<form asp-action="AddFile3" enctype="multipart/form-data">*@
+            @*<form enctype="multipart/form-data" method="post">*@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
@@ -26,14 +26,15 @@
                                     </i>
                                 </span>
                             </div>
-                            <input asp-for="Archivo" id="Files" class="form-control" type="file" />
+                            @*<input asp-for="Archivo" id="Files" name="Files" class="form-control" type="file" />*@
+                            <input asp-for="Archivo" class="form-control" type="file" />
                             <span asp-validation-for="Archivo" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-plus">&nbsp;</i>Agregar</button>
-                    @*<button id="UploadBtn" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-plus">&nbsp;</i>Agregar</button>*@
+                    @*<button id="UploadBtn" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-plus">&nbsp;</i>Agregar</button>*@
                     <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar a Capacitaciones</a>
                 </div>
             </form>
@@ -113,47 +114,50 @@
 
             debugger;
 
-            var progressEle = $("#progress"); 
-            progressEle.css("background", "blue"); 
- 
-            var data = document.getElementById("Files").files[0]; 
- 
-            var formData = new FormData(); 
- 
-                   for (var i = 0; i < data.length; i++) {
-                    formData.append(data[i].name, data[i]);
-                    }
+            var progressEle = $("#progress");
+            progressEle.css("background", "blue");
 
-                   var viewModel = {
+            var input = document.getElementById("Files");
+            var files = input.files;
+
+            var formData = new FormData();
+             formData.append("Archivo", files[0]);
+            formData.append("Id", @Model.Id);
+            formData.append("nombre", files[0].name);
+            //formData.append("nombre", files[0].name);
+                   //for (var i = 0; i < data.length; i++) {
+                   // formData.append(data[i].name, data[i]);
+                   // }
+
+                   @*var viewModel = {
                     "Id": @Model.Id,
                     "Archivo": data,
                     "nombre": data.name
-                    };
+                    };*@
 
-            var salida = $.ajax({ 
-                url: "/Capacitaciones/AddFile3", 
-                data: viewModel, 
-                processData: false, 
-                contentType: false, 
-                type: "POST", 
-                async: false,
-                xhr: function () { 
-                    var xhr = new window.XMLHttpRequest(); 
-                    xhr.upload.addEventListener("progress", function (evt) { 
-                        if (evt.lengthComputable) { 
-                            var progress = Math.round((evt.loaded / evt.total) * 100); 
-                            progressEle.width(progress + "%"); 
-                        } 
-                    }, false); 
-                    return xhr; 
-                }, 
-                success: function (data) { 
-                    if (data.state == 0) { 
-                        progressEle.css("background", "green"); 
-                        window.location.href = '/Capacitaciones/Edit/'+@Model.Id; 
-                    } 
-                } 
-            }); 
+            var salida = $.ajax({
+                url: "/Capacitaciones/AddFile3",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var progress = Math.round((evt.loaded / evt.total) * 100);
+                            progressEle.width(progress + "%");
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (data) {
+                    if (data.state == 0) {
+                        progressEle.css("background", "green");
+
+                    }
+                }
+            });
 
 
         });

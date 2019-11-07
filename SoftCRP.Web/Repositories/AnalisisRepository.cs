@@ -12,26 +12,35 @@ namespace SoftCRP.Web.Repositories
     public class AnalisisRepository :  GenericRepository<Analisis>, IAnalisisRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IDatosRepository _datosRepository;
 
         public AnalisisRepository(
-            DataContext dataContext) : base(dataContext)
+            DataContext dataContext,
+            IDatosRepository datosRepository) : base(dataContext)
         {
             _dataContext = dataContext;
+            _datosRepository = datosRepository;
         }
         public async Task<AnalisisViewModel> GetAnalisis(string cedula)
         {
             AnalisisViewModel analisisViewModel = new AnalisisViewModel();
 
-            List<Analisis> analisis= await _dataContext.Analises
-                .Include(t => t.tipoAnalisis)
-                .Include(a => a.ArchivosAnalisis)
-                .Include(u=>u.user)
-                //.ThenInclude(l=>l.tipo)
-                .Where(c => c.Cedula == cedula)                
-                .OrderByDescending(o => o.Fecha).ToListAsync();
+            var cliente = _datosRepository.GetDatosCliente(cedula);
 
-            analisisViewModel.cedula = cedula;
-            analisisViewModel.analisis = analisis;
+            if (cliente.Result.nit != null)
+            {
+                List<Analisis> analisis = await _dataContext.Analises
+                    .Include(t => t.tipoAnalisis)
+                    .Include(a => a.ArchivosAnalisis)
+                    .Include(u => u.user)
+                    //.ThenInclude(l=>l.tipo)
+                    .Where(c => c.Cedula == cedula)
+                    .OrderByDescending(o => o.Fecha).ToListAsync();
+
+
+                analisisViewModel.cedula = cedula;
+                analisisViewModel.analisis = analisis;
+            }
 
             return analisisViewModel;
             //throw new NotImplementedException();

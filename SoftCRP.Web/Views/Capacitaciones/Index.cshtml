@@ -214,14 +214,14 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        //url: '/SoftCRPWeb/Capacitaciones/Delete/'+ id,
-                                            url: '/Capacitaciones/Delete/'+ id,
+                                        url: '/SoftCRPWeb/Capacitaciones/Delete/'+ id,
+                                        //url: '/Capacitaciones/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
 
-                                                //window.location.href = '/SoftCRPWeb/Capacitaciones/';
-                                                window.location.href = '/Capacitaciones/';
+                                                window.location.href = '/SoftCRPWeb/Capacitaciones/';
+                                                //window.location.href = '/Capacitaciones/';
                                             }
                                             else {
                                                 swal('No se pudo eliminar','warning');

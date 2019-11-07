@@ -334,22 +334,23 @@ namespace SoftCRP.Web.Controllers
                 {
                     path = await _fileHelper.UploadFileAsync(model.Archivo,"Analisis");
                     extension= Path.GetExtension(model.Archivo.FileName);
+
+                    var archivoAnalisis = new ArchivoAnalisis
+                    {
+                        analisis = await _dataContext.Analises.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = model.Archivo.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+
+                    _dataContext.ArchivosAnalisis.Add(archivoAnalisis);
+                    await _dataContext.SaveChangesAsync();
+                    //return RedirectToAction($"{nameof(Retorno)}/{archivoAnalisis.analisis.Cedula}");
+                    return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
-
-                var archivoAnalisis = new ArchivoAnalisis
-                {
-                    analisis=await _dataContext.Analises.FindAsync(model.Id),
-                    ArchivoPath=path,
-                    user= await _userHelper.GetUserAsync(this.User.Identity.Name),
-                    Fecha=DateTime.Now,
-                    tamanio=model.Archivo.Length,
-                    TipoArchivo= extension,
-                    //Property = await _dataContext.Properties.FindAsync(model.Id)
-                };
-
-                _dataContext.ArchivosAnalisis.Add(archivoAnalisis);
-                await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Retorno)}/{archivoAnalisis.analisis.Cedula}");
             }
 
             return View(model);
@@ -371,7 +372,8 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.ArchivosAnalisis.Remove(file);
             await _dataContext.SaveChangesAsync();
-            return RedirectToAction($"{nameof(Retorno)}/{file.analisis.Cedula}");
+            //return RedirectToAction($"{nameof(Retorno)}/{file.analisis.Cedula}");
+            return RedirectToAction($"{nameof(Edit)}/{file.analisis.Id}");
         }
 
         public async Task<IActionResult> DownloadFile(int? id)

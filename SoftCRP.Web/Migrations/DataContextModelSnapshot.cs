@@ -195,23 +195,19 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("ArchivoPath");
 
-                    b.Property<int?>("CapacitacionId");
-
                     b.Property<DateTime>("Fecha");
 
                     b.Property<string>("TipoArchivo");
 
-                    b.Property<long>("tamanio");
+                    b.Property<int?>("capacitacionId");
 
-                    b.Property<int?>("tramiteId");
+                    b.Property<long>("tamanio");
 
                     b.Property<string>("userId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CapacitacionId");
-
-                    b.HasIndex("tramiteId");
+                    b.HasIndex("capacitacionId");
 
                     b.HasIndex("userId");
 
@@ -599,13 +595,9 @@ namespace SoftCRP.Web.Migrations
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
                 {
-                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion")
+                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion", "capacitacion")
                         .WithMany("archivoCapacitaciones")
-                        .HasForeignKey("CapacitacionId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
-                        .WithMany()
-                        .HasForeignKey("tramiteId");
+                        .HasForeignKey("capacitacionId");
 
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
