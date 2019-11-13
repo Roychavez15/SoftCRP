@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "IndexAnalisis";
+}
+
+<h2>IndexAnalisis</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Date picker</h3>
+            </div>
+            <div class="card-body">
+                <!-- Date range -->
+                <div class="form-group">
+                    <label>Date range:</label>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="far fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control float-right" id="reservation">
+                    </div>
+                    <!-- /.input group -->
+                </div>
+                <div class="form-group">
+                    <button type="button" id="saveBtn" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+        <!-- /.card -->
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        var startDate;
+        var endDate;
+        $(document).ready(function () {
+            $('#reservation').daterangepicker({
+                startDate: moment().subtract('days', 29),
+                endDate: moment(),
+                buttonClasses: ['btn btn-default'],
+                applyClass: 'btn-small btn-primary',
+                cancelClass: 'btn-small',
+            },
+                function (start, end) {
+                    console.log("Callback has been called!");
+                    $('#reservation span').html(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+                    startDate = start;
+                    endDate = end;
+                }
+           );
+            $('#reservation span').html(moment().subtract('days', 29).format('D MMMM YYYY') + ' - ' + moment().format('D MMMM YYYY'));
+
+            $('#saveBtn').click(function () {
+                //debugger;
+                console.log(startDate.format('D MMMM YYYY') + ' - ' + endDate.format('D MMMM YYYY'));
+
+            });
+
+        })
+    </script>
+
+}

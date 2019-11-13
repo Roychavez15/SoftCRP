@@ -19,6 +19,7 @@ namespace SoftCRP.Web.Data.Entities
         public DateTime Fecha { get; set; }
         public DateTime FechaLocal => Fecha.ToLocalTime();
 
+        [Display(Name = "Link")]
         public string Test { get; set; }
 
         [Required]

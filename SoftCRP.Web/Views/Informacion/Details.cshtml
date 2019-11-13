@@ -4,7 +4,8 @@
     ViewData["Title"] = "Información General - Detalles";
 }
     <div class="right">
-        <a asp-action="Index" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-angle-double-left"></i>&nbsp;Regresar</a>
+        @*<a asp-action="Index" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-angle-double-left"></i>&nbsp;Regresar</a>*@
+        <a asp-action="Retorno" asp-route-id="@Model.Cliente" class="btn btn" style="background-color:#F2AE0B; color:#ffffff;"><i class="fa fa-angle-double-left"></i>&nbsp;Regresar</a>
     </div>
 <hr>
 <h2><b> PLACA : @Model.Placa - CLIENTE : @Model.Nom_cliente</b></h2>

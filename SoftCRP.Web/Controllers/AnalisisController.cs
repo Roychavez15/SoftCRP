@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
@@ -65,6 +67,19 @@ namespace SoftCRP.Web.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> IndexLista()
+        {
+
+            //List<User> clientes = new List<User>();
+            var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                return View(clientes);
+            }
+
+            return View();
+        }
         public async Task<IActionResult> Retorno(string id)
         {
 
@@ -95,6 +110,7 @@ namespace SoftCRP.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Renting")]
         // GET: Clientes/Create
         public async Task<IActionResult> Create(string id)
         {
@@ -119,6 +135,33 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoAnalisis> archivoAnalises = new List<ArchivoAnalisis>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                    //var stream = new FileStream(path, FileMode.Create);
+                    //photo.CopyToAsync(stream);
+                    //product.Photos.Add(photo.FileName);
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Analisis");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoAnalisis = new ArchivoAnalisis
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoAnalises.Add(archivoAnalisis);
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var analisis = new Analisis
                 {
@@ -127,6 +170,7 @@ namespace SoftCRP.Web.Controllers
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
                     tipoAnalisisId = model.TipoAnalisisId,
+                    ArchivosAnalisis= archivoAnalises,
                     user = user
                 };
 
@@ -139,7 +183,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nuevo Analisis Creado", 
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Analisis Creado", 
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>"+
                     $"<title>" +
@@ -152,7 +196,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoAnalisis.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }
@@ -165,6 +209,33 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoAnalisis> archivoAnalises = new List<ArchivoAnalisis>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                    //var stream = new FileStream(path, FileMode.Create);
+                    //photo.CopyToAsync(stream);
+                    //product.Photos.Add(photo.FileName);
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Analisis");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoAnalisis = new ArchivoAnalisis
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoAnalises.Add(archivoAnalisis);
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var analisis = new Analisis
                 {
@@ -173,6 +244,7 @@ namespace SoftCRP.Web.Controllers
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
                     tipoAnalisisId = model.TipoAnalisisId,
+                    ArchivosAnalisis=archivoAnalises,
                     user = user
                 };
 
@@ -185,7 +257,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nuevo Analisis Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Analisis Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -198,7 +270,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoAnalisis.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }
@@ -225,6 +297,7 @@ namespace SoftCRP.Web.Controllers
             return View(analisis);
         }
         // GET: Clientes/Edit/5
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -275,7 +348,7 @@ namespace SoftCRP.Web.Controllers
             return View(_dataContext);
         }
 
-
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -355,6 +428,8 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> DeleteFile(int? id)
         {
             if (id == null)

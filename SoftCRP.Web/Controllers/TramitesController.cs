@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
@@ -62,7 +64,19 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> IndexLista()
+        {
 
+            //List<User> clientes = new List<User>();
+            var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                return View(clientes);
+            }
+
+            return View();
+        }
         public async Task<IActionResult> Retorno(string id)
         {
 
@@ -92,6 +106,7 @@ namespace SoftCRP.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Create(string id)
         {
             TramitesCreateViewModel tramitesCreateViewModel = new TramitesCreateViewModel();
@@ -115,6 +130,30 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                List<ArchivoTramites> archivoTramitesList = new List<ArchivoTramites>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Tramites");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoTramites = new ArchivoTramites
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoTramitesList.Add(archivoTramites);
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var tramite = new Tramite
                 {
@@ -124,7 +163,8 @@ namespace SoftCRP.Web.Controllers
                     Placa = model.PlacaId,
                     tipoTramiteId = model.TipoTramiteId,
                     Anio=model.AnioId,
-                    Mes=model.MesId,                    
+                    Mes=model.MesId,  
+                    archivoTramites=archivoTramitesList,
                     user = user
                 };
 
@@ -137,7 +177,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nuevo Tramite Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -152,7 +192,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Mes</td><td>{model.MesId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{tramite.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{tramite.Fecha}</td></tr></table></body></html>",model.Files);
 
                 return Ok(model);
             }
@@ -165,6 +205,29 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoTramites> archivoTramitesList = new List<ArchivoTramites>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Tramites");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoTramites = new ArchivoTramites
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoTramitesList.Add(archivoTramites);
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var tramite = new Tramite
                 {
@@ -175,6 +238,7 @@ namespace SoftCRP.Web.Controllers
                     tipoTramiteId = model.TipoTramiteId,
                     Anio = model.AnioId,
                     Mes = model.MesId,
+                    archivoTramites=archivoTramitesList,
                     user = user
                 };
 
@@ -187,7 +251,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nuevo Tramite Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -202,7 +266,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Mes</td><td>{model.MesId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{tramite.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{tramite.Fecha}</td></tr></table></body></html>",model.Files);
 
                 return Ok(model);
             }
@@ -230,6 +294,7 @@ namespace SoftCRP.Web.Controllers
             return View(tramite);
         }
         // GET: Clientes/Edit/5
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -280,7 +345,7 @@ namespace SoftCRP.Web.Controllers
             return View(_dataContext);
         }
 
-
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -362,6 +427,8 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> DeleteFile(int? id)
         {
             if (id == null)
