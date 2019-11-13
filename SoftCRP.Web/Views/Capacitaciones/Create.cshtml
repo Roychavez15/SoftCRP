@@ -140,8 +140,8 @@
                         
                                 $.ajax({
                                 type: 'POST',
-                                url: '/Capacitaciones/Crear',
-                                //url: '/SoftCRPWeb/Capacitaciones/Crear',
+                                //url: '/Capacitaciones/Crear',
+                                url: '/SoftCRPWeb/Capacitaciones/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
                                 data:fileData,
                                 //dataType: 'json',
@@ -155,8 +155,8 @@
                                     if (result) {
                                         swal("Buen trabajo!","Registro Creado", "success");                                        
 
-                                        window.location.href = '/Capacitaciones/';                                     
-                                        //window.location.href = '/SoftCRPWeb/Capacitaciones/';                                     
+                                        //window.location.href = '/Capacitaciones/';                                     
+                                        window.location.href = '/SoftCRPWeb/Capacitaciones/';                                     
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -167,8 +167,8 @@
                                     //Do Stuff or Nothing
                                     debugger;
                                     swal("Error", jqXHR.statusText, "error");
-                                    //window.location.href = '/SoftCRPWeb/Capacitaciones/'
-                                    window.location.href = '/Capacitaciones/'
+                                    window.location.href = '/SoftCRPWeb/Capacitaciones/'
+                                    //window.location.href = '/Capacitaciones/'
                                     return false;
                                     
                                     }
