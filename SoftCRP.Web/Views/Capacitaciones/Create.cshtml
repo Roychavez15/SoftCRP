@@ -10,7 +10,7 @@
                 <h2 class="card-title" style="font-style:oblique"><b>CREAR CAPACITACION</b></h2>
             </div>
 
-            <form id="PlanForm" method="post" action="Create">
+            <form id="PlanForm" name="PlanForm" method="post" action="Create" enctype="multipart/form-data">
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -26,12 +26,37 @@
                         <span asp-validation-for="Test" class="text-danger"></span>
                     </div>
 
+                    @*<div id="dropzone-drop-area" class="dropzone-drop-area">
+        </div>*@
+
+                    @*<div class="fallback">
+            <input name="file" type="file" multiple />
+
+        </div>*@
+                <div class="form-group">
+                    <label asp-for="Files" class="control-label"></label>
+                    <input name="Files" id="Files" asp-for="Files" type="file" multiple />
+                    
                 </div>
-                <div class="card-footer">
-                    <button type="submit" id ="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
-                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" id="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
+                        @*<button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>*@
+                        <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    </div>
+                </form>
+
+            @*<div class="col-md-9">
+                <div id="dropzone">
+                    <form action="/Home/Upload" class="dropzone needsclick dz-clickable" id="uploader">
+                        <div class="dz-message needsclick">
+                            Drop files here or click to upload.<br>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>*@
+
         </div>
     </div>
 </div>
@@ -47,28 +72,67 @@
     <script type="text/javascript">
         @Html.Raw(ViewBag.SweetAlertShowMessage)
         $(document).ready(function () {
+
+   //         Dropzone.options.PlanForm = {
+   //         paramName: "file",
+   //         maxFilesize: 2,
+   //         maxFiles: 4,
+   //         autoProcessQueue: false,
+   //         autoDiscover: false,
+			////acceptedFiles: "image/*",
+   //         dictMaxFilesExceeded: "Custom max files msg",
+
+   //         init: function() { 
+	  //          var myDropzone = this; 
+	  //          this.element.querySelector("#btnsubmit").addEventListener("click", function(e) { 
+		 //           e.preventDefault(); 
+		 //           e.stopPropagation(); 
+		 //           myDropzone.processQueue(); 
+		 //           }); 
+	  //          } 
+
+   //         };
+
             $("#btnsubmit").click(function () {
 
                 var Tipo = $('#Tipoobj').val();
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
 
+                var files = $("#Files").get(0).files;
+
+                var fileData = new FormData();
+ 
+                fileData.append("tipoCapacitacionId", Tipo);
+                fileData.append("Test", Obs);
+               
+                for (var i = 0; i < files.length; i++) {
+
+                    fileData.append("Files", files[i]);
+                }
+
                 var viewModel = {
                     "tipoCapacitacionId": Tipo,
-                    "Test": Obs
+                    "Test": Obs,
+                    "Files": files
                 };
+
+                
+                var form = $('#PlanForm')[0];
+                var dataString = new FormData(form);
 
                 debugger;
                 swal({
                         title: "Estan los datos correctos?",
-                        text: "Recuerde que al crearlo se enviran correos al cliente!!",
+                        text: "Recuerde que al crearlo se enviaran correos al cliente!!",
                         type: "info",
                         showCancelButton: true,
                         confirmButtonClass: "btn-info",
                         confirmButtonText: "Si, Crearlo!",
                         cancelButtonText: "No, Cancelar!",
                         closeOnConfirm: false,
-                        closeOnCancel: false
+                        closeOnCancel: false,
+                        showLoaderOnConfirm: true,
                     },
                     function (isConfirm) {
                         
@@ -76,11 +140,13 @@
                         
                                 $.ajax({
                                 type: 'POST',
-                                //url: '/Capacitaciones/Crear',
-                                url: '/SoftCRPWeb/Capacitaciones/Crear',
+                                url: '/Capacitaciones/Crear',
+                                //url: '/SoftCRPWeb/Capacitaciones/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
-                                data:viewModel,
-                                dataType: 'json',
+                                data:fileData,
+                                //dataType: 'json',
+                                contentType: false,
+                                processData: false,
                                 success: function (result, textStatus, jqXHR) {
 
                                     //swal(data.Cedula, 'success');
@@ -89,8 +155,8 @@
                                     if (result) {
                                         swal("Buen trabajo!","Registro Creado", "success");                                        
 
-                                        //window.location.href = '/Capacitaciones/';                                     
-                                        window.location.href = '/SoftCRPWeb/Capacitaciones/';                                     
+                                        window.location.href = '/Capacitaciones/';                                     
+                                        //window.location.href = '/SoftCRPWeb/Capacitaciones/';                                     
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -101,8 +167,8 @@
                                     //Do Stuff or Nothing
                                     debugger;
                                     swal("Error", jqXHR.statusText, "error");
-                                    window.location.href = '/SoftCRPWeb/Capacitaciones/'
-                                    //window.location.href = '/Capacitaciones/'
+                                    //window.location.href = '/SoftCRPWeb/Capacitaciones/'
+                                    window.location.href = '/Capacitaciones/'
                                     return false;
                                     
                                     }

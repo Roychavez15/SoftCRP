@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
@@ -32,8 +33,43 @@ namespace SoftCRP.Web.Helpers
             var bodyBuilder = new BodyBuilder
             {
                 HtmlBody = body
+                
             };
             message.Body = bodyBuilder.ToMessageBody();
+            
+            using (var client = new SmtpClient())
+            {
+                client.Connect(smtp, int.Parse(port), false);
+                client.Authenticate(from, password);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
+        public void SendMailAttachment(string to, string subject, string body, List<IFormFile> files)
+        {
+            var from = _configuration["Mail:From"];
+            var smtp = _configuration["Mail:Smtp"];
+            var port = _configuration["Mail:Port"];
+            var password = _configuration["Mail:Password"];
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(from));
+            message.To.Add(new MailboxAddress(to));
+
+            message.Subject = subject;
+            var bodyBuilder = new BodyBuilder
+            {
+                HtmlBody = body
+
+            };
+
+            foreach (IFormFile file in files)
+            {
+                bodyBuilder.Attachments.Add(file.FileName, file.OpenReadStream());
+            }
+            message.Body = bodyBuilder.ToMessageBody();
+            //message.Attachments = bodyBuilder.Attachments.;
 
             using (var client = new SmtpClient())
             {

@@ -52,6 +52,35 @@ namespace SoftCRP.Web.Controllers
             return View(Vehiculos);
         }
 
+        public async Task<IActionResult> IndexLista()
+        {
+
+            //List<User> clientes = new List<User>();
+            var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                return View(clientes);
+            }
+
+            return View();
+        }
+        public async Task<IActionResult> Retorno(string id)
+        {
+            List<VehiculosClientesViewModel> Vehiculos = new List<VehiculosClientesViewModel>();
+
+            var datosc = await _datosRepository.GetDatosCliente(id);
+
+            if (datosc != null)
+            {
+                ViewBag.ClienteViewModel = datosc;
+                Vehiculos = await _datosRepository.GetVehiculosClienteAsync(id);
+            }
+
+
+            return View(Vehiculos);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(string buscarcliente)
         {

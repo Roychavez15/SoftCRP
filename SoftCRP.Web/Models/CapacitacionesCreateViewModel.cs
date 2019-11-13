@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,6 @@ namespace SoftCRP.Web.Models
         public IEnumerable<SelectListItem> CapacitacionesTypes { get; set; }
         public string Test { get; set; }
 
-
+        public List<IFormFile> Files { get; set; }
     }
 }

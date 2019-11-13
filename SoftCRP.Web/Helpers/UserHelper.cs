@@ -102,6 +102,12 @@ namespace SoftCRP.Web.Helpers
             return _userManager.Users;
             //throw new System.NotImplementedException();
         }
+        public async Task<IEnumerable<User>> GetListUsersInRole(string Role)
+        {
+            return await _userManager.GetUsersInRoleAsync(Role);
+                
+            //throw new System.NotImplementedException();
+        }
         public async Task<IEnumerable<RoleViewModel>> GetAllListRoles(User user)
         {
             var roles = _roleManager.Roles.OrderBy(r => r.Name);

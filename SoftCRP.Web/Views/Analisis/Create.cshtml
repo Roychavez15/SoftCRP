@@ -10,19 +10,19 @@
                 <h2 class="card-title" style="font-style:oblique"><b>CREAR ANÁLISIS CLIENTE - @Model.cedula</b></h2>
             </div>
 
-            <form id="PlanForm" method="post" action="Create">
+            <form id="PlanForm" name="PlanForm" method="post" action="Create" enctype="multipart/form-data">
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @*<div class="form-group">
-                            <label asp-for="Placa" class="control-label"></label>
-                            <input asp-for="Placa" class="form-control" />
-                            <span asp-validation-for="Placa" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Placa" class="control-label"></label>
+            <input asp-for="Placa" class="form-control" />
+            <span asp-validation-for="Placa" class="text-danger"></span>
+        </div>*@
                     @*<div class="form-group">
-                            <label asp-for="Fecha" class="control-label"></label>
-                            <input asp-for="Fecha" class="form-control" />
-                            <span asp-validation-for="Fecha" class="text-danger"></span>
-                        </div>*@
+            <label asp-for="Fecha" class="control-label"></label>
+            <input asp-for="Fecha" class="form-control" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>*@
 
                     <input type="hidden" asp-for="cedula" />
 
@@ -41,6 +41,12 @@
                         <label asp-for="Observaciones" class="control-label"></label>
                         <textarea asp-for="Observaciones" class="form-control" id="Obsobj"></textarea>
                         <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Files" class="control-label"></label>
+                        <input name="Files" id="Files" asp-for="Files" type="file" multiple />
+
                     </div>
 
                 </div>
@@ -79,18 +85,31 @@
                     "Observaciones": Obs
                 };
 
-                
+                var files = $("#Files").get(0).files;
+
+                var fileData = new FormData();
+
+                fileData.append("Cedula", @Model.cedula);
+                fileData.append("PlacaId", placas);
+                fileData.append("tipoAnalisisId", Tipo);
+                fileData.append("Observaciones", Obs);
+               
+                for (var i = 0; i < files.length; i++) {
+
+                    fileData.append("Files", files[i]);
+                }
 
                 swal({
                         title: "Estan los datos correctos?",
-                        text: "Recuerde que al crearlo se enviran correos al cliente!!",
+                        text: "Recuerde que al crearlo se enviaran correos al cliente!!",
                         type: "info",
                         showCancelButton: true,
                         confirmButtonClass: "btn-info",
                         confirmButtonText: "Si, Crearlo!",
                         cancelButtonText: "No, Cancelar!",
                         closeOnConfirm: false,
-                        closeOnCancel: false
+                        closeOnCancel: false,
+                        showLoaderOnConfirm: true,
                     },
                     function (isConfirm) {
                         
@@ -98,11 +117,13 @@
                         
                                 $.ajax({
                                 type: 'POST',
-                                //url: '/Analisis/Crear',
-                                url: '/SoftCRPWeb/Analisis/Crear',
+                                url: '/Analisis/Crear',
+                                //url: '/SoftCRPWeb/Analisis/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
-                                data:viewModel,
-                                dataType: 'json',
+                                data:fileData,
+                                //dataType: 'json',
+                                contentType: false,
+                                processData: false,
                                 success: function (result, textStatus, jqXHR) {
 
                                     //swal(data.Cedula, 'success');
@@ -110,8 +131,8 @@
                                     console.log(textStatus);
                                     if (result) {
                                         swal("Buen trabajo!","Registro Creado", "success");                                        
-                                        window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';                                     
-                                        //window.location.href = '/Analisis/Retorno/@Model.cedula';                                     
+                                        //window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';                                     
+                                        window.location.href = '/Analisis/Retorno/@Model.cedula';                                     
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -122,8 +143,8 @@
                                     //Do Stuff or Nothing
                                     debugger;
                                     swal("Error", jqXHR.statusText, "error");
-                                    window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
-                                    //window.location.href = '/Analisis/Retorno/@Model.cedula';
+                                    //window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
+                                    window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     return false;
                                     
                                     }

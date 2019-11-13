@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
@@ -65,7 +66,19 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> IndexLista()
+        {
 
+            //List<User> clientes = new List<User>();
+            var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+            if (user != null)
+            {
+                var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                return View(clientes);
+            }
+
+            return View();
+        }
         public async Task<IActionResult> Retorno(string id)
         {
 
@@ -123,6 +136,28 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoNovedades> archivoNovedadesList = new List<ArchivoNovedades>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Novedades");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoNovedades = new ArchivoNovedades
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoNovedadesList.Add(archivoNovedades);
+                }
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var novedad = new Novedad
                 {
@@ -133,6 +168,7 @@ namespace SoftCRP.Web.Controllers
                     Motivo = model.MotivoId,
                     SubMotivo=model.SubMotivoId,
                     ViaIngreso=model.ViaIngresoId,
+                    archivoNovedades=archivoNovedadesList,
                     user = user
                 };
 
@@ -145,7 +181,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nueva Novedad Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Novedad Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -160,7 +196,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }
@@ -174,6 +210,29 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoNovedades> archivoNovedadesList = new List<ArchivoNovedades>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Novedades");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoNovedades = new ArchivoNovedades
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoNovedadesList.Add(archivoNovedades);
+                }
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var novedad = new Novedad
                 {
@@ -184,6 +243,7 @@ namespace SoftCRP.Web.Controllers
                     Motivo = model.MotivoId,
                     SubMotivo = model.SubMotivoId,
                     ViaIngreso = model.ViaIngresoId,
+                    archivoNovedades=archivoNovedadesList,
                     user = user
                 };
 
@@ -196,7 +256,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nueva Novedad Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Novedad Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -211,7 +271,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }

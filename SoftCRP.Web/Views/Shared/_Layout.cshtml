@@ -387,28 +387,68 @@
                             {
 
                                 <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-th"></i>
-                                        Información General
-                                    </a>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="IndexLista" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-th"></i>
+                                            Información General
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-th"></i>
+                                            Información General
+                                        </a>
+                                    }
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-server"></i>
-                                        Análisis de su Flota
-                                    </a>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="IndexLista" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-server"></i>
+                                            Análisis de su Flota
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-server"></i>
+                                            Análisis de su Flota
+                                        </a>
+                                    }
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-map-marked-alt"></i>
-                                        Seguimiento de novedades
-                                    </a>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="IndexLista" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-map-marked-alt"></i>
+                                            Seguimiento de novedades
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-map-marked-alt"></i>
+                                            Seguimiento de novedades
+                                        </a>
+                                    }
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-paste"></i>
-                                        Trámites
-                                    </a>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="IndexLista" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-paste"></i>
+                                            Trámites
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-paste"></i>
+                                            Trámites
+                                        </a>
+                                    }
                                 </li>
                                 <li class="nav-item">
                                     <a asp-area="" class="nav-link" asp-controller="Capacitaciones" asp-action="Index" style="color:#ffffff">
@@ -416,13 +456,50 @@
                                         Capacitaciones Renting
                                     </a>
                                 </li>
-
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-chart-line"></i>
-                                        Reportes
-                                    </a>
-                                </li>
+                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                {
+                                    @*<li class="nav-item">
+                                        <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-chart-line"></i>
+                                            Reportes
+                                        </a>
+                                    </li>*@
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-chart-line"></i>                                            
+                                            Reportes
+                                            <i class="right fas fa-angle-left"></i>
+                                            
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexAnalisis" class="nav-link" style="color:#ffffff">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    Análisis
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexCapacitaciones" class="nav-link" style="color:#ffffff">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    Capacitaciónes
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexNovedades" class="nav-link" style="color:#ffffff">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    Novedades
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexTramites" class="nav-link" style="color:#ffffff">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    Trámites
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                 }
+                
                             }
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {

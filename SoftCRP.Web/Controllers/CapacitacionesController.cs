@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
@@ -65,7 +66,6 @@ namespace SoftCRP.Web.Controllers
 
             return View(model);
         }
-
         //public async Task<IActionResult> Retorno(string id)
         //{
 
@@ -96,6 +96,7 @@ namespace SoftCRP.Web.Controllers
         //}
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Renting")]
         // GET: Clientes/Create
         public async Task<IActionResult> Create()
         {
@@ -121,12 +122,46 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var files = HttpContext.Request.Form.Files;
+                List<ArchivoCapacitaciones> archivoCapacitacionesList = new List<ArchivoCapacitaciones>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                    //var stream = new FileStream(path, FileMode.Create);
+                    //photo.CopyToAsync(stream);
+                    //product.Photos.Add(photo.FileName);
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Capacitaciones");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoCapacitaciones = new ArchivoCapacitaciones
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoCapacitacionesList.Add(archivoCapacitaciones);
+                }
+
+
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+
+
+
                 var capacitacion = new Capacitacion
                 {
                     Fecha = DateTime.Now,
                     Test = model.Test,
                     tipoCapacitacionId=model.tipoCapacitacionId,
+                    archivoCapacitaciones=archivoCapacitacionesList,
                     user = user
                 };
 
@@ -164,12 +199,41 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                List<ArchivoCapacitaciones> archivoCapacitacionesList = new List<ArchivoCapacitaciones>();
+
+                foreach (IFormFile file in model.Files)
+                {
+                    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                    //var stream = new FileStream(path, FileMode.Create);
+                    //photo.CopyToAsync(stream);
+                    //product.Photos.Add(photo.FileName);
+                    var path = string.Empty;
+                    var extension = string.Empty;
+
+                    path = await _fileHelper.UploadFileAsync(file, "Capacitaciones");
+                    extension = Path.GetExtension(file.FileName);
+
+                    var archivoCapacitaciones = new ArchivoCapacitaciones
+                    {
+                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                        ArchivoPath = path,
+                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                        Fecha = DateTime.Now,
+                        tamanio = file.Length,
+                        TipoArchivo = extension,
+                        //Property = await _dataContext.Properties.FindAsync(model.Id)
+                    };
+                    archivoCapacitacionesList.Add(archivoCapacitaciones);
+                }
+
+
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var capacitacion = new Capacitacion
                 {
                     Fecha = DateTime.Now,
                     Test = model.Test,
                     tipoCapacitacionId = model.tipoCapacitacionId,
+                    archivoCapacitaciones = archivoCapacitacionesList,
                     user = user
                 };
 
@@ -182,7 +246,7 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nueva Capacitación Creado",
+                _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Capacitación Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
@@ -194,7 +258,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table></body></html>");
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }

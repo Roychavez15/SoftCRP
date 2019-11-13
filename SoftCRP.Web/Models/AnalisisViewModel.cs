@@ -10,5 +10,7 @@ namespace SoftCRP.Web.Models
     {
         public string cedula { get; set; }
         public IEnumerable<Analisis> analisis { get; set; }
+
+
     }
 }

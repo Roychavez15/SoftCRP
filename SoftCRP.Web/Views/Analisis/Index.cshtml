@@ -97,25 +97,28 @@
                                             </td>
                                             <td id="@item.Id">
                                                 @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                                {
                                                 <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                                                }
                                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a>
 
                                                 @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile" id="btnDeleteItem"><i class="fa fa-trash"></i></a>*@
                                                 @*<button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>*@
+            <i class="far fa-trash-alt"></i>
+        </button>*@
                                                 @*<button type="button" data-id="@item.Id" class="btn btn-danger deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>*@
-
-                                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
-
+            <i class="far fa-trash-alt"></i>
+        </button>*@
+                                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                                {
+                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+                                                }
                                                 @*<button type="button" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>*@
+            <i class="far fa-trash-alt"></i>
+        </button>*@
 
                                             </td>
                                         </tr>
@@ -180,7 +183,7 @@
                                 url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                             },
 
-                            //order: [[1, 'desc']]
+                            order: [[2, 'desc']]
                         });
 
                         var item_to_delete;
