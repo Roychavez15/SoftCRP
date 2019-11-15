@@ -14,5 +14,6 @@ namespace SoftCRP.Web.Repositories
         Task<Capacitacion> GetCapacitacionByIdAsync(int? id);
         int GetCountAllCapacitaciones();
 
+        Task<IEnumerable<Capacitacion>> GetCapacitacionReportesAsync(DateTime Inicio, DateTime Fin);
     }
 }

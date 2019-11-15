@@ -24,7 +24,7 @@
             <span asp-validation-for="Fecha" class="text-danger"></span>
         </div>*@
 
-                    <input type="hidden" asp-for="cedula" />
+                    <input type="hidden" asp-for="cedula" id="cedula"/>
 
                     <div class="form-group">
                         <label asp-for="PlacaId" class="control-label"></label>
@@ -90,9 +90,10 @@
                 var Via = $('#Viaobj').val();
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
+                var cedula = $('#cedula').val();
 
                 var viewModel = {
-                    "Cedula":@Model.cedula,
+                    "Cedula": cedula,
                     "PlacaId": placas,
                     "MotivoId": Motivo,
                     "SubMotivoId": SubMotivo,
@@ -104,16 +105,21 @@
 
                 var fileData = new FormData();
 
-                fileData.append("Cedula", @Model.cedula);
+                fileData.append("Cedula", cedula);
                 fileData.append("PlacaId", placas);
                 fileData.append("MotivoId", Motivo);
                 fileData.append("SubMotivoId", SubMotivo);
                 fileData.append("ViaIngresoId", Via);
                 fileData.append("Observaciones", Obs);
 
-                for (var i = 0; i < files.length; i++) {
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
 
-                    fileData.append("Files", files[i]);
+                        fileData.append("Files", files[i]);
+                    }
+                }
+                else {
+                    fileData.append("Files", '');
                 }
 
                 swal({
@@ -135,8 +141,8 @@
 
                                 $.ajax({
                                 type: 'post',
-                                //url: '/SoftCRPWeb/Novedades/Crear',
-                                url: '/Novedades/Crear',
+                                url: '/SoftCRPWeb/Novedades/Crear',
+                                //url: '/Novedades/Crear',
                                 //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
                                 data:fileData,
                                 //dataType: 'json',

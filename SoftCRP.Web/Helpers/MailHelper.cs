@@ -63,10 +63,12 @@ namespace SoftCRP.Web.Helpers
                 HtmlBody = body
 
             };
-
-            foreach (IFormFile file in files)
+            if (files!=null)
             {
-                bodyBuilder.Attachments.Add(file.FileName, file.OpenReadStream());
+                foreach (IFormFile file in files)
+                {
+                    bodyBuilder.Attachments.Add(file.FileName, file.OpenReadStream());
+                }
             }
             message.Body = bodyBuilder.ToMessageBody();
             //message.Attachments = bodyBuilder.Attachments.;

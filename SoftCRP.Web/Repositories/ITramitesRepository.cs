@@ -12,5 +12,6 @@ namespace SoftCRP.Web.Repositories
         Task<TramitesViewModel> GetTramiteAsync(string cedula);
         Task<Tramite> GetTramiteByIdAsync(int? id);
         int GetCountAllTramites(string nit);
+        Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin);
     }
 }

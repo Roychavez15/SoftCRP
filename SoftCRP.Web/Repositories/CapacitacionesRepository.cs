@@ -59,5 +59,17 @@ namespace SoftCRP.Web.Repositories
 
             return capacitacion;
         }
+
+        public async Task<IEnumerable<Capacitacion>> GetCapacitacionReportesAsync(DateTime Inicio, DateTime Fin)
+        {
+
+            var capacitacion = await _dataContext.capacitaciones
+                .Include(t => t.tipoCapacitacion)
+                .Include(a => a.archivoCapacitaciones)
+                .Include(u => u.user)
+                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+
+            return capacitacion;
+        }
     }
 }
