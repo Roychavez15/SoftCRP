@@ -210,32 +210,33 @@ namespace SoftCRP.Web.Controllers
             if (ModelState.IsValid)
             {
                 List<ArchivoAnalisis> archivoAnalises = new List<ArchivoAnalisis>();
-
-                foreach (IFormFile file in model.Files)
+                if (model.Files != null)
                 {
-                    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
-                    //var stream = new FileStream(path, FileMode.Create);
-                    //photo.CopyToAsync(stream);
-                    //product.Photos.Add(photo.FileName);
-                    var path = string.Empty;
-                    var extension = string.Empty;
-
-                    path = await _fileHelper.UploadFileAsync(file, "Analisis");
-                    extension = Path.GetExtension(file.FileName);
-
-                    var archivoAnalisis = new ArchivoAnalisis
+                    foreach (IFormFile file in model.Files)
                     {
-                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
-                        ArchivoPath = path,
-                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
-                        Fecha = DateTime.Now,
-                        tamanio = file.Length,
-                        TipoArchivo = extension,
-                        //Property = await _dataContext.Properties.FindAsync(model.Id)
-                    };
-                    archivoAnalises.Add(archivoAnalisis);
-                }
+                        //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                        //var stream = new FileStream(path, FileMode.Create);
+                        //photo.CopyToAsync(stream);
+                        //product.Photos.Add(photo.FileName);
+                        var path = string.Empty;
+                        var extension = string.Empty;
 
+                        path = await _fileHelper.UploadFileAsync(file, "Analisis");
+                        extension = Path.GetExtension(file.FileName);
+
+                        var archivoAnalisis = new ArchivoAnalisis
+                        {
+                            //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                            ArchivoPath = path,
+                            user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                            Fecha = DateTime.Now,
+                            tamanio = file.Length,
+                            TipoArchivo = extension,
+                            //Property = await _dataContext.Properties.FindAsync(model.Id)
+                        };
+                        archivoAnalises.Add(archivoAnalisis);
+                    }
+                }
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
                 var analisis = new Analisis
                 {
@@ -257,6 +258,9 @@ namespace SoftCRP.Web.Controllers
                 var emails = "roy_chavez15@hotmail.com";
 
                 //TODO: cambiar direccion de correo
+
+
+
                 _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Analisis Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +

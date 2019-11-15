@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <input type="hidden" asp-for="cedula" />
+                    <input type="hidden" asp-for="cedula" id="cedula"/>
 
                     <div class="form-group">
                         <label asp-for="PlacaId" class="control-label"></label>
@@ -77,9 +77,10 @@
                 var Mes = $('#Mesobj').val();
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
+                var cedula = $('#cedula').val();
 
                 var viewModel = {
-                    "Cedula":@Model.cedula,
+                    "Cedula": cedula,
                     "PlacaId": placas,
                     "TipoTramiteId": Tipo,
                     "MesId": Mes,
@@ -91,16 +92,22 @@
 
                 var fileData = new FormData();
 
-                fileData.append("Cedula", @Model.cedula);
+                fileData.append("Cedula", cedula);
                 fileData.append("PlacaId", placas);
                 fileData.append("TipoTramiteId", Tipo);
                 fileData.append("MesId", Mes);
                 fileData.append("AnioId", Anio);
                 fileData.append("Observaciones", Obs);
-               
-                for (var i = 0; i < files.length; i++) {
 
-                    fileData.append("Files", files[i]);
+
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+
+                        fileData.append("Files", files[i]);
+                    }
+                }
+                else {
+                    fileData.append("Files", null);
                 }
 
                 swal({
