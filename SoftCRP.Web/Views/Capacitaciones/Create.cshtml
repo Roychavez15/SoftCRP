@@ -106,9 +106,29 @@
                 fileData.append("tipoCapacitacionId", Tipo);
                 fileData.append("Test", Obs);
                
-                for (var i = 0; i < files.length; i++) {
+                var FileSize = 0; // in MB
+                debugger;
 
-                    fileData.append("Files", files[i]);
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+
+                        fileData.append("Files", files[i]);
+                        FileSize = FileSize + files[i].size / 1024 / 1024; // in MB
+                    }
+                }
+                else {
+                    fileData.append("Files", '');
+                }
+                if (files.length > 5) {
+                    swal("Error Carga de Archivo!", "No se puede anexar mas de 5 archivos", "error");                                        
+                    return false;
+                }
+                
+
+                if (FileSize >= 4) {
+                    swal("Error Carga de Archivo!", "El tamaño total de los archivos supera el limite permitido " + FileSize.toString() + " MB", "error");                                        
+                    return false;
+
                 }
 
                 var viewModel = {
