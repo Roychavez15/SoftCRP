@@ -14,15 +14,15 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     @*<div class="form-group">
-            <label asp-for="Placa" class="control-label"></label>
-            <input asp-for="Placa" class="form-control" />
-            <span asp-validation-for="Placa" class="text-danger"></span>
-        </div>*@
+                            <label asp-for="Placa" class="control-label"></label>
+                            <input asp-for="Placa" class="form-control" />
+                            <span asp-validation-for="Placa" class="text-danger"></span>
+                        </div>*@
                     @*<div class="form-group">
-            <label asp-for="Fecha" class="control-label"></label>
-            <input asp-for="Fecha" class="form-control" />
-            <span asp-validation-for="Fecha" class="text-danger"></span>
-        </div>*@
+                            <label asp-for="Fecha" class="control-label"></label>
+                            <input asp-for="Fecha" class="form-control" />
+                            <span asp-validation-for="Fecha" class="text-danger"></span>
+                        </div>*@
 
                     <input type="hidden" asp-for="cedula" />
 
@@ -52,8 +52,8 @@
                 </div>
                 <div class="card-footer">
 
-                                <button type="submit" id ="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
-                                <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    <button type="submit" id ="btnsubmit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Crear</button>
+                    <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
 
                 </div>
             </form>
@@ -93,7 +93,7 @@
                 fileData.append("PlacaId", placas);
                 fileData.append("tipoAnalisisId", Tipo);
                 fileData.append("Observaciones", Obs);
-               
+
                 for (var i = 0; i < files.length; i++) {
 
                     fileData.append("Files", files[i]);
@@ -112,14 +112,14 @@
                         showLoaderOnConfirm: true,
                     },
                     function (isConfirm) {
-                        
+
                         if (isConfirm) {
-                        
+
                                 $.ajax({
                                 type: 'POST',
                                 //url: '/Analisis/Crear',
                                 url: '/SoftCRPWeb/Analisis/Crear',
-                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model               
+                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
                                 data:fileData,
                                 //dataType: 'json',
                                 contentType: false,
@@ -130,9 +130,9 @@
                                     //console.log(result.statusText);
                                     console.log(textStatus);
                                     if (result) {
-                                        swal("Buen trabajo!","Registro Creado", "success");                                        
-                                        window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';                                     
-                                        //window.location.href = '/Analisis/Retorno/@Model.cedula';                                     
+                                        swal("Buen trabajo!","Registro Creado", "success");
+                                        window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
+                                        //window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     }
                                     else {
                                         swal('No se pudo crear','warning');
@@ -146,11 +146,11 @@
                                     window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
                                     //window.location.href = '/Analisis/Retorno/@Model.cedula';
                                     return false;
-                                    
+
                                     }
                                 });
 
-                            
+
                             @*swal('Registro Creado', 'success');
                             window.location.href = '/Analisis/Retorno/@Model.cedula';
                             return false*@
@@ -159,14 +159,14 @@
                             swal("Cancelar", "Crear cancelado :)", "error");
                             return false
                         }
-                
+
                     });
-                   
+
                     return false
             });
 
         });
-       
+
     </script>
 
 
