@@ -171,10 +171,12 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.tramites.Add(tramite);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
-                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoTramite = await _dataContext.tipoTramites.FindAsync(model.TipoTramiteId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",
@@ -245,10 +247,12 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.tramites.Add(tramite);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
-                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoTramite = await _dataContext.tipoTramites.FindAsync(model.TipoTramiteId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",

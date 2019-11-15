@@ -24,11 +24,22 @@ namespace SoftCRP.Web.Helpers
             var smtp = _configuration["Mail:Smtp"];
             var port = _configuration["Mail:Port"];
             var password = _configuration["Mail:Password"];
+            var emaildefault = _configuration["Mail:default"];
+
+            string[] Multiple = to.Split(',');
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(from));
-            message.To.Add(new MailboxAddress(to));
-           
+
+            message.To.Add(new MailboxAddress(emaildefault));
+            
+            
+
+            foreach (string multiple_email in Multiple)
+            {
+                message.To.Add(new MailboxAddress(multiple_email));
+            }
+
             message.Subject = subject;
             var bodyBuilder = new BodyBuilder
             {
@@ -52,10 +63,18 @@ namespace SoftCRP.Web.Helpers
             var smtp = _configuration["Mail:Smtp"];
             var port = _configuration["Mail:Port"];
             var password = _configuration["Mail:Password"];
+            var emaildefault = _configuration["Mail:default"];
+
+            string[] Multiple = to.Split(',');
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(from));
-            message.To.Add(new MailboxAddress(to));
+
+            message.To.Add(new MailboxAddress(emaildefault));
+            foreach (string multiple_email in Multiple)
+            {
+                message.To.Add(new MailboxAddress(multiple_email));
+            }
 
             message.Subject = subject;
             var bodyBuilder = new BodyBuilder

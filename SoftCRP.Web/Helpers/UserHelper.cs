@@ -59,6 +59,11 @@ namespace SoftCRP.Web.Helpers
         {            
             return await _userManager.FindByEmailAsync(email); ;
         }
+        public async Task<User> GetUserByCedulaAsync(string cedula)
+        {
+            //return await _userManager.FindByEmailAsync(email); ;
+            return await _userManager.Users.Where(c => c.Cedula == cedula).FirstOrDefaultAsync();
+        }
         public async Task<User> GetUserByIdAsync(string Id)
         {
             return await _userManager.FindByIdAsync(Id); ;

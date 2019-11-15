@@ -163,6 +163,7 @@ namespace SoftCRP.Web.Controllers
                 }
 
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                
                 var analisis = new Analisis
                 {
                     Cedula = model.cedula,
@@ -177,10 +178,12 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
-                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                //var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
                 var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Analisis Creado", 
@@ -252,10 +255,12 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
-                var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                
                 var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email+','+datos.Email;
 
                 //TODO: cambiar direccion de correo
 

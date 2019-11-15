@@ -171,7 +171,9 @@ namespace SoftCRP.Web.Controllers
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoCapacitacion = await _dataContext.tipoCapacitaciones.FindAsync(model.tipoCapacitacionId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                //var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMail(emails, "SoftCRP Nueva Capacitación Creado",
@@ -243,7 +245,9 @@ namespace SoftCRP.Web.Controllers
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoCapacitacion = await _dataContext.tipoCapacitaciones.FindAsync(model.tipoCapacitacionId);
 
-                var emails = "roy_chavez15@hotmail.com";
+                //var emails = "roy_chavez15@hotmail.com";
+                //var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Capacitación Creado",
