@@ -48,5 +48,7 @@ namespace SoftCRP.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? FechaSolucion { get; set; }
         //public DateTime? FechaLocalSolucion => FechaSolucion.ToLocalTime();
+
+        public ICollection<LogNovedad> logNovedades { get; set; }
     }
 }

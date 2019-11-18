@@ -3,113 +3,113 @@
 @{
     ViewData["Title"] = "Details";
 }
-    <div class="row" align="left">
-        <div align="left" class="col-md-6">
-            <div class="card card-info">
-                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                    <h2 class="card-title" style="font-style:oblique"><b>DETALLES NOVEDAD</b></h2>
-                </div>
+<div class="row" align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><b>DETALLES NOVEDAD</b></h2>
+            </div>
 
-                <div class="card-body">
+            <div class="card-body">
 
-                    <dl class="dl-horizontal">
-                        <dt>
-                            Motivo
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Motivo)
-                        </dd>
-                        <dt>
-                            SubMotivo
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.SubMotivo)
-                        </dd>
-                        <dt>
-                            Vía Ingreso
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.ViaIngreso)
-                        </dd>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Motivo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Motivo)
+                    </dd>
+                    <dt>
+                        SubMotivo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.SubMotivo)
+                    </dd>
+                    <dt>
+                        Vía Ingreso
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ViaIngreso)
+                    </dd>
 
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Placa)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Placa)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Fecha)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Fecha)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Observaciones)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Observaciones)
-                        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Placa)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Placa)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Fecha)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Fecha)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Observaciones)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Observaciones)
+                    </dd>
 
 
-                    </dl>
-                </div>
+                </dl>
             </div>
         </div>
-
-        <div align="left" class="col-md-6">
-            <div class="card card-info">
-                <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                    <h2 class="card-title" style="font-style:oblique"><b>SOLUCION NOVEDAD</b></h2>
-                </div>
-
-                <div class="card-body">
-
-                    <dl class="dl-horizontal">
-                        <dt>
-                            Estado
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.EstadoSolucion)
-                        </dd>
-                        <dt>
-                            Solución
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Solucion)
-                        </dd>
-                        <dt>
-                            Fecha
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.FechaSolucion)
-                        </dd>
-                        <dt>
-                            Usuario Solución
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.userSolucion.FullName)
-                        </dd>
-
-                    </dl>
-                </div>
-
-
-
-
-            </div>
-        </div>
-
-        <div class="card-footer">
-            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
-            {
-                <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-edit"></i>&nbsp;Editar</a>
-            }
-                @*<a asp-action="Index">Back to List</a>*@
-                <a asp-action="Retorno" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn" asp-route-id="@Model.Cedula"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
-            </div>
-
     </div>
+
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><b>SOLUCION NOVEDAD</b></h2>
+            </div>
+
+            <div class="card-body">
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        Estado
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.EstadoSolucion)
+                    </dd>
+                    <dt>
+                        Solución
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Solucion)
+                    </dd>
+                    <dt>
+                        Fecha
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FechaSolucion)
+                    </dd>
+                    <dt>
+                        Usuario Solución
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.userSolucion.FullName)
+                    </dd>
+
+                </dl>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="card-footer">
+        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-edit"></i>&nbsp;Editar</a>
+        }
+        @*<a asp-action="Index">Back to List</a>*@
+        <a asp-action="Retorno" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn" asp-route-id="@Model.Cedula"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+    </div>
+
+</div>
 
 <hr />
 
@@ -197,8 +197,8 @@
                                         </div>
 
                                         @*<button type="button" data-id="@item.Id" class="btn btn-danger btn-sm deletefile" data-toggle="modal" data-target="#deleteDialog">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>*@
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>*@
 
 
                                         @*<a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>*@
@@ -219,8 +219,64 @@
 </div>
 
 
+<div class="col-md-12 col-sm-6">
+    <div class="card">
+        <div class="card-header" style="background-color:#002D73; color:#ffffff;">
+            <h2 class="card-title" style="font-style:oblique"><b>LOGS DE PROCESO DE NOVEDAD</b></h2>
+        </div>
+
+        <div class="card-body">
 
 
+
+            @if (Model.logNovedades.Count == 0)
+            {
+                <h5>No contiene logs</h5>
+            }
+            else
+            {
+                <table class="table table-bordered table-striped" id="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Observacion
+                            </th>
+                            <th>
+                                Usuario
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.logNovedades)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fecha)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Observaciones)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Usuario.FullName)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
 
 
 <!--Delete Item-->
@@ -246,30 +302,55 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
 
     <script type="text/javascript">
-                    $(document).ready(function () {
-                        // Delete item
-                        var item_to_delete;
-                        var action_to_delete;
+        $(document).ready(function () {
 
-                        $('.deletefile').click((e) => {
-                            item_to_delete = e.currentTarget.dataset.id;
-                            action_to_delete = 1;
-                        });
+            var table = $("#table").DataTable({
+                autoFill: true,
+                paging: true,
+                lengthChange: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false,
+                responsive: true,
+                processing: true,
 
-                        $('.deleteContract').click((e) => {
-                            item_to_delete = e.currentTarget.dataset.id;
-                            action_to_delete = 2;
-                        });
+                language: {
 
-                        $("#btnYesDelete").click(function () {
-                            if (action_to_delete == 1) {
-                                window.location.href = '/SoftCRPWeb/Novedades/DeleteFile/' + item_to_delete;
-                            } else {
-                                window.location.href = '/Owners/DeleteContract/' + item_to_delete;
-                            }
-                        });
-                    });
+                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
+
+                order: [[1, 'desc']]
+            });
+
+            // Delete item
+            var item_to_delete;
+            var action_to_delete;
+
+            $('.deletefile').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 1;
+            });
+
+            $('.deleteContract').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+                action_to_delete = 2;
+            });
+
+            $("#btnYesDelete").click(function () {
+                if (action_to_delete == 1) {
+                    window.location.href = '/SoftCRPWeb/Novedades/DeleteFile/' + item_to_delete;
+                } else {
+                    window.location.href = '/Owners/DeleteContract/' + item_to_delete;
+                }
+            });
+        });
     </script>
 }

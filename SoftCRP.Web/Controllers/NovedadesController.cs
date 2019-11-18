@@ -162,6 +162,7 @@ namespace SoftCRP.Web.Controllers
                 var novedad = new Novedad
                 {
                     Cedula = model.cedula,
+                    EstadoSolucion = "PENDIENTE",
                     Fecha = DateTime.Now,
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
@@ -173,6 +174,18 @@ namespace SoftCRP.Web.Controllers
                 };
 
                 _dataContext.novedades.Add(novedad);
+                await _dataContext.SaveChangesAsync();
+
+
+                var lognovedad = new LogNovedad
+                {
+                    Estado = "PENDIENTE",
+                    Fecha = DateTime.Now,
+                    Usuario = user,
+                    novedad = novedad,
+                    Observaciones = model.Observaciones,
+                };
+                _dataContext.logNovedades.Add(lognovedad);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
@@ -239,18 +252,31 @@ namespace SoftCRP.Web.Controllers
                 var novedad = new Novedad
                 {
                     Cedula = model.cedula,
+                    EstadoSolucion="PENDIENTE",
                     Fecha = DateTime.Now,
                     Observaciones = model.Observaciones,
                     Placa = model.PlacaId,
                     Motivo = model.MotivoId,
                     SubMotivo = model.SubMotivoId,
                     ViaIngreso = model.ViaIngresoId,
-                    archivoNovedades=archivoNovedadesList,
+                    archivoNovedades=archivoNovedadesList,                    
                     user = user
                 };
 
                 _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
+
+                var lognovedad = new LogNovedad
+                {
+                    Estado="PENDIENTE",
+                    Fecha=DateTime.Now,
+                    Usuario=user,
+                    novedad=novedad,
+                    Observaciones= model.Observaciones,
+                };
+                _dataContext.logNovedades.Add(lognovedad);
+                await _dataContext.SaveChangesAsync();
+
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 //var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
@@ -358,6 +384,17 @@ namespace SoftCRP.Web.Controllers
                 try
                 {
                     _dataContext.Update(novedad);
+                    await _dataContext.SaveChangesAsync();
+
+                    var lognovedad = new LogNovedad
+                    {
+                        novedad = novedad,
+                        Estado=model.EstadoId,
+                        Usuario=novedad.userSolucion,
+                        Fecha=DateTime.Now,
+                        Observaciones = model.Solucion,
+                    };
+                    _dataContext.logNovedades.Add(lognovedad);
                     await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

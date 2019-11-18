@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191118174313_fixlognov")]
+    partial class fixlognov
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,8 +325,6 @@ namespace SoftCRP.Web.Migrations
                     b.Property<string>("Estado");
 
                     b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("Observaciones");
 
                     b.Property<string>("UsuarioId");
 
@@ -670,7 +670,7 @@ namespace SoftCRP.Web.Migrations
                         .HasForeignKey("UsuarioId");
 
                     b.HasOne("SoftCRP.Web.Data.Entities.Novedad", "novedad")
-                        .WithMany("logNovedades")
+                        .WithMany()
                         .HasForeignKey("novedadId");
                 });
 

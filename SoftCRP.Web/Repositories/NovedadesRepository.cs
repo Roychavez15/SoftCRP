@@ -50,6 +50,7 @@ namespace SoftCRP.Web.Repositories
                 .Include(a => a.archivoNovedades)
                 .Include(u => u.user)
                 .Include(us => us.userSolucion)
+                .Include(l=>l.logNovedades)
                 .Where(c => c.Id == id).FirstOrDefaultAsync();
 
             return novedad;
@@ -59,7 +60,7 @@ namespace SoftCRP.Web.Repositories
 
             var novedad = _dataContext.novedades
                 //.Where(c => c.Cedula == nit);
-                .Where(s => s.EstadoSolucion == null && s.Cedula == nit).Count();
+                .Where(s => (s.EstadoSolucion == null || s.EstadoSolucion == "PENDIENTE") && s.Cedula == nit).Count();
 
             return novedad;
         }

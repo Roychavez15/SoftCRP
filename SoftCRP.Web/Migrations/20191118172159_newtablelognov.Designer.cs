@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191118172159_newtablelognov")]
+    partial class newtablelognov
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,19 +322,9 @@ namespace SoftCRP.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Estado");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("Observaciones");
-
-                    b.Property<string>("UsuarioId");
-
                     b.Property<int?>("novedadId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.HasIndex("novedadId");
 
@@ -665,12 +657,8 @@ namespace SoftCRP.Web.Migrations
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.LogNovedad", b =>
                 {
-                    b.HasOne("SoftCRP.Web.Data.Entities.User", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
-
                     b.HasOne("SoftCRP.Web.Data.Entities.Novedad", "novedad")
-                        .WithMany("logNovedades")
+                        .WithMany()
                         .HasForeignKey("novedadId");
                 });
 
