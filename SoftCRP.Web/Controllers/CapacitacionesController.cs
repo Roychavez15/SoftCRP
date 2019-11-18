@@ -176,14 +176,14 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMail(emails, "SoftCRP Nueva Capacitación Creado",
+                _mailHelper.SendMail(emails, "Plataforma Clientes Nueva Capacitación Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>SoftCRP Nueva Capacitación</h1>" +
+                    $"<h1>Plataforma Clientes Nueva Capacitación</h1>" +
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +                    
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +
@@ -250,14 +250,14 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Capacitación Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes Nueva Capacitación Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>SoftCRP Nueva Capacitación</h1>" +
+                    $"<h1>Plataforma Clientes Nueva Capacitación</h1>" +
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +

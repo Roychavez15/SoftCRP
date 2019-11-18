@@ -179,14 +179,14 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes Nuevo Tramite Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>SoftCRP Nuevo Trámite</h1>" +
+                    $"<h1>Plataforma Clientes Nuevo Trámite</h1>" +
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoTramite.Tipo}</td></tr>" +
@@ -255,14 +255,14 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMailAttachment(emails, "SoftCRP Nuevo Tramite Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes Nuevo Tramite Creado",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>SoftCRP Nuevo Trámite</h1>" +
+                    $"<h1>Plataforma Clientes Nuevo Trámite</h1>" +
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoTramite.Tipo}</td></tr>" +

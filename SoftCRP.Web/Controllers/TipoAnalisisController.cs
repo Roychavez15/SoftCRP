@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SoftCRP.Web.Data.Entities;
 
 namespace SoftCRP.Web.Controllers
 {
+    [Authorize(Roles = "Admin,Renting")]
     public class TipoAnalisisController : Controller
     {
         private readonly DataContext _context;
@@ -20,6 +22,7 @@ namespace SoftCRP.Web.Controllers
         }
 
         // GET: TipoAnalisis
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.TiposAnalisis.ToListAsync());

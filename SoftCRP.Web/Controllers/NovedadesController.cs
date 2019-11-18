@@ -396,6 +396,30 @@ namespace SoftCRP.Web.Controllers
                     };
                     _dataContext.logNovedades.Add(lognovedad);
                     await _dataContext.SaveChangesAsync();
+
+                    //////
+                    var datos = await _userHelper.GetUserByCedulaAsync(novedad.Cedula);
+                    var emails = novedad.userSolucion.Email + ',' + datos.Email;
+
+                    //TODO: cambiar direccion de correo
+                    _mailHelper.SendMail(emails, "Plataforma Clientes -- Actualización Novedad",
+                        $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
+                        $"<head>" +
+                        $"<title>" +
+                        $"</title>" +
+                        $"</head>" +
+                        $"<body>" +
+                        $"<h1>Plataforma Clientes Actualización Novedad</h1>" +
+                        $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
+                        $"<tr><td style='font-weight:bold'>Placa</td><td>{novedad.Placa}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Motivo</td><td>{novedad.Motivo}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>SubMotivo</td><td>{novedad.SubMotivo}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{novedad.ViaIngreso}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Estado</td><td>{model.EstadoId}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Solución</td><td>{model.Solucion}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Actualizado por</td><td>{novedad.userSolucion.FullName}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.FechaSolucion}</td></tr></table></body></html>");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
