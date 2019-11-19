@@ -157,7 +157,10 @@ namespace SoftCRP.Web.Controllers
 
                     pathFoto = $"~/images/Usuarios/{file}";
                 }
-
+                //else
+                //{
+                //    pathFoto = $"~/images/usuario.jpg";
+                //}
                 //var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 var user = await _userHelper.GetUserAsync(model.Username);
                 

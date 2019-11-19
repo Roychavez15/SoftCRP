@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using SoftCRP.Web.Models
+@*@inject UserManager<ApplicationUser> userManager*@
+
+<!DOCTYPE html>
 <html>
 
 @*<head>
@@ -155,24 +159,24 @@
     <script src="~/js/dropzone.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-        <div class="wrapper">
+    <div class="wrapper">
 
-            <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-                <!-- Left navbar links -->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-                    </li>
-                    <li class="nav-item d-none d-sm-inline-block">
-                        @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SoftCRP</a>*@
-                        <img src="~/images/RPvF.png" width="130" alt="Renting Logo">
-                    </li>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SoftCRP</a>*@
+                    <img src="~/images/RPvF.png" width="130" alt="Renting Logo">
+                </li>
 
-                </ul>
+            </ul>
 
-                <!-- Right navbar links -->
-                @*<ul class="navbar-nav ml-auto">
+            <!-- Right navbar links -->
+            @*<ul class="navbar-nav ml-auto">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
@@ -183,9 +187,9 @@
                     }
                 </ul>*@
 
-                <ul class="navbar-nav ml-auto" >
-                    <!-- Messages Dropdown Menu -->
-                    @*<li class="nav-item dropdown">
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
+                @*<li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-comments"></i>
                             <span class="badge badge-danger navbar-badge">3</span>
@@ -256,8 +260,7 @@
                                 <span class="float-right text-muted text-sm">3 mins</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" cl
-                        ass="dropdown-item">
+                            <a href="#" class="dropdown-item">
                                 <i class="fas fa-users mr-2"></i> 8 friend requests
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
@@ -271,17 +274,17 @@
                         </div>
                     </li>*@
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
+                @if (User.Identity.IsAuthenticated)
+                {
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >
-                            <img src="@Url.Content($"{"~/images/Usuarios/<"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image">
-                            <span class="d-none d-md-inline" >@User.Identity.Name</span>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="@User.Identity.Name" onerror="this.onerror=null;this.src='http://181.112.216.3/softcrpweb/images/user.png';">
+                            <span class="d-none d-md-inline">@User.Identity.Name</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <!-- User image -->
                             <li class="user-header" style="background-color:#002D73; border:5px">
-                                <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="img-circle elevation-2" alt="User Image">
+                                <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="img-circle elevation-2" alt="@User.Identity.Name" onerror="this.onerror=null;this.src='http://181.112.216.3/softcrpweb/images/user.png';">
 
                                 <p style="color:white">
                                     @User.Identity.Name
@@ -291,69 +294,69 @@
                             <!-- Menu Body -->
                             <li class="user-body">
                                 @*<div class="row">
-                                    <div class="col-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>*@
+                                        <div class="col-4 text-center">
+                                            <a href="#">Followers</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Sales</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Friends</a>
+                                        </div>
+                                    </div>*@
                                 <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
-                            <li class="user-footer" >
+                            <li class="user-footer">
                                 @*<a href="#" class="btn btn-default btn-flat">Profile</a>
-                                <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>*@
+                                    <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>*@
                                 <a asp-area="" asp-controller="Account" asp-action="ChangeUser" class="btn btn-default btn-flat float-left">Perfil</a>
-                                <a asp-area="" asp-controller="Account" asp-action="Logout"   class="btn btn-default btn-flat float-right"><i class="fa fa-sign-out">&nbsp;</i>Logout</a>
+                                <a asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat float-right"><i class="fa fa-sign-out">&nbsp;</i>Logout</a>
                             </li>
                         </ul>
                     </li>
 
-            }
-            else
-            {
+                }
+                else
+                {
                     <li class="nav-item">
                         <a asp-area="" class="nav-link" asp-controller="Account" asp-action="Login">
                             <i class="fas fa-sign-in"></i>
                             Login
                         </a>
                     </li>
-            }
-                    @*<li class="nav-item">
+                }
+                @*<li class="nav-item">
                         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
                             <i class="fas fa-th-large"></i>
                         </a>
                     </li>*@
 
 
-                </ul>
+            </ul>
 
-            </nav>
-            <!-- /.navbar -->
-            <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#000F44; color:white">
-                <!-- Brand Logo -->
-                @*<a href="#" class="brand-link">
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#000F44; color:white">
+            <!-- Brand Logo -->
+            @*<a href="#" class="brand-link">
                     <img src="~/node_modules/AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                          style="opacity: .8">
                     <span class="brand-text font-weight-light">SoftCRP</span>
                 </a>*@
-                <a asp-area="" class="brand-link" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/IconoRP.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-                    <span class="brand-text font-weight-light" style="color:#ffffff; font-style:oblique"><b>Plataforma Clientes</b></span>
-                    @*<img src="~/images/Renting_Pichincha.png" width="230" height="50"
+            <a asp-area="" class="brand-link" asp-controller="Home" asp-action="Index">
+                <img src="~/images/IconoRP.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+                <span class="brand-text font-weight-light" style="color:#ffffff; font-style:oblique"><b>Plataforma Clientes</b></span>
+                @*<img src="~/images/Renting_Pichincha.png" width="230" height="50"
                     style="opacity: .8">*@
-                </a>
+            </a>
 
-                <!-- Sidebar -->
-                <div class="sidebar">
-                    <!-- Sidebar user panel (optional) -->
-                    @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="image">
@@ -365,245 +368,259 @@
                         }
                     </div>*@
 
-                    <!-- Sidebar Menu -->
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            @*<li class="nav-item">
-            <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
-                <i class="nav-icon fas fa-th"></i>
-                Clientes
-            </a>
-        </li>*@
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        @*<li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-th"></i>
+                                    Clientes
+                                </a>
+                            </li>*@
 
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Account" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-user"></i>
-                                        Usuarios
-                                    </a>
-                                </li>
-                            }
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Account" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    Usuarios
+                                </a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
 
-                                <li class="nav-item">
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="IndexLista" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-th"></i>
-                                            Información General
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-th"></i>
-                                            Información General
-                                        </a>
-                                    }
-                                </li>
-                                <li class="nav-item">
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="IndexLista" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-server"></i>
-                                            Análisis de su Flota
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="Index" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-server"></i>
-                                            Análisis de su Flota
-                                        </a>
-                                    }
-                                </li>
-                                <li class="nav-item">
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="IndexLista" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-map-marked-alt"></i>
-                                            Seguimiento de novedades
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="Index" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-map-marked-alt"></i>
-                                            Seguimiento de novedades
-                                        </a>
-                                    }
-                                </li>
-                                <li class="nav-item">
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="IndexLista" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-paste"></i>
-                                            Trámites
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="Index" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-paste"></i>
-                                            Trámites
-                                        </a>
-                                    }
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Capacitaciones" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-street-view"></i>
-                                        Capacitaciones Renting
-                                    </a>
-                                </li>
-                                @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                 {
-                                    @*<li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="IndexLista" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        Información General
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Informacion" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-th"></i>
+                                        Información General
+                                    </a>
+                                }
+                            </li>
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="IndexLista" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-server"></i>
+                                        Análisis de su Flota
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Analisis" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-server"></i>
+                                        Análisis de su Flota
+                                    </a>
+                                }
+                            </li>
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="IndexLista" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-map-marked-alt"></i>
+                                        Seguimiento de novedades
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Novedades" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-map-marked-alt"></i>
+                                        Seguimiento de novedades
+                                    </a>
+                                }
+                            </li>
+                            <li class="nav-item">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="IndexLista" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-paste"></i>
+                                        Trámites
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-area="" class="nav-link" asp-controller="Tramites" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-paste"></i>
+                                        Trámites
+                                    </a>
+                                }
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Capacitaciones" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-street-view"></i>
+                                    Capacitaciones Renting
+                                </a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                            {
+                                @*<li class="nav-item">
                                         <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
                                             <i class="nav-icon fas fa-chart-line"></i>
                                             Reportes
                                         </a>
                                     </li>*@
-                                    <li class="nav-item has-treeview">
-                                        <a href="#" class="nav-link" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-chart-line"></i>                                            
-                                            Reportes
-                                            <i class="right fas fa-angle-left"></i>
-                                            
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexAnalisis" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Análisis
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexCapacitaciones" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Capacitaciónes
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexNovedades" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Novedades
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexTramites" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Trámites
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                 }
-                
-                            }
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <li class="nav-header">Configuraciones</li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-v"></i>
-                                        <p>Tipos Análisis</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoTramites" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-v"></i>
-                                        <p>Tipos Trámites</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-v"></i>
-                                        <p>Tipos Capacitaciones</p>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
-                    <!-- /.sidebar-menu -->
-                </div>
-                <!-- /.sidebar -->
-            </aside>
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        Reportes
+                                        <i class="right fas fa-angle-left"></i>
 
-            <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <br />
-                <!-- Content Header (Page header) -->
-                @*<div class="container-fluid">
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexAnalisis" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Análisis
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexCapacitaciones" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Capacitaciónes
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexNovedades" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Novedades
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexTramites" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Trámites
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-header">Configuraciones</li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-chart-line"></i>
+                                    <p>Tipos Análisis</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoTramites" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-chart-line"></i>
+                                    <p>Tipos Trámites</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fas fa-chart-line"></i>
+                                    <p>Tipos Capacitaciones</p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <br />
+            <!-- Content Header (Page header) -->
+            @*<div class="container-fluid">
 
                 </div>*@
-                <!-- /.content-header -->
-                <!-- Main content -->
-                @*<partial name="_CookieConsentPartial" />*@
-                <section class="content">
-                    <partial name="_NotificationPanel" />
-                    <div class="container-fluid">
-                        @RenderBody()
-                        <!-- /.row (main row) -->
-                    </div><!-- /.container-fluid -->
-                </section>
-                <!-- /.content -->
-            </div>
-            <!-- /.content-wrapper -->
-            <footer class="main-footer">
-                <strong>Copyright &copy; 2019 Zeebra</strong>
-                All rights reserved.
-                <div class="float-right d-none d-sm-inline-block">
-                    <b>Version</b> 1.0
-                </div>
-            </footer>
-
-            <!-- Control Sidebar -->
-            <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
-            </aside>
-            <!-- /.control-sidebar -->
+            <!-- /.content-header -->
+            <!-- Main content -->
+            @*<partial name="_CookieConsentPartial" />*@
+            <section class="content">
+                <partial name="_NotificationPanel" />
+                <div class="container-fluid">
+                    @RenderBody()
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- ./wrapper -->
-        <!-- jQuery -->
-        <script src="~/node_modules/AdminLTE/plugins/jquery/jquery.min.js"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="~/node_modules/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <script>
-            $.widget.bridge('uibutton', $.ui.button)
-        </script>
-        <!-- Bootstrap 4 -->
-        <script src="~/node_modules/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- ChartJS -->
-        <script src="~/node_modules/AdminLTE/plugins/chart.js/Chart.min.js"></script>
-        <!-- Sparkline -->
-        <script src="~/node_modules/AdminLTE/plugins/sparklines/sparkline.js"></script>
-        <!-- JQVMap -->
-        <script src="~/node_modules/AdminLTE/plugins/jqvmap/jquery.vmap.min.js"></script>
-        <script src="~/node_modules/AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-        <!-- jQuery Knob Chart -->
-        <script src="~/node_modules/AdminLTE/plugins/jquery-knob/jquery.knob.min.js"></script>
-        <!-- daterangepicker -->
-        <script src="~/node_modules/AdminLTE/plugins/moment/moment.min.js"></script>
-        <script src="~/node_modules/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
-        <!-- Tempusdominus Bootstrap 4 -->
-        <script src="~/node_modules/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-        <!-- Summernote -->
-        <script src="~/node_modules/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>
-        <!-- overlayScrollbars -->
-        <script src="~/node_modules/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="~/node_modules/AdminLTE/dist/js/adminlte.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="~/node_modules/AdminLTE/dist/js/pages/dashboard.js"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="~/node_modules/AdminLTE/dist/js/demo.js"></script>
-        <!-- DataTables -->
-        <script src="~/node_modules/AdminLTE/plugins/datatables/jquery.dataTables.js"></script>
-        <script src="~/node_modules/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2019 Zeebra</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0
+            </div>
+        </footer>
 
-        @RenderSection("Scripts", required: false)
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/node_modules/AdminLTE/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/node_modules/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/node_modules/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/node_modules/AdminLTE/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/node_modules/AdminLTE/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/node_modules/AdminLTE/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/node_modules/AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/node_modules/AdminLTE/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/node_modules/AdminLTE/plugins/moment/moment.min.js"></script>
+    <script src="~/node_modules/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/node_modules/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/node_modules/AdminLTE/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/node_modules/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/node_modules/AdminLTE/dist/js/adminlte.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/node_modules/AdminLTE/dist/js/pages/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/node_modules/AdminLTE/dist/js/demo.js"></script>
+    <!-- DataTables -->
+    <script src="~/node_modules/AdminLTE/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/node_modules/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+
+            $("#foto").on("error", function () {
+                $(this).attr('src', '~/images/user.png');
+            });
+
+            $("#foto1").on("error", function () {
+                $(this).attr('src', '~/images/user.png');
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
