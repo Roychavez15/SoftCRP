@@ -14,6 +14,6 @@ namespace SoftCRP.Web.Repositories
 
         int GetNovedadAllNotSolution(string nit);
 
-        Task<IEnumerable<Novedad>> GetNovedadReportesAsync(DateTime Inicio, DateTime Fin);
+        Task<IEnumerable<Novedad>> GetNovedadReportesAsync(DateTime Inicio, DateTime Fin, string filter);
     }
 }

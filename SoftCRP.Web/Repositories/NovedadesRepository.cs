@@ -65,17 +65,25 @@ namespace SoftCRP.Web.Repositories
             return novedad;
         }
 
-        public async Task<IEnumerable<Novedad>> GetNovedadReportesAsync(DateTime Inicio, DateTime Fin)
+        public async Task<IEnumerable<Novedad>> GetNovedadReportesAsync(DateTime Inicio, DateTime Fin, string filter)
         {
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return await _dataContext.novedades
+                    .Include(a => a.archivoNovedades)
+                    .Include(u => u.user)
+                    .Include(us => us.userSolucion)
+                    .Where(f => f.Cedula == filter &&(f.Fecha >= Inicio && f.Fecha <= Fin)).ToListAsync();
+            }
+            else
+            {
+                return await _dataContext.novedades
+                    .Include(a => a.archivoNovedades)
+                    .Include(u => u.user)
+                    .Include(us => us.userSolucion)
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+            }
 
-            var novedad = await _dataContext.novedades
-                .Include(a => a.archivoNovedades)
-                .Include(u => u.user)
-                .Include(us => us.userSolucion)
-                //.Include(c=>c.user.Cedula==ced)
-                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
-
-            return novedad;
         }
     }
 }

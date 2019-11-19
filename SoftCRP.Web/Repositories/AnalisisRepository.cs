@@ -56,16 +56,26 @@ namespace SoftCRP.Web.Repositories
 
             return analisis;
         }
-        public async Task<IEnumerable<Analisis>> GetAnalisisReportesAsync(DateTime Inicio, DateTime Fin)
+        public async Task<IEnumerable<Analisis>> GetAnalisisReportesAsync(DateTime Inicio, DateTime Fin, string filter)
         {
 
-            var analisis = await _dataContext.Analises
-                .Include(t => t.tipoAnalisis)
-                .Include(a => a.ArchivosAnalisis)
-                .Include(u => u.user)
-                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
-
-            return analisis;
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return await _dataContext.Analises
+                    .Include(t => t.tipoAnalisis)
+                    .Include(a => a.ArchivosAnalisis)
+                    .Include(u => u.user)
+                    .Where(f => f.Cedula==filter && (f.Fecha >= Inicio && f.Fecha <= Fin)).ToListAsync();
+            }
+            else
+            {
+                return await _dataContext.Analises
+                    .Include(t => t.tipoAnalisis)
+                    .Include(a => a.ArchivosAnalisis)
+                    .Include(u => u.user)
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+            }
+            //return analisis;
         }
 
     }

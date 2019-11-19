@@ -22,5 +22,6 @@ namespace SoftCRP.Web.Helpers
 
         Task<IEnumerable<SelectListItem>> GetComboEstadoNovedad();
 
+        IEnumerable<SelectListItem> GetComboClientes();
     }
 }

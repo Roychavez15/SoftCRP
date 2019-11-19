@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
+using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
 using System;
@@ -12,13 +14,16 @@ namespace SoftCRP.Web.Helpers
     public class CombosHelper : ICombosHelper
     {
         private readonly IDatosRepository _datosRepository;
+        private readonly IUserHelper _userHelper;
         private readonly DataContext _dataContext;
 
         public CombosHelper(
             IDatosRepository datosRepository,
+            IUserHelper userHelper,
             DataContext dataContext)
         {
             _datosRepository = datosRepository;
+            _userHelper = userHelper;
             _dataContext = dataContext;
         }
         public IEnumerable<SelectListItem> GetComboMes()
@@ -228,7 +233,7 @@ namespace SoftCRP.Web.Helpers
             });
 
             return myList;
-            //throw new NotImplementedException();
+            
         }
 
         public async Task<IEnumerable<SelectListItem>> GetComboEstadoNovedad()
@@ -278,6 +283,36 @@ namespace SoftCRP.Web.Helpers
             });
 
             return list;
+            //throw new NotImplementedException();
+        }
+        public IEnumerable<SelectListItem> GetComboClientes()
+        {
+            List<SelectListItem> myList = new List<SelectListItem>();
+
+            var Listaclientes = _userHelper.GetListUsersInRole("Cliente");
+
+            int id = 1;
+            foreach (var Data in Listaclientes.Result)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.Cedula,
+                     Text = Data.FullName,
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+
+
+            myList.Insert(0, new SelectListItem
+            {
+                Text = "(..Todos..)",
+                Value = ""
+            });
+
+            return myList;
             //throw new NotImplementedException();
         }
     }

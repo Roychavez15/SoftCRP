@@ -62,16 +62,24 @@ namespace SoftCRP.Web.Repositories
             return novedad;
         }
 
-        public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin)
+        public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin, string filter)
         {
-
-            var tramite = await _dataContext.tramites
-                .Include(t => t.tipoTramite)
-                .Include(a => a.archivoTramites)
-                .Include(u => u.user)
-                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
-
-            return tramite;
+            if (!string.IsNullOrEmpty(filter))
+            {
+                return await _dataContext.tramites
+                    .Include(t => t.tipoTramite)
+                    .Include(a => a.archivoTramites)
+                    .Include(u => u.user)
+                    .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin)).ToListAsync();
+            }
+            else
+            {
+                return await _dataContext.tramites
+                    .Include(t => t.tipoTramite)
+                    .Include(a => a.archivoTramites)
+                    .Include(u => u.user)
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+            }
         }
     }
 }

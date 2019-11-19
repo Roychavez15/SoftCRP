@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
 
@@ -13,17 +14,20 @@ namespace SoftCRP.Web.Controllers
         private readonly IAnalisisRepository _analisisRepository;
         private readonly ICapacitacionesRepository _capacitacionesRepository;
         private readonly INovedadesRepository _novedadesRepository;
+        private readonly ICombosHelper _combosHelper;
         private readonly ITramitesRepository _tramitesRepository;
 
         public ReportesController(
             IAnalisisRepository analisisRepository,
             ICapacitacionesRepository capacitacionesRepository,
             INovedadesRepository novedadesRepository,
+            ICombosHelper combosHelper,
             ITramitesRepository tramitesRepository)
         {
             _analisisRepository = analisisRepository;
             _capacitacionesRepository = capacitacionesRepository;
             _novedadesRepository = novedadesRepository;
+            _combosHelper = combosHelper;
             _tramitesRepository = tramitesRepository;
         }
         public IActionResult IndexAnalisis()
@@ -32,6 +36,7 @@ namespace SoftCRP.Web.Controllers
             reporte.Inicio = DateTime.Now;
             reporte.Fin = DateTime.Now;
             reporte.Analises = null;
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
         }
 
@@ -46,8 +51,8 @@ namespace SoftCRP.Web.Controllers
 
             reporte.Inicio = inicio;
             reporte.Fin = fin;
-            reporte.Analises = await _analisisRepository.GetAnalisisReportesAsync(model.Inicio, model.Fin);
-
+            reporte.Analises = await _analisisRepository.GetAnalisisReportesAsync(model.Inicio, model.Fin, model.ClienteId);
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
         }
 
@@ -83,6 +88,7 @@ namespace SoftCRP.Web.Controllers
             reporte.Inicio = DateTime.Now;
             reporte.Fin = DateTime.Now;
             reporte.novedades = null;
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
         }
 
@@ -97,9 +103,11 @@ namespace SoftCRP.Web.Controllers
 
             reporte.Inicio = inicio;
             reporte.Fin = fin;
-            reporte.novedades = await _novedadesRepository.GetNovedadReportesAsync(model.Inicio, model.Fin);
-
+            reporte.novedades = await _novedadesRepository.GetNovedadReportesAsync(model.Inicio, model.Fin, model.ClienteId);
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
+
+
         }
 
         public IActionResult IndexTramites()
@@ -108,6 +116,7 @@ namespace SoftCRP.Web.Controllers
             reporte.Inicio = DateTime.Now;
             reporte.Fin = DateTime.Now;
             reporte.tramites = null;
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
         }
 
@@ -122,8 +131,8 @@ namespace SoftCRP.Web.Controllers
 
             reporte.Inicio = inicio;
             reporte.Fin = fin;
-            reporte.tramites = await _tramitesRepository.GetTramiteReportesAsync(model.Inicio, model.Fin);
-
+            reporte.tramites = await _tramitesRepository.GetTramiteReportesAsync(model.Inicio, model.Fin, model.ClienteId);
+            reporte.Clientes = _combosHelper.GetComboClientes();
             return View(reporte);
         }
     }
