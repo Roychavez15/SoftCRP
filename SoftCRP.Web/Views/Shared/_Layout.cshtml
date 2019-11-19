@@ -256,7 +256,8 @@
                                 <span class="float-right text-muted text-sm">3 mins</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
+                            <a href="#" cl
+                        ass="dropdown-item">
                                 <i class="fas fa-users mr-2"></i> 8 friend requests
                                 <span class="float-right text-muted text-sm">12 hours</span>
                             </a>
@@ -274,7 +275,7 @@
                     {
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >
-                            <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image">
+                            <img src="@Url.Content($"{"~/images/Usuarios/<"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image">
                             <span class="d-none d-md-inline" >@User.Identity.Name</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -506,19 +507,19 @@
                                 <li class="nav-header">Configuraciones</li>
                                 <li class="nav-item">
                                     <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <i class="nav-icon fa fa-ellipsis-v"></i>
                                         <p>Tipos Análisis</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-area="" class="nav-link" asp-controller="TipoTramites" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <i class="nav-icon fa fa-ellipsis-v"></i>
                                         <p>Tipos Trámites</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <i class="nav-icon fa fa-ellipsis-v"></i>
                                         <p>Tipos Capacitaciones</p>
                                     </a>
                                 </li>
