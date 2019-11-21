@@ -208,26 +208,28 @@ namespace SoftCRP.Web.Controllers
             if (ModelState.IsValid)
             {
                 List<ArchivoTramites> archivoTramitesList = new List<ArchivoTramites>();
-
-                foreach (IFormFile file in model.Files)
+                if (model.Files != null)
                 {
-                    var path = string.Empty;
-                    var extension = string.Empty;
-
-                    path = await _fileHelper.UploadFileAsync(file, "Tramites");
-                    extension = Path.GetExtension(file.FileName);
-
-                    var archivoTramites = new ArchivoTramites
+                    foreach (IFormFile file in model.Files)
                     {
-                        //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
-                        ArchivoPath = path,
-                        user = await _userHelper.GetUserAsync(this.User.Identity.Name),
-                        Fecha = DateTime.Now,
-                        tamanio = file.Length,
-                        TipoArchivo = extension,
-                        //Property = await _dataContext.Properties.FindAsync(model.Id)
-                    };
-                    archivoTramitesList.Add(archivoTramites);
+                        var path = string.Empty;
+                        var extension = string.Empty;
+
+                        path = await _fileHelper.UploadFileAsync(file, "Tramites");
+                        extension = Path.GetExtension(file.FileName);
+
+                        var archivoTramites = new ArchivoTramites
+                        {
+                            //capacitacion = await _dataContext.capacitaciones.FindAsync(model.Id),
+                            ArchivoPath = path,
+                            user = await _userHelper.GetUserAsync(this.User.Identity.Name),
+                            Fecha = DateTime.Now,
+                            tamanio = file.Length,
+                            TipoArchivo = extension,
+                            //Property = await _dataContext.Properties.FindAsync(model.Id)
+                        };
+                        archivoTramitesList.Add(archivoTramites);
+                    }
                 }
 
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
