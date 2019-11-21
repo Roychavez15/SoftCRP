@@ -19,6 +19,8 @@ namespace SoftCRP.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un Tipo.")]
         public int tipoCapacitacionId { get; set; }
         public IEnumerable<SelectListItem> CapacitacionesTypes { get; set; }
+
+        [Display(Name = "Link")]
         public string Test { get; set; }
 
         public List<IFormFile> Files { get; set; }
