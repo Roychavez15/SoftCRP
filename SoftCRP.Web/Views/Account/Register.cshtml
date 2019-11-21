@@ -81,148 +81,158 @@
                             <input type="hidden" asp-for="Roles[j].Id" />
                             <input type="hidden" asp-for="Roles[j].Name" />
                         }
-                        <div class="form-group">
-                            <label asp-for="Cedula">Ruc/Cédula:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-id-card">
+                    <div class="form-group">
+                        <label asp-for="Cedula">Ruc/Cédula:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
 
-                                        </i>
-                                    </span>
-                                </div>
+                                <span class="input-group-text">
+                                    <i class="fa fa-id-card">
 
-                                <input asp-for="Cedula" id="Cedula" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="Cedula" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="Cedula" id="Cedula" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="Cedula" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="FirstName">Nombre:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-user">
+                    <div class="form-group">
+                        <label asp-for="FirstName">Nombre:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="FirstName" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="FirstName" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="FirstName" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="FirstName" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="LastName">Apellido:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-user">
+                    <div class="form-group">
+                        <label asp-for="LastName">Apellido:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="LastName" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="LastName" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="LastName" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="LastName" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="FotoFile" class="control-label"></label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-upload">
+                    <div class="form-group">
+                        <label asp-for="FotoFile" class="control-label"></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-upload">
 
-                                        </i>
-                                    </span>
-                                </div>
-                                <input asp-for="FotoFile" class="form-control" type="file" />
-                                <span asp-validation-for="FotoFile" class="text-danger"></span>
+                                    </i>
+                                </span>
                             </div>
+                            <input asp-for="FotoFile" class="form-control" type="file" />
+
                         </div>
+                        <span asp-validation-for="FotoFile" class="text-danger"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="Email">Email:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-envelope">
+                    <div class="form-group">
+                        <label asp-for="Email">Email:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="Email" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="Email" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="Email" class="form-control" />
+
                         </div>
+                        <span asp-validation-for="Email" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="PhoneNumber">Número telefónico:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-phone">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber">Número telefónico:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="PhoneNumber" class="form-control form-control-sm" />
-                                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="PhoneNumber" class="form-control form-control" />
+
                         </div>
+                        <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="Username">Nombre de usuario:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-user-circle">
+                    <div class="form-group">
+                        <label asp-for="Username">Nombre de usuario:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user-circle">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="Username" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="Username" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="Username" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="Username" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="Password">Contraseña:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-key">
+                    <div class="form-group">
+                        <label asp-for="Password">Contraseña:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-key">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="Password" type="password" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="Password" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="Password" type="password" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="Password" class="text-warning"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="Confirm">Confirmar contraseña:</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fa fa-key">
+                    <div class="form-group">
+                        <label asp-for="Confirm">Confirmar contraseña:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-key">
 
-                                        </i>
-                                    </span>
-                                </div>
-
-                                <input asp-for="Confirm" type="password" class="form-control form-control-sm" />&nbsp;<p style="color:red">*</p>
-                                <span asp-validation-for="Confirm" class="text-warning"></span>
+                                    </i>
+                                </span>
                             </div>
+
+                            <input asp-for="Confirm" type="password" class="form-control is-warning" />
+
                         </div>
+                        <span asp-validation-for="Confirm" class="text-warning"></span>
+                    </div>
                         <h3 style="font-style:oblique"><b>Roles</b></h3>
                         <hr />
                         <div class="row">
