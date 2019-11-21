@@ -61,11 +61,10 @@ namespace SoftCRP.Web.Repositories
             var novedad = _dataContext.novedades
                 //.Where(c => c.Cedula == nit);
                 //.Where(s => (s.EstadoSolucion == null || s.EstadoSolucion == "PENDIENTE") && s.Cedula == nit).Count();
-                .Where(s => (s.EstadoSolucion != "CERRADO") && s.Cedula == nit).Count();
+                .Where(s => (s.EstadoSolucion == null || s.EstadoSolucion != "CERRADO") && s.Cedula == nit).Count();
 
             return novedad;
         }
-
         public async Task<IEnumerable<Novedad>> GetNovedadReportesAsync(DateTime Inicio, DateTime Fin, string filter)
         {
             if (!string.IsNullOrEmpty(filter))
