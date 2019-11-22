@@ -61,8 +61,8 @@ namespace SoftCRP.Web.Controllers
 
             if(ModelState.IsValid)
             {
-                _logger.LogInformation("Info logging");
-                _logger.LogTrace("Logueado");
+                _logger.LogInformation("Logueo de usuario: " + model.Username);
+                //_logger.LogTrace("Logueado");
 
                 var result1 = await _service1Soap.LOGIsAuthenticatedAsync(key, model.Username, model.Password);
                 
@@ -125,7 +125,9 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _userHelper.LogoutAsync();
+            _logger.LogInformation("Deslogueo de usuario: "+ this.User.Identity.Name);
             return RedirectToAction("Index", "Home");
+
         }
 
 
@@ -150,7 +152,6 @@ namespace SoftCRP.Web.Controllers
                     var guid = Guid.NewGuid().ToString();
                     //var file = $"{guid}.jpg";
                     var file = $"{model.Username}.jpg";
-
                     pathFoto = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Usuarios",
@@ -182,11 +183,12 @@ namespace SoftCRP.Web.Controllers
                         UserName = model.Username,
                         ImageUrl=pathFoto
                     };
-
+                    _logger.LogInformation("Creación de usuario: " + model.Username);
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
                         this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
+                        _logger.LogInformation("Error en crear usuario: " + model.Username + "Error"+result.Errors.FirstOrDefault());
                         return this.View(model);
                     }
 
@@ -286,7 +288,7 @@ namespace SoftCRP.Web.Controllers
                     user.PhoneNumber = model.PhoneNumber;
                     user.ImageUrl = pathFoto;
                     user.UserName = model.UserName;
-
+                    _logger.LogInformation("Editar perfil usuario: " + this.User.Identity.Name);
                     var respose = await _userHelper.UpdateUserAsync(user);
                     if (respose.Succeeded)
                     {
@@ -297,12 +299,15 @@ namespace SoftCRP.Web.Controllers
                     {
                         //this.ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", respose.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
+                        _logger.LogInformation("Error en editar perfil: " + this.User.Identity.Name + "Error" + respose.Errors.FirstOrDefault());
                     }
                 }
                 else
                 {
                     //this.ModelState.AddModelError(string.Empty, "User no found.");
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", "Usuario No Encontrado", SweetAlertMessageType.error);
+                    _logger.LogInformation("No se encontró el usuario: " + this.User.Identity.Name);
+
                 }
             }
 

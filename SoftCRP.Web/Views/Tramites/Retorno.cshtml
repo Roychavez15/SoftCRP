@@ -207,6 +207,7 @@
 
                         $("#btnYesDelete").click(function () {
                             window.location.href = '/SoftCRPWeb/Tramites/Delete/' + item_to_delete;
+                            //window.location.href = '/Tramites/Delete/' + item_to_delete;
                         });
 
 
@@ -227,7 +228,8 @@
                             confirmButtonText: "Si, Eliminarlo!",
                             cancelButtonText: "No, Cancelar Borrar!",
                             closeOnConfirm: false,
-                            closeOnCancel: false
+                            closeOnCancel: false,
+                            showLoaderOnConfirm: true
                         },
                             function (isConfirm) {
 
@@ -235,11 +237,13 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        url: '/SoftCRPWeb/Tramites/Delete/'+ id,
+                                        url: '/SoftCRPWeb/Tramites/Delete/' + id,
+                                        //url: '/Tramites/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
                                                 window.location.href = '/SoftCRPWeb/Tramites/Retorno/' +@Model.cedula;
+                                                //window.location.href = '/Tramites/Retorno/' +@Model.cedula;
                                                 //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                             }
                                             else {

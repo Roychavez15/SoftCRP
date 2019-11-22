@@ -206,17 +206,17 @@
                             order: [[2, 'desc']]
                         });
 
-                        //var item_to_delete;
+                        var item_to_delete;
 
-                        //$('.deletefile').click((e) => {
-                        //    //debugger;
-                        //    item_to_delete = e.currentTarget.dataset.id;
-                        //    action_to_delete = 1;
-                        //});
+                        $('.deletefile').click((e) => {
+                            //debugger;
+                            item_to_delete = e.currentTarget.dataset.id;
+                            action_to_delete = 1;
+                        });
 
-                        //$("#btnYesDelete").click(function () {
-                        //    window.location.href = '/Novedades/Delete/' + item_to_delete;
-                        //});
+                        $("#btnYesDelete").click(function () {
+                            window.location.href = 'SoftCRPWeb/Novedades/Delete/' + item_to_delete;
+                        });
 
 
                         var id = 0;
@@ -224,15 +224,16 @@
                         debugger;
                         id = $(this).parent()[0].id;
                         swal({
-                            title: "Are you sure?",
+                            title: "Estás seguro?",
                             text: "Si eliminas esta Novedad no la prodras recuperar!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonClass: "btn-danger",
-                            confirmButtonText: "Yes, Eliminarlo!",
+                            confirmButtonText: "Si, Eliminarlo!",
                             cancelButtonText: "No, Cancelar Borrar!",
                             closeOnConfirm: false,
-                            closeOnCancel: false
+                            closeOnCancel: false,
+                            showLoaderOnConfirm: true
                         },
                             function (isConfirm) {
 
