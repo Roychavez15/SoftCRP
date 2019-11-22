@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -25,17 +26,20 @@ namespace SoftCRP.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly Service1Soap _service1Soap;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             IUserHelper userHelper,
             IMailHelper mailHelper,
             Service1Soap service1Soap,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<AccountController> logger)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _service1Soap = service1Soap;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -57,7 +61,9 @@ namespace SoftCRP.Web.Controllers
 
             if(ModelState.IsValid)
             {
-                
+                _logger.LogInformation("Info logging");
+                _logger.LogTrace("Logueado");
+
                 var result1 = await _service1Soap.LOGIsAuthenticatedAsync(key, model.Username, model.Password);
                 
                 if (result1)
