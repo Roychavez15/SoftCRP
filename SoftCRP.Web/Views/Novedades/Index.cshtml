@@ -232,6 +232,7 @@
                             confirmButtonClass: "btn-danger",
                             confirmButtonText: "Yes, Eliminarlo!",
                             cancelButtonText: "No, Cancelar Borrar!",
+                            //showLoaderOnConfirm: true,
                             closeOnConfirm: false,
                             closeOnCancel: false
                         },
@@ -241,11 +242,13 @@
                    
                                         $.ajax({
                                         type: 'post',
-                                        url: '/SoftCRPWeb/Novedades/Delete/'+ id,
+                                        //url: '/SoftCRPWeb/Novedades/Delete/'+ id,
+                                        url: '/Novedades/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
-                                                window.location.href = '/SoftCRPWeb/Novedades/Retorno/' +@Model.cedula;
+                                                //window.location.href = '/SoftCRPWeb/Novedades/Retorno/' +@Model.cedula;
+                                                window.location.href = '/Novedades/Retorno/' +@Model.cedula;
                                                 //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                             }
                                             else {

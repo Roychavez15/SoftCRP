@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -23,6 +24,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly ILogger<AnalisisController> _logger;
         private readonly DataContext _dataContext;
 
         public AnalisisController(
@@ -32,6 +34,7 @@ namespace SoftCRP.Web.Controllers
             ICombosHelper combosHelper,     
             IFileHelper fileHelper,
             IMailHelper mailHelper,
+            ILogger<AnalisisController> logger,
             DataContext dataContext
             )
         {
@@ -41,11 +44,13 @@ namespace SoftCRP.Web.Controllers
             _combosHelper = combosHelper;
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
+            _logger = logger;
             _dataContext = dataContext;
         }
         // GET: TipoAnalisis
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Solicitud de Lista de Analisis: " + this.User.Identity.Name);
 
             AnalisisViewModel model = new AnalisisViewModel();
             
@@ -69,7 +74,7 @@ namespace SoftCRP.Web.Controllers
 
         public async Task<IActionResult> IndexLista()
         {
-
+            _logger.LogInformation("Solicitud de Lista de Clientes Analisis: " + this.User.Identity.Name);
             //List<User> clientes = new List<User>();
             var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
             if (user != null)
@@ -82,7 +87,7 @@ namespace SoftCRP.Web.Controllers
         }
         public async Task<IActionResult> Retorno(string id)
         {
-
+            _logger.LogInformation("Solicitud de Lista de Analisis: " + this.User.Identity.Name);
             AnalisisViewModel model = new AnalisisViewModel();
             if (!string.IsNullOrEmpty(id))
             {
@@ -177,6 +182,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
+
+                _logger.LogInformation("Crea Analisis: " + this.User.Identity.Name);
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
@@ -255,7 +262,7 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.Analises.Add(analisis);
                 await _dataContext.SaveChangesAsync();
                 //enviar correo
-                
+                _logger.LogInformation("Crea Analisis: " + this.User.Identity.Name);
                 var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
                 //var emails = "roy_chavez15@hotmail.com";
@@ -297,9 +304,10 @@ namespace SoftCRP.Web.Controllers
             //var cliente = await _dataContext.Analises
             //    .FirstOrDefaultAsync(m => m.Id == id);
             var analisis= await _analisisRepository.GetAnalisisByIdAsync(id);
-
+            _logger.LogInformation("Solicitud Detalle de Analisis: " + id + " User: " + this.User.Identity.Name);
             if (analisis == null)
             {
+                _logger.LogInformation("Solicitud Detalle de Analisis No Encontrado: " + id + " User: " + this.User.Identity.Name);
                 return NotFound();
             }
 
@@ -318,8 +326,10 @@ namespace SoftCRP.Web.Controllers
             var analisis = await _analisisRepository.GetAnalisisByIdAsync(id);
             if (analisis == null)
             {
+                _logger.LogInformation("Solicitud Edit de Analisis No Encontrado: " + id + " User: " + this.User.Identity.Name);
                 return NotFound();
             }
+            _logger.LogInformation("Solicitud Edit de Analisis: " + id + " User: " + this.User.Identity.Name);
             return View(analisis);
         }
 
@@ -339,11 +349,13 @@ namespace SoftCRP.Web.Controllers
                 {
                     _dataContext.Update(analisis);
                     await _dataContext.SaveChangesAsync();
+                    _logger.LogInformation("Edit de Analisis: " + id + " User: " + this.User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AnalisisExists(analisis.Id))
                     {
+                        _logger.LogInformation("Edit de Analisis Error: " + id + " User: " + this.User.Identity.Name);
                         return NotFound();
                     }
                     else
@@ -362,6 +374,7 @@ namespace SoftCRP.Web.Controllers
         {
             if (id == null)
             {
+                _logger.LogInformation("Borrar de Analisis No encontrado: " + id + " User: " + this.User.Identity.Name);
                 return NotFound();
             }
 
@@ -373,6 +386,7 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.Analises.Remove(analisis);
             await _dataContext.SaveChangesAsync();
+            _logger.LogInformation("Borrar Analisis: " + id + " User: " + this.User.Identity.Name);
 
             return RedirectToAction($"{nameof(Retorno)}/{cedula}");
         }
@@ -430,6 +444,7 @@ namespace SoftCRP.Web.Controllers
 
                     _dataContext.ArchivosAnalisis.Add(archivoAnalisis);
                     await _dataContext.SaveChangesAsync();
+                    _logger.LogInformation("Añadir Archivo Analisis: " + model.Id + " User: " + this.User.Identity.Name);
                     //return RedirectToAction($"{nameof(Retorno)}/{archivoAnalisis.analisis.Cedula}");
                     return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
@@ -456,6 +471,8 @@ namespace SoftCRP.Web.Controllers
 
             _dataContext.ArchivosAnalisis.Remove(file);
             await _dataContext.SaveChangesAsync();
+
+            _logger.LogInformation("Eliminar Archivo Analisis: " + id + " User: " + this.User.Identity.Name);
             //return RedirectToAction($"{nameof(Retorno)}/{file.analisis.Cedula}");
             return RedirectToAction($"{nameof(Edit)}/{file.analisis.Id}");
         }
@@ -471,12 +488,13 @@ namespace SoftCRP.Web.Controllers
             var file = await _dataContext.ArchivosAnalisis
                 .Include(pi => pi.analisis)
                 .FirstOrDefaultAsync(pi => pi.Id == id.Value);
+
             if (file == null)
             {
                 return NotFound();
             }
 
-
+            _logger.LogInformation("Descargar Archivo Analisis: " + id + " User: " + this.User.Identity.Name);
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
         }

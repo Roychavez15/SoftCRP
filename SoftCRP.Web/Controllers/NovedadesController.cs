@@ -451,6 +451,7 @@ namespace SoftCRP.Web.Controllers
 
             var novedades = await _dataContext.novedades
                 .Include(a => a.archivoNovedades)
+                .Include(l=>l.logNovedades)
                 .FirstOrDefaultAsync(pi => pi.Id == id.Value);
 
             var cedula = novedades.Cedula;
