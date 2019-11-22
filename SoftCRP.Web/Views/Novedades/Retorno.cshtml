@@ -206,17 +206,17 @@
                             order: [[2, 'desc']]
                         });
 
-                        var item_to_delete;
+                        //var item_to_delete;
 
-                        $('.deletefile').click((e) => {
-                            //debugger;
-                            item_to_delete = e.currentTarget.dataset.id;
-                            action_to_delete = 1;
-                        });
+                        //$('.deletefile').click((e) => {
+                        //    //debugger;
+                        //    item_to_delete = e.currentTarget.dataset.id;
+                        //    action_to_delete = 1;
+                        //});
 
-                        $("#btnYesDelete").click(function () {
-                            window.location.href = 'SoftCRPWeb/Novedades/Delete/' + item_to_delete;
-                        });
+                        //$("#btnYesDelete").click(function () {
+                        //    window.location.href = '/Novedades/Delete/' + item_to_delete;
+                        //});
 
 
                         var id = 0;
@@ -224,16 +224,16 @@
                         debugger;
                         id = $(this).parent()[0].id;
                         swal({
-                            title: "Estás seguro?",
+                            title: "Are you sure?",
                             text: "Si eliminas esta Novedad no la prodras recuperar!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonClass: "btn-danger",
-                            confirmButtonText: "Si, Eliminarlo!",
+                            confirmButtonText: "Yes, Eliminarlo!",
                             cancelButtonText: "No, Cancelar Borrar!",
                             closeOnConfirm: false,
-                            closeOnCancel: false,
-                            showLoaderOnConfirm: true
+                            showLoaderOnConfirm: true,
+                            closeOnCancel: false
                         },
                             function (isConfirm) {
 
@@ -241,11 +241,13 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        url: '/SoftCRPWeb/Novedades/Delete/'+ id,
+                                        //url: '/SoftCRPWeb/Novedades/Delete/' + id,
+                                        url: '/Novedades/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
                                                 window.location.href = '/SoftCRPWeb/Novedades/Retorno/' +@Model.cedula;
+                                                //window.location.href = '/Novedades/Retorno/' +@Model.cedula;
                                                 //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                             }
                                             else {
