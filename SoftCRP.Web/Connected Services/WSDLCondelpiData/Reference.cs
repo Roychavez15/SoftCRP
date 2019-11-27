@@ -155,6 +155,10 @@ namespace WSDLCondelpiData
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Estado_incidencia", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Estado_incidenciaAsync(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Get_consulta_total", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Get_consulta_totalAsync(string key);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.1-preview-30422-0661")]
@@ -365,6 +369,11 @@ namespace WSDLCondelpiData
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Estado_incidenciaAsync(string key)
         {
             return base.Channel.Estado_incidenciaAsync(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Get_consulta_totalAsync(string key)
+        {
+            return base.Channel.Get_consulta_totalAsync(key);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

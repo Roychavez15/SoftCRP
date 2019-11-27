@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -46,13 +47,6 @@ namespace SoftCRP.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //////
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Account/NotAuthorized";
-                options.AccessDeniedPath = "/Account/NotAuthorized";
-            });
-            ////
             
 
             services.AddIdentity<User, IdentityRole>(cfg =>
@@ -68,7 +62,26 @@ namespace SoftCRP.Web
             .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<DataContext>();
             //
+
+
+            //////
+            services.ConfigureApplicationCookie(options =>
+            {
+                //options.LoginPath = "/Account/NotAuthorized";
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+            ////
+            ///
             services.AddAuthentication()
+            //.AddCookie(options => {
+            //    options.LoginPath = "/Account/Login/";
+            //    options.SlidingExpiration = false;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+            //})
             .AddCookie()
             .AddJwtBearer(cfg =>
             {
@@ -79,6 +92,7 @@ namespace SoftCRP.Web
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
                 };
             });
+            
 
             services.AddDbContext<DataContext>(cfg =>
             {

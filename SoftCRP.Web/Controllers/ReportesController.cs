@@ -11,6 +11,7 @@ namespace SoftCRP.Web.Controllers
 {
     public class ReportesController : Controller
     {
+        private readonly IDatosRepository _datosRepository;
         private readonly IAnalisisRepository _analisisRepository;
         private readonly ICapacitacionesRepository _capacitacionesRepository;
         private readonly INovedadesRepository _novedadesRepository;
@@ -18,17 +19,31 @@ namespace SoftCRP.Web.Controllers
         private readonly ITramitesRepository _tramitesRepository;
 
         public ReportesController(
+            IDatosRepository datosRepository,
             IAnalisisRepository analisisRepository,
             ICapacitacionesRepository capacitacionesRepository,
             INovedadesRepository novedadesRepository,
             ICombosHelper combosHelper,
             ITramitesRepository tramitesRepository)
         {
+            _datosRepository = datosRepository;
             _analisisRepository = analisisRepository;
             _capacitacionesRepository = capacitacionesRepository;
             _novedadesRepository = novedadesRepository;
             _combosHelper = combosHelper;
             _tramitesRepository = tramitesRepository;
+        }
+
+        public async Task<IActionResult> IndexInformacion()
+        {
+            //ReporteAnalisisViewModel reporte = new ReporteAnalisisViewModel();
+            //reporte.Inicio = DateTime.Now;
+            //reporte.Fin = DateTime.Now;
+            //reporte.Analises = null;
+            //reporte.Clientes = _combosHelper.GetComboClientes();
+            //return View(reporte);
+            var model = await _datosRepository.GetDatosAutoAllAsync();
+            return View(model);
         }
         public IActionResult IndexAnalisis()
         {

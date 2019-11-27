@@ -21,5 +21,7 @@ namespace SoftCRP.Web.Repositories
         Task<List<ViaIngresoViewModel>> GetViaIngresoAsync();
         Task<List<SubMotivosIncidenciasViewModel>> GetSubMotivosIncidenciasAsync();
         Task<List<TiposIncidenciaViewModel>> GetTipoIncidenciasAsync();
+
+        Task<IEnumerable<DatosAuto>> GetDatosAutoAllAsync();
     }
 }
