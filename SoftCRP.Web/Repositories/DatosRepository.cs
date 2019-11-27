@@ -38,60 +38,63 @@ namespace SoftCRP.Web.Repositories
             document.LoadXml(dataxml.Nodes[1].ToString());
             XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
 
-
-            XmlNodeList lista1 =
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
                 ((XmlElement)Datos[0]).GetElementsByTagName("data");
 
-            foreach (XmlElement nodo in lista1)
-            {
-                datos= new DatosAuto
+                foreach (XmlElement nodo in lista1)
                 {
-                    Adendum = verificanodo(nodo, "adendum"),
-                    Año = verificanodo(nodo, "año"),
-                    Canon = verificanodo(nodo, "canon"),
-                    Chasis = verificanodo(nodo, "chasis"),
-                    Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
-                    Clase = verificanodo(nodo, "clase"),
-                    Cliente = verificanodo(nodo, "cliente"),
-                    Color = verificanodo(nodo, "color"),
-                    Contrato = verificanodo(nodo, "contrato"),
-                    Cotizacion = verificanodo(nodo, "cotizacion"),
-                    Des_modelo = verificanodo(nodo, "des_modelo"),
-                    Dispositivo = verificanodo(nodo, "dispositivo"),
-                    Ejecutivo = verificanodo(nodo, "ejecutivo"),
-                    Estatus = verificanodo(nodo, "estatus"),
-                    Fechacontrato = verificanodo(nodo, "fechacontrato"),
-                    FechafinContrato = verificanodo(nodo, "fechafinContrato"),
-                    Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
-                    Fecha_km = verificanodo(nodo, "fecha_km"),
-                    Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
-                    FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
+                    datos = new DatosAuto
+                    {
+                        Adendum = verificanodo(nodo, "adendum"),
+                        Año = verificanodo(nodo, "año"),
+                        Canon = verificanodo(nodo, "canon"),
+                        Chasis = verificanodo(nodo, "chasis"),
+                        Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
+                        Clase = verificanodo(nodo, "clase"),
+                        Cliente = verificanodo(nodo, "cliente"),
+                        Color = verificanodo(nodo, "color"),
+                        Contrato = verificanodo(nodo, "contrato"),
+                        Cotizacion = verificanodo(nodo, "cotizacion"),
+                        Des_modelo = verificanodo(nodo, "des_modelo"),
+                        Dispositivo = verificanodo(nodo, "dispositivo"),
+                        Ejecutivo = verificanodo(nodo, "ejecutivo"),
+                        Estatus = verificanodo(nodo, "estatus"),
+                        Fechacontrato = verificanodo(nodo, "fechacontrato"),
+                        FechafinContrato = verificanodo(nodo, "fechafinContrato"),
+                        Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
+                        Fecha_km = verificanodo(nodo, "fecha_km"),
+                        Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
+                        FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
 
-                    Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
-                    Km = verificanodo(nodo, "km"),
-                    KmAnual = verificanodo(nodo, "KmAnual"),
-                    Marca = verificanodo(nodo, "marca"),
-                    Modelo = verificanodo(nodo, "modelo"),
-                    Motor = verificanodo(nodo, "motor"),
-                    Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
-                    Mto_llantas = verificanodo(nodo, "mto_llantas"),
-                    Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
-                    Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
-                    NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
-                    Nom_cliente = verificanodo(nodo, "nom_cliente"),
-                    Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
-                    Placa = verificanodo(nodo, "placa"),
-                    Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
-                    Plazo = verificanodo(nodo, "Plazo"),
-                    Plazo_pago = verificanodo(nodo, "Plazo_pago"),
-                    Ramv = verificanodo(nodo, "ramv"),
-                    Siniestros = verificanodo(nodo, "siniestros"),
-                    Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
-                    pickup = verificanodo(nodo, "pickup"),
+                        Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
+                        Km = verificanodo(nodo, "km"),
+                        KmAnual = verificanodo(nodo, "KmAnual"),
+                        Marca = verificanodo(nodo, "marca"),
+                        Modelo = verificanodo(nodo, "modelo"),
+                        Motor = verificanodo(nodo, "motor"),
+                        Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
+                        Mto_llantas = verificanodo(nodo, "mto_llantas"),
+                        Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
+                        Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
+                        NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
+                        Nom_cliente = verificanodo(nodo, "nom_cliente"),
+                        Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
+                        Placa = verificanodo(nodo, "placa"),
+                        Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
+                        Plazo = verificanodo(nodo, "Plazo"),
+                        Plazo_pago = verificanodo(nodo, "Plazo_pago"),
+                        Ramv = verificanodo(nodo, "ramv"),
+                        Siniestros = verificanodo(nodo, "siniestros"),
+                        Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
+                        pickup = verificanodo(nodo, "pickup"),
 
-                };
-                
+                    };
+
+                }
             }
+
             return datos;
         }
 
@@ -109,59 +112,61 @@ namespace SoftCRP.Web.Repositories
             document.LoadXml(dataxml.Nodes[1].ToString());
             XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
 
-
-            XmlNodeList lista1 =
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
                 ((XmlElement)Datos[0]).GetElementsByTagName("data");
 
-            foreach (XmlElement nodo in lista1)
-            {
-                var auto = new DatosAuto
+                foreach (XmlElement nodo in lista1)
                 {
-                    Adendum = verificanodo(nodo, "adendum"),
-                    Año = verificanodo(nodo, "año"),
-                    Canon = verificanodo(nodo, "canon"),
-                    Chasis = verificanodo(nodo, "chasis"),
-                    Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
-                    Clase = verificanodo(nodo, "clase"),
-                    Cliente = verificanodo(nodo, "cliente"),
-                    Color = verificanodo(nodo, "color"),
-                    Contrato = verificanodo(nodo, "contrato"),
-                    Cotizacion = verificanodo(nodo, "cotizacion"),
-                    Des_modelo = verificanodo(nodo, "des_modelo"),
-                    Dispositivo = verificanodo(nodo, "dispositivo"),
-                    Ejecutivo = verificanodo(nodo, "ejecutivo"),
-                    Estatus = verificanodo(nodo, "estatus"),
-                    Fechacontrato = verificanodo(nodo, "fechacontrato"),
-                    FechafinContrato = verificanodo(nodo, "fechafinContrato"),
-                    Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
-                    Fecha_km = verificanodo(nodo, "fecha_km"),
-                    Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
-                    FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
+                    var auto = new DatosAuto
+                    {
+                        Adendum = verificanodo(nodo, "adendum"),
+                        Año = verificanodo(nodo, "año"),
+                        Canon = verificanodo(nodo, "canon"),
+                        Chasis = verificanodo(nodo, "chasis"),
+                        Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
+                        Clase = verificanodo(nodo, "clase"),
+                        Cliente = verificanodo(nodo, "cliente"),
+                        Color = verificanodo(nodo, "color"),
+                        Contrato = verificanodo(nodo, "contrato"),
+                        Cotizacion = verificanodo(nodo, "cotizacion"),
+                        Des_modelo = verificanodo(nodo, "des_modelo"),
+                        Dispositivo = verificanodo(nodo, "dispositivo"),
+                        Ejecutivo = verificanodo(nodo, "ejecutivo"),
+                        Estatus = verificanodo(nodo, "estatus"),
+                        Fechacontrato = verificanodo(nodo, "fechacontrato"),
+                        FechafinContrato = verificanodo(nodo, "fechafinContrato"),
+                        Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
+                        Fecha_km = verificanodo(nodo, "fecha_km"),
+                        Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
+                        FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
 
-                    Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
-                    Km = verificanodo(nodo, "km"),
-                    KmAnual = verificanodo(nodo, "KmAnual"),
-                    Marca = verificanodo(nodo, "marca"),
-                    Modelo = verificanodo(nodo, "modelo"),
-                    Motor = verificanodo(nodo, "motor"),
-                    Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
-                    Mto_llantas = verificanodo(nodo, "mto_llantas"),
-                    Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
-                    Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
-                    NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
-                    Nom_cliente = verificanodo(nodo, "nom_cliente"),
-                    Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
-                    Placa = verificanodo(nodo, "placa"),
-                    Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
-                    Plazo = verificanodo(nodo, "Plazo"),
-                    Plazo_pago = verificanodo(nodo, "Plazo_pago"),
-                    Ramv = verificanodo(nodo, "ramv"),
-                    Siniestros = verificanodo(nodo, "siniestros"),
-                    Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
-                    pickup = verificanodo(nodo, "pickup"),
+                        Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
+                        Km = verificanodo(nodo, "km"),
+                        KmAnual = verificanodo(nodo, "KmAnual"),
+                        Marca = verificanodo(nodo, "marca"),
+                        Modelo = verificanodo(nodo, "modelo"),
+                        Motor = verificanodo(nodo, "motor"),
+                        Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
+                        Mto_llantas = verificanodo(nodo, "mto_llantas"),
+                        Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
+                        Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
+                        NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
+                        Nom_cliente = verificanodo(nodo, "nom_cliente"),
+                        Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
+                        Placa = verificanodo(nodo, "placa"),
+                        Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
+                        Plazo = verificanodo(nodo, "Plazo"),
+                        Plazo_pago = verificanodo(nodo, "Plazo_pago"),
+                        Ramv = verificanodo(nodo, "ramv"),
+                        Siniestros = verificanodo(nodo, "siniestros"),
+                        Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
+                        pickup = verificanodo(nodo, "pickup"),
 
-                };
-                datos.Add(auto);
+                    };
+                    datos.Add(auto);
+                }
             }
             return datos.Where(e => e.Estatus == "VIGENTE CON CONTRATO");
         }
