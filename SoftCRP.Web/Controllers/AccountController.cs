@@ -565,7 +565,7 @@ namespace SoftCRP.Web.Controllers
                 user.UserName = userRoleViewModel.UserName;
 
                 //user.UserName = userRoleViewModel.UserName;
-
+                 
                 for (int i = 0; i < userRoleViewModel.Roles.Count; i++)
                 {
                     //IdentityResult result = null;
