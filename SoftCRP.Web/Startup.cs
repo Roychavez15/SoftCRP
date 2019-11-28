@@ -70,7 +70,7 @@ namespace SoftCRP.Web
                 //options.LoginPath = "/Account/NotAuthorized";
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/NotAuthorized";
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
