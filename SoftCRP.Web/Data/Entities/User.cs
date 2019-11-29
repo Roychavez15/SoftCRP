@@ -17,12 +17,12 @@ namespace SoftCRP.Web.Data.Entities
         public string Cedula { get; set; }
 
         [Display(Name = "Nombres")]
-        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [MaxLength(200, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string FirstName { get; set; }
 
         [Display(Name = "Apellidos")]
-        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [MaxLength(200, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string LastName { get; set; }
 
