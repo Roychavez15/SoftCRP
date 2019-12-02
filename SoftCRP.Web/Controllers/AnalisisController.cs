@@ -286,7 +286,20 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoAnalisis.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table></body></html>", model.Files);
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table>"+
+                    $"<br><br>" +
+                    $"<a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png'></a>" +
+
+                    $"<br><br>"+
+                    $"<p>Es un placer estar en contacto.<br>"+
+                    $"<p>Saludos cordiales<br>" +
+                    $"<br><br>" +
+                    $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                    $"<p>Av.González Suárez N32 - 346 y Coruña<br>" +
+                    $"<p>Call Center: 1 - 800 RENTING(736846)<br>" +
+                    $"<p>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p>Quito-Ecuador<br></body></html>"                    
+                    , model.Files);
 
                 return Ok(model);
             }
