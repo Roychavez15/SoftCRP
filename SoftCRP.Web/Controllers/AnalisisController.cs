@@ -273,33 +273,42 @@ namespace SoftCRP.Web.Controllers
 
 
 
-                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes Nuevo Analisis Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>Plataforma Clientes Nuevo Analisis</h1>" +
+                    //$"<h1>Plataforma Clientes Nuevo Análisis</h1>" +
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                    $"<br><br>" +
+                    $"<p>Estimado Cliente"+
+                    $"<p>Renting Pichincha comunica que se ha cargado en la plataforma de clientes un nuevo Análisis perteneciente al vehículo:"+
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoAnalisis.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table>"+
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{analisis.Fecha}</td></tr></table>" +
                     $"<br><br>" +
-                    $"<a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png'></a>" +
-
-                    $"<br><br>"+
-                    $"<p>Es un placer estar en contacto.<br>"+
+                    $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña."+
+                    $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                    $"<br><br>" +
+                    $"<p>Es un placer estar en contacto.<br>" +
                     $"<p>Saludos cordiales<br>" +
                     $"<br><br>" +
                     $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
-                    $"<p>Av.González Suárez N32 - 346 y Coruña<br>" +
-                    $"<p>Call Center: 1 - 800 RENTING(736846)<br>" +
+                    $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                    $"<p>Call Center: 1-800 RENTING(736846)<br>" +
                     $"<p>E-Mail: inforenting@condelpi.com<br>" +
-                    $"<p>Quito-Ecuador<br></body></html>"                    
-                    , model.Files);
+                    $"<p>Quito-Ecuador" +
+                    $"<br><br>" +
+                    $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>"+
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                    , model.Files) ;
 
                 return Ok(model);
             }

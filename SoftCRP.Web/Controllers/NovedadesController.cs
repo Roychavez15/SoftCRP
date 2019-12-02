@@ -288,14 +288,19 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMailAttachment(emails, "SoftCRP Nueva Novedad Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>SoftCRP Nuevo Novedad</h1>" +
+                    //$"<h1>SoftCRP Nuevo Novedad</h1>" +
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                    $"<br><br>" +
+                    $"<p>Estimado Cliente" +
+                    $"<p>Renting Pichincha comunica que se ha cargado en la plataforma de clientes una nueva Novedad perteneciente al vehículo:" +
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Placa</td><td>{model.PlacaId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Motivo</td><td>{model.MotivoId}</td></tr>" +
@@ -303,7 +308,24 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>", model.Files);
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table>"+
+                    $"<br><br>" +
+                    $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
+                    $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                    $"<br><br>" +
+                    $"<p>Es un placer estar en contacto.<br>" +
+                    $"<p>Saludos cordiales<br>" +
+                    $"<br><br>" +
+                    $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                    $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                    $"<p>Call Center: 1-800 RENTING(736846)<br>" +
+                    $"<p>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p>Quito-Ecuador" +
+                    $"<br><br>" +
+                    $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                    , model.Files);
 
                 return Ok(model);
             }
@@ -411,7 +433,12 @@ namespace SoftCRP.Web.Controllers
                         $"</title>" +
                         $"</head>" +
                         $"<body>" +
-                        $"<h1>Plataforma Clientes Actualización Novedad</h1>" +
+                        //$"<h1>Plataforma Clientes Actualización Novedad</h1>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                        $"<br><br>" +
+                        $"<p>Estimado Cliente" +
+                        $"<p>Renting Pichincha comunica que se ha actualizado en la plataforma de clientes una Novedad perteneciente al vehículo:" +
                         $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                         $"<tr><td style='font-weight:bold'>Placa</td><td>{novedad.Placa}</td></tr>" +
                         $"<tr><td style='font-weight:bold'>Motivo</td><td>{novedad.Motivo}</td></tr>" +
@@ -420,7 +447,24 @@ namespace SoftCRP.Web.Controllers
                         $"<tr><td style='font-weight:bold'>Estado</td><td>{model.EstadoId}</td></tr>" +
                         $"<tr><td style='font-weight:bold'>Solución</td><td>{model.Solucion}</td></tr>" +
                         $"<tr><td style='font-weight:bold'>Actualizado por</td><td>{novedad.userSolucion.FullName}</td></tr>" +
-                        $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.FechaSolucion}</td></tr></table></body></html>");
+                        $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.FechaSolucion}</td></tr></table>"+
+                        $"<br><br>" +
+                        $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
+                        $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                        $"<br><br>" +
+                        $"<p>Es un placer estar en contacto.<br>" +
+                        $"<p>Saludos cordiales<br>" +
+                        $"<br><br>" +
+                        $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                        $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                        $"<p>Call Center: 1-800 RENTING(736846)<br>" +
+                        $"<p>E-Mail: inforenting@condelpi.com<br>" +
+                        $"<p>Quito-Ecuador" +
+                        $"<br><br>" +
+                        $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                        );
 
                 }
                 catch (DbUpdateConcurrencyException)
