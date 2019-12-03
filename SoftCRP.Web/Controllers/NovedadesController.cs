@@ -335,8 +335,9 @@ namespace SoftCRP.Web.Controllers
                     $"<br><br>" +
                     $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
                     $"<p>Av.González Suárez N32-346 y Coruña<br>" +
-                    $"<p>Call Center: 1-800 RENTING(736846)<br>" +
-                    $"<p>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
                     $"<p>Quito-Ecuador" +
                     $"<br><br>" +
                     $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +

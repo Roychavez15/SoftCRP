@@ -274,19 +274,41 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email;
 
                 //TODO: cambiar direccion de correo
-                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes Nueva Capacitación Creado",
+                _mailHelper.SendMailAttachment(emails, "Plataforma Clientes",
                     $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
                     $"<head>" +
                     $"<title>" +
                     $"</title>" +
                     $"</head>" +
                     $"<body>" +
-                    $"<h1>Plataforma Clientes Nueva Capacitación</h1>" +
+                    //$"<h1>Plataforma Clientes Nueva Capacitación</h1>" +
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                    $"<br><br>" +
+
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table></body></html>", model.Files);
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table>"+
+                    $"<br><br>" +
+                    $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
+                    $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                    $"<br><br>" +
+                    $"<p>Es un placer estar en contacto.<br>" +
+                    $"<p>Saludos cordiales<br>" +
+                    $"<br><br>" +
+                    $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                    $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p><img src='http://181.112.216.3/softcrpweb/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
+                    $"<p>Quito-Ecuador" +
+                    $"<br><br>" +
+                    $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +
+                    $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                    $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                    , model.Files);
 
                 return Ok(model);
             }
