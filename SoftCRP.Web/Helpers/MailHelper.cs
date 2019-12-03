@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
@@ -47,13 +48,21 @@ namespace SoftCRP.Web.Helpers
                 
             };
             message.Body = bodyBuilder.ToMessageBody();
-            
-            using (var client = new SmtpClient())
+
+            try
             {
-                client.Connect(smtp, int.Parse(port), false);
-                client.Authenticate(from, password);
-                client.Send(message);
-                client.Disconnect(true);
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect(smtp, int.Parse(port), SecureSocketOptions.StartTls);
+                    client.Authenticate(from, password);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                var messages = ex.Message;
             }
         }
 
@@ -79,8 +88,7 @@ namespace SoftCRP.Web.Helpers
             message.Subject = subject;
             var bodyBuilder = new BodyBuilder
             {
-                HtmlBody = body
-
+                HtmlBody = body                
             };
             if (files!=null)
             {
@@ -91,13 +99,20 @@ namespace SoftCRP.Web.Helpers
             }
             message.Body = bodyBuilder.ToMessageBody();
             //message.Attachments = bodyBuilder.Attachments.;
-
-            using (var client = new SmtpClient())
+            try
             {
-                client.Connect(smtp, int.Parse(port), false);
-                client.Authenticate(from, password);
-                client.Send(message);
-                client.Disconnect(true);
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect(smtp, int.Parse(port), SecureSocketOptions.StartTls);
+                    client.Authenticate(from, password);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            catch(Exception ex)
+            {
+                var messages = ex.Message;
             }
         }
     }
