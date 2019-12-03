@@ -1,4 +1,5 @@
-﻿using SoftCRP.Web.Models;
+﻿using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,9 @@ namespace SoftCRP.Web.Repositories
         Task<List<TiposIncidenciaViewModel>> GetTipoIncidenciasAsync();
 
         Task<IEnumerable<DatosAuto>> GetDatosAutoAllAsync();
+        Task<bool> IngresoIncidencia(IncidenciaCreateViewModel novedad);
+
+        Task<TiposIncidenciaViewModel> GetTipoIncidenciaIdAsync(string tipo);
+        Task<SubMotivosIncidenciasViewModel> GetSubMotivosIncidenciaIdAsync(string motivo);
     }
 }

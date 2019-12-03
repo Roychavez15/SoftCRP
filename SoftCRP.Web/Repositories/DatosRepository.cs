@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.Extensions.Configuration;
 using SoftCRP.Web.Data;
+using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Models;
 
 namespace SoftCRP.Web.Repositories
@@ -458,6 +459,59 @@ namespace SoftCRP.Web.Repositories
 
         }
 
+        public async Task<SubMotivosIncidenciasViewModel> GetSubMotivosIncidenciaIdAsync(string motivo)
+        {
+            var key = _configuration["KeyWs"];
+            List<SubMotivosIncidenciasViewModel> Estados = new List<SubMotivosIncidenciasViewModel>();
+
+            var dataxml = await _service1Soap.Responsable_slaAsync(key);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList id =
+                        nodo.GetElementsByTagName("id");
+
+                    XmlNodeList submotivo =
+                        nodo.GetElementsByTagName("submotivo");
+
+                    XmlNodeList usuario_asesor =
+                        nodo.GetElementsByTagName("usuario_asesor");
+
+                    XmlNodeList dias_sla =
+                        nodo.GetElementsByTagName("dias_sla");
+
+                    XmlNodeList correo_solucionadores =
+                        nodo.GetElementsByTagName("correo_solucionadores");
+
+                    SubMotivosIncidenciasViewModel estado = new SubMotivosIncidenciasViewModel();
+
+                    estado.Id = int.Parse(id[0].InnerText);
+                    estado.Submotivo = submotivo[0].InnerText;
+                    estado.Usuario_asesor = usuario_asesor[0].InnerText;
+                    estado.Dias_sla = int.Parse(dias_sla[0].InnerText);
+                    estado.Correo_solucionadores = correo_solucionadores[0].InnerText;
+
+                    Estados.Add(estado);
+                }
+
+            }
+
+            return Estados
+                .Where(s => s.Submotivo == motivo)
+                .FirstOrDefault();
+        }
+
         public async Task<List<TiposIncidenciaViewModel>> GetTipoIncidenciasAsync()
         {
             var key = _configuration["KeyWs"];
@@ -501,6 +555,56 @@ namespace SoftCRP.Web.Repositories
 
         }
 
+        public async Task<TiposIncidenciaViewModel> GetTipoIncidenciaIdAsync(string tipo)
+        {
+            var key = _configuration["KeyWs"];
+            List<TiposIncidenciaViewModel> Estados = new List<TiposIncidenciaViewModel>();
 
+            var dataxml = await _service1Soap.Tipo_incidenciaAsync(key);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList id =
+                        nodo.GetElementsByTagName("id");
+
+                    XmlNodeList valor =
+                        nodo.GetElementsByTagName("valor");
+
+                    TiposIncidenciaViewModel estado = new TiposIncidenciaViewModel();
+
+                    estado.Id = int.Parse(id[0].InnerText);
+                    estado.Tipo = valor[0].InnerText;
+
+
+                    Estados.Add(estado);
+                }
+
+            }
+
+            return Estados                
+                .Where(t=>t.Tipo==tipo)
+                .FirstOrDefault();
+
+        }
+
+        public async Task<bool> IngresoIncidencia(IncidenciaCreateViewModel novedad)
+        {
+            var key = _configuration["KeyWs"];
+            return await _service1Soap.Ingreso_IncidenciasAsync(key,novedad.Placa,novedad.submotivo,novedad.observacion,novedad.usuario,"",novedad.motivo);
+
+
+            //return true;
+        }
     }
 }

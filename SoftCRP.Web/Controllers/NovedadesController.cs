@@ -265,9 +265,26 @@ namespace SoftCRP.Web.Controllers
                     user = user
                 };
 
+                
+
+
                 _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
 
+                ///
+                var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
+                var idSubmotivo = await _datosRepository.GetSubMotivosIncidenciaIdAsync(model.SubMotivoId);
+                var incidencia = new IncidenciaCreateViewModel
+                {
+                    Placa=novedad.Placa,
+                    submotivo=idSubmotivo.Id,
+                    motivo=idMotivo.Id.ToString(),
+                    usuario=user.UserName,
+                    observacion=novedad.Observaciones
+                };
+                var registroincidencia = await _datosRepository.IngresoIncidencia(incidencia);
+
+                ///
                 var lognovedad = new LogNovedad
                 {
                     Estado="PENDIENTE",

@@ -82,7 +82,7 @@ namespace SoftCRP.Web.Helpers
             message.To.Add(new MailboxAddress(emaildefault));
             foreach (string multiple_email in Multiple)
             {
-                message.To.Add(new MailboxAddress(multiple_email));
+                message.To.Add(new MailboxAddress(multiple_email.Trim()));
             }
 
             message.Subject = subject;

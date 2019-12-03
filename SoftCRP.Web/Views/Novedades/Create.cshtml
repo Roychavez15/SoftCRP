@@ -7,7 +7,7 @@
     <div align="left" class="col-md-6">
         <div class="card card-info">
             <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
-                <h2 class="card-title" style="font-style:oblique"><b>CREAR ANÁLISIS CLIENTE - @Model.cedula</b></h2>
+                <h2 class="card-title" style="font-style:oblique"><b>CREAR NOVEDAD CLIENTE - @Model.cedula</b></h2>
             </div>
 
             <form id="PlanForm" name="PlanForm" method="post" action="Create" enctype="multipart/form-data">
@@ -84,7 +84,8 @@
         @Html.Raw(ViewBag.SweetAlertShowMessage)
         $(document).ready(function () {
             $("#btnsubmit").click(function () {
-                var placas = $('#Placasobj').val();
+                debugger;
+                var placas = $('#Placasobj').val();                
                 var Motivo = $('#Motivoobj').val();
                 var SubMotivo = $('#SubMotivoobj').val();
                 var Via = $('#Viaobj').val();
