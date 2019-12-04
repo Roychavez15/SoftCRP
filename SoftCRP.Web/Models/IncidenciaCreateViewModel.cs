@@ -11,6 +11,7 @@ namespace SoftCRP.Web.Models
         public int submotivo { get; set; }
         public string observacion { get; set; }
         public string usuario { get; set; }
+        public string usuario_solucion { get; set; }
         public string motivo { get; set; }
     }
 }

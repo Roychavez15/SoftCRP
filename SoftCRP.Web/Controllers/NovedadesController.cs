@@ -271,19 +271,34 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
 
-                ///
-                var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
-                var idSubmotivo = await _datosRepository.GetSubMotivosIncidenciaIdAsync(model.SubMotivoId);
-                var incidencia = new IncidenciaCreateViewModel
-                {
-                    Placa=novedad.Placa,
-                    submotivo=idSubmotivo.Id,
-                    motivo=idMotivo.Id.ToString(),
-                    usuario=user.UserName,
-                    observacion=novedad.Observaciones
-                };
-                var registroincidencia = await _datosRepository.IngresoIncidencia(incidencia);
+                //enviar correo
+                //var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                //var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
 
+                //var emails = "roy_chavez15@hotmail.com";
+                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
+                var emails = user.Email + ',' + datos.Email;
+
+                ///
+                if (novedad.Placa != "FLOTA")
+                {
+                    var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
+                    var idSubmotivo = await _datosRepository.GetSubMotivosIncidenciaIdAsync(model.SubMotivoId);
+                    var incidencia = new IncidenciaCreateViewModel
+                    {
+                        Placa = novedad.Placa,
+                        submotivo = idSubmotivo.Id,
+                        motivo = idMotivo.Id.ToString(),
+                        usuario = user.UserName,
+                        observacion = novedad.Observaciones,
+                        usuario_solucion = idSubmotivo.Usuario_asesor
+                    };
+                    var registroincidencia = await _datosRepository.IngresoIncidencia(incidencia);
+                    if (idSubmotivo.Correo_solucionadores != "")
+                    {
+                        emails = emails + ',' + idSubmotivo.Correo_solucionadores;
+                    }
+                }
                 ///
                 var lognovedad = new LogNovedad
                 {
@@ -296,13 +311,6 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.logNovedades.Add(lognovedad);
                 await _dataContext.SaveChangesAsync();
 
-                //enviar correo
-                //var datos = await _datosRepository.GetDatosCliente(model.cedula);
-                //var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(model.TipoAnalisisId);
-
-                //var emails = "roy_chavez15@hotmail.com";
-                var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
-                var emails = user.Email + ',' + datos.Email;
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "Plataforma Clientes",
@@ -405,7 +413,6 @@ namespace SoftCRP.Web.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> Edit(int id, NovedadesEditViewModel model)
         {
             if (id != model.Id)
@@ -625,7 +632,6 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
 
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
