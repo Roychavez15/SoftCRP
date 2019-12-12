@@ -56,7 +56,7 @@ namespace SoftCRP.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo")] TipoCapacitacion tipoCapacitacion)
+        public async Task<IActionResult> Create(TipoCapacitacion tipoCapacitacion)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace SoftCRP.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo")] TipoCapacitacion tipoCapacitacion)
+        public async Task<IActionResult> Edit(int id, TipoCapacitacion tipoCapacitacion)
         {
             if (id != tipoCapacitacion.Id)
             {
@@ -119,34 +119,40 @@ namespace SoftCRP.Web.Controllers
         }
 
         // GET: TipoCapacitaciones/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var tipoCapacitacion = await _context.tipoCapacitaciones
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoCapacitacion == null)
-            {
-                return NotFound();
-            }
+        //    var tipoCapacitacion = await _context.tipoCapacitaciones
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (tipoCapacitacion == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(tipoCapacitacion);
-        }
+        //    return View(tipoCapacitacion);
+        //}
 
         // POST: TipoCapacitaciones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var tipoCapacitacion = await _context.tipoCapacitaciones.FindAsync(id);
+        //    _context.tipoCapacitaciones.Remove(tipoCapacitacion);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        public async Task<IActionResult> Delete(int id)
         {
             var tipoCapacitacion = await _context.tipoCapacitaciones.FindAsync(id);
             _context.tipoCapacitaciones.Remove(tipoCapacitacion);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool TipoCapacitacionExists(int id)
         {
             return _context.tipoCapacitaciones.Any(e => e.Id == id);

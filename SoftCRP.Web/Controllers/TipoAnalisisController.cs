@@ -22,7 +22,7 @@ namespace SoftCRP.Web.Controllers
         }
 
         // GET: TipoAnalisis
-        
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.TiposAnalisis.ToListAsync());
@@ -120,33 +120,41 @@ namespace SoftCRP.Web.Controllers
         }
 
         // GET: TipoAnalisis/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var tipoAnalisis = await _context.TiposAnalisis
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoAnalisis == null)
-            {
-                return NotFound();
-            }
+        //    var tipoAnalisis = await _context.TiposAnalisis
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (tipoAnalisis == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(tipoAnalisis);
-        }
+        //    return View(tipoAnalisis);
+        //}
 
-        // POST: TipoAnalisis/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[HttpPost]
+        public async Task<IActionResult> Delete(int id)
         {
             var tipoAnalisis = await _context.TiposAnalisis.FindAsync(id);
             _context.TiposAnalisis.Remove(tipoAnalisis);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        // POST: TipoAnalisis/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var tipoAnalisis = await _context.TiposAnalisis.FindAsync(id);
+        //    _context.TiposAnalisis.Remove(tipoAnalisis);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool TipoAnalisisExists(int id)
         {

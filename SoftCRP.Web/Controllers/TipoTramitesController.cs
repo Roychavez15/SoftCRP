@@ -56,7 +56,7 @@ namespace SoftCRP.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo")] TipoTramite tipoTramite)
+        public async Task<IActionResult> Create(TipoTramite tipoTramite)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace SoftCRP.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo")] TipoTramite tipoTramite)
+        public async Task<IActionResult> Edit(int id, TipoTramite tipoTramite)
         {
             if (id != tipoTramite.Id)
             {
@@ -119,34 +119,40 @@ namespace SoftCRP.Web.Controllers
         }
 
         // GET: TipoTramites/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var tipoTramite = await _context.tipoTramites
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoTramite == null)
-            {
-                return NotFound();
-            }
+        //    var tipoTramite = await _context.tipoTramites
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (tipoTramite == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(tipoTramite);
-        }
+        //    return View(tipoTramite);
+        //}
 
-        // POST: TipoTramites/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //// POST: TipoTramites/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var tipoTramite = await _context.tipoTramites.FindAsync(id);
+        //    _context.tipoTramites.Remove(tipoTramite);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        public async Task<IActionResult> Delete(int id)
         {
             var tipoTramite = await _context.tipoTramites.FindAsync(id);
             _context.tipoTramites.Remove(tipoTramite);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool TipoTramiteExists(int id)
         {
             return _context.tipoTramites.Any(e => e.Id == id);

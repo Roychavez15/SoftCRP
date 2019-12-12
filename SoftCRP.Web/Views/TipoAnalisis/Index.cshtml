@@ -33,10 +33,14 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Tipo)
                                 </td>
-                                <td>
+                                <td id="@item.Id">
                                     <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>&nbsp;
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a> &nbsp;   
-                                    <button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile"><i class="far fa-trash-alt"></i></button>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a> &nbsp;
+                                    @*<button asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger deletefile"><i class="far fa-trash-alt"></i></button>*@
+                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>            
+                                    }
                                 </td>
                             </tr>
                         }
@@ -65,7 +69,7 @@
                 id = $(this).parent()[0].id;
                 swal({
                     title: "Estas seguro?",
-                    text: "Si eliminas este cliente no lo podras recuperar!",
+                    text: "Si eliminas este Registro no lo podras recuperar!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
@@ -85,11 +89,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/Account/Delete/' + id,
+                                url: '/SoftCRPWeb/TipoAnalisis/Delete/' + id,
+                                //url: '/TipoAnalisis/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Eliminado', 'success');
-                                        window.location.href = '/Account';
+                                        window.location.href = '/SoftCRPWeb/TipoAnalisis';
+                                        //window.location.href = '/TipoAnalisis';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
