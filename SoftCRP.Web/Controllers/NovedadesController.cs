@@ -458,7 +458,7 @@ namespace SoftCRP.Web.Controllers
                         $"</title>" +
                         $"</head>" +
                         $"<body>" +
-                        //$"<h1>Plataforma Clientes Actualización Novedad</h1>" +
+                    //$"<h1>Plataforma Clientes Actualización Novedad</h1>" +
                         $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
                         $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
                         $"<br><br>" +
