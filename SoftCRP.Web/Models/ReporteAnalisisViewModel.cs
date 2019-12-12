@@ -23,5 +23,7 @@ namespace SoftCRP.Web.Models
         //[Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un Tipo.")]
         public string ClienteId { get; set; }
         public IEnumerable<SelectListItem> Clientes { get; set; }
+        
+        //public User user { get; set; }
     }
 }

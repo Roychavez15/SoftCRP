@@ -312,7 +312,7 @@ namespace SoftCRP.Web.Helpers
                 Value = ""
             });
 
-            return myList;
+            return myList.OrderBy(n=>n.Text);
             //throw new NotImplementedException();
         }
     }
