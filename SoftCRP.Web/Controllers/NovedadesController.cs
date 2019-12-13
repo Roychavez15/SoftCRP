@@ -115,7 +115,7 @@ namespace SoftCRP.Web.Controllers
             if (!string.IsNullOrEmpty(id))
             {
                 novedadesCreateViewModel.cedula = id;
-                novedadesCreateViewModel.Placas = await _combosHelper.GetComboPlacas(id);
+                novedadesCreateViewModel.Placas = await _combosHelper.GetComboPlacasSN(id);
                 novedadesCreateViewModel.MotivoTypes = await _combosHelper.GetComboTipoNovedades();
                 novedadesCreateViewModel.SubMotivoTypes = await _combosHelper.GetComboSubMotivos();
                 novedadesCreateViewModel.ViaIngresoTypes = await _combosHelper.GetComboViaIngreso();

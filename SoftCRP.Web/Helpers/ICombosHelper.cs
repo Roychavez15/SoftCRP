@@ -15,6 +15,8 @@ namespace SoftCRP.Web.Helpers
         IEnumerable<SelectListItem> GetComboTipoCapacitaciones();
         Task<IEnumerable<SelectListItem>> GetComboPlacas(string nit);
 
+        Task<IEnumerable<SelectListItem>> GetComboPlacasSN(string nit);
+
         Task<IEnumerable<SelectListItem>> GetComboTipoNovedades();
 
         Task<IEnumerable<SelectListItem>> GetComboSubMotivos();

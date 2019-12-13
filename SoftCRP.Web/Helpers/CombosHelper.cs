@@ -146,6 +146,37 @@ namespace SoftCRP.Web.Helpers
             //throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<SelectListItem>> GetComboPlacasSN(string nit)
+        {
+
+            List<VehiculosClientesViewModel> placas = new List<VehiculosClientesViewModel>();
+
+            placas = await _datosRepository.GetVehiculosClienteAsync(nit);
+            List<SelectListItem> myList = new List<SelectListItem>();
+            int id = 1;
+            foreach (var Data in placas)
+            {
+
+                var data =
+                 new SelectListItem
+                 {
+                     Value = Data.placa,
+                     Text = Data.placa
+                 };
+                myList.Add(data);
+                id = id + 1;
+            };
+            //myList.Insert(0, new SelectListItem
+            //{
+            //    Text = "Flota",
+            //    Value = "Flota"
+            //});
+
+            return myList;
+
+            //throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<SelectListItem>> GetComboTipoNovedades()
         {
             List<TiposIncidenciaViewModel> tipos = new List<TiposIncidenciaViewModel>();
