@@ -289,7 +289,8 @@ namespace SoftCRP.Web.Controllers
                         Placa = novedad.Placa,
                         submotivo = idSubmotivo.Id,
                         motivo = idMotivo.Id.ToString(),
-                        usuario = user.UserName,
+                        //usuario = user.UserName,
+                        usuario = "RENTING",
                         observacion = novedad.Observaciones,
                         usuario_solucion = idSubmotivo.Usuario_asesor
                     };
