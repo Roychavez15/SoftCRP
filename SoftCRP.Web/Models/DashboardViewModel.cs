@@ -14,5 +14,6 @@ namespace SoftCRP.Web.Models
         public int Analisis { get; set; }
         public int Capacitaciones { get; set; }
 
+        public int Transacciones { get; set; }
     }
 }

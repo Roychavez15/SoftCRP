@@ -64,6 +64,7 @@ namespace SoftCRP.Web.Controllers
                         model.Tramite = _tramitesRepository.GetCountAllTramites(user.Cedula);
                         model.Capacitaciones = _capacitacionesRepository.GetCountAllCapacitaciones();
                         model.Analisis = _analisisRepository.GetCountAllAnalisis(user.Cedula);
+                        model.Transacciones = _tramitesRepository.GetCountAllTramites(user.Cedula) + _analisisRepository.GetCountAllAnalisis(user.Cedula);
                     }
                 }
             }
