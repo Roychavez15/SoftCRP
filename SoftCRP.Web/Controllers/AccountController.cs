@@ -412,9 +412,11 @@ namespace SoftCRP.Web.Controllers
                 var link = Url.Action(
                     "ResetPassword",
                     "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "SoftCRP Password Reset", $"<h1>SoftCRP Password Reset</h1>" +
-                    $"To reset the password click in this link:</br></br>" +
+                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3/SoftCRPWeb");
+                
+
+                _mailHelper.SendMail(model.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
+                    $"Para cambiar la contraseña haga click en este Link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
 
                 //ViewBag.Message = "The instructions to recover your password has been sent to email.";

@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Helpers
 {
@@ -33,8 +31,8 @@ namespace SoftCRP.Web.Helpers
             message.From.Add(new MailboxAddress(from));
 
             message.To.Add(new MailboxAddress(emaildefault));
-            
-            
+
+
 
             foreach (string multiple_email in Multiple)
             {
@@ -45,7 +43,7 @@ namespace SoftCRP.Web.Helpers
             var bodyBuilder = new BodyBuilder
             {
                 HtmlBody = body
-                
+
             };
             message.Body = bodyBuilder.ToMessageBody();
 
@@ -88,9 +86,9 @@ namespace SoftCRP.Web.Helpers
             message.Subject = subject;
             var bodyBuilder = new BodyBuilder
             {
-                HtmlBody = body                
+                HtmlBody = body
             };
-            if (files!=null)
+            if (files != null)
             {
                 foreach (IFormFile file in files)
                 {
@@ -110,7 +108,7 @@ namespace SoftCRP.Web.Helpers
                     client.Disconnect(true);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var messages = ex.Message;
             }

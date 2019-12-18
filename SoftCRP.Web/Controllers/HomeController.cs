@@ -13,6 +13,7 @@ namespace SoftCRP.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly IAnalisisRepository _analisisRepository;
         private readonly INovedadesRepository _novedadesRepository;
         private readonly ITramitesRepository _tramitesRepository;
         private readonly ICapacitacionesRepository _capacitacionesRepository;
@@ -20,12 +21,14 @@ namespace SoftCRP.Web.Controllers
 
         public HomeController(
             IUserHelper userHelper,
+            IAnalisisRepository analisisRepository,
             INovedadesRepository novedadesRepository,
             ITramitesRepository tramitesRepository,
             ICapacitacionesRepository capacitacionesRepository,
             IDatosRepository datosRepository)
         {
             _userHelper = userHelper;
+            _analisisRepository = analisisRepository;
             _novedadesRepository = novedadesRepository;
             _tramitesRepository = tramitesRepository;
             _capacitacionesRepository = capacitacionesRepository;
@@ -60,6 +63,7 @@ namespace SoftCRP.Web.Controllers
                         model.novedad = _novedadesRepository.GetNovedadAllNotSolution(user.Cedula);
                         model.Tramite = _tramitesRepository.GetCountAllTramites(user.Cedula);
                         model.Capacitaciones = _capacitacionesRepository.GetCountAllCapacitaciones();
+                        model.Analisis = _analisisRepository.GetCountAllAnalisis(user.Cedula);
                     }
                 }
             }

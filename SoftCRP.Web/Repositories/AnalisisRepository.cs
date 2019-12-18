@@ -78,5 +78,14 @@ namespace SoftCRP.Web.Repositories
             //return analisis;
         }
 
+        public int GetCountAllAnalisis(string nit)
+        {
+
+            var analisis = _dataContext.Analises
+                .Where(c => c.Cedula == nit).Count();
+            //.Where(s => s.EstadoSolucion == null && s.Cedula == nit).Count();
+
+            return analisis;
+        }
     }
 }

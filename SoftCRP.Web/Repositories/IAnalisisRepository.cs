@@ -12,6 +12,7 @@ namespace SoftCRP.Web.Repositories
         Task<AnalisisViewModel> GetAnalisis(string cedula);
         Task<Analisis> GetAnalisisByIdAsync(int? id);
 
+        int GetCountAllAnalisis(string nit);
         Task<IEnumerable<Analisis>> GetAnalisisReportesAsync(DateTime Inicio, DateTime Fin, string filter);
     }
 }

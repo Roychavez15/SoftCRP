@@ -11,6 +11,7 @@ namespace SoftCRP.Web.Models
         public List<VehiculosClientesViewModel> VehiculosClientesViewModel { get; set; }
         public int novedad  { get; set; }
         public int Tramite { get; set; }
+        public int Analisis { get; set; }
         public int Capacitaciones { get; set; }
 
     }
