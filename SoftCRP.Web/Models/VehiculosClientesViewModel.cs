@@ -19,7 +19,7 @@ namespace SoftCRP.Web.Models
         [Display(Name = "Estado")]
         public string historial_vh { get; set; }
 
-
+        public int historial_pr { get; set; }
 
 
     }

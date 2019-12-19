@@ -159,6 +159,7 @@ namespace SoftCRP.Web.Controllers
                 var capacitacion = new Capacitacion
                 {
                     Fecha = DateTime.Now,
+                    Link=model.Link,
                     Test = model.Test,
                     tipoCapacitacionId=model.tipoCapacitacionId,
                     archivoCapacitaciones=archivoCapacitacionesList,
@@ -192,7 +193,8 @@ namespace SoftCRP.Web.Controllers
 
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +                    
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Capacitación</td><td>{model.Link}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Test</td><td>{model.Test}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table>"+
                     $"<br><br>" +
@@ -257,6 +259,7 @@ namespace SoftCRP.Web.Controllers
                 var capacitacion = new Capacitacion
                 {
                     Fecha = DateTime.Now,
+                    Link=model.Link,
                     Test = model.Test,
                     tipoCapacitacionId = model.tipoCapacitacionId,
                     archivoCapacitaciones = archivoCapacitacionesList,
@@ -288,7 +291,8 @@ namespace SoftCRP.Web.Controllers
 
                     $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
                     $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoCapacitacion.Tipo}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Test}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Capacitación</td><td>{model.Link}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Test</td><td>{model.Test}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table>"+
                     $"<br><br>" +

@@ -19,8 +19,12 @@ namespace SoftCRP.Web.Data.Entities
         public DateTime Fecha { get; set; }
         public DateTime FechaLocal => Fecha.ToLocalTime();
 
-        [Display(Name = "Link")]
+        [Display(Name = "Capacitación")]
+        public string Link { get; set; }
+
+        [Display(Name = "Test")]
         public string Test { get; set; }
+
 
         [Required]
         public int tipoCapacitacionId { get; set; }

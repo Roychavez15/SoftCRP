@@ -20,7 +20,10 @@ namespace SoftCRP.Web.Models
         public int tipoCapacitacionId { get; set; }
         public IEnumerable<SelectListItem> CapacitacionesTypes { get; set; }
 
-        [Display(Name = "Link")]
+        [Display(Name = "Capacitación")]
+        public string Link { get; set; }
+
+        [Display(Name = "Test")]
         public string Test { get; set; }
 
         public List<IFormFile> Files { get; set; }

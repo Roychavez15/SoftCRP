@@ -19,12 +19,18 @@
                         <dd>
                             @Html.DisplayFor(model => model.tipoCapacitacion.Tipo)
                         </dd>
-                        @*<dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Link)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Link)
+                        </dd>
+                        <dt>
                             @Html.DisplayNameFor(model => model.Test)
                         </dt>
                         <dd>
                             @Html.DisplayFor(model => model.Test)
-                        </dd>*@
+                        </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.Fecha)
                         </dt>
@@ -50,7 +56,7 @@
         </div>
         <div class="col-md-6">
             <iframe width="500" height="300"
-                    src=@Model.Test
+                    src=@Model.Link
                     frameborder="0"
                     allow="autoplay; encrypted-media"
                     allowfullscreen>

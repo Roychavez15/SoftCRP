@@ -223,6 +223,7 @@ namespace SoftCRP.Web.Repositories
                     vehiculos.nit_cliente = nit_cliente[0].InnerText;
                     vehiculos.placa = placa[0].InnerText;
                     vehiculos.historial_vh = historial_vh[0].InnerText;
+                    vehiculos.historial_pr = HistorialVehiculos(nit_cliente[0].InnerText, placa[0].InnerText);
 
                     Vehiculos.Add(vehiculos);
                 }
@@ -605,6 +606,18 @@ namespace SoftCRP.Web.Repositories
 
 
             //return true;
+        }
+
+        private int HistorialVehiculos (string nit, string placa)
+        {
+            int total = 0;
+
+            total = total + _context.Analises.Where(a => a.Placa == placa && a.Cedula != nit).Count();
+            total = total + _context.tramites.Where(a => a.Placa == placa && a.Cedula != nit).Count();
+            total = total + _context.novedades.Where(a => a.Placa == placa && a.Cedula != nit).Count();
+
+
+            return total;
         }
     }
 }
