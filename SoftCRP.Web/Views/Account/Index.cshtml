@@ -155,11 +155,11 @@
                                     {
                                         @if (item.isActive)
                                         {
-                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-success" id="btnDeleteItem"><i class="fa fa-check"></i></a>
                                         }
                                         else
                                         {
-                                            <a asp-action="Enable" asp-route-id="@item.Id" class="btn btn-success" id="btnEnableItem"><i class="far fa-unlock-alt"></i></a>
+                                            <a asp-action="Enable" asp-route-id="@item.Id" class="btn btn-danger" id="btnEnableItem"><i class="fa fa-power-off"></i></a>
                                         }
 
                                     }
@@ -221,14 +221,15 @@
 
                 swal({
                     title: "Estas seguro?",
-                    text: "Si eliminas este cliente no lo podras recuperar!",
+                    text: "Si Desactivas este usuario no podra ingresar al sistema!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Eliminarlo!",
-                    cancelButtonText: "No, Cancelar Borrar!",
+                    confirmButtonText: "Yes, Desactivarlo!",
+                    cancelButtonText: "No, Cancelar Desactivar!",
                     closeOnConfirm: false,
-                    closeOnCancel: false
+                    closeOnCancel: false,
+                    showLoaderOnConfirm: true,
                 },
                     function (isConfirm) {
                         debugger;
@@ -245,20 +246,76 @@
                                 //url: '/SoftWebCRP/Account/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
-                                        swal('Registro Eliminado', 'success');
+                                        swal('Usuario Desactivado', 'success');
                                         window.location.href = '/Account/Index';
                                         //window.location.href = '/SoftWebCRP/Account/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
-                                        swal('No se pudo eliminar', 'warning');
+                                        swal('No se pudo desactivar', 'warning');
                                         return false;
                                     }
                                 }
                             });
 
                         } else {
-                            swal("Cancelar", "Borrado cancelado :)", "error");
+                            swal("Cancelar", "Desactivar cancelado :)", "error");
+                            return false
+                        }
+
+                    });
+                
+                return false
+            });
+
+            //activa usuario
+            $('a[id*=btnEnableItem]').click(function () {
+
+                id = $(this).parent()[0].id;
+
+                debugger;
+
+                swal({
+                    title: "Estas seguro?",
+                    text: "Se Activara Nuevamente este Usuario!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Activarlo!",
+                    cancelButtonText: "No, Cancelar Activar!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showLoaderOnConfirm: true,
+                },
+                    function (isConfirm) {
+                        debugger;
+                        if (isConfirm) {
+
+                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                            //window.location.href = '/Clientes/Delete/' + id;
+
+                            //return false
+
+                            $.ajax({
+                                type: 'post',
+                                url: '/Account/Enable/' + id,
+                                //url: '/SoftWebCRP/Account/Delete/' + id,
+                                success: function (data) {
+                                    if (data) {
+                                        swal('Registro Eliminado', 'success');
+                                        window.location.href = '/Account/Index';
+                                        //window.location.href = '/SoftWebCRP/Account/Index';
+                                        //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
+                                    }
+                                    else {
+                                        swal('No se pudo activar', 'warning');
+                                        return false;
+                                    }
+                                }
+                            });
+
+                        } else {
+                            swal("Cancelar", "Activado cancelado :)", "error");
                             return false
                         }
 

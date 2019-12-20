@@ -172,7 +172,7 @@ namespace SoftCRP.Web.Helpers
             //var lockoutEndDate = new DateTime(2999, 01, 01);
             //await _userManager.SetLockoutEnabledAsync(user, option);
             //return await _userManager.SetLockoutEndDateAsync(user, lockoutEndDate);
-            user.isActive = false;
+            user.isActive = option;
             return await _userManager.UpdateAsync(user);
 
         }

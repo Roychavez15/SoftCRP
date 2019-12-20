@@ -79,6 +79,7 @@ namespace SoftCRP.Web.Controllers
                             //Email = model.Username,
                             //PhoneNumber = model.PhoneNumber,
                             UserName = model.Username,
+                            isActive=true,
                         };
                         var result2 = await _userHelper.AddUserAsync(user, model.Password);
                         if (result2 != IdentityResult.Success)
@@ -92,7 +93,12 @@ namespace SoftCRP.Web.Controllers
                     }
                     else
                     {
-                        
+                        if(!user.isActive)
+                        {
+                            ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario, Usuario Desactivado", SweetAlertMessageType.error);
+                            //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+                            return View(model);
+                        }
                         //await _userHelper.ChangePasswordAsync(user,user.PasswordHash)
                     }
                     
@@ -100,7 +106,18 @@ namespace SoftCRP.Web.Controllers
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
+                    var user = await _userHelper.GetUserAsync(model.Username);
+
+                    if (!user.isActive)
+                    {
+                        await _logRepository.SaveLogs("Error", "Usuario Desactivado", "Account", model.Username);
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario, Usuario Desactivado", SweetAlertMessageType.error);
+                        //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+                        return View(model);
+                    }
+
                     await _logRepository.SaveLogs("Success", "Login", "Account", model.Username);
+
                     if (Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         return Redirect(Request.Query["ReturnUrl"].First());
@@ -500,6 +517,7 @@ namespace SoftCRP.Web.Controllers
                     PhoneNumber = user.PhoneNumber,
                     UserName = user.UserName,
                     ImageUrl = user.ImageUrl,
+                    isActive = user.isActive,
                 };
                 var usermodel = await _userHelper.GetUserAsync(user.UserName);
                 var roles = await _userHelper.GetAllListRoles(usermodel);
@@ -634,12 +652,31 @@ namespace SoftCRP.Web.Controllers
             {
                 user.isActive = false;
                 await _userHelper.EnableDisableUser(user, false);
-                await _logRepository.SaveLogs("Borrar", "Usuario Id: " + id.ToString(), "Account", User.Identity.Name);
+                await _logRepository.SaveLogs("Desactiva Usuario", "Usuario Id: " + id.ToString(), "Account", User.Identity.Name);
             }
 
             return RedirectToAction("Index", "Account");
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Enable(string id)
+        {
+            if (id == "")
+            {
 
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+            if (user != null)
+            {
+                user.isActive = true;
+                await _userHelper.EnableDisableUser(user, true);
+                await _logRepository.SaveLogs("Activar Usuario", "Usuario Id: " + id.ToString(), "Account", User.Identity.Name);
+            }
+
+            return RedirectToAction("Index", "Account");
+        }
         public async Task<IActionResult> NotAuthorized()
         {
             await _logRepository.SaveLogs("Error", "Página no autorizada", "Account", User.Identity.Name);
