@@ -8,22 +8,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
     [Authorize(Roles = "Admin,Renting")]
     public class TipoTramitesController : Controller
     {
+        private readonly ILogRepository _logRepository;
         private readonly DataContext _context;
 
-        public TipoTramitesController(DataContext context)
+        public TipoTramitesController(
+            ILogRepository logRepository,
+            DataContext context)
         {
+            _logRepository = logRepository;
             _context = context;
         }
 
         // GET: TipoTramites
         public async Task<IActionResult> Index()
         {
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Tipo Trámites", "Tipo Trámites", User.Identity.Name);
             return View(await _context.tipoTramites.ToListAsync());
         }
 
@@ -62,6 +68,8 @@ namespace SoftCRP.Web.Controllers
             {
                 _context.Add(tipoTramite);
                 await _context.SaveChangesAsync();
+
+                await _logRepository.SaveLogs("Crear", "Crear Tipo Trámites Id: "+tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoTramite);
@@ -101,6 +109,8 @@ namespace SoftCRP.Web.Controllers
                 {
                     _context.Update(tipoTramite);
                     await _context.SaveChangesAsync();
+
+                    await _logRepository.SaveLogs("Editar", "Editar Tipo Trámites Id: " + tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -149,6 +159,7 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var tipoTramite = await _context.tipoTramites.FindAsync(id);
+            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Trámites Id: " + tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
             _context.tipoTramites.Remove(tipoTramite);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -36,6 +36,7 @@ namespace SoftCRP.Web.Data
         public DbSet<ArchivoCapacitaciones> archivoCapacitaciones { get; set; }
 
         //Logs
+        public DbSet<Log> Logs { get; set; }
         public DbSet<LogNovedad> logNovedades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -23,6 +23,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly ILogRepository _logRepository;
         private readonly INovedadesRepository _novedadesRepository;
         private readonly DataContext _dataContext;
 
@@ -33,6 +34,7 @@ namespace SoftCRP.Web.Controllers
             ICombosHelper combosHelper,
             IFileHelper fileHelper,
             IMailHelper mailHelper,
+            ILogRepository logRepository,
             DataContext dataContext
             )
         {
@@ -41,6 +43,7 @@ namespace SoftCRP.Web.Controllers
             _combosHelper = combosHelper;
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
+            _logRepository = logRepository;
             _novedadesRepository = novedadesRepository;
             _dataContext = dataContext;
         }
@@ -63,7 +66,7 @@ namespace SoftCRP.Web.Controllers
             }
 
             ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(user.Cedula);
-
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Novedades", "Novedades", User.Identity.Name);
             return View(model);
         }
         public async Task<IActionResult> IndexLista()
@@ -74,6 +77,7 @@ namespace SoftCRP.Web.Controllers
             if (user != null)
             {
                 var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                await _logRepository.SaveLogs("Get", "Obtiene lista de Clientes", "Novedades", User.Identity.Name);
                 return View(clientes);
             }
 
@@ -88,6 +92,7 @@ namespace SoftCRP.Web.Controllers
                 model = await _novedadesRepository.GetNovedadAsync(id);
                 ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
             }
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Novedades", "Novedades", User.Identity.Name);
             return View(model);
         }
 
@@ -176,6 +181,7 @@ namespace SoftCRP.Web.Controllers
                 _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
 
+                await _logRepository.SaveLogs("Crear", "Crea Novedades id: " + novedad.Id.ToString(), "Novedades", User.Identity.Name);
 
                 var lognovedad = new LogNovedad
                 {
@@ -270,6 +276,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.novedades.Add(novedad);
                 await _dataContext.SaveChangesAsync();
+                await _logRepository.SaveLogs("Crear", "Crea Novedades id: " + novedad.Id.ToString(), "Novedades", User.Identity.Name);
+
 
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
@@ -376,7 +384,7 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
+            await _logRepository.SaveLogs("Detalles", "Detalles Novedades id: " + novedad.Id.ToString(), "Novedades", User.Identity.Name);
             return View(novedad);
         }
         // GET: Clientes/Edit/5
@@ -447,6 +455,7 @@ namespace SoftCRP.Web.Controllers
                     _dataContext.logNovedades.Add(lognovedad);
                     await _dataContext.SaveChangesAsync();
 
+                    await _logRepository.SaveLogs("Editar", "Edita Novedades id: " + novedad.Id.ToString()+"-"+novedad.EstadoSolucion, "Novedades", User.Identity.Name);
                     //////
                     var datos = await _userHelper.GetUserByCedulaAsync(novedad.Cedula);
                     var emails = novedad.userSolucion.Email + ',' + datos.Email;
@@ -526,6 +535,8 @@ namespace SoftCRP.Web.Controllers
 
             var cedula = novedades.Cedula;
 
+            await _logRepository.SaveLogs("Borrar", "Borrar Novedades id: " + novedades.Id.ToString(), "Novedades", User.Identity.Name);
+
             _dataContext.novedades.Remove(novedades);
             await _dataContext.SaveChangesAsync();
 
@@ -586,6 +597,8 @@ namespace SoftCRP.Web.Controllers
 
                     _dataContext.archivoNovedades.Add(archivoNovedades);
                     await _dataContext.SaveChangesAsync();
+
+                    await _logRepository.SaveLogs("Guarda", "Archivo Novedades id: " + archivoNovedades.Id.ToString(), "Novedades", User.Identity.Name);
                     //return RedirectToAction($"{nameof(Retorno)}/{archivoNovedades.novedad.Cedula}");
                     return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
@@ -612,8 +625,10 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
+            await _logRepository.SaveLogs("Borrar", "Borrar Archivo Novedades id: " + file.Id.ToString(), "Novedades", User.Identity.Name);
             _dataContext.archivoNovedades.Remove(file);
             await _dataContext.SaveChangesAsync();
+
             //return RedirectToAction($"{nameof(Retorno)}/{file.novedad.Cedula}");
             return RedirectToAction($"{nameof(Edit)}/{file.novedad.Id}");
         }
@@ -633,7 +648,7 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
+            await _logRepository.SaveLogs("Descargar", "Descargar Novedades id: " + file.Id.ToString(), "Novedades", User.Identity.Name);
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
         }

@@ -17,15 +17,18 @@ namespace SoftCRP.Web.Controllers
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly ILogRepository _logRepository;
         private readonly IDatosRepository _datosRepository;
 
         public InformacionController(
             DataContext context,
             IUserHelper userHelper,
+            ILogRepository logRepository,
             IDatosRepository datosRepository)
         {
             _context = context;
             _userHelper = userHelper;
+            _logRepository = logRepository;
             _datosRepository = datosRepository;
         }
         public async Task<IActionResult> Index()
@@ -48,6 +51,7 @@ namespace SoftCRP.Web.Controllers
                     }
                 }
             }
+            await _logRepository.SaveLogs("Get", "Obtiene Lista de Flota", "Información", User.Identity.Name);
 
             return View(Vehiculos);
         }
@@ -60,6 +64,7 @@ namespace SoftCRP.Web.Controllers
             if (user != null)
             {
                 var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                await _logRepository.SaveLogs("Get", "Obtiene Lista de Clientes", "Información", User.Identity.Name);
                 return View(clientes);
             }
 
@@ -77,7 +82,7 @@ namespace SoftCRP.Web.Controllers
                 Vehiculos = await _datosRepository.GetVehiculosClienteAsync(id);
             }
 
-
+            await _logRepository.SaveLogs("Get", "Obtiene Lista de Flota", "Información", User.Identity.Name);
             return View(Vehiculos);
         }
 
@@ -111,7 +116,9 @@ namespace SoftCRP.Web.Controllers
             if (vehiculo == null)
             {
                 return NotFound();
-            }            
+            }
+
+            await _logRepository.SaveLogs("Get", "Obtiene Información de Vehículo: "+vehiculo.Placa, "Información", User.Identity.Name);
             return View(vehiculo);
 
         }

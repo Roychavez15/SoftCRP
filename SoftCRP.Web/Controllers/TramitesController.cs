@@ -23,6 +23,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly ILogRepository _logRepository;
         private readonly DataContext _dataContext;
 
         public TramitesController(
@@ -32,6 +33,7 @@ namespace SoftCRP.Web.Controllers
             ICombosHelper combosHelper,
             IFileHelper fileHelper,
             IMailHelper mailHelper,
+            ILogRepository logRepository,
             DataContext dataContext)
         {
             _userHelper = userHelper;
@@ -40,6 +42,7 @@ namespace SoftCRP.Web.Controllers
             _combosHelper = combosHelper;
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
+            _logRepository = logRepository;
             _dataContext = dataContext;
         }
         public async Task<IActionResult> Index()
@@ -61,7 +64,7 @@ namespace SoftCRP.Web.Controllers
             }
 
             ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(user.Cedula);
-
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Trámites", "Trámites", User.Identity.Name);
             return View(model);
         }
         public async Task<IActionResult> IndexLista()
@@ -72,6 +75,7 @@ namespace SoftCRP.Web.Controllers
             if (user != null)
             {
                 var clientes = await _userHelper.GetListUsersInRole("Cliente");
+                await _logRepository.SaveLogs("Get", "Obtiene lista de Clientes", "Trámites", User.Identity.Name);
                 return View(clientes);
             }
 
@@ -86,7 +90,9 @@ namespace SoftCRP.Web.Controllers
                 model = await _tramitesRepository.GetTramiteAsync(id);
                 ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
             }
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Trámites", "Trámites", User.Identity.Name);
             return View(model);
+
         }
 
         [HttpPost]
@@ -170,6 +176,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.tramites.Add(tramite);
                 await _dataContext.SaveChangesAsync();
+
+                await _logRepository.SaveLogs("Crear", "Crea Trámites Id: "+tramite.Id.ToString(), "Trámites", User.Identity.Name);
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoTramite = await _dataContext.tipoTramites.FindAsync(model.TipoTramiteId);
@@ -248,6 +256,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.tramites.Add(tramite);
                 await _dataContext.SaveChangesAsync();
+                await _logRepository.SaveLogs("Crear", "Crea Trámites Id: " + tramite.Id.ToString(), "Trámites", User.Identity.Name);
+
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoTramite = await _dataContext.tipoTramites.FindAsync(model.TipoTramiteId);
@@ -320,7 +330,7 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
+            await _logRepository.SaveLogs("Detalles", "Trámites Id: " + tramite.Id.ToString(), "Trámites", User.Identity.Name);
             return View(tramite);
         }
         // GET: Clientes/Edit/5
@@ -357,6 +367,7 @@ namespace SoftCRP.Web.Controllers
                 {
                     _dataContext.Update(tramite);
                     await _dataContext.SaveChangesAsync();
+                    await _logRepository.SaveLogs("Editar", "Trámites Id: " + tramite.Id.ToString(), "Trámites", User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -389,6 +400,7 @@ namespace SoftCRP.Web.Controllers
 
             var cedula = tramite.Cedula;
 
+            await _logRepository.SaveLogs("Borrar", "Borra Trámites Id: " + tramite.Id.ToString(), "Trámites", User.Identity.Name);
             _dataContext.tramites.Remove(tramite);
             await _dataContext.SaveChangesAsync();
 
@@ -448,6 +460,8 @@ namespace SoftCRP.Web.Controllers
 
                     _dataContext.archivoTramites.Add(archivoTramites);
                     await _dataContext.SaveChangesAsync();
+
+                    await _logRepository.SaveLogs("Guarda", "Guarda Archivo Trámites Id: " + archivoTramites.Id.ToString(), "Trámites", User.Identity.Name);
                     //return RedirectToAction($"{nameof(Retorno)}/{archivoTramites.tramite.Cedula}");
                     return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
@@ -474,6 +488,7 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
+            await _logRepository.SaveLogs("Borrar", "Borrar Archivo Trámites Id: " + file.Id.ToString(), "Trámites", User.Identity.Name);
             _dataContext.archivoTramites.Remove(file);
             await _dataContext.SaveChangesAsync();
             //return RedirectToAction($"{nameof(Retorno)}/{file.tramite.Cedula}");
@@ -496,7 +511,7 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
-
+            await _logRepository.SaveLogs("Descargar", "Descargar Archivo Trámites Id: " + file.Id.ToString(), "Trámites", User.Identity.Name);
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
         }

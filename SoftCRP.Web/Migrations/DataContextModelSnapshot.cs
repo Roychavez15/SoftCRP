@@ -316,6 +316,31 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("IP");
+
+                    b.Property<string>("Level");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("Module");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Logs");
+                });
+
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.LogNovedad", b =>
                 {
                     b.Property<int>("Id")
@@ -660,6 +685,13 @@ namespace SoftCRP.Web.Migrations
                         .HasForeignKey("tipoCapacitacionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>
+                {
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");

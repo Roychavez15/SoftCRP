@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
@@ -15,16 +16,21 @@ namespace SoftCRP.Web.Controllers
     public class TipoAnalisisController : Controller
     {
         private readonly DataContext _context;
+        private readonly ILogRepository _logRepository;
 
-        public TipoAnalisisController(DataContext context)
+        public TipoAnalisisController(
+            DataContext context,
+            ILogRepository logRepository)
         {
             _context = context;
+            _logRepository = logRepository;
         }
 
         // GET: TipoAnalisis
 
         public async Task<IActionResult> Index()
         {
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Tipo Análisis", "Tipo Análisis", User.Identity.Name);
             return View(await _context.TiposAnalisis.ToListAsync());
         }
 
@@ -63,6 +69,8 @@ namespace SoftCRP.Web.Controllers
             {
                 _context.Add(tipoAnalisis);
                 await _context.SaveChangesAsync();
+
+                await _logRepository.SaveLogs("Crear", "Crear Tipo Análisis", "Tipo Análisis Id: "+tipoAnalisis.Id.ToString(), User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoAnalisis);
@@ -102,6 +110,7 @@ namespace SoftCRP.Web.Controllers
                 {
                     _context.Update(tipoAnalisis);
                     await _context.SaveChangesAsync();
+                    await _logRepository.SaveLogs("Editar", "Editar Tipo Análisis", "Tipo Análisis Id: "+tipoAnalisis.Id.ToString(), User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -141,6 +150,9 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var tipoAnalisis = await _context.TiposAnalisis.FindAsync(id);
+
+            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Análisis: "+tipoAnalisis.Id.ToString(), "Tipo Análisis", User.Identity.Name);
+
             _context.TiposAnalisis.Remove(tipoAnalisis);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

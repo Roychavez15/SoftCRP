@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data;
@@ -117,6 +119,12 @@ namespace SoftCRP.Web
             services.AddScoped<INovedadesRepository, NovedadesRepository>();
             services.AddScoped<ITramitesRepository, TramitesRepository>();
             services.AddScoped<ICapacitacionesRepository, CapacitacionesRepository>();
+
+            services.AddScoped<ILogRepository, LogRepository>();
+
+
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             var url = Configuration["WsdlUser"];
              

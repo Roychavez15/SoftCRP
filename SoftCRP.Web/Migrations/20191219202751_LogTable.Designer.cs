@@ -10,8 +10,8 @@ using SoftCRP.Web.Data;
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191101224941_capacitacionesdb1")]
-    partial class capacitacionesdb1
+    [Migration("20191219202751_LogTable")]
+    partial class LogTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -197,23 +197,19 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("ArchivoPath");
 
-                    b.Property<int?>("CapacitacionId");
-
                     b.Property<DateTime>("Fecha");
 
                     b.Property<string>("TipoArchivo");
 
-                    b.Property<long>("tamanio");
+                    b.Property<int?>("capacitacionId");
 
-                    b.Property<int?>("tramiteId");
+                    b.Property<long>("tamanio");
 
                     b.Property<string>("userId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CapacitacionId");
-
-                    b.HasIndex("tramiteId");
+                    b.HasIndex("capacitacionId");
 
                     b.HasIndex("userId");
 
@@ -282,6 +278,8 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<DateTime>("Fecha");
 
+                    b.Property<string>("Link");
+
                     b.Property<string>("Test");
 
                     b.Property<int>("tipoCapacitacionId");
@@ -318,6 +316,56 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("IP");
+
+                    b.Property<string>("Level");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("Module");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Logs");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.LogNovedad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Estado");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<string>("Observaciones");
+
+                    b.Property<string>("UsuarioId");
+
+                    b.Property<int?>("novedadId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("novedadId");
+
+                    b.ToTable("logNovedades");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Novedad", b =>
@@ -389,7 +437,7 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("Tipo")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -487,13 +535,13 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(200);
 
                     b.Property<string>("ImageUrl");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(200);
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -601,13 +649,9 @@ namespace SoftCRP.Web.Migrations
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.ArchivoCapacitaciones", b =>
                 {
-                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion")
+                    b.HasOne("SoftCRP.Web.Data.Entities.Capacitacion", "capacitacion")
                         .WithMany("archivoCapacitaciones")
-                        .HasForeignKey("CapacitacionId");
-
-                    b.HasOne("SoftCRP.Web.Data.Entities.Tramite", "tramite")
-                        .WithMany()
-                        .HasForeignKey("tramiteId");
+                        .HasForeignKey("capacitacionId");
 
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
@@ -646,6 +690,24 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.LogNovedad", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
+                    b.HasOne("SoftCRP.Web.Data.Entities.Novedad", "novedad")
+                        .WithMany("logNovedades")
+                        .HasForeignKey("novedadId");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Novedad", b =>

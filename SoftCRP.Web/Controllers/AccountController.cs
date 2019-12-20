@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
+using SoftCRP.Web.Repositories;
 using SWDLCondelpi;
 
 namespace SoftCRP.Web.Controllers
@@ -26,25 +27,27 @@ namespace SoftCRP.Web.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly Service1Soap _service1Soap;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogRepository _logRepository;
 
         public AccountController(
             IUserHelper userHelper,
             IMailHelper mailHelper,
             Service1Soap service1Soap,
             IConfiguration configuration,
-            ILogger<AccountController> logger)
+            ILogRepository logRepository
+            )
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _service1Soap = service1Soap;
             _configuration = configuration;
-            _logger = logger;
+            _logRepository = logRepository;
         }
 
         [HttpGet]
         public IActionResult Login()
         {
+            
             
             if (User.Identity.IsAuthenticated)
             {
@@ -61,9 +64,6 @@ namespace SoftCRP.Web.Controllers
 
             if(ModelState.IsValid)
             {
-                _logger.LogInformation("Logueo de usuario: " + model.Username);
-                //_logger.LogTrace("Logueado");
-
                 var result1 = await _service1Soap.LOGIsAuthenticatedAsync(key, model.Username, model.Password);
                 
                 if (result1)
@@ -100,7 +100,7 @@ namespace SoftCRP.Web.Controllers
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
-                    
+                    await _logRepository.SaveLogs("Success", "Login", "Account", model.Username);
                     if (Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         return Redirect(Request.Query["ReturnUrl"].First());
@@ -124,8 +124,9 @@ namespace SoftCRP.Web.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            await _logRepository.SaveLogs("Success", "Logout", "Account", User.Identity.Name);
             await _userHelper.LogoutAsync();
-            _logger.LogInformation("Deslogueo de usuario: "+ this.User.Identity.Name);
+            
             return RedirectToAction("Index", "Home");
 
         }
@@ -183,12 +184,12 @@ namespace SoftCRP.Web.Controllers
                         UserName = model.Username,
                         ImageUrl=pathFoto
                     };
-                    _logger.LogInformation("Creación de usuario: " + model.Username);
+                    
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
                     {
                         this.ModelState.AddModelError(string.Empty, "The user couldn't be created.");
-                        _logger.LogInformation("Error en crear usuario: " + model.Username + "Error"+result.Errors.FirstOrDefault());
+                        
                         return this.View(model);
                     }
 
@@ -209,6 +210,8 @@ namespace SoftCRP.Web.Controllers
                             continue;
                         }
                     }
+
+                    await _logRepository.SaveLogs("Success", "Registrar Usuario:" + model.Username, "Account", User.Identity.Name);
                     return this.RedirectToAction(nameof(Index));
                     //var loginViewModel = new LoginViewModel
                     //{
@@ -229,6 +232,7 @@ namespace SoftCRP.Web.Controllers
                 }
 
                 //this.ModelState.AddModelError(string.Empty, "The username is already registered.");
+                await _logRepository.SaveLogs("Error", "Registrar Usuario:" + model.Username, "Account", User.Identity.Name);
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Registrar Usuario", "El usuario esta actualmente registrado", SweetAlertMessageType.error);
             }
 
@@ -288,25 +292,28 @@ namespace SoftCRP.Web.Controllers
                     user.PhoneNumber = model.PhoneNumber;
                     user.ImageUrl = pathFoto;
                     user.UserName = model.UserName;
-                    _logger.LogInformation("Editar perfil usuario: " + this.User.Identity.Name);
+                    
                     var respose = await _userHelper.UpdateUserAsync(user);
                     if (respose.Succeeded)
                     {
                         //this.ViewBag.UserMessage = "User updated!";
+                        await _logRepository.SaveLogs("Success", "Actualiza Usuario: " + model.UserName, "Account", User.Identity.Name);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", "Usuario Actualizado", SweetAlertMessageType.success);
                     }
                     else
                     {
+                        await _logRepository.SaveLogs("Error", "Actualiza Usuario: " + model.UserName, "Account", User.Identity.Name);
                         //this.ModelState.AddModelError(string.Empty, respose.Errors.FirstOrDefault().Description);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", respose.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
-                        _logger.LogInformation("Error en editar perfil: " + this.User.Identity.Name + "Error" + respose.Errors.FirstOrDefault());
+                        
                     }
                 }
                 else
                 {
+                    await _logRepository.SaveLogs("Error", "Actualiza Usuario: " + model.UserName + " no encontrado", "Account", User.Identity.Name);
                     //this.ModelState.AddModelError(string.Empty, "User no found.");
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar", "Usuario No Encontrado", SweetAlertMessageType.error);
-                    _logger.LogInformation("No se encontró el usuario: " + this.User.Identity.Name);
+                    
 
                 }
             }
@@ -330,16 +337,19 @@ namespace SoftCRP.Web.Controllers
                     var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
+                        await _logRepository.SaveLogs("Success", "Cambiar Clave Usuario", "Account", User.Identity.Name);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", "Password Actualizado", SweetAlertMessageType.success);
                         return this.RedirectToAction("ChangeUser");
                     }
                     else
                     {
+                        await _logRepository.SaveLogs("Error", "Cambiar Clave Usuario", "Account", User.Identity.Name);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", result.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
                     }
                 }
                 else
                 {
+                    await _logRepository.SaveLogs("Error", "Cambiar Clave Usuario ", "Account", User.Identity.Name);
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Password", "Usuario no encontrado", SweetAlertMessageType.error);
                     //this.ModelState.AddModelError(string.Empty, "User no found.");
                 }
@@ -421,7 +431,7 @@ namespace SoftCRP.Web.Controllers
 
                 //ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Las Instrucciones para recuperar su clave fueron enviadas a su correo", SweetAlertMessageType.info);
-
+                await _logRepository.SaveLogs("Success", "Recuperar Clave", "Account", model.Email);
                 return View();
 
             }
@@ -445,16 +455,18 @@ namespace SoftCRP.Web.Controllers
                 if (result.Succeeded)
                 {
                     //   ViewBag.Message = "Password reset successful.";
+                    await _logRepository.SaveLogs("Success", "Resetear Clave Usuario: " + model.UserName, "Account", model.UserName);
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Password Actualizado", SweetAlertMessageType.success);
                     return View();
                 }
-
+                await _logRepository.SaveLogs("Error", "Resetear Clave Usuario: " + model.UserName, "Account", model.UserName);
                 //ViewBag.Message = "Error while resetting the password.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Error en resetear Password", SweetAlertMessageType.error);
                 return View(model);
             }
 
             //ViewBag.Message = "User not found.";
+            await _logRepository.SaveLogs("Error", "Resetear Clave Usuario: " + model.UserName, "Account", model.UserName);
             ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Usuario No encontrado", SweetAlertMessageType.error);
             return View(model);
         }
@@ -466,6 +478,8 @@ namespace SoftCRP.Web.Controllers
             var user =  _userHelper.GetAllListUsers();
 
             var model = await ToUserRoleViewModel(user.ToList());
+
+            await _logRepository.SaveLogs("Get", "Obener Lista de Usuarios", "Account", User.Identity.Name);
             return View(model);
         }
 
@@ -588,12 +602,15 @@ namespace SoftCRP.Web.Controllers
                 var result = await _userHelper.UpdateUserAsync(user);
                 if (result.Succeeded)
                 {
+                    await _logRepository.SaveLogs("Success", "Editar Usuario: "+user.UserName, "Account", User.Identity.Name);
+
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Usuario", "Usuario Actualizado", SweetAlertMessageType.success);
 
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
+                    await _logRepository.SaveLogs("Error", "Editar Usuario: " + user.UserName, "Account", User.Identity.Name);
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Actualizar Usuario", result.Errors.FirstOrDefault().Description, SweetAlertMessageType.error);
                 }
             }
@@ -601,8 +618,9 @@ namespace SoftCRP.Web.Controllers
             return View(userRoleViewModel);
         }
 
-        public IActionResult NotAuthorized()
+        public async Task<IActionResult> NotAuthorized()
         {
+            await _logRepository.SaveLogs("Error", "Página no autorizada", "Account", User.Identity.Name);
             return View();
         }
 

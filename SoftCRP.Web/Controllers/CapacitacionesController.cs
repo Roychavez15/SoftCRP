@@ -24,6 +24,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
+        private readonly ILogRepository _logRepository;
         private readonly DataContext _dataContext;
 
         public CapacitacionesController(
@@ -33,6 +34,7 @@ namespace SoftCRP.Web.Controllers
             ICombosHelper combosHelper,
             IFileHelper fileHelper,
             IMailHelper mailHelper,
+            ILogRepository logRepository,
             DataContext dataContext)
         {
             _userHelper = userHelper;
@@ -41,6 +43,7 @@ namespace SoftCRP.Web.Controllers
             _combosHelper = combosHelper;
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
+            _logRepository = logRepository;
             _dataContext = dataContext;
         }
         public async Task<IActionResult> Index()
@@ -59,6 +62,8 @@ namespace SoftCRP.Web.Controllers
                 //{
 
                 //}
+                await _logRepository.SaveLogs("Get", "Obtiene lista de Capacitaciones", "Capacitaciones", User.Identity.Name);
+
                 model = await _capacitacionesRepository.GetCapacitacionesAsync();
             }
 
@@ -168,6 +173,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.capacitaciones.Add(capacitacion);
                 await _dataContext.SaveChangesAsync();
+                await _logRepository.SaveLogs("Crear", "Crea Capacitaciones id: "+capacitacion.Id.ToString(), "Capacitaciones", User.Identity.Name);
+
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoCapacitacion = await _dataContext.tipoCapacitaciones.FindAsync(model.tipoCapacitacionId);
@@ -268,6 +275,8 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.capacitaciones.Add(capacitacion);
                 await _dataContext.SaveChangesAsync();
+                await _logRepository.SaveLogs("Crear", "Crea Capacitaciones id: " + capacitacion.Id.ToString(), "Capacitaciones", User.Identity.Name);
+
                 //enviar correo
                 //var datos = await _datosRepository.GetDatosCliente(model.cedula);
                 var tipoCapacitacion = await _dataContext.tipoCapacitaciones.FindAsync(model.tipoCapacitacionId);
@@ -336,7 +345,7 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
+            await _logRepository.SaveLogs("Detalles", "Detalles Capacitaciones id: " + capacitacion.Id.ToString(), "Capacitaciones", User.Identity.Name);
             return View(capacitacion);
         }
         // GET: Clientes/Edit/5
@@ -373,6 +382,7 @@ namespace SoftCRP.Web.Controllers
                 {
                     _dataContext.Update(capacitacion);
                     await _dataContext.SaveChangesAsync();
+                    await _logRepository.SaveLogs("Editar", "Edita Capacitaciones id: " + capacitacion.Id.ToString(), "Capacitaciones", User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -403,7 +413,7 @@ namespace SoftCRP.Web.Controllers
                 .Include(a => a.archivoCapacitaciones)
                 .FirstOrDefaultAsync(pi => pi.Id == id.Value);
 
-           
+            await _logRepository.SaveLogs("Borrar", "Borrar Capacitaciones id: " + capacitacion.Id.ToString(), "Capacitaciones", User.Identity.Name);
             _dataContext.capacitaciones.Remove(capacitacion);
             await _dataContext.SaveChangesAsync();
 
@@ -485,6 +495,8 @@ namespace SoftCRP.Web.Controllers
                     _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
                     await _dataContext.SaveChangesAsync();
                     //return RedirectToAction(nameof(Index));
+                    await _logRepository.SaveLogs("Guarda", "Archivo Capacitaciones Id: " + archivoCapacitaciones.Id.ToString(), "Capacitaciones", User.Identity.Name);
+
                     return RedirectToAction(nameof(Edit), new { id = model.Id });
                 }
 
@@ -520,7 +532,7 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
                 await _dataContext.SaveChangesAsync();
-
+                await _logRepository.SaveLogs("Guarda", "Archivo Capacitaciones Id: " + archivoCapacitaciones.Id.ToString(), "Capacitaciones", User.Identity.Name);
                 return RedirectToAction(nameof(Index));
                 //return RedirectToAction(nameof(AddFile), new { id = model.Id });
                 
@@ -557,7 +569,7 @@ namespace SoftCRP.Web.Controllers
 
                 _dataContext.archivoCapacitaciones.Add(archivoCapacitaciones);
                 await _dataContext.SaveChangesAsync();
-
+                await _logRepository.SaveLogs("Guarda", "Archivo Capacitaciones Id: " + archivoCapacitaciones.Id.ToString(), "Capacitaciones", User.Identity.Name);
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction(nameof(Edit), new { id = model.Id });
                 
@@ -581,7 +593,7 @@ namespace SoftCRP.Web.Controllers
             {
                 return NotFound();
             }
-
+            await _logRepository.SaveLogs("Borrar", "Archivo Capacitaciones Id: " + file.Id.ToString(), "Capacitaciones", User.Identity.Name);
             _dataContext.archivoCapacitaciones.Remove(file);
             await _dataContext.SaveChangesAsync();
             //return RedirectToAction(nameof(Index));
@@ -604,7 +616,7 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
-
+            await _logRepository.SaveLogs("Descargar", "Archivo Capacitaciones Id: " + file.Id.ToString(), "Capacitaciones", User.Identity.Name);
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
         }

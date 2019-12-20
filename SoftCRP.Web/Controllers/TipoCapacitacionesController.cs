@@ -8,22 +8,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
     [Authorize(Roles = "Admin,Renting")]
     public class TipoCapacitacionesController : Controller
     {
+        private readonly ILogRepository _logRepository;
         private readonly DataContext _context;
 
-        public TipoCapacitacionesController(DataContext context)
+        public TipoCapacitacionesController(
+            ILogRepository logRepository,
+            DataContext context)
         {
+            _logRepository = logRepository;
             _context = context;
         }
 
         // GET: TipoCapacitaciones
         public async Task<IActionResult> Index()
         {
+            await _logRepository.SaveLogs("Get", "Obtiene lista de Tipo Capacitaciones", "Tipo Capacitaciones", User.Identity.Name);
             return View(await _context.tipoCapacitaciones.ToListAsync());
         }
 
@@ -62,6 +68,7 @@ namespace SoftCRP.Web.Controllers
             {
                 _context.Add(tipoCapacitacion);
                 await _context.SaveChangesAsync();
+                await _logRepository.SaveLogs("Crear", "Crear Tipo Capacitaciones Id: "+tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoCapacitacion);
@@ -101,6 +108,7 @@ namespace SoftCRP.Web.Controllers
                 {
                     _context.Update(tipoCapacitacion);
                     await _context.SaveChangesAsync();
+                    await _logRepository.SaveLogs("Editar", "Editar Tipo Capacitaciones Id: " + tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -149,6 +157,8 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var tipoCapacitacion = await _context.tipoCapacitaciones.FindAsync(id);
+            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Capacitaciones Id: " + tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
+
             _context.tipoCapacitaciones.Remove(tipoCapacitacion);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
