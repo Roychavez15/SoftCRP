@@ -182,6 +182,7 @@ namespace SoftCRP.Web.Controllers
                         Email = model.Email,
                         PhoneNumber=model.PhoneNumber,
                         UserName = model.Username,
+                        isActive=true,
                         ImageUrl=pathFoto
                     };
                     
@@ -616,6 +617,27 @@ namespace SoftCRP.Web.Controllers
             }
             
             return View(userRoleViewModel);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id=="")
+            {
+
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+            if (user != null)
+            {
+                user.isActive = false;
+                await _userHelper.EnableDisableUser(user, false);
+                await _logRepository.SaveLogs("Borrar", "Usuario Id: " + id.ToString(), "Account", User.Identity.Name);
+            }
+
+            return RedirectToAction("Index", "Account");
         }
 
         public async Task<IActionResult> NotAuthorized()

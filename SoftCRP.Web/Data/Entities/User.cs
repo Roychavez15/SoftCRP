@@ -36,6 +36,7 @@ namespace SoftCRP.Web.Data.Entities
         [Display(Name = "Fotografía")]
         public string ImageUrl { get; set; }
 
+        public bool isActive { get; set; }
         // TODO: Change the path when publish
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
             ? "https://localhost:44338/images/Usuarios/noImage.jpg"

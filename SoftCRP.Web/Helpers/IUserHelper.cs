@@ -47,5 +47,7 @@ namespace SoftCRP.Web.Helpers
 
         Task<User> GetUserByCedulaAsync(string cedula);
 
+        Task<IdentityResult> EnableDisableUser(User user, bool option);
+
     }
 }

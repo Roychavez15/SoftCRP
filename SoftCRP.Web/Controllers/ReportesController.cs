@@ -16,6 +16,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICapacitacionesRepository _capacitacionesRepository;
         private readonly INovedadesRepository _novedadesRepository;
         private readonly ICombosHelper _combosHelper;
+        private readonly ILogRepository _logRepository;
         private readonly ITramitesRepository _tramitesRepository;
 
         public ReportesController(
@@ -24,6 +25,7 @@ namespace SoftCRP.Web.Controllers
             ICapacitacionesRepository capacitacionesRepository,
             INovedadesRepository novedadesRepository,
             ICombosHelper combosHelper,
+            ILogRepository logRepository,
             ITramitesRepository tramitesRepository)
         {
             _datosRepository = datosRepository;
@@ -31,6 +33,7 @@ namespace SoftCRP.Web.Controllers
             _capacitacionesRepository = capacitacionesRepository;
             _novedadesRepository = novedadesRepository;
             _combosHelper = combosHelper;
+            _logRepository = logRepository;
             _tramitesRepository = tramitesRepository;
         }
 
@@ -148,6 +151,30 @@ namespace SoftCRP.Web.Controllers
             reporte.Fin = fin;
             reporte.tramites = await _tramitesRepository.GetTramiteReportesAsync(model.Inicio, model.Fin, model.ClienteId);
             reporte.Clientes = _combosHelper.GetComboClientes();
+            return View(reporte);
+        }
+
+        public IActionResult IndexLogs()
+        {
+            ReporteLogsViewModel reporte = new ReporteLogsViewModel();
+            reporte.Inicio = DateTime.Now;
+            reporte.Fin = DateTime.Now;
+            return View(reporte);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IndexLogs(ReporteLogsViewModel model)
+        {
+            var inicio = model.Inicio;
+            var fin = model.Fin;
+
+            //var reporte = await _analisisRepository.GetAnalisisReportesAsync(model.Inicio, model.Fin);
+            ReporteLogsViewModel reporte = new ReporteLogsViewModel();
+
+            reporte.Inicio = inicio;
+            reporte.Fin = fin;
+            reporte.Logs = await _logRepository.GetLogsReportesAsync(model.Inicio, model.Fin);
+            
             return View(reporte);
         }
     }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -163,8 +164,17 @@ namespace SoftCRP.Web.Helpers
 
         public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
         {
-            return await _userManager.ResetPasswordAsync(user, token, password);
+            return await _userManager.ResetPasswordAsync(user, token, password);            
         }
 
+        public async Task<IdentityResult> EnableDisableUser(User user, bool option)
+        {
+            //var lockoutEndDate = new DateTime(2999, 01, 01);
+            //await _userManager.SetLockoutEnabledAsync(user, option);
+            //return await _userManager.SetLockoutEndDateAsync(user, lockoutEndDate);
+            user.isActive = false;
+            return await _userManager.UpdateAsync(user);
+
+        }
     }
 }

@@ -150,8 +150,20 @@
                                 <td id="@item.Id">
                                     <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>
                                     @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>*@
-                                    @*<button data-id="@item.Id" class="btn btn-danger" id="btnDeleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fa fa-trash"></i></button>*@                                    
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="fa fa-trash"></i></a>
+                                    @*<button data-id="@item.Id" class="btn btn-danger" id="btnDeleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fa fa-trash"></i></button>*@
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        @if (item.isActive)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="Enable" asp-route-id="@item.Id" class="btn btn-success" id="btnEnableItem"><i class="far fa-unlock-alt"></i></a>
+                                        }
+
+                                    }
+
                                 </td>
                             </tr>
                             }
@@ -204,6 +216,9 @@
             $('a[id*=btnDeleteItem]').click(function () {
 
                 id = $(this).parent()[0].id;
+
+                debugger;
+
                 swal({
                     title: "Estas seguro?",
                     text: "Si eliminas este cliente no lo podras recuperar!",
@@ -227,10 +242,12 @@
                             $.ajax({
                                 type: 'post',
                                 url: '/Account/Delete/' + id,
+                                //url: '/SoftWebCRP/Account/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Eliminado', 'success');
-                                        window.location.href = '/Account';
+                                        window.location.href = '/Account/Index';
+                                        //window.location.href = '/SoftWebCRP/Account/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {

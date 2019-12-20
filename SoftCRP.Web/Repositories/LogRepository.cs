@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -42,6 +43,15 @@ namespace SoftCRP.Web.Repositories
             
             await _dataContext.Logs.AddAsync(log);
             await _dataContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Log>> GetLogsReportesAsync(DateTime Inicio, DateTime Fin)
+        {
+
+                return await _dataContext.Logs
+                    .Include(u => u.user)
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+            
         }
     }
 }
