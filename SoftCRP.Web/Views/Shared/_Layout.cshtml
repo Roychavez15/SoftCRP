@@ -509,13 +509,15 @@
                                                     Trámites
                                                 </a>
                                             </li>
-
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexLogs" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Logs
-                                                </a>
-                                            </li>
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                            {
+                                                <li class="nav-item">
+                                                    <a asp-area="" asp-controller="Reportes" asp-action="IndexLogs" class="nav-link" style="color:#ffffff">
+                                                        <i class="far fa-circle nav-icon"></i>
+                                                        Logs
+                                                    </a>
+                                                </li>
+                                            }
                                         </ul>
                                     </li>
                                  }
