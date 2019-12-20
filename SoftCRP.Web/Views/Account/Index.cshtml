@@ -242,13 +242,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/Account/Delete/' + id,
-                                //url: '/SoftWebCRP/Account/Delete/' + id,
+                                //url: '/Account/Delete/' + id,
+                                url: '/SoftWebCRP/Account/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Usuario Desactivado', 'success');
-                                        window.location.href = '/Account/Index';
-                                        //window.location.href = '/SoftWebCRP/Account/Index';
+                                        //window.location.href = '/Account/Index';
+                                        window.location.href = '/SoftWebCRP/Account/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
