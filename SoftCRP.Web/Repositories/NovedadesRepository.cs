@@ -81,7 +81,7 @@ namespace SoftCRP.Web.Repositories
                     .Include(a => a.archivoNovedades)
                     .Include(u => u.user)
                     .Include(us => us.userSolucion)
-                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
             }
 
         }

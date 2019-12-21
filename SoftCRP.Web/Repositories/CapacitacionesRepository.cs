@@ -67,7 +67,7 @@ namespace SoftCRP.Web.Repositories
                 .Include(t => t.tipoCapacitacion)
                 .Include(a => a.archivoCapacitaciones)
                 .Include(u => u.user)
-                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+                .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
 
             return capacitacion;
         }

@@ -70,7 +70,7 @@ namespace SoftCRP.Web.Repositories
                     .Include(t => t.tipoTramite)
                     .Include(a => a.archivoTramites)
                     .Include(u => u.user)
-                    .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin)).ToListAsync();
+                    .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1))).ToListAsync();
             }
             else
             {
@@ -78,7 +78,7 @@ namespace SoftCRP.Web.Repositories
                     .Include(t => t.tipoTramite)
                     .Include(a => a.archivoTramites)
                     .Include(u => u.user)
-                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin).ToListAsync();
+                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
             }
         }
     }
