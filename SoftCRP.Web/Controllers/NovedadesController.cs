@@ -287,9 +287,6 @@ namespace SoftCRP.Web.Controllers
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
                 var emails = user.Email + ',' + datos.Email;
 
-                ///
-                if (novedad.Placa != "FLOTA")
-                {
                     var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
                     var idSubmotivo = await _datosRepository.GetSubMotivosIncidenciaIdAsync(model.SubMotivoId);
                     var incidencia = new IncidenciaCreateViewModel
@@ -307,7 +304,7 @@ namespace SoftCRP.Web.Controllers
                     {
                         emails = emails + ',' + idSubmotivo.Correo_solucionadores;
                     }
-                }
+                
                 ///
                 var lognovedad = new LogNovedad
                 {
@@ -341,6 +338,8 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>SubMotivo</td><td>{model.SubMotivoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>SLA</td><td>{idSubmotivo.Dias_sla} Días</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Estado</td><td>PENDIENTE</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table>"+
                     $"<br><br>" +

@@ -602,7 +602,7 @@ namespace SoftCRP.Web.Repositories
         public async Task<bool> IngresoIncidencia(IncidenciaCreateViewModel novedad)
         {
             var key = _configuration["KeyWs"];
-            return await _service1Soap.Ingreso_IncidenciasAsync(key,novedad.Placa,novedad.submotivo,novedad.observacion,novedad.usuario,"",novedad.motivo);
+            return await _service1Soap.Ingreso_IncidenciasAsync(key,novedad.Placa,novedad.submotivo,novedad.observacion,novedad.usuario,novedad.usuario_solucion,novedad.motivo);
 
 
             //return true;
