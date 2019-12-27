@@ -215,9 +215,9 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Motivo</td><td>{model.MotivoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>SubMotivo</td><td>{model.SubMotivoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Observación</td><td>{novedad.Fecha}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table></body></html>", model.Files);
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{model.Observaciones}</td></tr></table></body></html>", model.Files);
 
                 return Ok(model);
             }
@@ -337,11 +337,11 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Motivo</td><td>{model.MotivoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>SubMotivo</td><td>{model.SubMotivoId}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Vía Ingreso</td><td>{model.ViaIngresoId}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Observación</td><td>{model.Observaciones}</td></tr>" +
+                    $"<tr><td style='font-weight:bold'>Observación</td><td>{novedad.Fecha}</td></tr>" +
                     $"<tr><td style='font-weight:bold'>SLA</td><td>{idSubmotivo.Dias_sla} Días</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Estado</td><td>PENDIENTE</td></tr>" +
                     $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
-                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{novedad.Fecha}</td></tr></table>"+
+                    $"<tr><td style='font-weight:bold'>Fecha</td><td>{model.Observaciones}</td></tr></table>"+
                     $"<br><br>" +
                     $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
                     $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
