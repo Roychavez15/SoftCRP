@@ -440,7 +440,7 @@ namespace SoftCRP.Web.Controllers
                 var link = Url.Action(
                     "ResetPassword",
                     "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3/SoftCRPWeb");
+                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3/");
                 
 
                 _mailHelper.SendMail(model.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
