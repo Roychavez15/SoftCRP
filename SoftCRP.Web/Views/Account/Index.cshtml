@@ -225,7 +225,7 @@
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Desactivarlo!",
+                    confirmButtonText: "Si, Desactivarlo!",
                     cancelButtonText: "No, Cancelar Desactivar!",
                     closeOnConfirm: false,
                     closeOnCancel: false,
@@ -281,7 +281,7 @@
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Activarlo!",
+                    confirmButtonText: "Si, Activarlo!",
                     cancelButtonText: "No, Cancelar Activar!",
                     closeOnConfirm: false,
                     closeOnCancel: false,
@@ -298,13 +298,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/Account/Enable/' + id,
-                                //url: '/SoftWebCRP/Account/Delete/' + id,
+                                //url: '/Account/Enable/' + id,
+                                url: '/SoftWebCRP/Account/Enable/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Eliminado', 'success');
-                                        window.location.href = '/Account/Index';
-                                        //window.location.href = '/SoftWebCRP/Account/Index';
+                                        //window.location.href = '/Account/Index';
+                                        window.location.href = '/SoftWebCRP/Account/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {

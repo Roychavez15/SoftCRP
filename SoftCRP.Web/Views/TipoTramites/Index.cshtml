@@ -87,17 +87,17 @@
                             //swal("Deleted!", "Your imaginary file has been deleted.", "success");
                             //window.location.href = '/Clientes/Delete/' + id;
 
-                            //return false
+                            //return false/
 
                             $.ajax({
                                 type: 'post',
-                                url: 'SoftCRPWeb/TipoTramites/Delete/' + id,
+                                url: '/SoftCRPWeb/TipoTramites/Delete/' + id,
                                 //url: '/TipoTramites/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Desactivado', 'success');
                                         //window.location.href = '/TipoTramites/Index';
-                                        window.location.href = 'SoftCRPWeb/TipoTramites/Index';
+                                        window.location.href = '/SoftCRPWeb/TipoTramites/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
