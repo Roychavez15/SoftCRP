@@ -97,7 +97,7 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoAnalisis/Delete/' + id,
+                                url: 'SoftCRPWeb/TipoAnalisis/Delete/' + id,
                                 //url: '/TipoAnalisis/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
@@ -106,6 +106,7 @@
                                         //window.location.href = '/TipoAnalisis/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
+
                                     else {
                                         swal('No se pudo Desactivar', 'warning');
                                         return false;
@@ -151,7 +152,7 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoAnalisis/Enable/' + id,
+                                url: 'SoftCRPWeb/TipoAnalisis/Enable/' + id,
                                 //url: '/TipoAnalisis/Enable/' + id,
                                 success: function (data) {
                                     if (data) {
