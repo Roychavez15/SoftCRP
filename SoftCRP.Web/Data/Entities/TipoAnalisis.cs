@@ -14,6 +14,7 @@ namespace SoftCRP.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Tipo { get; set; }
         //public ICollection<Analisis> analises { get; set; }
+        public bool isActive { get; set; }
 
     }
 }

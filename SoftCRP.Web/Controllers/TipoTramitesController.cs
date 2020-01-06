@@ -159,8 +159,22 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var tipoTramite = await _context.tipoTramites.FindAsync(id);
-            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Trámites Id: " + tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
-            _context.tipoTramites.Remove(tipoTramite);
+            await _logRepository.SaveLogs("Desactivar", "Descativar Tipo Trámites Id: " + tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
+            tipoTramite.isActive = false;
+            //_context.tipoTramites.Remove(tipoTramite);
+            _context.tipoTramites.Update(tipoTramite);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Enable(int id)
+        {
+            var tipoTramite = await _context.tipoTramites.FindAsync(id);
+            await _logRepository.SaveLogs("Activar", "Activar Tipo Trámites Id: " + tipoTramite.Id.ToString(), "Tipo Trámites", User.Identity.Name);
+            tipoTramite.isActive = true;
+
+            _context.tipoTramites.Update(tipoTramite);
+
+            //_context.tipoTramites.Remove(tipoTramite);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

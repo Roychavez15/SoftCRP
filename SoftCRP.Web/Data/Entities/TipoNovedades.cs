@@ -13,5 +13,6 @@ namespace SoftCRP.Web.Data.Entities
         [MaxLength(50, ErrorMessage = "The field {0} only can contain a maximum {1} characters")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Tipo { get; set; }
+        public bool isActive { get; set; }
     }
 }

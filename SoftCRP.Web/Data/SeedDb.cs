@@ -66,11 +66,11 @@ namespace SoftCRP.Web.Data
         {
             if (!_context.TiposAnalisis.Any())
             {
-                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Auditoría" });
-                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Gerencial" });
-                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Administración Flota" });
-                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Entrega" });
-                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Recepción" });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Auditoría" , isActive=true });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Gerencial", isActive = true });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Informe Administración Flota", isActive = true });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Entrega", isActive = true });
+                _context.TiposAnalisis.Add(new Entities.TipoAnalisis { Tipo = "Acta Recepción", isActive = true });
                 await _context.SaveChangesAsync();
             }
         }
@@ -78,14 +78,14 @@ namespace SoftCRP.Web.Data
         {
             if (!_context.tipoTramites.Any())
             {
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Matrícula" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Certificado Matrícula" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Titulo Habilitante" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 085" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 004 O006" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Pesos y Medidas" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Permiso ARCSA" });
-                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Infracciones" });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Matrícula", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Certificado Matrícula", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Titulo Habilitante", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 085", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Resolución 004 O006", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Pesos y Medidas", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Permiso ARCSA", isActive = true });
+                _context.tipoTramites.Add(new Entities.TipoTramite { Tipo = "Infracciones", isActive = true });
                 await _context.SaveChangesAsync();
             }
         }
@@ -94,16 +94,16 @@ namespace SoftCRP.Web.Data
         {
             if (!_context.tipoCapacitaciones.Any())
             {
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como cuidar mi vehículo?" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Debemos Reportar" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Cobertura póliza de seguros y exclusiones" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Siniestros y reclamación" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Documentos habilitantes" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Infracciones" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como ocurre un accidente de tránsito?" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito"});
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias" });
-                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura" });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como cuidar mi vehículo?", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Debemos Reportar", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Cobertura póliza de seguros y exclusiones", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Siniestros y reclamación", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Documentos habilitantes", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Infracciones", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como ocurre un accidente de tránsito?", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias", isActive = true });
+                _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura", isActive = true });
                 await _context.SaveChangesAsync();
             }
         }

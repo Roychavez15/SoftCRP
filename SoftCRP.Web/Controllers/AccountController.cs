@@ -682,7 +682,5 @@ namespace SoftCRP.Web.Controllers
             await _logRepository.SaveLogs("Error", "Página no autorizada", "Account", User.Identity.Name);
             return View();
         }
-
-
     }
 }

@@ -79,7 +79,7 @@ namespace SoftCRP.Web.Helpers
         }
         public IEnumerable<SelectListItem> GetComboTipoAnalisis()
         {
-            var list = _dataContext.TiposAnalisis.Select(ta => new SelectListItem
+            var list = _dataContext.TiposAnalisis.Where(a => a.isActive == true).Select(ta => new SelectListItem
             {
                 Text = ta.Tipo,
                 Value = $"{ta.Id}",
@@ -98,7 +98,7 @@ namespace SoftCRP.Web.Helpers
         }
         public IEnumerable<SelectListItem> GetComboTipoTramites()
         {
-            var list = _dataContext.tipoTramites.Select(ta => new SelectListItem
+            var list = _dataContext.tipoTramites.Where(a => a.isActive == true).Select(ta => new SelectListItem
             {
                 Text = ta.Tipo,
                 Value = $"{ta.Id}",
@@ -299,7 +299,7 @@ namespace SoftCRP.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboTipoCapacitaciones()
         {
-            var list = _dataContext.tipoCapacitaciones.Select(ta => new SelectListItem
+            var list = _dataContext.tipoCapacitaciones.Where(a => a.isActive == true).Select(ta => new SelectListItem
             {
                 Text = ta.Tipo,
                 Value = $"{ta.Id}",

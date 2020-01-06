@@ -39,7 +39,15 @@
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a> &nbsp;
                                     @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                                     {
-                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>
+                                        @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDeleteItem"><i class="far fa-trash-alt"></i></a>*@
+                                        @if (item.isActive)
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-success" id="btnDeleteItem"><i class="fa fa-check"></i></a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="Enable" asp-route-id="@item.Id" class="btn btn-danger" id="btnEnableItem"><i class="fa fa-power-off"></i></a>
+                                        }
                                     }
                                 </td>
                             </tr>
@@ -69,12 +77,12 @@
                 id = $(this).parent()[0].id;
                 swal({
                     title: "Estas seguro?",
-                    text: "Si eliminas este Registro no lo podras recuperar!",
+                    text: "Este tipo de capacitación se desactvara!",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Si, Eliminarlo!",
-                    cancelButtonText: "No, Cancelar Borrar!",
+                    confirmButtonText: "Si, Desactivarlo!",
+                    cancelButtonText: "No, Cancelar Desactivar!",
                     closeOnConfirm: false,
                     closeOnCancel: false
                 },
@@ -93,20 +101,20 @@
                                 url: '/SoftCRPWeb/TipoCapacitaciones/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
-                                        swal('Registro Eliminado', 'success');
-                                        //window.location.href = '/TipoCapacitaciones';
-                                        window.location.href = '/SoftCRPWeb/TipoCapacitaciones';
+                                        swal('Registro Desactivado', 'success');
+                                        //window.location.href = '/TipoCapacitaciones/Index';
+                                        window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
-                                        swal('No se pudo eliminar', 'warning');
+                                        swal('No se pudo desactivar', 'warning');
                                         return false;
                                     }
                                 }
                             });
 
                         } else {
-                            swal("Cancelar", "Borrado cancelado :)", "error");
+                            swal("Cancelar", "Desactivar cancelado :)", "error");
                             return false
                         }
 
@@ -114,7 +122,60 @@
 
                 return false
             });
+            /////
 
+
+
+                $('a[id*=btnEnableItem]').click(function () {
+
+                id = $(this).parent()[0].id;
+                swal({
+                    title: "Estas seguro?",
+                    text: "Este tipo de capacitación se activara!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Si, Activarlo!",
+                    cancelButtonText: "No, Cancelar Activar!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                    function (isConfirm) {
+                        debugger;
+                        if (isConfirm) {
+
+                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                            //window.location.href = '/Clientes/Delete/' + id;
+
+                            //return false
+
+                            $.ajax({
+                                type: 'post',
+                                //url: '/TipoCapacitaciones/Enable/' + id,
+                                url: '/SoftCRPWeb/TipoCapacitaciones/Enable/' + id,
+                                success: function (data) {
+                                    if (data) {
+                                        swal('Registro Activado', 'success');
+                                        //window.location.href = '/TipoCapacitaciones/Index';
+                                        window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
+                                        //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
+                                    }
+                                    else {
+                                        swal('No se pudo activar', 'warning');
+                                        return false;
+                                    }
+                                }
+                            });
+
+                        } else {
+                            swal("Cancelar", "activar cancelado :)", "error");
+                            return false
+                        }
+
+                    });
+
+                return false
+            });
         });
     </script>
 

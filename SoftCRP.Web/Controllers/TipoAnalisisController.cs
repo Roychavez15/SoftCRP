@@ -67,6 +67,7 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                tipoAnalisis.isActive = true;
                 _context.Add(tipoAnalisis);
                 await _context.SaveChangesAsync();
 
@@ -151,9 +152,25 @@ namespace SoftCRP.Web.Controllers
         {
             var tipoAnalisis = await _context.TiposAnalisis.FindAsync(id);
 
-            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Análisis: "+tipoAnalisis.Id.ToString(), "Tipo Análisis", User.Identity.Name);
+            await _logRepository.SaveLogs("Desactivar", "Desactivar Tipo Análisis: " + tipoAnalisis.Id.ToString(), "Tipo Análisis", User.Identity.Name);
 
-            _context.TiposAnalisis.Remove(tipoAnalisis);
+            tipoAnalisis.isActive = false;
+
+            //_context.TiposAnalisis.Remove(tipoAnalisis);
+            _context.TiposAnalisis.Update(tipoAnalisis);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Enable(int id)
+        {
+            var tipoAnalisis = await _context.TiposAnalisis.FindAsync(id);
+
+            await _logRepository.SaveLogs("Activar", "Activar Tipo Análisis: " + tipoAnalisis.Id.ToString(), "Tipo Análisis", User.Identity.Name);
+
+            tipoAnalisis.isActive = true;
+            
+            //_context.TiposAnalisis.Remove(tipoAnalisis);
+            _context.TiposAnalisis.Update(tipoAnalisis);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

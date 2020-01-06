@@ -157,9 +157,21 @@ namespace SoftCRP.Web.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var tipoCapacitacion = await _context.tipoCapacitaciones.FindAsync(id);
-            await _logRepository.SaveLogs("Borrar", "Borrar Tipo Capacitaciones Id: " + tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
+            await _logRepository.SaveLogs("Desactivar", "Desactivar Tipo Capacitaciones Id: " + tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
 
-            _context.tipoCapacitaciones.Remove(tipoCapacitacion);
+            tipoCapacitacion.isActive = false;
+            _context.tipoCapacitaciones.Update(tipoCapacitacion);
+            //_context.tipoCapacitaciones.Remove(tipoCapacitacion);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Enable(int id)
+        {
+            var tipoCapacitacion = await _context.tipoCapacitaciones.FindAsync(id);
+            await _logRepository.SaveLogs("Activar", "Activar Tipo Capacitaciones Id: " + tipoCapacitacion.Id.ToString(), "Tipo Capacitaciones", User.Identity.Name);
+            tipoCapacitacion.isActive = true;
+            _context.tipoCapacitaciones.Update(tipoCapacitacion);
+            //_context.tipoCapacitaciones.Remove(tipoCapacitacion);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
