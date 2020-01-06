@@ -70,34 +70,7 @@
                             }
                             else
                             {
-                                @*<table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.ArchivosAnalisis.FirstOrDefault().ArchivoPath)
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.ArchivosAnalisis)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @if (!string.IsNullOrEmpty(item.ArchivoPath))
-                                                {
-                                                    <img src="@Url.Content(item.ArchivoPath)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
-                                                }
-                                            </td>
-                                            <td>
-                                                <a asp-action="DeleteFile" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>*@
-                                <div class="row">
-
+                                   
                                     @foreach (var item in Model.ArchivosAnalisis)
                                     {
                                         var tamaniokb = item.tamanio / 1024;
@@ -115,15 +88,15 @@
                                                 </div>
                                                 <!-- /.card-header -->
                                                 <div class="card-body">
-                                                    @if (item.TipoArchivo == ".jpg" || item.TipoArchivo == ".png")
-                                                    {
-                                                        <img class="card-img-top img-thumbnail img-fluid" src="@item.ArchivoPath" asp-append-version="true" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <img class="card-img-top img-thumbnail img-fluid" src="~/images/nofiles.png" asp-append-version="true" />
-                                                    }
 
+                                                        @if (item.TipoArchivo == ".jpg" || item.TipoArchivo == ".png" || item.TipoArchivo == ".bmp")
+                                                        {
+                                                            <img class="card-img-top img-thumbnail img-fluid" src="@item.ArchivoPath" asp-append-version="true" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="card-img-top img-thumbnail img-fluid" src="~/images/nofiles.png" asp-append-version="true"/>
+                                                        }
                                                     <p>Tamaño: @tamaniokb.ToString() KB</p>
                                                     <p>Fecha Carga: @item.Fecha</p>
                                                     <p>Creador por: @item.analisis.user.UserName </p>
@@ -149,7 +122,7 @@
                                         </div>
                                     }
 
-                                </div>
+                                
                             }
 
 
