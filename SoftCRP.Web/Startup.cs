@@ -54,7 +54,7 @@ namespace SoftCRP.Web
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-                cfg.User.RequireUniqueEmail = false;
+                cfg.User.RequireUniqueEmail = false;                
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
