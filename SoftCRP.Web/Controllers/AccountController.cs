@@ -451,7 +451,7 @@ namespace SoftCRP.Web.Controllers
 
                 //ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Las Instrucciones para recuperar su clave fueron enviadas a su correo", SweetAlertMessageType.info);
-                await _logRepository.SaveLogs("Success", "Recuperar Clave Email: "+ user.Email, "Account", user.FullName);
+                await _logRepository.SaveLogs("Success", "Recuperar Clave Email: "+ user.Email, "Account", user.UserName);
                 return View();
 
             }
@@ -477,8 +477,8 @@ namespace SoftCRP.Web.Controllers
                     //   ViewBag.Message = "Password reset successful.";
                     await _logRepository.SaveLogs("Success", "Resetear Clave Usuario: " + model.UserName, "Account", model.UserName);
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Password Actualizado", SweetAlertMessageType.success);
-                    //return View();
-                    return RedirectToAction("Index", "Home");
+                    return View();
+                    //return RedirectToAction("Index", "Home");
                 }
                 await _logRepository.SaveLogs("Error", "Resetear Clave Usuario: " + model.UserName+ " Result: "+ result.Errors.FirstOrDefault().Description, "Account", model.UserName);
                 //ViewBag.Message = "Error while resetting the password.";
