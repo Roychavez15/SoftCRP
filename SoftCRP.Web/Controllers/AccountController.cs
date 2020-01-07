@@ -449,7 +449,7 @@ namespace SoftCRP.Web.Controllers
 
                 //ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Las Instrucciones para recuperar su clave fueron enviadas a su correo", SweetAlertMessageType.info);
-                await _logRepository.SaveLogs("Success", "Recuperar Clave", "Account", model.Email);
+                await _logRepository.SaveLogs("Success", "Recuperar Clave Email: "+ model.Email, "Account", user.FullName);
                 return View();
 
             }
