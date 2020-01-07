@@ -428,7 +428,8 @@ namespace SoftCRP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Email);
+                //var user = await _userHelper.GetUserByEmailAsync(model.Email);
+                var user = await _userHelper.GetUserAsync(model.user);
                 if (user == null)
                 {
                     //ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
@@ -441,15 +442,16 @@ namespace SoftCRP.Web.Controllers
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3/");
-                
 
-                _mailHelper.SendMail(model.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
+
+                _mailHelper.SendMail(user.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
                     $"Para cambiar la contraseña haga click en este Link:</br></br>" +
                     $"<a href = \"{link}\">Reset Password</a>");
 
+
                 //ViewBag.Message = "The instructions to recover your password has been sent to email.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Las Instrucciones para recuperar su clave fueron enviadas a su correo", SweetAlertMessageType.info);
-                await _logRepository.SaveLogs("Success", "Recuperar Clave Email: "+ model.Email, "Account", user.FullName);
+                await _logRepository.SaveLogs("Success", "Recuperar Clave Email: "+ user.Email, "Account", user.FullName);
                 return View();
 
             }

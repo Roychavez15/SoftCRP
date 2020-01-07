@@ -9,7 +9,8 @@ namespace SoftCRP.Web.Models
     public class RecoverPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        //[EmailAddress]
+        //public string Email { get; set; }
+        public string user { get; set; }
     }
 }
