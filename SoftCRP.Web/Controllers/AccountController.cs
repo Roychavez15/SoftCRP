@@ -475,9 +475,10 @@ namespace SoftCRP.Web.Controllers
                     //   ViewBag.Message = "Password reset successful.";
                     await _logRepository.SaveLogs("Success", "Resetear Clave Usuario: " + model.UserName, "Account", model.UserName);
                     ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Password Actualizado", SweetAlertMessageType.success);
-                    return View();
+                    //return View();
+                    return RedirectToAction("Index", "Home");
                 }
-                await _logRepository.SaveLogs("Error", "Resetear Clave Usuario: " + model.UserName+ " Result: "+ result.Errors.FirstOrDefault(), "Account", model.UserName);
+                await _logRepository.SaveLogs("Error", "Resetear Clave Usuario: " + model.UserName+ " Result: "+ result.Errors.FirstOrDefault().Description, "Account", model.UserName);
                 //ViewBag.Message = "Error while resetting the password.";
                 ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Resetear Password", "Error en resetear Password", SweetAlertMessageType.error);
                 return View(model);
