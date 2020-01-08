@@ -178,7 +178,8 @@
 
                         $("#btnYesDelete").click(function () {
                             if (action_to_delete == 1) {
-                                window.location.href = '/SoftCRPWeb/Analisis/DeleteFile/' + item_to_delete;
+                                //window.location.href = '/SoftCRPWeb/Analisis/DeleteFile/' + item_to_delete;
+                                window.location.href = '/Analisis/DeleteFile/' + item_to_delete;
                             } else {
                                 window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                             }

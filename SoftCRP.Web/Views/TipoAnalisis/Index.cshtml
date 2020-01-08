@@ -97,13 +97,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoAnalisis/Delete/' + id,
-                                //url: '/TipoAnalisis/Delete/' + id,
+                                //url: '/SoftCRPWeb/TipoAnalisis/Delete/' + id,
+                                url: '/TipoAnalisis/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Desactivado', 'success');
-                                        window.location.href = '/SoftCRPWeb/TipoAnalisis/Index';
-                                        //window.location.href = '/TipoAnalisis/Index';
+                                        //window.location.href = '/SoftCRPWeb/TipoAnalisis/Index';
+                                        window.location.href = '/TipoAnalisis/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
 
@@ -183,13 +183,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoAnalisis/Enable/' + id,
-                                //url: '/TipoAnalisis/Enable/' + id,
+                                //url: '/SoftCRPWeb/TipoAnalisis/Enable/' + id,
+                                url: '/TipoAnalisis/Enable/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Activado', 'success');
-                                        window.location.href = '/SoftCRPWeb/TipoAnalisis/Index';
-                                        //window.location.href = '/TipoAnalisis/Index';
+                                        //window.location.href = '/SoftCRPWeb/TipoAnalisis/Index';
+                                        window.location.href = '/TipoAnalisis/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {

@@ -97,13 +97,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                //url: '/TipoCapacitaciones/Delete/' + id,
-                                url: '/SoftCRPWeb/TipoCapacitaciones/Delete/' + id,
+                                url: '/TipoCapacitaciones/Delete/' + id,
+                                //url: '/SoftCRPWeb/TipoCapacitaciones/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Desactivado', 'success');
-                                        //window.location.href = '/TipoCapacitaciones/Index';
-                                        window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
+                                        window.location.href = '/TipoCapacitaciones/Index';
+                                        //window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
@@ -181,13 +181,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                //url: '/TipoCapacitaciones/Enable/' + id,
-                                url: '/SoftCRPWeb/TipoCapacitaciones/Enable/' + id,
+                                url: '/TipoCapacitaciones/Enable/' + id,
+                                //url: '/SoftCRPWeb/TipoCapacitaciones/Enable/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Activado', 'success');
-                                        //window.location.href = '/TipoCapacitaciones/Index';
-                                        window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
+                                        window.location.href = '/TipoCapacitaciones/Index';
+                                        //window.location.href = '/SoftCRPWeb/TipoCapacitaciones/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {

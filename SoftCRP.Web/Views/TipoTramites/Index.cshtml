@@ -91,13 +91,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoTramites/Delete/' + id,
-                                //url: '/TipoTramites/Delete/' + id,
+                                //url: '/SoftCRPWeb/TipoTramites/Delete/' + id,
+                                url: '/TipoTramites/Delete/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Desactivado', 'success');
-                                        //window.location.href = '/TipoTramites/Index';
-                                        window.location.href = '/SoftCRPWeb/TipoTramites/Index';
+                                        window.location.href = '/TipoTramites/Index';
+                                        //window.location.href = '/SoftCRPWeb/TipoTramites/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {
@@ -173,13 +173,13 @@
 
                             $.ajax({
                                 type: 'post',
-                                url: '/SoftCRPWeb/TipoTramites/Enable/' + id,
-                                //url: '/TipoTramites/Enable/' + id,
+                                //url: '/SoftCRPWeb/TipoTramites/Enable/' + id,
+                                url: '/TipoTramites/Enable/' + id,
                                 success: function (data) {
                                     if (data) {
                                         swal('Registro Activado', 'success');
-                                        //window.location.href = '/TipoTramites/Index';
-                                        window.location.href = 'SoftCRPWeb/TipoTramites/Index';
+                                        window.location.href = '/TipoTramites/Index';
+                                        //window.location.href = 'SoftCRPWeb/TipoTramites/Index';
                                         //$("#"+id+" tr").fadeOut( $("#"+id+" tr").remove());
                                     }
                                     else {

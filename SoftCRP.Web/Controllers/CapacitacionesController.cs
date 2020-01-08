@@ -207,7 +207,7 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table>"+
                     $"<br><br>" +
                     $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
-                    $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                    $"<div align='center'><a href='http://181.112.216.3:8084'><img src='http://181.112.216.3:8084/images/email1.png' align='center'></a></div>" +
                     $"<br><br>" +
                     $"<p>Es un placer estar en contacto.<br>" +
                     $"<p>Saludos cordiales<br>" +
@@ -218,7 +218,7 @@ namespace SoftCRP.Web.Controllers
                     $"<p>E-Mail: inforenting@condelpi.com<br>" +
                     $"<p>Quito-Ecuador" +
                     $"<br><br>" +
-                    $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +
+                    $"<img src='http://181.112.216.3:8084/images/email2.png' width=200px>" +
                     $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
                     $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
                     , model.Files);
@@ -308,19 +308,19 @@ namespace SoftCRP.Web.Controllers
                     $"<tr><td style='font-weight:bold'>Fecha</td><td>{capacitacion.Fecha}</td></tr></table>"+
                     $"<br><br>" +
                     $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
-                    $"<div align='center'><a href='http://181.112.216.3/softcrpweb'><img src='http://181.112.216.3/softcrpweb/images/email1.png' align='center'></a></div>" +
+                    $"<div align='center'><a href='http://181.112.216.3:8084'><img src='http://181.112.216.3:8084/images/email1.png' align='center'></a></div>" +
                     $"<br><br>" +
                     $"<p>Es un placer estar en contacto.<br>" +
                     $"<p>Saludos cordiales<br>" +
                     $"<br><br>" +
                     $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
                     $"<p>Av.González Suárez N32-346 y Coruña<br>" +
-                    $"<p><img src='http://181.112.216.3/softcrpweb/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
-                    $"<p><img src='http://181.112.216.3/softcrpweb/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
-                    $"<p><img src='http://181.112.216.3/softcrpweb/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
+                    $"<p><img src='http://181.112.216.3:8084/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
+                    $"<p><img src='http://181.112.216.3:8084/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
+                    $"<p><img src='http://181.112.216.3:8084/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
                     $"<p>Quito-Ecuador" +
                     $"<br><br>" +
-                    $"<img src='http://181.112.216.3/softcrpweb/images/email2.png' width=200px>" +
+                    $"<img src='http://181.112.216.3:8084/images/email2.png' width=200px>" +
                     $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
                     $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
                     , model.Files);

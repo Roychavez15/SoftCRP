@@ -192,7 +192,8 @@
                         });
 
                         $("#btnYesDelete").click(function () {
-                            window.location.href = '/SoftCRPWeb/Capacitaciones/Delete/' + item_to_delete;
+                            //window.location.href = '/SoftCRPWeb/Capacitaciones/Delete/' + item_to_delete;
+                            window.location.href = '/Capacitaciones/Delete/' + item_to_delete;
                         });
 
 
@@ -222,14 +223,15 @@
 
                                         $.ajax({
                                         type: 'post',
-                                        url: '/SoftCRPWeb/Capacitaciones/Delete/'+ id,
-                                        //url: '/Capacitaciones/Delete/'+ id,
+                                        //url: '/SoftCRPWeb/Capacitaciones/Delete/'+ id,
+                                        url: '/Capacitaciones/Delete/'+ id,
                                         success: function (data) {
                                             if (data) {
                                                 swal('Registro Eliminado', 'success');
 
-                                                window.location.href = '/SoftCRPWeb/Capacitaciones/Index';
-                                                //window.location.href = '/Capacitaciones/';
+                                                window.location.href = '/Capacitaciones/Index';
+                                                //window.location.href = '/SoftCRPWeb/Capacitaciones/Index';
+                                                
                                             }
                                             else {
                                                 swal('No se pudo eliminar','warning');
