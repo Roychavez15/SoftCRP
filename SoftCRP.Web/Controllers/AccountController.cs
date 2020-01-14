@@ -112,6 +112,7 @@ namespace SoftCRP.Web.Controllers
                     {
                         await _logRepository.SaveLogs("Error", "Usuario Desactivado", "Account", model.Username);
                         ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario, Usuario Desactivado", SweetAlertMessageType.error);
+                        await _userHelper.LogoutAsync();
                         //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
                         return View(model);
                     }
@@ -441,7 +442,8 @@ namespace SoftCRP.Web.Controllers
                 var link = Url.Action(
                     "ResetPassword",
                     "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "https://clientes.rentingpichincha.com/");
+                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "clientes.rentingpichincha.com");
+                    //new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3:8084");
 
 
                 _mailHelper.SendMail(user.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
