@@ -103,7 +103,7 @@ namespace SoftCRP.Web.Models
         [Display(Name = "Mantenimiento Preventivo")]
         public string Mto_preventivo { get; set; }
 
-        [Display(Name = "Sustituto")]
+        [Display(Name = "Sustitutos")]
         public string Mto_sustituto { get; set; }
 
         [Display(Name = "Nombre Cliente")]
