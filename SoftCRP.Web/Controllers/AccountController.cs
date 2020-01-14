@@ -441,7 +441,7 @@ namespace SoftCRP.Web.Controllers
                 var link = Url.Action(
                     "ResetPassword",
                     "Account",
-                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "181.112.216.3/");
+                    new { token = myToken }, protocol: HttpContext.Request.Scheme, "https://clientes.rentingpichincha.com/");
 
 
                 _mailHelper.SendMail(user.Email, "Plataforma Clientes Renting", $"<h1>Recuperar Contraseña</h1>" +
@@ -500,7 +500,7 @@ namespace SoftCRP.Web.Controllers
 
             var model = await ToUserRoleViewModel(user.ToList());
 
-            await _logRepository.SaveLogs("Get", "Obener Lista de Usuarios", "Account", User.Identity.Name);
+            await _logRepository.SaveLogs("Get", "Obtener Lista de Usuarios", "Account", User.Identity.Name);
             return View(model);
         }
 
