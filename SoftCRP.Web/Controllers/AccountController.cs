@@ -76,7 +76,7 @@ namespace SoftCRP.Web.Controllers
                             Cedula = "0000000000",
                             FirstName = model.Username,
                             LastName = model.Username,
-                            //Email = model.Username,
+                            Email = model.Username+"@condelpi.com",
                             //PhoneNumber = model.PhoneNumber,
                             UserName = model.Username,
                             isActive=true,
