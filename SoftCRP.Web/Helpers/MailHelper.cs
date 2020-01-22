@@ -80,6 +80,7 @@ namespace SoftCRP.Web.Helpers
             message.To.Add(new MailboxAddress(emaildefault));
             foreach (string multiple_email in Multiple)
             {
+                if(!string.IsNullOrEmpty(multiple_email.Trim()))
                 message.To.Add(new MailboxAddress(multiple_email.Trim()));
             }
 
