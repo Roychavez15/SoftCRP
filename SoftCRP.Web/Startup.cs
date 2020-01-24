@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -17,13 +9,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.EventLog;
 using Microsoft.IdentityModel.Tokens;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Repositories;
 using SWDLCondelpi;
+using System;
+using System.Diagnostics;
+using System.ServiceModel;
+using System.Text;
 
 namespace SoftCRP.Web
 {
@@ -33,6 +30,8 @@ namespace SoftCRP.Web
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            //var path = String.Concat(Directory.GetCurrentDirectory(), "/NLog.config");
+            //LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/NLog.config"));
             Configuration = configuration;
             _env = env;
         }
@@ -49,12 +48,10 @@ namespace SoftCRP.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            
-
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
-                cfg.User.RequireUniqueEmail = false;                
+                cfg.User.RequireUniqueEmail = false;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
                 cfg.Password.RequireLowercase = false;
@@ -72,7 +69,7 @@ namespace SoftCRP.Web
                 //options.LoginPath = "/Account/NotAuthorized";
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/NotAuthorized";
-                //options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
@@ -94,7 +91,7 @@ namespace SoftCRP.Web
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
                 };
             });
-            
+
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -111,7 +108,7 @@ namespace SoftCRP.Web
             services.AddScoped<IUserHelper, UserHelper>();//
             services.AddScoped<IDatosRepository, DatosRepository>();
             services.AddScoped<IMailHelper, MailHelper>();
-            services.AddScoped<ITiposAnalisis, TiposAnalisis>();            
+            services.AddScoped<ITiposAnalisis, TiposAnalisis>();
             services.AddScoped<ICombosHelper, CombosHelper>();
             services.AddScoped<IFileHelper, FileHelper>();
 
@@ -121,13 +118,13 @@ namespace SoftCRP.Web
             services.AddScoped<ICapacitacionesRepository, CapacitacionesRepository>();
 
             services.AddScoped<ILogRepository, LogRepository>();
-
+            //services.AddSingleton<ILog, LogNLog>();
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             var url = Configuration["WsdlUser"];
-             
+
             services.AddScoped<Service1Soap>(provider =>
             {
                 BasicHttpBinding result = new BasicHttpBinding();
@@ -139,7 +136,7 @@ namespace SoftCRP.Web
                 //result.Security = BasicHttpSecurityMode.None;
 
                 var client = new Service1SoapClient(
-                      
+
                       //new BasicHttpBinding(BasicHttpSecurityMode.None),
                       result,
                       new EndpointAddress(url));
@@ -167,7 +164,7 @@ namespace SoftCRP.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -185,7 +182,47 @@ namespace SoftCRP.Web
             app.UseStaticFiles();
             app.UseAuthentication();//
             app.UseCookiePolicy();
-            
+
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
+            //loggerFactory.AddNLog();
+            //loggerFactory.MinimumLevel = LogLevel.Debug;
+
+            //var settings = new EventLogSettings
+            //{
+            //    SourceName = "SoftCRPWeb",
+            //    LogName="SoftCRPWeb",
+            //    Filter = (source, level) => level >= LogLevel.Information
+            //};
+
+            //loggerFactory.AddEventLog(settings);
+
+
+            //loggerFactory.AddEventSourceLogger();
+            //loggerFactory.AddEventLog(LogLevel.Error);
+
+            string _sourceName = "SoftCRPWeb"; //source program name
+            string _logName = "MyNewEventLog"; //new event log or targeted event log name
+
+            //if custom event log does not exist, create it
+            if (!EventLog.SourceExists(_logName))
+            {
+                //event log creates new app log and associates program, "My Program", with new log, "My Event Log"
+                
+                EventLog.CreateEventSource(_sourceName, _logName);
+            }
+
+            EventLogSettings myEventLogSettings = new EventLogSettings
+            {
+                SourceName = _sourceName,
+                LogName = _logName,
+                Filter = (source, level) => level >= LogLevel.Critical
+            };
+            loggerFactory.AddEventLog(myEventLogSettings);
+
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+            logger.LogCritical(1000, "Iniciando...");
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

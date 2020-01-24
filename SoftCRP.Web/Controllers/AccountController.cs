@@ -28,13 +28,19 @@ namespace SoftCRP.Web.Controllers
         private readonly Service1Soap _service1Soap;
         private readonly IConfiguration _configuration;
         private readonly ILogRepository _logRepository;
+        private readonly ILogger _logger;
+        private readonly ILoggerFactory _loggerFactory;
+        //private readonly ILog _logger;
 
         public AccountController(
             IUserHelper userHelper,
             IMailHelper mailHelper,
             Service1Soap service1Soap,
             IConfiguration configuration,
-            ILogRepository logRepository
+            ILogRepository logRepository,
+            ILogger<AccountController> logger,
+            ILoggerFactory loggerFactory
+            //ILog logger
             )
         {
             _userHelper = userHelper;
@@ -42,6 +48,9 @@ namespace SoftCRP.Web.Controllers
             _service1Soap = service1Soap;
             _configuration = configuration;
             _logRepository = logRepository;
+            _logger = logger;
+            _loggerFactory = loggerFactory;
+            //_logger = logger;
         }
 
         [HttpGet]
@@ -144,7 +153,12 @@ namespace SoftCRP.Web.Controllers
         {
             await _logRepository.SaveLogs("Success", "Logout", "Account", User.Identity.Name);
             await _userHelper.LogoutAsync();
-            
+            //_logger.Information("Logout User :"+ User.Identity.Name);
+            _logger.LogCritical("Logout User :" + User.Identity.Name);
+
+            //var logger1 = _loggerFactory.CreateLogger("LoggerCategory");
+            //logger1.LogInformation("Calling the ping action");
+
             return RedirectToAction("Index", "Home");
 
         }

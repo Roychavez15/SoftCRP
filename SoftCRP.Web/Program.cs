@@ -25,10 +25,10 @@ namespace SoftCRP.Web
         {
 
 
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
+            //var logger = NLog.Web.NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("init main");
+                //logger.Debug("init main");
                 //CreateWebHostBuilder(args).Build().Run();
                 var host = CreateWebHostBuilder(args).Build();
                 RunSeeding(host);
@@ -37,13 +37,13 @@ namespace SoftCRP.Web
             catch (Exception ex)
             {
                 //NLog: catch setup errors
-                logger.Error(ex, "Stopped program because of exception");
+                //logger.Error(ex, "Stopped program because of exception");
                 throw;
             }
             finally
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-                NLog.LogManager.Shutdown();
+                //NLog.LogManager.Shutdown();
             }
         }
 
@@ -60,10 +60,11 @@ namespace SoftCRP.Web
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+                .UseStartup<Startup>();
+            //.UseNLog();
 
-                .UseNLog();
         }
+
     }
 
 }

@@ -28,7 +28,8 @@ namespace SoftCRP.Web.Data
             await CheckTramitesTypesAsync();
             await CheckCapacitacionesTypesAsync();
 
-            var user = await this._userHelper.GetUserByEmailAsync("roy_chavez15@hotmail.com");
+            //var user = await this._userHelper.GetUserByEmailAsync("roy_chavez15@hotmail.com");
+            var user = await this._userHelper.GetUserAsync("rchavez");
             if (user == null)
             {
                 user = new User
