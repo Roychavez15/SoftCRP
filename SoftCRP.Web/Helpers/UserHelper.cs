@@ -164,6 +164,7 @@ namespace SoftCRP.Web.Helpers
 
         public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
         {
+           
             return await _userManager.ResetPasswordAsync(user, token, password);            
         }
 

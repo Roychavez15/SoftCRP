@@ -108,10 +108,38 @@ namespace SoftCRP.Web.Controllers
                             //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
                             return View(model);
                         }
+                        var isInRole = await this._userHelper.IsUserInRoleAsync(user, "Renting");
+                        if (isInRole)
+                        {
+                            var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+                            var resultPass = await _userHelper.ResetPasswordAsync(user, myToken, model.Password);
+                            //await _userHelper.ChangePasswordAsync(user, user.PasswordHash, model.Password);                            
+                        }
                         //await _userHelper.ChangePasswordAsync(user,user.PasswordHash)
                     }
                     
                 }
+                else
+                {
+                    var user = await _userHelper.GetUserAsync(model.Username);
+                    if (user != null)
+                    {
+                        var isInRole = await this._userHelper.IsUserInRoleAsync(user, "Renting");
+                        if (isInRole)
+                        {
+                            ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario, Usuario Incorrecto", SweetAlertMessageType.error);
+                            //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Login", "Error en Loguear Usuario, Usuario Incorrecto", SweetAlertMessageType.error);
+                        //ModelState.AddModelError(string.Empty, "Fallo en Loguear Usuario.");
+                        return View(model);
+                    }
+                }
+
                 var result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
@@ -154,7 +182,9 @@ namespace SoftCRP.Web.Controllers
             await _logRepository.SaveLogs("Success", "Logout", "Account", User.Identity.Name);
             await _userHelper.LogoutAsync();
             //_logger.Information("Logout User :"+ User.Identity.Name);
-            _logger.LogCritical("Logout User :" + User.Identity.Name);
+
+            //IS OK
+            //_logger.LogCritical("Logout User :" + User.Identity.Name);
 
             //var logger1 = _loggerFactory.CreateLogger("LoggerCategory");
             //logger1.LogInformation("Calling the ping action");
@@ -448,7 +478,13 @@ namespace SoftCRP.Web.Controllers
                 if (user == null)
                 {
                     //ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
-                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "El correo no corresponde al usuario registrado", SweetAlertMessageType.error);
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "El usuario no esta registrado", SweetAlertMessageType.error);
+                    return View(model);
+                }
+                var isInRole = await this._userHelper.IsUserInRoleAsync(user, "Renting");
+                if (isInRole)
+                {
+                    ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Recuperar Password", "Este usuario no tiene permisos para recuperar contraseña", SweetAlertMessageType.error);
                     return View(model);
                 }
 

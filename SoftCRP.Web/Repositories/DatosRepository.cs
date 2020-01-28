@@ -177,8 +177,24 @@ namespace SoftCRP.Web.Repositories
             try
             {
                 aux = lista1.GetElementsByTagName(nodo)[0].InnerText;
+                if(nodo == "pickup")
+                {
+                    if(aux=="")
+                    {
+                        aux = "NO";
+                    }
+                }
             }
-            catch { aux = ""; }
+            catch {
+                aux = "";
+                if (nodo == "pickup")
+                {
+                    if (aux == "")
+                    {
+                        aux = "NO";
+                    }
+                }
+            }
             return aux;
         }
         public async Task<List<VehiculosClientesViewModel>> GetVehiculosClienteAsync(string nit)

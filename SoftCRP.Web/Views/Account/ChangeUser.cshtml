@@ -114,8 +114,11 @@
 
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn" style="background-color:#002D73; color:#ffffff;" ><i class="fa fa-save">&nbsp;</i>Guardar</button>
-                    <a asp-action="ChangePassword" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fa fa-mouse-pointer">&nbsp;</i>Modificar contraseña</a>
+                    <button type="submit" class="btn btn" style="background-color:#002D73; color:#ffffff;"><i class="fa fa-save">&nbsp;</i>Guardar</button>
+                    @if (User.Identity.IsAuthenticated && ! User.IsInRole("Renting"))
+                    {
+                        <a asp-action="ChangePassword" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fa fa-mouse-pointer">&nbsp;</i>Modificar contraseña</a>
+                    }
                 </div>
 
 
