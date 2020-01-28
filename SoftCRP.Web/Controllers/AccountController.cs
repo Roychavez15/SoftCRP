@@ -384,6 +384,7 @@ namespace SoftCRP.Web.Controllers
             return this.View(model);
         }
 
+        [Authorize(Roles = "Admin,Cliente")]
         public IActionResult ChangePassword()
         {
             return this.View();
