@@ -28,7 +28,7 @@
 
                     <div class="form-group">
                         <label asp-for="PlacaId" class="control-label"></label>
-                        <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control" id="Placasobj"></select>
+                        <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control select2" style="width: 100%;" id="Placasobj"></select>
                         <span asp-validation-for="PlacaId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -82,7 +82,9 @@
 
 <script type="text/javascript">
         @Html.Raw(ViewBag.SweetAlertShowMessage)
-        $(document).ready(function () {
+    $(document).ready(function () {
+            $('.select2').select2();
+
             $("#btnsubmit").click(function () {
                 debugger;
                 var placas = $('#Placasobj').val();                

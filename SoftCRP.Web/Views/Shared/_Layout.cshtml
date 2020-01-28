@@ -153,6 +153,8 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="~/css/Fonts.css" rel="stylesheet" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/node_modules/AdminLTE/plugins/select2/css/select2.min.css">
 
     <link href="~/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="~/sweetalert/sweetalert.js"></script>
@@ -280,9 +282,9 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <img src="@Url.Content($"{"~/images/Usuarios/"}{User.Identity.Name}.jpg")" class="user-image img-circle elevation-2" alt="User Image" onerror="this.onerror=null;this.src='https://clientes.rentingpichincha.com/images/user.png';">
-                            <span class="d-none d-md-inline" >@User.Identity.Name</span>
+                            <span class="d-none d-md-inline">@User.Identity.Name</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <!-- User image -->
@@ -471,86 +473,86 @@
                                             Reportes
                                         </a>
                                     </li>*@
-                                    <li class="nav-item has-treeview">
-                                        <a href="#" class="nav-link" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-chart-line"></i>                                            
-                                            Reportes
-                                            <i class="right fas fa-angle-left"></i>
-                                            
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexInformacion" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Información
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexAnalisis" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Análisis
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexCapacitaciones" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Capacitaciónes
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexNovedades" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Novedades
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexTramites" class="nav-link" style="color:#ffffff">
-                                                    <i class="far fa-circle nav-icon"></i>
-                                                    Trámites
-                                                </a>
-                                            </li>
-                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                            {
-                                                <li class="nav-item">
-                                                    <a asp-area="" asp-controller="Reportes" asp-action="IndexLogs" class="nav-link" style="color:#ffffff">
-                                                        <i class="far fa-circle nav-icon"></i>
-                                                        Logs
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </li>
-                                 }
-                
-                            }
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <li class="nav-header">Configuraciones</li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-h"></i>
-                                        <p>Tipos Análisis</p>
+                                <li class="nav-item has-treeview">
+                                    <a href="#" class="nav-link" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        Reportes
+                                        <i class="right fas fa-angle-left"></i>
+
                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoTramites" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-h"></i>
-                                        <p>Tipos Trámites</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fa fa-ellipsis-h"></i>
-                                        <p>Tipos Capacitaciones</p>
-                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexInformacion" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Información
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexAnalisis" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Análisis
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexCapacitaciones" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Capacitaciónes
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexNovedades" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Novedades
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Reportes" asp-action="IndexTramites" class="nav-link" style="color:#ffffff">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                Trámites
+                                            </a>
+                                        </li>
+                                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                        {
+                                            <li class="nav-item">
+                                                <a asp-area="" asp-controller="Reportes" asp-action="IndexLogs" class="nav-link" style="color:#ffffff">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    Logs
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
                                 </li>
                             }
-                        </ul>
-                    </nav>
-                    <!-- /.sidebar-menu -->
-                </div>
-                <!-- /.sidebar -->
-            </aside>
+
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-header">Configuraciones</li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-ellipsis-h"></i>
+                                    <p>Tipos Análisis</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoTramites" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-ellipsis-h"></i>
+                                    <p>Tipos Trámites</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-ellipsis-h"></i>
+                                    <p>Tipos Capacitaciones</p>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -597,6 +599,8 @@
     </script>
     <!-- Bootstrap 4 -->
     <script src="~/node_modules/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/node_modules/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
     <!-- ChartJS -->
     <script src="~/node_modules/AdminLTE/plugins/chart.js/Chart.min.js"></script>
     <!-- Sparkline -->
