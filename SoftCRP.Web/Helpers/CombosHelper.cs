@@ -58,6 +58,15 @@ namespace SoftCRP.Web.Helpers
         {
             var list = new List<SelectListItem>
             {
+                new SelectListItem {Text = (DateTime.Now.Year - 12).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 11).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 10).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 9).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 8).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 7).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 6).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 5).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
+                new SelectListItem {Text = (DateTime.Now.Year - 4).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
                 new SelectListItem {Text = (DateTime.Now.Year - 3).ToString(), Value =  (DateTime.Now.Year - 3).ToString()},
                 new SelectListItem {Text = (DateTime.Now.Year - 2).ToString(), Value =  (DateTime.Now.Year - 2).ToString()},
                 new SelectListItem {Text = (DateTime.Now.Year - 1).ToString(), Value =  (DateTime.Now.Year - 1).ToString()},                
