@@ -92,6 +92,9 @@
                                         Cedula/RUC
                                     </th>
                                     <th>
+                                        Cliente
+                                    </th>
+                                    <th>
                                         Placa
                                     </th>
                                     <th>
@@ -109,6 +112,9 @@
                                         Fecha
                                     </th>
                                     <th>
+                                        Archivos
+                                    </th>
+                                    <th>
                                         Observaciones
                                     </th>
                                     <th>
@@ -120,34 +126,40 @@
                             <tbody>
                                 @foreach (var item in Model.tramites)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cedula)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Placa)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.tipoTramite.Tipo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Mes)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Anio)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Fecha)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Observaciones)
-                                        </td>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cedula)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.userCliente.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Placa)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tipoTramite.Tipo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mes)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Anio)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.archivoTramites.Count)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observaciones)
+                                    </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.user.FullName)
-                                        </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.user.FullName)
+                                    </td>
 
-                                    </tr>
+                                </tr>
                                 }
 
                             </tbody>

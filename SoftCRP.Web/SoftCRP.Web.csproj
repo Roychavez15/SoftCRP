@@ -75,6 +75,7 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="2.0.40" />
   </ItemGroup>
 
   <ItemGroup>

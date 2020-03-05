@@ -93,6 +93,9 @@
                                         Cedula/RUC
                                     </th>
                                     <th>
+                                        Cliente
+                                    </th>
+                                    <th>
                                         Placa
                                     </th>
                                     <th>
@@ -108,6 +111,9 @@
                                     <th>
                                         @*@Html.DisplayNameFor(model => model.analisis.Fecha.FirstOrDefault())*@
                                         Fecha
+                                    </th>
+                                    <th>
+                                        Archivos
                                     </th>
                                     <th>
                                         Observaciones
@@ -133,47 +139,52 @@
                             <tbody>
                                 @foreach (var item in Model.novedades)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cedula)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Placa)
-                                        </td>
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cedula)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.userCliente.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Placa)
+                                    </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Motivo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.SubMotivo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ViaIngreso)
-                                        </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Motivo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubMotivo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ViaIngreso)
+                                    </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Fecha)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Observaciones)
-                                        </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Fecha)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.archivoNovedades.Count)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Observaciones)
+                                    </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.user.FullName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EstadoSolucion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Solucion)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaSolucion)
-                                        </td>
-                                        <td>
-                                        </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.user.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EstadoSolucion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Solucion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FechaSolucion)
+                                    </td>
+                                    <td></td>
 
-                                    </tr>
+                                </tr>
                                 }
 
                             </tbody>

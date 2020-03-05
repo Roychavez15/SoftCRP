@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,5 +51,13 @@ namespace SoftCRP.Web.Data.Entities
         //public DateTime? FechaLocalSolucion => FechaSolucion.ToLocalTime();
 
         public ICollection<LogNovedad> logNovedades { get; set; }
+
+        [NotMapped]
+        public User userCliente
+        {
+            get;
+            set;
+        }
+
     }
 }

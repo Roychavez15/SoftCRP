@@ -96,12 +96,18 @@
 
                                         </th>
                                         <th>
+                                            Cliente
+                                        </th>
+                                        <th>
                                             @*@Html.DisplayNameFor(model => model.analisis.Placa.FirstOrDefault())*@
                                             Placa
                                         </th>
                                         <th>
                                             @*@Html.DisplayNameFor(model => model.analisis.Observaciones.FirstOrDefault())*@
                                             Tipo
+                                        </th>
+                                        <th>
+                                            Archivos
                                         </th>
                                         <th>
                                             Observaciones
@@ -119,28 +125,33 @@
                                 <tbody>
                                     @foreach (var item in Model.Analises)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Cedula)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Placa)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
-                                            </td>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cedula)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.userCliente.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Placa)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.tipoAnalisis.Tipo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ArchivosAnalisis.Count)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Observaciones)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Fecha)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.user.FullName)
+                                        </td>
 
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Observaciones)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Fecha)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.user.FullName)
-                                            </td>
-
-                                        </tr>
+                                    </tr>
                                     }
 
                                 </tbody>

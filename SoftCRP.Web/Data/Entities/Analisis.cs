@@ -34,5 +34,12 @@ namespace SoftCRP.Web.Data.Entities
 
         public User user { get; set; }
 
+        [NotMapped]
+        public User userCliente
+        {
+            get;
+            set;
+        }
+
     }
 }

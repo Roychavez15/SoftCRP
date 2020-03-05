@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Models;
+using Z.EntityFramework.Plus;
 
 namespace SoftCRP.Web.Repositories
 {
@@ -62,10 +63,12 @@ namespace SoftCRP.Web.Repositories
             if (!string.IsNullOrEmpty(filter))
             {
                 return await _dataContext.Analises
+                    .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)))
                     .Include(t => t.tipoAnalisis)
                     .Include(a => a.ArchivosAnalisis)
                     .Include(u => u.user)
-                    .Where(f => f.Cedula==filter && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1))).ToListAsync();
+
+                    .ToListAsync();
             }
             else
             {
@@ -73,6 +76,8 @@ namespace SoftCRP.Web.Repositories
                     .Include(t => t.tipoAnalisis)
                     .Include(a => a.ArchivosAnalisis)
                     .Include(u => u.user)
+                    
+                    //.FromSql("select b.* from AspNetUsers b inner join analises a on b.cedula =a.cedula")
                     .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
             }
             //return analisis;
