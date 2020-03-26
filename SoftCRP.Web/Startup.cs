@@ -201,7 +201,7 @@ namespace SoftCRP.Web
             //loggerFactory.AddEventSourceLogger();
             //loggerFactory.AddEventLog(LogLevel.Error);
 
-            string _sourceName = "SoftCRPWeb"; //source program name
+            string _sourceName = "PlataformaClientes"; //source program name
             string _logName = ""; //new event log or targeted event log name
 
             ////if custom event log does not exist, create it
@@ -213,16 +213,18 @@ namespace SoftCRP.Web
             //}
 
             //////IS ok
-            //EventLogSettings myEventLogSettings = new EventLogSettings
-            //{
-            //    SourceName = _sourceName,
-            //    LogName = _logName,
-            //    Filter = (source, level) => level >= LogLevel.Critical
-            //};
-            //loggerFactory.AddEventLog(myEventLogSettings);
+            EventLogSettings myEventLogSettings = new EventLogSettings
+            {
+                SourceName = _sourceName,
+                LogName = _logName,
+                Filter = (source, level) => level >= LogLevel.Error
+            };
+            loggerFactory.AddEventLog(myEventLogSettings);
 
-            //ILogger logger = loggerFactory.CreateLogger<Startup>();
-            //logger.LogCritical(1000, "Iniciando...");
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+            //logger.LogCritical(1000, "Iniciando..."); //ok
+            //logger.LogInformation(1001, "Iniciando...");
+            logger.LogError("Logs de Errores Iniciados");
 
             app.UseMvc(routes =>
             {

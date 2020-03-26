@@ -30,7 +30,6 @@ namespace SoftCRP.Web.Controllers
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
         private readonly ILoggerFactory _loggerFactory;
-        //private readonly ILog _logger;
 
         public AccountController(
             IUserHelper userHelper,
@@ -40,7 +39,6 @@ namespace SoftCRP.Web.Controllers
             ILogRepository logRepository,
             ILogger<AccountController> logger,
             ILoggerFactory loggerFactory
-            //ILog logger
             )
         {
             _userHelper = userHelper;
@@ -50,7 +48,6 @@ namespace SoftCRP.Web.Controllers
             _logRepository = logRepository;
             _logger = logger;
             _loggerFactory = loggerFactory;
-            //_logger = logger;
         }
 
         [HttpGet]
@@ -184,7 +181,8 @@ namespace SoftCRP.Web.Controllers
             //_logger.Information("Logout User :"+ User.Identity.Name);
 
             //IS OK
-            //_logger.LogCritical("Logout User :" + User.Identity.Name);
+            //_logger.LogCritical(1001,"Logout User :" + User.Identity.Name);
+            _logger.LogError("Logout User :" + User.Identity.Name);
 
             //var logger1 = _loggerFactory.CreateLogger("LoggerCategory");
             //logger1.LogInformation("Calling the ping action");

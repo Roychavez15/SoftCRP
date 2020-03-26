@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
@@ -19,6 +20,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly ILogRepository _logRepository;
         private readonly ITramitesRepository _tramitesRepository;
+        private readonly ILogger<ReportesController> _logger;
         private readonly IUserHelper _userHelper;
 
         public ReportesController(
@@ -29,6 +31,7 @@ namespace SoftCRP.Web.Controllers
             ICombosHelper combosHelper,
             ILogRepository logRepository,
             ITramitesRepository tramitesRepository,
+            ILogger<ReportesController> logger,
             IUserHelper userHelper)
         {
             _datosRepository = datosRepository;
@@ -38,6 +41,7 @@ namespace SoftCRP.Web.Controllers
             _combosHelper = combosHelper;
             _logRepository = logRepository;
             _tramitesRepository = tramitesRepository;
+            _logger = logger;
             _userHelper = userHelper;
         }
 

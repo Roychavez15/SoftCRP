@@ -12,7 +12,8 @@ namespace SoftCRP.Web.Helpers
     {
         private readonly IConfiguration _configuration;
 
-        public MailHelper(IConfiguration configuration)
+        public MailHelper(            
+            IConfiguration configuration)
         {
             _configuration = configuration;
         }

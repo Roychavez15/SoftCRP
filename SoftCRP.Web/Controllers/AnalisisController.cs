@@ -25,6 +25,7 @@ namespace SoftCRP.Web.Controllers
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
         private readonly ILogRepository _logRepository;
+        private readonly ILogger<AnalisisController> _logger;
         private readonly DataContext _dataContext;
 
         public AnalisisController(
@@ -35,6 +36,7 @@ namespace SoftCRP.Web.Controllers
             IFileHelper fileHelper,
             IMailHelper mailHelper,
             ILogRepository logRepository,
+            ILogger<AnalisisController> logger,
             DataContext dataContext
             )
         {
@@ -45,6 +47,7 @@ namespace SoftCRP.Web.Controllers
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
             _logRepository = logRepository;
+            _logger = logger;
             _dataContext = dataContext;
         }
         // GET: TipoAnalisis

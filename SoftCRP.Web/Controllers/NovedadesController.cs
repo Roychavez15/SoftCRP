@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -24,6 +25,7 @@ namespace SoftCRP.Web.Controllers
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
         private readonly ILogRepository _logRepository;
+        private readonly ILogger<NovedadesController> _logger;
         private readonly INovedadesRepository _novedadesRepository;
         private readonly DataContext _dataContext;
 
@@ -35,6 +37,7 @@ namespace SoftCRP.Web.Controllers
             IFileHelper fileHelper,
             IMailHelper mailHelper,
             ILogRepository logRepository,
+            ILogger<NovedadesController> logger,
             DataContext dataContext
             )
         {
@@ -44,6 +47,7 @@ namespace SoftCRP.Web.Controllers
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
             _logRepository = logRepository;
+            _logger = logger;
             _novedadesRepository = novedadesRepository;
             _dataContext = dataContext;
         }

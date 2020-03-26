@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Helpers;
@@ -18,17 +19,20 @@ namespace SoftCRP.Web.Controllers
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly ILogRepository _logRepository;
+        private readonly ILogger<InformacionController> _logger;
         private readonly IDatosRepository _datosRepository;
 
         public InformacionController(
             DataContext context,
             IUserHelper userHelper,
             ILogRepository logRepository,
+            ILogger<InformacionController> logger,
             IDatosRepository datosRepository)
         {
             _context = context;
             _userHelper = userHelper;
             _logRepository = logRepository;
+            _logger = logger;
             _datosRepository = datosRepository;
         }
         public async Task<IActionResult> Index()

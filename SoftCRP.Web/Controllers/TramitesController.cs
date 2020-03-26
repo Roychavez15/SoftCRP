@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -24,6 +25,7 @@ namespace SoftCRP.Web.Controllers
         private readonly IFileHelper _fileHelper;
         private readonly IMailHelper _mailHelper;
         private readonly ILogRepository _logRepository;
+        private readonly ILogger<TramitesController> _logger;
         private readonly DataContext _dataContext;
 
         public TramitesController(
@@ -34,6 +36,7 @@ namespace SoftCRP.Web.Controllers
             IFileHelper fileHelper,
             IMailHelper mailHelper,
             ILogRepository logRepository,
+            ILogger<TramitesController> logger,
             DataContext dataContext)
         {
             _userHelper = userHelper;
@@ -43,6 +46,7 @@ namespace SoftCRP.Web.Controllers
             _fileHelper = fileHelper;
             _mailHelper = mailHelper;
             _logRepository = logRepository;
+            _logger = logger;
             _dataContext = dataContext;
         }
         public async Task<IActionResult> Index()

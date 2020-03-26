@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Repositories;
@@ -16,13 +17,16 @@ namespace SoftCRP.Web.Controllers
     public class TipoAnalisisController : Controller
     {
         private readonly DataContext _context;
+        private readonly ILogger<TipoAnalisisController> _logger;
         private readonly ILogRepository _logRepository;
 
         public TipoAnalisisController(
             DataContext context,
+            ILogger<TipoAnalisisController> logger,
             ILogRepository logRepository)
         {
             _context = context;
+            _logger = logger;
             _logRepository = logRepository;
         }
 

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
@@ -17,6 +18,7 @@ namespace SoftCRP.Web.Controllers
         private readonly INovedadesRepository _novedadesRepository;
         private readonly ITramitesRepository _tramitesRepository;
         private readonly ICapacitacionesRepository _capacitacionesRepository;
+        private readonly ILogger<HomeController> _logger;
         private readonly IDatosRepository _datosRepository;
 
         public HomeController(
@@ -25,6 +27,7 @@ namespace SoftCRP.Web.Controllers
             INovedadesRepository novedadesRepository,
             ITramitesRepository tramitesRepository,
             ICapacitacionesRepository capacitacionesRepository,
+            ILogger<HomeController> logger,
             IDatosRepository datosRepository)
         {
             _userHelper = userHelper;
@@ -32,6 +35,7 @@ namespace SoftCRP.Web.Controllers
             _novedadesRepository = novedadesRepository;
             _tramitesRepository = tramitesRepository;
             _capacitacionesRepository = capacitacionesRepository;
+            _logger = logger;
             _datosRepository = datosRepository;
         }
         public async Task<IActionResult> Index()
