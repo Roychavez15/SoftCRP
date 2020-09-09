@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.EventLog;
 using Microsoft.IdentityModel.Tokens;
+using SoftCRP.Common.Models;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -159,7 +160,10 @@ namespace SoftCRP.Web
                     new EndpointAddress(url1));
                 return client1;
             });
-
+            services.AddMvc(properties =>
+            {
+                properties.ModelBinderProviders.Insert(0, new JsonModelBinderProvider());
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -224,7 +228,9 @@ namespace SoftCRP.Web
             ILogger logger = loggerFactory.CreateLogger<Startup>();
             //logger.LogCritical(1000, "Iniciando..."); //ok
             //logger.LogInformation(1001, "Iniciando...");
-            logger.LogError("Logs de Errores Iniciados");
+
+            //SI VALE
+            //logger.LogError("Logs de Errores Iniciados");
 
             app.UseMvc(routes =>
             {

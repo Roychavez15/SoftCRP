@@ -53,14 +53,36 @@ namespace SoftCRP.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            
-            
+
+            string userAgent = Request.Headers["User-Agent"];
+
+            if (IsInternetExplorer(userAgent))
+            {
+                //Do your special IE stuff here
+                ViewBag.SweetAlertShowMessage = SweetAlertHelper.ShowMessage("Alerta!!!!", "Internet Explorer no es un navegador recomendado para esta aplicación, su uso puede provocar error en formato de correo u otras funciones", SweetAlertMessageType.error);
+            }
+            else
+            {
+                //Do your non IE stuff here
+            }
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
 
             return View();
+        }
+        public static bool IsInternetExplorer(string userAgent)
+        {
+            if (userAgent.Contains("MSIE") || userAgent.Contains("Trident"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         [HttpPost]
@@ -182,6 +204,7 @@ namespace SoftCRP.Web.Controllers
 
             //IS OK
             //_logger.LogCritical(1001,"Logout User :" + User.Identity.Name);
+
             _logger.LogError("Logout User :" + User.Identity.Name);
 
             //var logger1 = _loggerFactory.CreateLogger("LoggerCategory");
@@ -446,12 +469,14 @@ namespace SoftCRP.Web.Controllers
                             _configuration["Tokens:Issuer"],
                             _configuration["Tokens:Audience"],
                             claims,
-                            expires: DateTime.UtcNow.AddDays(15),
+                            //expires: DateTime.UtcNow.AddDays(15),
+                            expires: DateTime.UtcNow.AddMinutes(2),
                             signingCredentials: credentials);
                         var results = new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
+                            expiration = token.ValidTo,
+                            user=user.Id
                         };
 
                         return this.Created(string.Empty, results);

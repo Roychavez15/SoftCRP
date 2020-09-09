@@ -27,6 +27,10 @@ namespace SoftCRP.Web.Repositories
             AnalisisViewModel analisisViewModel = new AnalisisViewModel();
 
             var cliente = _datosRepository.GetDatosCliente(cedula);
+            if(cliente.Result==null)
+            {
+                return null;
+            }
 
             if (cliente.Result.nit != null)
             {

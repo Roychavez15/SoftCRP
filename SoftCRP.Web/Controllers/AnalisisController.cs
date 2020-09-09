@@ -275,7 +275,7 @@ namespace SoftCRP.Web.Controllers
 
                 //var emails = "roy_chavez15@hotmail.com";
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
-                var emails = user.Email+','+datos.Email;
+                var emails = user.Email.Trim()+','+datos.Email.Trim();
 
                 //TODO: cambiar direccion de correo
 

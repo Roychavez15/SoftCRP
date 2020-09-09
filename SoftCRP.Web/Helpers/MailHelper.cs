@@ -3,6 +3,7 @@ using MailKit.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using SoftCRP.Web.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -10,11 +11,14 @@ namespace SoftCRP.Web.Helpers
 {
     public class MailHelper : IMailHelper
     {
+        private readonly ILogRepository _logRepository;
         private readonly IConfiguration _configuration;
 
-        public MailHelper(            
+        public MailHelper(
+            ILogRepository logRepository,
             IConfiguration configuration)
         {
+            _logRepository = logRepository;
             _configuration = configuration;
         }
 
@@ -57,7 +61,9 @@ namespace SoftCRP.Web.Helpers
                     client.Authenticate(from, password);
                     client.Send(message);
                     client.Disconnect(true);
-                }
+                    
+                };
+                
             }
             catch (Exception ex)
             {
@@ -108,11 +114,13 @@ namespace SoftCRP.Web.Helpers
                     client.Authenticate(from, password);
                     client.Send(message);
                     client.Disconnect(true);
-                }
+                };
+                
             }
             catch (Exception ex)
             {
                 var messages = ex.Message;
+                //await _logRepository.SaveLogs("Correo Enviado",)
             }
         }
     }

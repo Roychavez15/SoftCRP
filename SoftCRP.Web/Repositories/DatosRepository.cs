@@ -176,12 +176,28 @@ namespace SoftCRP.Web.Repositories
             var aux = "";
             try
             {
-                aux = lista1.GetElementsByTagName(nodo)[0].InnerText;
-                if(nodo == "pickup")
+                int conta = lista1.GetElementsByTagName(nodo).Count;
+                if (conta != 0)
                 {
-                    if(aux=="")
+
+
+                    aux = lista1.GetElementsByTagName(nodo)[0].InnerText;
+                    if (nodo == "pickup")
                     {
-                        aux = "NO";
+                        if (aux == "")
+                        {
+                            aux = "NO";
+                        }
+                    }
+                }
+                else
+                {
+                    if (nodo == "pickup")
+                    {
+                        if (aux == "")
+                        {
+                            aux = "NO";
+                        }
                     }
                 }
             }
@@ -259,7 +275,10 @@ namespace SoftCRP.Web.Repositories
 
             var key = _configuration["KeyWs"];
             var dataxml = await _service1Soap.Consulta_clientesAsync(key, ruc);
-            
+            if(dataxml==null)
+            {
+                return null;
+            }
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());
