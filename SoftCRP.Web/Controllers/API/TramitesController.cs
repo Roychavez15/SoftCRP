@@ -59,7 +59,10 @@ namespace SoftCRP.Web.Controllers.API
 
                 List<ArchivoTramites> archivoTramitesList = new List<ArchivoTramites>();
                 var user = await _userHelper.GetUserByIdAsync(model.JsonTramites.UserId.ToString());
-
+                if (user == null)
+                {
+                    return BadRequest();
+                }
                 foreach (IFormFile file in model.Files)
                 {
                     var path = string.Empty;

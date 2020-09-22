@@ -487,6 +487,44 @@ namespace SoftCRP.Web.Controllers
             return this.BadRequest();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateToken1([FromBody] LoginViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserAsync(model.Username);
+                if (user != null)
+                {
+
+                        var claims = new[]
+                        {
+                            new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        };
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                        var token = new JwtSecurityToken(
+                            _configuration["Tokens:Issuer"],
+                            _configuration["Tokens:Audience"],
+                            claims,
+                            //expires: DateTime.UtcNow.AddDays(15),
+                            expires: DateTime.UtcNow.AddMinutes(2),
+                            signingCredentials: credentials);
+                        var results = new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo,
+                            user = user.Id
+                        };
+
+                        return this.Created(string.Empty, results);
+                    
+                }
+            }
+
+            return this.BadRequest();
+        }
         public IActionResult RecoverPassword()
         {
             return View();

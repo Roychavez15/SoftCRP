@@ -62,6 +62,11 @@ namespace SoftCRP.Web.Controllers.API
             }
             List<ArchivoAnalisis> archivoAnalises = new List<ArchivoAnalisis>();
             var user = await _userHelper.GetUserByIdAsync(model.JsonAnalisis.UserId.ToString());
+            if(user==null)
+            {
+                return BadRequest();
+            }
+
             foreach (IFormFile file in model.Files)
             {
                 //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
