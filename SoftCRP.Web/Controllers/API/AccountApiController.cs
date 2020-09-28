@@ -15,17 +15,18 @@ namespace SoftCRP.Web.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountApiController : ControllerBase
     {
         private readonly IConfiguration _configuration;
         private readonly Service1Soap _service1Soap;
         private readonly IUserHelper _userHelper;
 
-        public AccountController(
+        public AccountApiController(
             IConfiguration configuration,
             Service1Soap service1Soap,
             IUserHelper userHelper
             )
+            
         {
             _configuration = configuration;
             _service1Soap = service1Soap;
