@@ -34,7 +34,7 @@ namespace SoftCRP.Web.Controllers.API
         }
 
         [HttpPost]
-        [Route("Login")]
+        [Route("LoginApi")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var key = _configuration["KeyWs"];
