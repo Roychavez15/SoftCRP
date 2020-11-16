@@ -10,14 +10,14 @@ using SoftCRP.Web.Data;
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191220024258_NewFieldUser")]
-    partial class NewFieldUser
+    [Migration("20201116032434_newTablesV2")]
+    partial class newTablesV2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -424,6 +424,8 @@ namespace SoftCRP.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<bool>("isActive");
+
                     b.HasKey("Id");
 
                     b.ToTable("TiposAnalisis");
@@ -438,6 +440,8 @@ namespace SoftCRP.Web.Migrations
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasMaxLength(100);
+
+                    b.Property<bool>("isActive");
 
                     b.HasKey("Id");
 
@@ -454,6 +458,8 @@ namespace SoftCRP.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<bool>("isActive");
+
                     b.HasKey("Id");
 
                     b.ToTable("tipoNovedades");
@@ -468,6 +474,8 @@ namespace SoftCRP.Web.Migrations
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<bool>("isActive");
 
                     b.HasKey("Id");
 
@@ -579,6 +587,64 @@ namespace SoftCRP.Web.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Vehiculo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Placa");
+
+                    b.Property<string>("gps_id");
+
+                    b.Property<string>("gps_provider");
+
+                    b.Property<string>("userId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("vehiculos");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.VehiculoGps", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("anio");
+
+                    b.Property<int>("dia");
+
+                    b.Property<int>("hardbraking");
+
+                    b.Property<int>("kilometerstraveled");
+
+                    b.Property<string>("latitude");
+
+                    b.Property<string>("longitude");
+
+                    b.Property<int>("mes");
+
+                    b.Property<int>("sharpacceleration");
+
+                    b.Property<int>("sharpturn");
+
+                    b.Property<int>("speeding");
+
+                    b.Property<int>("trips");
+
+                    b.Property<int?>("vehiculoId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("vehiculoId");
+
+                    b.ToTable("vehiculosGps");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -733,6 +799,20 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Vehiculo", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.VehiculoGps", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.Vehiculo", "vehiculo")
+                        .WithMany()
+                        .HasForeignKey("vehiculoId");
                 });
 #pragma warning restore 612, 618
         }

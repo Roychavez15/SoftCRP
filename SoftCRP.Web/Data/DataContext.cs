@@ -39,6 +39,12 @@ namespace SoftCRP.Web.Data
         public DbSet<Log> Logs { get; set; }
         public DbSet<LogNovedad> logNovedades { get; set; }
 
+        // version 2
+
+        public DbSet<Vehiculo> vehiculos { get; set; }
+        public DbSet<VehiculoGps> vehiculosGps { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Menu>()

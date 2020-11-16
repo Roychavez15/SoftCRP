@@ -39,7 +39,8 @@ namespace SoftCRP.Web.Data
                     LastName = "Chavez",
                     Email = "roy_chavez15@hotmail.com",
                     PhoneNumber="0989605062",
-                    UserName = "rchavez"
+                    UserName = "rchavez", 
+                    isActive=true
                 };
 
                 var result = await this._userHelper.AddUserAsync(user, "123456");

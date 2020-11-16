@@ -230,7 +230,7 @@ namespace SoftCRP.Web
             //logger.LogInformation(1001, "Iniciando...");
 
             //SI VALE
-            logger.LogError("Logs de Errores Iniciados");
+            //logger.LogError("Logs de Errores Iniciados");
 
             app.UseMvc(routes =>
             {
