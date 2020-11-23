@@ -17,6 +17,7 @@ using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Repositories;
+using SoftCRP.Web.Services;
 using SWDLCondelpi;
 using System;
 using System.Diagnostics;
@@ -121,6 +122,9 @@ namespace SoftCRP.Web
             services.AddScoped<ILogRepository, LogRepository>();
             //services.AddSingleton<ILog, LogNLog>();
 
+
+            services.AddScoped<IVehiculoProvGpsRepository, VehiculoProvGpsRepository>();
+
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -160,6 +164,9 @@ namespace SoftCRP.Web
                     new EndpointAddress(url1));
                 return client1;
             });
+
+            services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateProvGpsService>();
+
             services.AddMvc(properties =>
             {
                 properties.ModelBinderProviders.Insert(0, new JsonModelBinderProvider());

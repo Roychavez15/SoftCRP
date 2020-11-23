@@ -6,6 +6,7 @@ using System.Xml;
 using Microsoft.Extensions.Configuration;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 
 namespace SoftCRP.Web.Repositories
@@ -15,15 +16,21 @@ namespace SoftCRP.Web.Repositories
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
         private readonly WSDLCondelpiData.Service1Soap _service1Soap;
+        private readonly IUserHelper _userHelper;
+        private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;
 
         public DatosRepository(
             DataContext context,
             IConfiguration configuration,
-            WSDLCondelpiData.Service1Soap service1Soap)
+            WSDLCondelpiData.Service1Soap service1Soap,
+            IUserHelper userHelper,
+            IVehiculoProvGpsRepository vehiculoProvGpsRepository)
         {
             _context = context;
             _configuration = configuration;
             _service1Soap = service1Soap;
+            _userHelper = userHelper;
+            _vehiculoProvGpsRepository = vehiculoProvGpsRepository;
         }
         public async Task<DatosAuto> GetDatosAutoAsync(string placa)
         {
@@ -33,7 +40,7 @@ namespace SoftCRP.Web.Repositories
             var key = _configuration["KeyWs"];
 
             var dataxml = await _service1Soap.Consulta_Data_autoAsync(key, placa);
-            
+            //var dataxml = await _service1Soap.WS_GPS_PLACAAsync(key, placa);
             XmlDocument document = new XmlDocument();
 
             document.LoadXml(dataxml.Nodes[1].ToString());
@@ -166,11 +173,96 @@ namespace SoftCRP.Web.Repositories
                         pickup = verificanodo(nodo, "pickup"),
 
                     };
+
+                    VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
+
+                    if(vehiculoProvGps!=null)
+                    {
+                        if(vehiculoProvGps.Gps.Trim() != "No tiene dispositivo satelital")
+                        {
+                            Vehiculo vehiculo = new Vehiculo();
+
+                            var usuario = await _userHelper.GetUserByCedulaAsync(auto.Cliente);
+
+                            if (usuario != null)
+                            {
+                                var encontrar = await _vehiculoProvGpsRepository.GetVehiculoByClientePlacaAsync(usuario.Id, auto.Placa);
+
+                                if (encontrar == null)
+                                {
+                                    vehiculo.user = usuario;
+                                    vehiculo.Placa = auto.Placa;
+                                    vehiculo.gps_provider = vehiculoProvGps.Gps.Trim();
+                                    vehiculo.gps_id = vehiculoProvGps.Gps.Trim();
+
+                                    try
+                                    {
+                                        //_context.vehiculos.Add(vehiculo);
+                                        await _vehiculoProvGpsRepository.CreateAsync(vehiculo);
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+
+
                     datos.Add(auto);
                 }
             }
             return datos.Where(e => e.Estatus == "VIGENTE CON CONTRATO");
         }
+
+
+        public async Task<VehiculoProvGpsViewModel> GetDatosAutoProvGpsAsync(string nit, string placa)
+        {
+            var key = _configuration["KeyWs"];
+
+            var dataxml = await _service1Soap.WS_GPS_PLACAAsync(key, placa);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    var Responsable = verificanodo(nodo, "Responsable");
+                    var Cargo = verificanodo(nodo, "Cargo");
+                    var Placa = verificanodo(nodo, "Placa");
+                    var ESTADO = verificanodo(nodo, "ESTADO");
+                    var GPS = verificanodo(nodo, "GPS");
+                    var ESTATUS = verificanodo(nodo, "ESTATUS");
+
+                    var vehiculoGps = new VehiculoProvGpsViewModel
+                    {
+                        Responsable = Responsable,
+                        Cargo = Cargo,
+                        Placa = Cargo,
+                        Estado = ESTADO,
+                        Gps = GPS,
+                        Estatus = ESTATUS
+                    };
+                    return vehiculoGps;
+                }                
+            }
+
+            return null;
+        }
+
+
+
+
         private string verificanodo(XmlElement lista1, string nodo)
         {
             var aux = "";
@@ -654,5 +746,7 @@ namespace SoftCRP.Web.Repositories
 
             return total;
         }
+
+
     }
 }
