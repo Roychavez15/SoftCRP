@@ -24,5 +24,14 @@ namespace SoftCRP.Web.Repositories
                 .Where(c => c.user.Id == id && c.Placa == placa)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Vehiculo>> GetVehiculosGCBAsync()
+        {
+
+            return await _dataContext.vehiculos
+                .Include(u=> u.user)
+                .Where(c => c.gps_provider=="CGB")
+                .ToListAsync();
+        }
     }
 }

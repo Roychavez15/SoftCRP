@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
@@ -18,19 +23,22 @@ namespace SoftCRP.Web.Repositories
         private readonly WSDLCondelpiData.Service1Soap _service1Soap;
         private readonly IUserHelper _userHelper;
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;
+        private readonly IVehiculoGpsRepository _vehiculoGpsRepository;
 
         public DatosRepository(
             DataContext context,
             IConfiguration configuration,
             WSDLCondelpiData.Service1Soap service1Soap,
             IUserHelper userHelper,
-            IVehiculoProvGpsRepository vehiculoProvGpsRepository)
+            IVehiculoProvGpsRepository vehiculoProvGpsRepository,
+            IVehiculoGpsRepository vehiculoGpsRepository)
         {
             _context = context;
             _configuration = configuration;
             _service1Soap = service1Soap;
             _userHelper = userHelper;
             _vehiculoProvGpsRepository = vehiculoProvGpsRepository;
+            _vehiculoGpsRepository = vehiculoGpsRepository;
         }
         public async Task<DatosAuto> GetDatosAutoAsync(string placa)
         {
@@ -746,7 +754,119 @@ namespace SoftCRP.Web.Repositories
 
             return total;
         }
+        public async Task<string> ProcesoCGB()
+        {
+            var vehiculosCGB = await _vehiculoProvGpsRepository.GetVehiculosGCBAsync();
+            foreach(var item in vehiculosCGB)
+            {
+                await getPlate(item.Placa, item.Id);
+            }
+            return "Procesado";
+        }
+
+        private async Task<string> getPlate(string placa, int vehiculoId)
+        {
+            var key = _configuration["cgb"];
+
+            var url = key+"/login";
+            var url2 = key+"/api/statistics";
+            var auth = getAuth(url).Result;
+            var values = new Dictionary<string, string>
+            {
+                {"plate", placa}
+            };
+            var data = getDataPlate(auth, url2, values).Result;
+            var response = (JObject)JsonConvert.DeserializeObject(data);
+
+            if(response!=null)
+            {
+                var datosgps = await _vehiculoGpsRepository.GetVehiculoByDateAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, vehiculoId);
+                var vehiculopro = await _vehiculoProvGpsRepository.GetByIdAsync(vehiculoId);
+                if(datosgps==null)
+                {
+                    VehiculoGps vehiculo = new VehiculoGps
+                    {
+                        vehiculo = vehiculopro,
+                        dia = DateTime.Now.Day,
+                        mes = DateTime.Now.Month,
+                        anio = DateTime.Now.Year,
+                        kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>()),
+                        trips = Convert.ToInt32(response["trips"].Value<string>()),
+                        speeding = Convert.ToInt32(response["speeding"].Value<string>()),
+                        hardbraking= Convert.ToInt32(response["hardBraking"].Value<string>()),
+                        sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>()),
+                        sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>()),
+                        latitude= response["latitude"].Value<string>(),
+                        longitude = response["longitude"].Value<string>(),
+                    };
+                    await _vehiculoGpsRepository.CreateAsync(vehiculo);
+                }
+                else
+                {
+                    datosgps.kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>());
+                    datosgps.trips = Convert.ToInt32(response["trips"].Value<string>());
+                    datosgps.speeding = Convert.ToInt32(response["speeding"].Value<string>());
+                    datosgps.hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>());
+                    datosgps.sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>());
+                    datosgps.sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>());
+                    datosgps.latitude = response["latitude"].Value<string>();
+                    datosgps.longitude = response["longitude"].Value<string>();
+
+                    await _vehiculoGpsRepository.UpdateAsync(datosgps);
+                }
+            }
+            //VehicleGPS vehicleData = new VehicleGPS();
+            //vehicleData.latitude = response["latitude"].Value<string>();
+            //vehicleData.longitude = response["longitude"].Value<string>();
+            //vehicleData.trips = response["trips"].Value<string>();
+            //vehicleData.speeding = response["speeding"].Value<string>();
+            //vehicleData.hardbraking = response["hardBraking"].Value<string>();
+            //vehicleData.sharpacceleration = response["sharpAcceleration"].Value<string>();
+            //vehicleData.sharpturn = response["sharpTurn"].Value<string>();
 
 
+            //vehicleData.pla
+            //return vehicleData;
+            return "Ok";
+        }
+
+        async static Task<string> getAuth(string url)
+        {
+
+            var values = new Dictionary<string, string>
+            {
+                  { "username", "admin" },
+                  { "password", "Online1234" }
+            };
+            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(values));
+            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+            using (HttpClient cliente = new HttpClient())
+            {
+                using (HttpResponseMessage response = await cliente.PostAsync(url, httpContent))
+                {
+                    HttpHeaders contenido = response.Headers;
+                    var valor = contenido.GetValues("Authorization").First();
+                    return valor;
+
+                }
+            }
+
+        }
+        async static Task<string> getDataPlate(string auth, string url, Dictionary<string, string> placa)
+        {
+
+            var stringPayload = await Task.Run(() => JsonConvert.SerializeObject(placa));
+            var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+            HttpClient cliente = new HttpClient();
+            cliente.DefaultRequestHeaders.Add("Authorization", auth);
+            using (HttpResponseMessage response = await cliente.PostAsync(url, httpContent))
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                return result;
+            }
+
+        }
     }
 }

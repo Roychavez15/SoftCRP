@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Data.Entities
 {
-    public class VehiculoGps
+    public class VehiculoGps : IEntity
     {
         public int Id { get; set; }
         public Vehiculo vehiculo { get; set; }

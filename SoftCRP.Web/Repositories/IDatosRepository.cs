@@ -9,6 +9,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IDatosRepository
     {
+        Task<string> ProcesoCGB();
         Task<VehiculoProvGpsViewModel> GetDatosAutoProvGpsAsync(string nit, string placa);
         Task<List<VehiculosClientesViewModel>> GetVehiculosClienteAsync(string nit);
 
