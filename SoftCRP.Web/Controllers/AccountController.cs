@@ -205,7 +205,11 @@ namespace SoftCRP.Web.Controllers
             //IS OK
             //_logger.LogCritical(1001,"Logout User :" + User.Identity.Name);
 
-            _logger.LogError("Logout User :" + User.Identity.Name);
+
+
+            //TODO
+            //esta esta ok
+            //_logger.LogError("Logout User :" + User.Identity.Name);
 
             //var logger1 = _loggerFactory.CreateLogger("LoggerCategory");
             //logger1.LogInformation("Calling the ping action");

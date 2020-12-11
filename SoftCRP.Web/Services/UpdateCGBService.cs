@@ -30,7 +30,7 @@ namespace SoftCRP.Web.Services
         public Task StartAsync(CancellationToken cancellationToken)
         {
 
-            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(5));
+            timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(60));
 
             return Task.CompletedTask;
         }
@@ -40,7 +40,12 @@ namespace SoftCRP.Web.Services
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IDatosRepository>();
-                await context.ProcesoCGB();
+                try
+                {
+                    await context.ProcesoCGB();
+                }
+                catch { }
+                
             }
         }
 

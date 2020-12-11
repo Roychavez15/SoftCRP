@@ -24,5 +24,61 @@ namespace SoftCRP.Web.Repositories
                 .Where(c => c.vehiculo.Id==vehiculoId && c.dia==dia && c.mes==mes && c.anio==anio)
                 .FirstOrDefaultAsync();
         }
+        public IEnumerable<VehiculoGps> GetVehiculosGPSAsync(int dia, int mes, int anio, string userId, string vehiculoId)
+        {
+            if (userId != "")
+            {
+                if (vehiculoId != "")
+                {
+                    var consultas = _dataContext.vehiculosGps
+                    .Include(v => v.vehiculo)
+                    .ThenInclude(u => u.user)
+                    .Where(v => v.vehiculo.user.Cedula == userId && v.vehiculo.Placa==vehiculoId)
+                    .OrderByDescending(p => p.anio)
+                    .OrderByDescending(m => m.mes)
+                    .OrderByDescending(d => d.dia)
+                    .GroupBy(v => v.vehiculo)
+                    .ToList()
+                    .Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
+                    .Select(ve => ve.ultimo);
+
+                    return consultas.Count() > 0 ? consultas : null;
+                }
+                else
+                {
+
+
+                    var consultas = _dataContext.vehiculosGps
+                    .Include(v => v.vehiculo)
+                    .ThenInclude(u => u.user)
+                    .Where(v => v.vehiculo.user.Cedula == userId)
+                    .OrderByDescending(p => p.anio)
+                    .OrderByDescending(m => m.mes)
+                    .OrderByDescending(d => d.dia)
+                    .GroupBy(v => v.vehiculo)
+                    .ToList()
+                    .Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
+                    .Select(ve => ve.ultimo);
+
+                    return consultas.Count()>0 ? consultas : null;
+                }
+            }
+            else
+            {
+                var consultas = _dataContext.vehiculosGps
+                .Include(v => v.vehiculo)
+                .ThenInclude(u => u.user)
+                .OrderByDescending(p => p.anio)
+                .OrderByDescending(m => m.mes)
+                .OrderByDescending(d => d.dia)
+                .GroupBy(v => v.vehiculo)
+                .ToList()
+                .Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
+                .Select(ve => ve.ultimo);
+
+                return consultas.Count() > 0 ? consultas : null;
+            }
+
+        }
     }
 }

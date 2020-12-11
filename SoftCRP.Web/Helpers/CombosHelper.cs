@@ -154,7 +154,29 @@ namespace SoftCRP.Web.Helpers
 
             //throw new NotImplementedException();
         }
+        public async Task<IEnumerable<SelectListItem>> GetComboPlacasGPS(string Nit)
+        {
 
+            var list = await _dataContext.vehiculos.Include(u=>u.user)
+                .Where(a => a.user.Cedula==Nit)
+                .Select(ta => new SelectListItem
+            {
+                Text = ta.Placa,
+                Value = ta.Placa,
+            })
+            .OrderBy(ta => ta.Text)
+            .ToListAsync();
+
+            //list.Insert(0, new SelectListItem
+            //{
+            //    Text = "[Seleccionar Placa...]",
+            //    Value = "0"
+            //});
+
+            return list;
+
+            //throw new NotImplementedException();
+        }
         public async Task<IEnumerable<SelectListItem>> GetComboPlacasSN(string nit)
         {
 

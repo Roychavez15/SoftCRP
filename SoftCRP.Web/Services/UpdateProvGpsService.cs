@@ -38,7 +38,12 @@ namespace SoftCRP.Web.Services
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<IDatosRepository>();
-                await context.GetDatosAutoAllAsync();
+                try
+                {
+                    await context.GetDatosAutoAllGpsAsync();
+                }
+                catch { }
+                
             }
         }
 

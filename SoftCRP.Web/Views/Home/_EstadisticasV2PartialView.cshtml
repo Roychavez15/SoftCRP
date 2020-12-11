@@ -1,0 +1,294 @@
+﻿
+@model SoftCRP.Web.Models.EstadisticasV2ViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (Model.vehiculosGps == null)
+{
+
+    <h2> No existen Datos de GPS</h2>
+}
+else
+{
+    <div class="row mb-3">
+        <!--<div class="col-md-3 col-sm-6 col-xs-12 ml-auto">
+            <div class="info-box bg-gradient-white">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-globe"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Dispositivos Instalados</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculos.ToList().Count</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculos.ToList().Count</h3>
+
+                    <p>Dispositivos Instalados</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.col -->
+        <!--<div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-gradient-gray">
+                <span class="info-box-icon bg-gradient-white"><i class="fa fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Cantidad de Usuarios</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(u => u.conductores)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(u => u.conductores)</h3>
+
+                    <p>Cantidad de Usuarios</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <!--<div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-gradient-gray">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-map-marked-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Cantidad de Viajes</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(t => t.trips)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.trips)</h3>
+
+                    <p>Cantidad de Viajes</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-map-marked-alt"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col -->
+        <!--<div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-gradient-gray">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-route"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Distancia Recorrida (Km)</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(t => t.kilometerstraveled)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.kilometerstraveled)</h3>
+
+                    <p>Distancia Recorrida (Km)</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-route"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+        <!--<div class="col-md-2 col-sm-6 col-xs-12 mr-auto">
+            <div class="info-box bg-gradient-white">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-wrench"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Ingresos a Taller</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(t => t.talleres)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.talleres)</h3>
+
+                    <p>Ingresos a Taller</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-wrench"></i>
+                </div>
+
+            </div>
+        </div>
+        <!--<div class="col-md-2 col-sm-6 col-xs-12 ml-auto">
+            <div class="info-box mb-3 bg-gradient-white">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-money-check-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Ahorro en sustitución</span>
+                    <span class="info-box-number text-center" style="font-size:200%;"><small>$</small> @Model.vehiculosGps.Sum(t => t.ahorro)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.ahorro)</h3>
+
+                    <p>Ahorro en sustitución</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-money-check-alt"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col -->
+        <!--<div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box mb-3 bg-gradient-white">
+                <span class="info-box-icon bg-gradient-white"><i class="fa fa-car-crash"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Total Siniestros</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(t => t.siniestros)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.siniestros)</h3>
+
+                    <p>Total Siniestros</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-car-crash"></i>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <!--<div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-2 col-sm-6 col-xs-12">
+            <div class="info-box mb-3 bg-gradient-white">
+                <span class="info-box-icon bg-gradient-white"><i class="fas fa-tachometer-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text text-center">Limites de velocidad</span>
+                    <span class="info-box-number text-center" style="font-size:200%;">@Model.vehiculosGps.Sum(t => t.speeding)</span>
+                </div>-->
+        <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+        <!--</div>-->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-gradient-gray">
+                <div class="inner">
+                    <h3>@Model.vehiculosGps.Sum(t => t.speeding)</h3>
+
+                    <p>Limites de velocidad</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-tachometer-alt"></i>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+<div class="row">
+    <!-- /.col -->
+    <!--<div class="col-md-2 col-sm-6 col-xs-12">
+        <div class="info-box mb-3 bg-gradient-white">
+            <span class="info-box-icon bg-gradient-white"><i class="fas fa-sort-numeric-up-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text text-center">Promedio de calificación</span>
+                <span class="info-box-number text-center" style="font-size:200%;">@String.Format("{0:N2}", Model.vehiculosGps?.Average(s => s.score))</span>
+            </div>-->
+    <!-- /.info-box-content -->
+    <!--</div>-->
+    <!-- /.info-box -->
+    <!--</div>-->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-gray">
+            <div class="inner">
+                <h3>@String.Format("{0:N2}", Model.vehiculosGps?.Average(s => s.score))</h3>
+
+                <p>Promedio de calificación</p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-sort-numeric-up-alt"></i>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.col -->
+    <!-- /.col -->
+    <!--<div class="col-md-2 col-sm-6 col-xs-12 mr-auto">
+        <div class="info-box mb-3 bg-gradient-white">
+            <span class="info-box-icon bg-gradient-white"><i class="fas fa-plus-circle"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text text-center">Disponibilidad de flota</span>
+                <span class="info-box-number text-center" style="font-size:200%;">99 <small>%</small></span>
+            </div>-->
+            <!-- /.info-box-content -->
+        <!--</div>-->
+        <!-- /.info-box -->
+    <!--</div>-->
+
+
+
+    <!-- /.col -->
+</div>
+    <!-- /.row -->
+}

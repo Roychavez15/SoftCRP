@@ -55,11 +55,21 @@ namespace SoftCRP.Web.Repositories
         public int GetCountAllTramites(string nit)
         {
 
-            var novedad = _dataContext.tramites
-                .Where(c => c.Cedula == nit).Count();
-                //.Where(s => s.EstadoSolucion == null && s.Cedula == nit).Count();
+            //var novedad = _dataContext.tramites
+            //    .Where(c => c.Cedula == nit).Count();
+            //return novedad;
 
-            return novedad;
+            if(nit!="")
+            {
+                return _dataContext.tramites
+                        .Where(c => c.Cedula == nit).Count();
+            }
+            else
+            {
+                return _dataContext.tramites
+                        .Count();
+            }
+
         }
 
         public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin, string filter)

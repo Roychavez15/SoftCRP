@@ -16,7 +16,23 @@ namespace SoftCRP.Web.Repositories
         {
             _dataContext = dataContext;
         }
+        public async Task<IEnumerable<Vehiculo>> GetVehiculosAsync(string id)
+        {
+            if(id!="")
+            {
+                return await _dataContext.vehiculos
+                    .Include(u=>u.user)
+                            .Where(c => c.user.Cedula == id)
+                            .ToListAsync();
+            }
+            else
+            {
+                return await _dataContext.vehiculos
+                    .Include(u => u.user)
+                            .ToListAsync();
+            }
 
+        }
         public async Task<Vehiculo> GetVehiculoByClientePlacaAsync(string id, string placa)
         {
 
@@ -32,6 +48,14 @@ namespace SoftCRP.Web.Repositories
                 .Include(u=> u.user)
                 .Where(c => c.gps_provider=="CGB")
                 .ToListAsync();
+        }
+        public async Task<Vehiculo> GetVehiculoByIdAsync(int Id)
+        {
+
+            return await _dataContext.vehiculos
+                .Include(u => u.user)
+                .Where(c =>c.Id==Id)
+                .FirstOrDefaultAsync();
         }
     }
 }

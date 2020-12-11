@@ -43,13 +43,30 @@ namespace SoftCRP.Web.Data
 
         public DbSet<Vehiculo> vehiculos { get; set; }
         public DbSet<VehiculoGps> vehiculosGps { get; set; }
-
+        public DbSet<Gama> gamas { get; set; }
+        public DbSet<Incidencia> incidencias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Menu>()
-            //.Property(p => p.Price)
-            //.HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<VehiculoGps>()
+            .Property(p => p.kilometerstraveled)
+            .HasColumnType("decimal(18,4)");
+
+            modelBuilder.Entity<Incidencia>()
+            .Property(p => p.AceleracionesBruscas)
+            .HasColumnType("decimal(18,1)");
+
+            modelBuilder.Entity<Incidencia>()
+            .Property(p => p.ExcesoVelocidad)
+            .HasColumnType("decimal(18,1)");
+
+            modelBuilder.Entity<Incidencia>()
+            .Property(p => p.FrenazoBrusco)
+            .HasColumnType("decimal(18,1)");
+
+            modelBuilder.Entity<Incidencia>()
+            .Property(p => p.GiroBrusco)
+            .HasColumnType("decimal(18,1)");
 
             var cascadeFKs = modelBuilder.Model
                 .G­etEntityTypes()

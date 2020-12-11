@@ -90,11 +90,20 @@ namespace SoftCRP.Web.Repositories
         public int GetCountAllAnalisis(string nit)
         {
 
-            var analisis = _dataContext.Analises
-                .Where(c => c.Cedula == nit).Count();
-            //.Where(s => s.EstadoSolucion == null && s.Cedula == nit).Count();
+            //var analisis = _dataContext.Analises
+            //    .Where(c => c.Cedula == nit).Count();
+            //return analisis;
+            if(nit!="")
+            {
+                return _dataContext.Analises
+                        .Where(c => c.Cedula == nit).Count();
+            }
+            else
+            {
+                return _dataContext.Analises
+                        .Count();
+            }
 
-            return analisis;
         }
     }
 }

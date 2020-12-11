@@ -24,6 +24,7 @@ namespace SoftCRP.Web.Repositories
         private readonly IUserHelper _userHelper;
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;
         private readonly IVehiculoGpsRepository _vehiculoGpsRepository;
+        private readonly IIncidenciasRepository _incidenciasRepository;
 
         public DatosRepository(
             DataContext context,
@@ -31,7 +32,8 @@ namespace SoftCRP.Web.Repositories
             WSDLCondelpiData.Service1Soap service1Soap,
             IUserHelper userHelper,
             IVehiculoProvGpsRepository vehiculoProvGpsRepository,
-            IVehiculoGpsRepository vehiculoGpsRepository)
+            IVehiculoGpsRepository vehiculoGpsRepository,
+            IIncidenciasRepository incidenciasRepository)
         {
             _context = context;
             _configuration = configuration;
@@ -39,6 +41,7 @@ namespace SoftCRP.Web.Repositories
             _userHelper = userHelper;
             _vehiculoProvGpsRepository = vehiculoProvGpsRepository;
             _vehiculoGpsRepository = vehiculoGpsRepository;
+            _incidenciasRepository = incidenciasRepository;
         }
         public async Task<DatosAuto> GetDatosAutoAsync(string placa)
         {
@@ -122,149 +125,233 @@ namespace SoftCRP.Web.Repositories
             var key = _configuration["KeyWs"];
 
             var dataxml = await _service1Soap.Get_consulta_totalAsync(key);
-
-            XmlDocument document = new XmlDocument();
-
-            document.LoadXml(dataxml.Nodes[1].ToString());
-            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
-
-            if (Datos.Count > 0)
+            if (dataxml != null)
             {
-                XmlNodeList lista1 =
-                ((XmlElement)Datos[0]).GetElementsByTagName("data");
+                XmlDocument document = new XmlDocument();
 
-                foreach (XmlElement nodo in lista1)
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+                if (Datos.Count > 0)
                 {
-                    var auto = new DatosAuto
+                    XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                    foreach (XmlElement nodo in lista1)
                     {
-                        Adendum = verificanodo(nodo, "adendum"),
-                        Año = verificanodo(nodo, "año"),
-                        Canon = verificanodo(nodo, "canon"),
-                        Chasis = verificanodo(nodo, "chasis"),
-                        Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
-                        Clase = verificanodo(nodo, "clase"),
-                        Cliente = verificanodo(nodo, "cliente"),
-                        Color = verificanodo(nodo, "color"),
-                        Contrato = verificanodo(nodo, "contrato"),
-                        Cotizacion = verificanodo(nodo, "cotizacion"),
-                        Des_modelo = verificanodo(nodo, "des_modelo"),
-                        Dispositivo = verificanodo(nodo, "dispositivo"),
-                        Ejecutivo = verificanodo(nodo, "ejecutivo"),
-                        Estatus = verificanodo(nodo, "estatus"),
-                        Fechacontrato = verificanodo(nodo, "fechacontrato"),
-                        FechafinContrato = verificanodo(nodo, "fechafinContrato"),
-                        Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
-                        Fecha_km = verificanodo(nodo, "fecha_km"),
-                        Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
-                        FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
-
-                        Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
-                        Km = verificanodo(nodo, "km"),
-                        KmAnual = verificanodo(nodo, "KmAnual"),
-                        Marca = verificanodo(nodo, "marca"),
-                        Modelo = verificanodo(nodo, "modelo"),
-                        Motor = verificanodo(nodo, "motor"),
-                        Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
-                        Mto_llantas = verificanodo(nodo, "mto_llantas"),
-                        Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
-                        Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
-                        NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
-                        Nom_cliente = verificanodo(nodo, "nom_cliente"),
-                        Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
-                        Placa = verificanodo(nodo, "placa"),
-                        Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
-                        Plazo = verificanodo(nodo, "Plazo"),
-                        Plazo_pago = verificanodo(nodo, "Plazo_pago"),
-                        Ramv = verificanodo(nodo, "ramv"),
-                        Siniestros = verificanodo(nodo, "siniestros"),
-                        Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
-                        pickup = verificanodo(nodo, "pickup"),
-
-                    };
-
-                    VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
-
-                    if(vehiculoProvGps!=null)
-                    {
-                        if(vehiculoProvGps.Gps.Trim() != "No tiene dispositivo satelital")
+                        var auto = new DatosAuto
                         {
-                            Vehiculo vehiculo = new Vehiculo();
+                            Adendum = verificanodo(nodo, "adendum"),
+                            Año = verificanodo(nodo, "año"),
+                            Canon = verificanodo(nodo, "canon"),
+                            Chasis = verificanodo(nodo, "chasis"),
+                            Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
+                            Clase = verificanodo(nodo, "clase"),
+                            Cliente = verificanodo(nodo, "cliente"),
+                            Color = verificanodo(nodo, "color"),
+                            Contrato = verificanodo(nodo, "contrato"),
+                            Cotizacion = verificanodo(nodo, "cotizacion"),
+                            Des_modelo = verificanodo(nodo, "des_modelo"),
+                            Dispositivo = verificanodo(nodo, "dispositivo"),
+                            Ejecutivo = verificanodo(nodo, "ejecutivo"),
+                            Estatus = verificanodo(nodo, "estatus"),
+                            Fechacontrato = verificanodo(nodo, "fechacontrato"),
+                            FechafinContrato = verificanodo(nodo, "fechafinContrato"),
+                            Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
+                            Fecha_km = verificanodo(nodo, "fecha_km"),
+                            Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
+                            FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
 
-                            var usuario = await _userHelper.GetUserByCedulaAsync(auto.Cliente);
+                            Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
+                            Km = verificanodo(nodo, "km"),
+                            KmAnual = verificanodo(nodo, "KmAnual"),
+                            Marca = verificanodo(nodo, "marca"),
+                            Modelo = verificanodo(nodo, "modelo"),
+                            Motor = verificanodo(nodo, "motor"),
+                            Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
+                            Mto_llantas = verificanodo(nodo, "mto_llantas"),
+                            Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
+                            Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
+                            NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
+                            Nom_cliente = verificanodo(nodo, "nom_cliente"),
+                            Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
+                            Placa = verificanodo(nodo, "placa"),
+                            Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
+                            Plazo = verificanodo(nodo, "Plazo"),
+                            Plazo_pago = verificanodo(nodo, "Plazo_pago"),
+                            Ramv = verificanodo(nodo, "ramv"),
+                            Siniestros = verificanodo(nodo, "siniestros"),
+                            Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
+                            pickup = verificanodo(nodo, "pickup"),
 
-                            if (usuario != null)
-                            {
-                                var encontrar = await _vehiculoProvGpsRepository.GetVehiculoByClientePlacaAsync(usuario.Id, auto.Placa);
+                        };
 
-                                if (encontrar == null)
-                                {
-                                    vehiculo.user = usuario;
-                                    vehiculo.Placa = auto.Placa;
-                                    vehiculo.gps_provider = vehiculoProvGps.Gps.Trim();
-                                    vehiculo.gps_id = vehiculoProvGps.Gps.Trim();
+                        //VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
 
-                                    try
-                                    {
-                                        //_context.vehiculos.Add(vehiculo);
-                                        await _vehiculoProvGpsRepository.CreateAsync(vehiculo);
-                                    }
-                                    catch (Exception ex)
-                                    {
-
-                                    }
-
-                                }
-                            }
-                        }
+                        datos.Add(auto);
                     }
-
-
-
-                    datos.Add(auto);
                 }
             }
+
             return datos.Where(e => e.Estatus == "VIGENTE CON CONTRATO");
         }
 
+        public async Task<IEnumerable<DatosAuto>> GetDatosAutoAllGpsAsync()
+        {
+            //throw new NotImplementedException();
+            List<DatosAuto> datos = new List<DatosAuto>();
 
+            var key = _configuration["KeyWs"];
+
+            var dataxml = await _service1Soap.Get_consulta_totalAsync(key);
+            if (dataxml != null)
+            {
+                XmlDocument document = new XmlDocument();
+
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+                if (Datos.Count > 0)
+                {
+                    XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                    foreach (XmlElement nodo in lista1)
+                    {
+                        var auto = new DatosAuto
+                        {
+                            Adendum = verificanodo(nodo, "adendum"),
+                            Año = verificanodo(nodo, "año"),
+                            Canon = verificanodo(nodo, "canon"),
+                            Chasis = verificanodo(nodo, "chasis"),
+                            Ciudad_operacion = verificanodo(nodo, "ciudad_operacion"),
+                            Clase = verificanodo(nodo, "clase"),
+                            Cliente = verificanodo(nodo, "cliente"),
+                            Color = verificanodo(nodo, "color"),
+                            Contrato = verificanodo(nodo, "contrato"),
+                            Cotizacion = verificanodo(nodo, "cotizacion"),
+                            Des_modelo = verificanodo(nodo, "des_modelo"),
+                            Dispositivo = verificanodo(nodo, "dispositivo"),
+                            Ejecutivo = verificanodo(nodo, "ejecutivo"),
+                            Estatus = verificanodo(nodo, "estatus"),
+                            Fechacontrato = verificanodo(nodo, "fechacontrato"),
+                            FechafinContrato = verificanodo(nodo, "fechafinContrato"),
+                            Fecha_entrega = verificanodo(nodo, "fecha_entrega"),
+                            Fecha_km = verificanodo(nodo, "fecha_km"),
+                            Fecha_ultima_rutina = verificanodo(nodo, "fecha_ultima_rutina"),
+                            FormaFacturacion = verificanodo(nodo, "FormaFacturacion"),
+
+                            Id_ultima_rutina = verificanodo(nodo, "id_ultima_rutina"),
+                            Km = verificanodo(nodo, "km"),
+                            KmAnual = verificanodo(nodo, "KmAnual"),
+                            Marca = verificanodo(nodo, "marca"),
+                            Modelo = verificanodo(nodo, "modelo"),
+                            Motor = verificanodo(nodo, "motor"),
+                            Mto_correctivo = verificanodo(nodo, "mto_correctivo"),
+                            Mto_llantas = verificanodo(nodo, "mto_llantas"),
+                            Mto_preventivo = verificanodo(nodo, "mto_preventivo"),
+                            Mto_sustituto = verificanodo(nodo, "mto_sustituto"),
+                            NombreAseguradora = verificanodo(nodo, "NombreAseguradora"),
+                            Nom_cliente = verificanodo(nodo, "nom_cliente"),
+                            Nom_ejecutivo = verificanodo(nodo, "nom_ejecutivo"),
+                            Placa = verificanodo(nodo, "placa"),
+                            Plan_Seguro = verificanodo(nodo, "Plan_Seguro"),
+                            Plazo = verificanodo(nodo, "Plazo"),
+                            Plazo_pago = verificanodo(nodo, "Plazo_pago"),
+                            Ramv = verificanodo(nodo, "ramv"),
+                            Siniestros = verificanodo(nodo, "siniestros"),
+                            Ultima_rutina = verificanodo(nodo, "ultima_rutina"),
+                            pickup = verificanodo(nodo, "pickup"),
+
+                        };
+
+                        VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
+
+                        if (vehiculoProvGps != null)
+                        {
+                            if (vehiculoProvGps.Gps.Trim() != "No tiene dispositivo satelital")
+                            {
+                                Vehiculo vehiculo = new Vehiculo();
+
+                                var usuario = await _userHelper.GetUserByCedulaAsync(auto.Cliente);
+
+                                if (usuario != null)
+                                {
+                                    var encontrar = await _vehiculoProvGpsRepository.GetVehiculoByClientePlacaAsync(usuario.Id, auto.Placa);
+
+                                    if (encontrar == null)
+                                    {
+                                        vehiculo.user = usuario;
+                                        vehiculo.Placa = auto.Placa;
+                                        vehiculo.gps_provider = vehiculoProvGps.Gps.Trim();
+                                        vehiculo.gps_id = vehiculoProvGps.Gps.Trim();
+
+                                        try
+                                        {
+                                            //_context.vehiculos.Add(vehiculo);
+                                            await _vehiculoProvGpsRepository.CreateAsync(vehiculo);
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                        datos.Add(auto);
+                    }
+                }
+
+
+            }
+            return datos.Where(e => e.Estatus == "VIGENTE CON CONTRATO");
+        }
         public async Task<VehiculoProvGpsViewModel> GetDatosAutoProvGpsAsync(string nit, string placa)
         {
             var key = _configuration["KeyWs"];
 
             var dataxml = await _service1Soap.WS_GPS_PLACAAsync(key, placa);
 
-            XmlDocument document = new XmlDocument();
+            if(dataxml!=null)
+            { 
 
-            document.LoadXml(dataxml.Nodes[1].ToString());
-            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+                XmlDocument document = new XmlDocument();
 
-            if (Datos.Count > 0)
-            {
-                XmlNodeList lista1 =
-                ((XmlElement)Datos[0]).GetElementsByTagName("data");
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
 
-                foreach (XmlElement nodo in lista1)
+                if (Datos.Count > 0)
                 {
-                    var Responsable = verificanodo(nodo, "Responsable");
-                    var Cargo = verificanodo(nodo, "Cargo");
-                    var Placa = verificanodo(nodo, "Placa");
-                    var ESTADO = verificanodo(nodo, "ESTADO");
-                    var GPS = verificanodo(nodo, "GPS");
-                    var ESTATUS = verificanodo(nodo, "ESTATUS");
+                    XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
 
-                    var vehiculoGps = new VehiculoProvGpsViewModel
+                    foreach (XmlElement nodo in lista1)
                     {
-                        Responsable = Responsable,
-                        Cargo = Cargo,
-                        Placa = Cargo,
-                        Estado = ESTADO,
-                        Gps = GPS,
-                        Estatus = ESTATUS
-                    };
-                    return vehiculoGps;
-                }                
-            }
+                        var Responsable = verificanodo(nodo, "Responsable");
+                        var Cargo = verificanodo(nodo, "Cargo");
+                        var Placa = verificanodo(nodo, "Placa");
+                        var ESTADO = verificanodo(nodo, "ESTADO");
+                        var GPS = verificanodo(nodo, "GPS");
+                        var ESTATUS = verificanodo(nodo, "ESTATUS");
 
+                        var vehiculoGps = new VehiculoProvGpsViewModel
+                        {
+                            Responsable = Responsable,
+                            Cargo = Cargo,
+                            Placa = Cargo,
+                            Estado = ESTADO,
+                            Gps = GPS,
+                            Estatus = ESTATUS
+                        };
+                        return vehiculoGps;
+                    }                
+                }
+            }
             return null;
         }
 
@@ -756,21 +843,26 @@ namespace SoftCRP.Web.Repositories
         }
         public async Task<string> ProcesoCGB()
         {
+            var key = _configuration["cgb"];
+
+            var url = key + "/login";
+            var auth = getAuth(url).Result;
+
             var vehiculosCGB = await _vehiculoProvGpsRepository.GetVehiculosGCBAsync();
             foreach(var item in vehiculosCGB)
             {
-                await getPlate(item.Placa, item.Id);
+                await getPlate(item.Placa, item.Id, auth);
             }
             return "Procesado";
         }
 
-        private async Task<string> getPlate(string placa, int vehiculoId)
+        private async Task<string> getPlate(string placa, int vehiculoId, string auth)
         {
             var key = _configuration["cgb"];
 
-            var url = key+"/login";
+            //var url = key+"/login";
             var url2 = key+"/api/statistics";
-            var auth = getAuth(url).Result;
+            //var auth = getAuth(url).Result;
             var values = new Dictionary<string, string>
             {
                 {"plate", placa}
@@ -781,8 +873,24 @@ namespace SoftCRP.Web.Repositories
             if(response!=null)
             {
                 var datosgps = await _vehiculoGpsRepository.GetVehiculoByDateAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, vehiculoId);
-                var vehiculopro = await _vehiculoProvGpsRepository.GetByIdAsync(vehiculoId);
-                if(datosgps==null)
+                var vehiculopro = await _vehiculoProvGpsRepository.GetVehiculoByIdAsync(vehiculoId);
+                var incidencias = await _incidenciasRepository.GetIncidenciaByNitAsync(vehiculopro.user.Cedula);
+                
+                var conductores = await GetConductoresAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+                var talleres = await GetIngresosTallerAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+                var siniestros = await GetSiniestrosAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+
+
+                var suma = incidencias.ExcesoVelocidad * Convert.ToInt32(response["speeding"].Value<string>())
+                    + incidencias.FrenazoBrusco * Convert.ToInt32(response["hardBraking"].Value<string>())
+                    + incidencias.AceleracionesBruscas * Convert.ToInt32(response["sharpAcceleration"].Value<string>())
+                    + incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>());
+
+                var kilo = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100;
+
+                var score = 100 - (suma / (Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100));
+
+                if (datosgps==null)
                 {
                     VehiculoGps vehiculo = new VehiculoGps
                     {
@@ -790,7 +898,8 @@ namespace SoftCRP.Web.Repositories
                         dia = DateTime.Now.Day,
                         mes = DateTime.Now.Month,
                         anio = DateTime.Now.Year,
-                        kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>()),
+                        //kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>().Replace(".","")),
+                        kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")),
                         trips = Convert.ToInt32(response["trips"].Value<string>()),
                         speeding = Convert.ToInt32(response["speeding"].Value<string>()),
                         hardbraking= Convert.ToInt32(response["hardBraking"].Value<string>()),
@@ -798,35 +907,28 @@ namespace SoftCRP.Web.Repositories
                         sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>()),
                         latitude= response["latitude"].Value<string>(),
                         longitude = response["longitude"].Value<string>(),
+                        score=score,
+                        conductores= conductores.Count()>0 ? conductores.Sum(c=>c.Conductores) : 0,
+                        talleres=talleres.Count()>0 ? talleres.Sum(t=>t.Ingresos) : 0 ,
+                        siniestros= siniestros.Count()>0 ? siniestros.Sum(s=>s.Total_Siniestros) : 0,
                     };
                     await _vehiculoGpsRepository.CreateAsync(vehiculo);
                 }
                 else
                 {
-                    datosgps.kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>());
-                    datosgps.trips = Convert.ToInt32(response["trips"].Value<string>());
-                    datosgps.speeding = Convert.ToInt32(response["speeding"].Value<string>());
-                    datosgps.hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>());
-                    datosgps.sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>());
-                    datosgps.sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>());
-                    datosgps.latitude = response["latitude"].Value<string>();
-                    datosgps.longitude = response["longitude"].Value<string>();
+                    //datosgps.kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ","));
+                    //datosgps.trips = Convert.ToInt32(response["trips"].Value<string>());
+                    //datosgps.speeding = Convert.ToInt32(response["speeding"].Value<string>());
+                    //datosgps.hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>());
+                    //datosgps.sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>());
+                    //datosgps.sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>());
+                    //datosgps.latitude = response["latitude"].Value<string>();
+                    //datosgps.longitude = response["longitude"].Value<string>();
+                    //datosgps.score = score;
 
-                    await _vehiculoGpsRepository.UpdateAsync(datosgps);
+                    //await _vehiculoGpsRepository.UpdateAsync(datosgps);
                 }
             }
-            //VehicleGPS vehicleData = new VehicleGPS();
-            //vehicleData.latitude = response["latitude"].Value<string>();
-            //vehicleData.longitude = response["longitude"].Value<string>();
-            //vehicleData.trips = response["trips"].Value<string>();
-            //vehicleData.speeding = response["speeding"].Value<string>();
-            //vehicleData.hardbraking = response["hardBraking"].Value<string>();
-            //vehicleData.sharpacceleration = response["sharpAcceleration"].Value<string>();
-            //vehicleData.sharpturn = response["sharpTurn"].Value<string>();
-
-
-            //vehicleData.pla
-            //return vehicleData;
             return "Ok";
         }
 
@@ -866,6 +968,351 @@ namespace SoftCRP.Web.Repositories
                 var result = await response.Content.ReadAsStringAsync();
                 return result;
             }
+
+        }
+
+        public async Task<IEnumerable<ConductoresViewModel>> GetConductoresAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<ConductoresViewModel> Conductores = new List<ConductoresViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_CONDUCTORESAsync(key,Placa,Nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList valor =
+                        nodo.GetElementsByTagName("conductores");
+
+                    XmlNodeList NitCliente =
+                        nodo.GetElementsByTagName("Nit_cliente");
+
+                    XmlNodeList Cliente =
+                        nodo.GetElementsByTagName("Cliente");
+
+                    ConductoresViewModel estado = new ConductoresViewModel();
+
+                    estado.Conductores = int.Parse(valor[0].InnerText);
+                    estado.Nit = NitCliente[0].InnerText;
+                    estado.Cliente = Cliente[0].InnerText;
+
+
+                    Conductores.Add(estado);
+                }
+
+            }
+
+            return Conductores
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
+
+        }
+
+        public async Task<IEnumerable<IngresosTallerViewModel>> GetIngresosTallerAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<IngresosTallerViewModel> Ingresos = new List<IngresosTallerViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_INGRESO_TALLERAsync(key, Placa, Nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList ingresos =
+                        nodo.GetElementsByTagName("ingresos");
+                    XmlNodeList placa =
+                        nodo.GetElementsByTagName("placa");
+
+                    XmlNodeList NitCliente =
+                        nodo.GetElementsByTagName("Nit_cliente");
+
+                    XmlNodeList Cliente =
+                        nodo.GetElementsByTagName("Cliente");
+                    XmlNodeList id_estado =
+                        nodo.GetElementsByTagName("id_estado");
+                    IngresosTallerViewModel estado = new IngresosTallerViewModel();
+
+                    estado.Ingresos = int.Parse(ingresos[0].InnerText);
+                    estado.Placa = placa[0].InnerText;
+                    estado.Nit = NitCliente[0].InnerText;
+                    estado.Cliente = Cliente[0].InnerText;
+                    estado.Id_Estado = id_estado[0].InnerText;
+
+                    Ingresos.Add(estado);
+                }
+
+            }
+
+            return Ingresos
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
+
+        }
+
+        public async Task<IEnumerable<SiniestrosViewModel>> GetSiniestrosAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<SiniestrosViewModel> Siniestros = new List<SiniestrosViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_SINIESTROSAsync(key, Placa, Nit);
+            
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList siniestros =
+                        nodo.GetElementsByTagName("total_siniestros");
+                    XmlNodeList siniestros_finalizados =
+                        nodo.GetElementsByTagName("eventos_siniestro_finalizado");
+                    XmlNodeList eventos_siniestro_no_finalizado =
+                        nodo.GetElementsByTagName("eventos_siniestro_no_finalizado");
+
+                    XmlNodeList placa =
+                        nodo.GetElementsByTagName("placa");
+
+                    XmlNodeList NitCliente =
+                        nodo.GetElementsByTagName("cliente");
+
+                    XmlNodeList Cliente =
+                        nodo.GetElementsByTagName("nom_cliente");
+
+                    SiniestrosViewModel estado = new SiniestrosViewModel();
+
+                    estado.Total_Siniestros = int.Parse(siniestros[0].InnerText);
+                    estado.Eventos_Siniestros = int.Parse(siniestros_finalizados[0].InnerText);
+                    estado.Eventos_Siniestros1 = int.Parse(eventos_siniestro_no_finalizado[0].InnerText);
+                    estado.Placa = placa[0].InnerText;
+                    estado.Nit = NitCliente[0].InnerText;
+                    estado.Cliente = Cliente[0].InnerText;
+
+
+                    Siniestros.Add(estado);
+                }
+
+            }
+
+            return Siniestros
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
+
+        }
+
+
+        public async Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<SustitutosViewModel> Sustitutos = new List<SustitutosViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(key, Placa, Nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList sustitutos =
+                        nodo.GetElementsByTagName("sustitutos");
+
+                    XmlNodeList NitCliente =
+                        nodo.GetElementsByTagName("Cliente");
+
+                    XmlNodeList Cliente =
+                        nodo.GetElementsByTagName("RUC");
+
+                    SustitutosViewModel estado = new SustitutosViewModel();
+
+                    estado.Sustitutos = int.Parse(sustitutos[0].InnerText);
+                    estado.Ruc = NitCliente[0].InnerText;
+                    estado.Cliente = Cliente[0].InnerText;
+
+
+                    Sustitutos.Add(estado);
+                }
+
+            }
+
+            return Sustitutos
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
+
+        }
+
+        public async Task<IEnumerable<DiasSustitutosViewModel>> GetDiasSustitutosAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<DiasSustitutosViewModel> Sustitutos = new List<DiasSustitutosViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_DIAS_SUSTITUTO_PLACAAsync(key, Placa, Nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    //var dat= nodo[0].InnerText
+                    XmlNodeList Dias =
+                        nodo.GetElementsByTagName("Dias");
+
+                    XmlNodeList Placa_sustituto =
+                        nodo.GetElementsByTagName("Placa_sustituto");
+
+                    XmlNodeList Ram_sustituto =
+                        nodo.GetElementsByTagName("Ram_sustituto");
+
+                    XmlNodeList Gama_sustituto =
+                        nodo.GetElementsByTagName("Gama_sustituto");
+
+                    XmlNodeList Estado =
+                        nodo.GetElementsByTagName("Estado");
+
+                    XmlNodeList Disponible =
+                        nodo.GetElementsByTagName("Disponible");
+
+                    XmlNodeList Regional =
+                        nodo.GetElementsByTagName("Regional");
+
+                    XmlNodeList Tipo_sustituto =
+                        nodo.GetElementsByTagName("Tipo_sustituto");
+
+                    XmlNodeList Modelo_sustituto =
+                        nodo.GetElementsByTagName("Modelo_sustituto");
+
+                    XmlNodeList Marca_sustituto =
+                        nodo.GetElementsByTagName("Marca_sustituto");
+
+                    XmlNodeList Año_sustituto =
+                        nodo.GetElementsByTagName("Año_sustituto");
+
+                    XmlNodeList Estatus =
+                        nodo.GetElementsByTagName("Estatus");
+
+                    DiasSustitutosViewModel estado = new DiasSustitutosViewModel();
+
+                    estado.Dias = int.Parse(Dias[0].InnerText);
+                    estado.Placa = Placa_sustituto[0].InnerText;
+                    estado.Ram = Ram_sustituto[0].InnerText;
+                    estado.Gama = Gama_sustituto[0].InnerText;
+                    estado.Estado = Estado[0].InnerText;
+                    estado.Disponible = Disponible[0].InnerText;
+                    estado.Regional = Regional[0].InnerText;
+                    estado.TipoSustituto = Tipo_sustituto[0].InnerText;
+                    estado.ModeloSustituto = Modelo_sustituto[0].InnerText;
+                    estado.MarcaSustituto = Marca_sustituto[0].InnerText;
+                    estado.AnioSustituto = Año_sustituto[0].InnerText;
+                    estado.Estatus = Estatus[0].InnerText;
+
+                    Sustitutos.Add(estado);
+                }
+
+            }
+
+            return Sustitutos
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
+
+        }
+
+        public async Task<IEnumerable<ResumenPlacasViewModel>> GetResumePlacasAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<ResumenPlacasViewModel> Resumen = new List<ResumenPlacasViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_RESUMEN_PLACASAsync(key, Placa, Nit);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    var Nit_cliente = verificanodo(nodo, "Nit_cliente");
+                    var Cliente = verificanodo(nodo, "Cliente");
+                    var placa = verificanodo(nodo, "placa");
+                    var usuario = verificanodo(nodo, "usuario");
+                    var evento = verificanodo(nodo, "evento");
+                    var tipo = verificanodo(nodo, "tipo");
+                    var estado = verificanodo(nodo, "estado");
+                    var detalle_cita = verificanodo(nodo, "detalle_cita");
+                    var detalle_oc = verificanodo(nodo, "detalle_oc");
+                    var usuario_asesor = verificanodo(nodo, "usuario_asesor");
+                    var ciudad_ult_mmto = verificanodo(nodo, "ciudad_ult_mmto");
+                    var ult_rutina = verificanodo(nodo, "ult_rutina");
+                    var fecha_mmto = verificanodo(nodo, "fecha_mmto");
+
+                    ResumenPlacasViewModel resumen = new ResumenPlacasViewModel();
+
+                    resumen.Nit_cliente = Nit_cliente;
+                    resumen.Cliente = Cliente;
+                    resumen.placa = placa;
+                    resumen.usuario = usuario;
+                    resumen.evento = evento;
+                    resumen.tipo = tipo;
+                    resumen.estado = estado;
+                    resumen.detalle_cita = detalle_cita;
+                    resumen.detalle_oc = detalle_oc;
+                    resumen.usuario_asesor = usuario_asesor;
+                    resumen.ciudad_ult_mmto = ciudad_ult_mmto;
+                    resumen.ult_rutina = ult_rutina;
+                    resumen.fecha_mmto = fecha_mmto;
+
+                    Resumen.Add(resumen);
+                }
+
+            }
+
+            return Resumen
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
 
         }
     }

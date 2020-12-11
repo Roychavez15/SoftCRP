@@ -9,6 +9,12 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IDatosRepository
     {
+        Task<IEnumerable<ResumenPlacasViewModel>> GetResumePlacasAsync(string Nit, string Placa);
+        Task<IEnumerable<DiasSustitutosViewModel>> GetDiasSustitutosAsync(string Nit, string Placa);
+        Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa);
+        Task<IEnumerable<SiniestrosViewModel>> GetSiniestrosAsync(string Nit, string Placa);
+        Task<IEnumerable<IngresosTallerViewModel>> GetIngresosTallerAsync(string Nit, string Placa);
+        Task<IEnumerable<ConductoresViewModel>> GetConductoresAsync(string Nit, string Placa);
         Task<string> ProcesoCGB();
         Task<VehiculoProvGpsViewModel> GetDatosAutoProvGpsAsync(string nit, string placa);
         Task<List<VehiculosClientesViewModel>> GetVehiculosClienteAsync(string nit);
@@ -24,6 +30,7 @@ namespace SoftCRP.Web.Repositories
         Task<List<SubMotivosIncidenciasViewModel>> GetSubMotivosIncidenciasAsync();
         Task<List<TiposIncidenciaViewModel>> GetTipoIncidenciasAsync();
 
+        Task<IEnumerable<DatosAuto>> GetDatosAutoAllGpsAsync();
         Task<IEnumerable<DatosAuto>> GetDatosAutoAllAsync();
         Task<bool> IngresoIncidencia(IncidenciaCreateViewModel novedad);
 

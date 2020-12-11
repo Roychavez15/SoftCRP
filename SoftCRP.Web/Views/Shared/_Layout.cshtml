@@ -134,7 +134,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/node_modules/AdminLTE/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    @*<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">*@
+    <link rel="stylesheet" href="~/node_modules/AdminLTE/plugins/Ionicons/css/ionicons.min.css">
     <link href="~/css/FontsIcons.css" rel="stylesheet" />
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet" href="~/node_modules/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
@@ -161,6 +162,7 @@
 
     <link href="~/css/dropzone.css" rel="stylesheet" />
     <script src="~/js/dropzone.js"></script>
+    <link href="~/css/estilo.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -632,6 +634,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             debugger;
+            $('.select2').select2();
 
             $("#foto").on("error", function () {
                 $(this).attr('src', '~/images/user.png');

@@ -56,6 +56,8 @@ namespace SoftCRP.Web.Data
                 await this._userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
+            //v2
+            await CheckIncidenciasAsync();
         }
 
         private async Task CheckRoles()
@@ -106,6 +108,37 @@ namespace SoftCRP.Web.Data
                 _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito", isActive = true });
                 _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias", isActive = true });
                 _context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura", isActive = true });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckIncidenciasAsync()
+        {
+            if (!_context.incidencias.Any())
+            {
+                var usuarios = await _userHelper.GetListUsersInRole("Cliente");
+
+                foreach(var item in usuarios)
+                {
+                    _context.incidencias.Add(new Entities.Incidencia
+                    {
+                        User=item,
+                        AceleracionesBruscas=1.6M,
+                        ExcesoVelocidad=1.6M,
+                        FrenazoBrusco=5.8M,
+                        GiroBrusco=1.6M,
+                        isActive=true
+                    });
+                }
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como cuidar mi vehículo?", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Debemos Reportar", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Cobertura póliza de seguros y exclusiones", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Siniestros y reclamación", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Documentos habilitantes", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Infracciones", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como ocurre un accidente de tránsito?", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias", isActive = true });
+                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura", isActive = true });
                 await _context.SaveChangesAsync();
             }
         }

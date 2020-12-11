@@ -8,26 +8,12 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Models
 {
-    public class DashboardViewModel
+    public class DashBoardV2ViewModel
     {
-        public List<VehiculosClientesViewModel> VehiculosClientesViewModel { get; set; }
-        public int novedad  { get; set; }
-        public int Tramite { get; set; }
-        public int Analisis { get; set; }
-        public int Capacitaciones { get; set; }
+        
+        public EstadisticasV1ViewModel EstadisticasV1ViewModel { get; set; }
 
-        public int Transacciones { get; set; }
-
-
-        //v2
-        public int TotalAutos { get; set; }
-
-        public IEnumerable<Vehiculo> vehiculos { get; set; }
-        public IEnumerable<VehiculoGps> vehiculosGps { get; set; }
-
-        public IEnumerable<ConductoresViewModel> Conductores { get; set; }
-        public IEnumerable<IngresosTallerViewModel> ingresosTalleres { get; set; }
-        public IEnumerable<SiniestrosViewModel> siniestros { get; set; }
+        public EstadisticasV2ViewModel EstadisticasV2ViewModel { get; set; }
 
 
         public string ClienteId { get; set; }
@@ -46,6 +32,5 @@ namespace SoftCRP.Web.Models
         //[Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar una Placa.")]
         public string AnioId { get; set; }
         public IEnumerable<SelectListItem> Anios { get; set; }
-
     }
 }
