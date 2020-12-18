@@ -20,7 +20,7 @@ using SWDLCondelpi;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         //private SWDLCondelpi.Service1SoapClient Service1SoapClient = new Service1SoapClient();
         private readonly IUserHelper _userHelper;

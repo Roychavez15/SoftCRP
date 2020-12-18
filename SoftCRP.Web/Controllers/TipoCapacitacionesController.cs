@@ -14,7 +14,7 @@ using SoftCRP.Web.Repositories;
 namespace SoftCRP.Web.Controllers
 {
     [Authorize(Roles = "Admin,Renting")]
-    public class TipoCapacitacionesController : Controller
+    public class TipoCapacitacionesController : BaseController
     {
         private readonly ILogRepository _logRepository;
         private readonly ILogger<TipoCapacitacionesController> _logger;

@@ -126,6 +126,7 @@ namespace SoftCRP.Web
             services.AddScoped<IVehiculoProvGpsRepository, VehiculoProvGpsRepository>();
             services.AddScoped<IVehiculoGpsRepository, VehiculoGpsRepository>();
             services.AddScoped<IIncidenciasRepository, IncidenciasRepository>();
+            services.AddScoped<IGamaRepository, GamaRepository>();
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

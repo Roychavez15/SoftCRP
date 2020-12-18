@@ -25,5 +25,20 @@ namespace SoftCRP.Web.Repositories
                  .Where(u => u.User.Cedula == Nit)
                  .FirstOrDefaultAsync();
         }
+        public async Task<Incidencia> GetIncidenciaByIdAsync(int Id)
+        {
+
+            return await _dataContext.incidencias
+                 .Include(u => u.User)
+                 .Where(u => u.Id==Id)
+                 .FirstOrDefaultAsync();
+        }
+        public async Task<IEnumerable<Incidencia>> GetListIncidenciasAsync()
+        {
+
+            return await _dataContext.incidencias
+                .Include(u => u.User)
+                .ToListAsync();
+        }
     }
 }

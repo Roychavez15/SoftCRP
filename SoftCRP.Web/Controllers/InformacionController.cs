@@ -14,7 +14,7 @@ using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class InformacionController : Controller
+    public class InformacionController : BaseController
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;

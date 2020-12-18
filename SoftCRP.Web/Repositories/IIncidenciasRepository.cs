@@ -8,6 +8,8 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IIncidenciasRepository : IGenericRepository<Incidencia>
     {
+        Task<Incidencia> GetIncidenciaByIdAsync(int Id);
+        Task<IEnumerable<Incidencia>> GetListIncidenciasAsync();
         Task<Incidencia> GetIncidenciaByNitAsync(string Nit);
     }
 }

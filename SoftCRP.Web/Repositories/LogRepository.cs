@@ -44,7 +44,24 @@ namespace SoftCRP.Web.Repositories
             await _dataContext.Logs.AddAsync(log);
             await _dataContext.SaveChangesAsync();
         }
+        public async Task SaveLogsGPS(string Level, string Message, string Module, string user)
+        {
+            var usuario = await _userHelper.GetUserAsync(user);
+            Log log = new Log
+            {
+                Fecha = DateTime.Now,
+                Level = Level,
+                Message = Message,
+                Module = Module,
+                IP = "",
+                user = usuario
+            };
 
+            //await this.CreateAsync(log);
+
+            await _dataContext.Logs.AddAsync(log);
+            await _dataContext.SaveChangesAsync();
+        }
         public async Task<IEnumerable<Log>> GetLogsReportesAsync(DateTime Inicio, DateTime Fin)
         {
 

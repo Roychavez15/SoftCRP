@@ -8,6 +8,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface ILogRepository : IGenericRepository<Log>
     {
+        Task SaveLogsGPS(string Level, string Message, string Module, string user);
         Task SaveLogs(string Level, string Message, string Module, string user);
         Task<IEnumerable<Log>> GetLogsReportesAsync(DateTime Inicio, DateTime Fin);
     }

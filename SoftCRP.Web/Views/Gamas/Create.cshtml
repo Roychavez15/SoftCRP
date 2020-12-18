@@ -1,0 +1,34 @@
+﻿@model SoftCRP.Web.Data.Entities.Gama
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><strong>CREAR GAMA</strong></h2>
+            </div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="GamaSustituto" class="control-label"></label>
+                    <input asp-for="GamaSustituto" class="form-control" />
+                    <span asp-validation-for="GamaSustituto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Monto" class="control-label"></label>
+                    <input asp-for="Monto" class="form-control" />
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @*<input type="submit" value="Create" class="btn btn-default" />*@
+                    <button type="submit" value="Create" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

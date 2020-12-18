@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Helpers;
@@ -11,7 +12,8 @@ using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class HomeController : Controller
+    [Authorize]
+    public class HomeController : BaseController
     {
         private readonly IUserHelper _userHelper;
         private readonly IAnalisisRepository _analisisRepository;
@@ -249,6 +251,7 @@ namespace SoftCRP.Web.Controllers
             {
                 UserId = "";
             }
+
             var resumen = await _datosRepository.GetResumePlacasAsync(UserId, "");
 
             EstadisticasV2ViewModel estadisticasV2ViewModel = new EstadisticasV2ViewModel

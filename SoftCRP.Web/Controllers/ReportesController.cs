@@ -11,7 +11,7 @@ using SoftCRP.Web.Repositories;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class ReportesController : Controller
+    public class ReportesController : BaseController
     {
         private readonly IDatosRepository _datosRepository;
         private readonly IAnalisisRepository _analisisRepository;

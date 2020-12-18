@@ -1,0 +1,94 @@
+﻿@model SoftCRP.Web.Data.Entities.Incidencia
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@*<h2>Edit</h2>
+
+    <h4>Incidencia</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="ExcesoVelocidad" class="control-label"></label>
+                    <input asp-for="ExcesoVelocidad" class="form-control" />
+                    <span asp-validation-for="ExcesoVelocidad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FrenazoBrusco" class="control-label"></label>
+                    <input asp-for="FrenazoBrusco" class="form-control" />
+                    <span asp-validation-for="FrenazoBrusco" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AceleracionesBruscas" class="control-label"></label>
+                    <input asp-for="AceleracionesBruscas" class="form-control" />
+                    <span asp-validation-for="AceleracionesBruscas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GiroBrusco" class="control-label"></label>
+                    <input asp-for="GiroBrusco" class="form-control" />
+                    <span asp-validation-for="GiroBrusco" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="isActive" /> @Html.DisplayNameFor(model => model.isActive)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+<div align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><strong>EDITAR INCIDENCIA - @Model.User.FullName</strong></h2>
+            </div>
+
+            <form asp-action="Edit">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="ExcesoVelocidad" class="control-label"></label>
+                        <input asp-for="ExcesoVelocidad" class="form-control" />
+                        <span asp-validation-for="ExcesoVelocidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FrenazoBrusco" class="control-label"></label>
+                        <input asp-for="FrenazoBrusco" class="form-control" />
+                        <span asp-validation-for="FrenazoBrusco" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AceleracionesBruscas" class="control-label"></label>
+                        <input asp-for="AceleracionesBruscas" class="form-control" />
+                        <span asp-validation-for="AceleracionesBruscas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GiroBrusco" class="control-label"></label>
+                        <input asp-for="GiroBrusco" class="form-control" />
+                        <span asp-validation-for="GiroBrusco" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+                    <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

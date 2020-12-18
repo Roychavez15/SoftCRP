@@ -1,0 +1,56 @@
+﻿@model SoftCRP.Web.Data.Entities.Incidencia
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div align="left">
+    <div align="left" class="col-md-6">
+        <div class="card card-info">
+            <div class="card-header" style="background-color:#F2AE0B; color:#ffffff;">
+                <h2 class="card-title" style="font-style:oblique"><strong>DETALLES INCIDENCIA - @Model.User.FullName</strong></h2>
+            </div>
+            <div class="card-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AceleracionesBruscas):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.AceleracionesBruscas)
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ExcesoVelocidad):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ExcesoVelocidad)
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.FrenazoBrusco):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.FrenazoBrusco)
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.GiroBrusco):
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.GiroBrusco)
+                    </dd>
+                </dl>
+
+            </div>
+
+
+            <div class="card-footer">
+                <a asp-action="Edit" asp-route-id="@Model.Id" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-edit">&nbsp;</i>Editar</a>
+                <a asp-action="Index" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -379,11 +379,11 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @*<li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-th"></i>
-                                    Clientes
-                                </a>
-                            </li>*@
+            <a asp-area="" class="nav-link" asp-controller="Clientes" asp-action="Index" style="color:#ffffff">
+                <i class="nav-icon fas fa-th"></i>
+                Clientes
+            </a>
+        </li>*@
 
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
@@ -470,11 +470,11 @@
                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                             {
                                 @*<li class="nav-item">
-                                        <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
-                                            <i class="nav-icon fas fa-chart-line"></i>
-                                            Reportes
-                                        </a>
-                                    </li>*@
+                    <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        Reportes
+                    </a>
+                </li>*@
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link" style="color:#ffffff">
                                         <i class="nav-icon fas fa-chart-line"></i>
@@ -546,6 +546,18 @@
                                 <a asp-area="" class="nav-link" asp-controller="TipoCapacitaciones" asp-action="Index" style="color:#ffffff">
                                     <i class="nav-icon fa fa-ellipsis-h"></i>
                                     <p>Tipos Capacitaciones</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Incidencias" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-ellipsis-h"></i>
+                                    <p>Incidencias</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Gamas" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-ellipsis-h"></i>
+                                    <p>Gamas</p>
                                 </a>
                             </li>
                         }

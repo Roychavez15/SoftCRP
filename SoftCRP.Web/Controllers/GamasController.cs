@@ -12,22 +12,22 @@ using SoftCRP.Web.Data.Entities;
 namespace SoftCRP.Web.Controllers
 {
     [Authorize(Roles = "Admin,Renting")]
-    public class TipoNovedadesController : BaseController
+    public class GamasController : BaseController
     {
         private readonly DataContext _context;
 
-        public TipoNovedadesController(DataContext context)
+        public GamasController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: TipoNovedades
+        // GET: Gamas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.tipoNovedades.ToListAsync());
+            return View(await _context.gamas.ToListAsync());
         }
 
-        // GET: TipoNovedades/Details/5
+        // GET: Gamas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
-            var tipoNovedades = await _context.tipoNovedades
+            var gama = await _context.gamas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoNovedades == null)
+            if (gama == null)
             {
                 return NotFound();
             }
 
-            return View(tipoNovedades);
+            return View(gama);
         }
 
-        // GET: TipoNovedades/Create
+        // GET: Gamas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TipoNovedades/Create
+        // POST: Gamas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tipo")] TipoNovedades tipoNovedades)
+        public async Task<IActionResult> Create(Gama gama)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tipoNovedades);
+                _context.Add(gama);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tipoNovedades);
+            return View(gama);
         }
 
-        // GET: TipoNovedades/Edit/5
+        // GET: Gamas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
-            var tipoNovedades = await _context.tipoNovedades.FindAsync(id);
-            if (tipoNovedades == null)
+            var gama = await _context.gamas.FindAsync(id);
+            if (gama == null)
             {
                 return NotFound();
             }
-            return View(tipoNovedades);
+            return View(gama);
         }
 
-        // POST: TipoNovedades/Edit/5
+        // POST: Gamas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tipo")] TipoNovedades tipoNovedades)
+        public async Task<IActionResult> Edit(int id, Gama gama)
         {
-            if (id != tipoNovedades.Id)
+            if (id != gama.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace SoftCRP.Web.Controllers
             {
                 try
                 {
-                    _context.Update(tipoNovedades);
+                    _context.Update(gama);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TipoNovedadesExists(tipoNovedades.Id))
+                    if (!GamaExists(gama.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace SoftCRP.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tipoNovedades);
+            return View(gama);
         }
 
-        // GET: TipoNovedades/Delete/5
+        // GET: Gamas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +126,30 @@ namespace SoftCRP.Web.Controllers
                 return NotFound();
             }
 
-            var tipoNovedades = await _context.tipoNovedades
+            var gama = await _context.gamas
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoNovedades == null)
+            if (gama == null)
             {
                 return NotFound();
             }
 
-            return View(tipoNovedades);
+            return View(gama);
         }
 
-        // POST: TipoNovedades/Delete/5
+        // POST: Gamas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tipoNovedades = await _context.tipoNovedades.FindAsync(id);
-            _context.tipoNovedades.Remove(tipoNovedades);
+            var gama = await _context.gamas.FindAsync(id);
+            _context.gamas.Remove(gama);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TipoNovedadesExists(int id)
+        private bool GamaExists(int id)
         {
-            return _context.tipoNovedades.Any(e => e.Id == id);
+            return _context.gamas.Any(e => e.Id == id);
         }
     }
 }

@@ -32,5 +32,7 @@ namespace SoftCRP.Web.Data.Entities
         public int talleres { get; set; }
         public int siniestros { get; set; }
 
+        public string usuario { get; set; }
+
     }
 }

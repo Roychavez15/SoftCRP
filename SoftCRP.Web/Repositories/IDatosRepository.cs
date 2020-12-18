@@ -9,6 +9,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IDatosRepository
     {
+        Task<string> GetConductorPlacasAsync(string Placa);
         Task<IEnumerable<ResumenPlacasViewModel>> GetResumePlacasAsync(string Nit, string Placa);
         Task<IEnumerable<DiasSustitutosViewModel>> GetDiasSustitutosAsync(string Nit, string Placa);
         Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa);

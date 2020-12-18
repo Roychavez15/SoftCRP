@@ -25,6 +25,8 @@ namespace SoftCRP.Web.Repositories
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;
         private readonly IVehiculoGpsRepository _vehiculoGpsRepository;
         private readonly IIncidenciasRepository _incidenciasRepository;
+        private readonly ILogRepository _logRepository;
+        private readonly IGamaRepository _gamaRepository;
 
         public DatosRepository(
             DataContext context,
@@ -33,7 +35,9 @@ namespace SoftCRP.Web.Repositories
             IUserHelper userHelper,
             IVehiculoProvGpsRepository vehiculoProvGpsRepository,
             IVehiculoGpsRepository vehiculoGpsRepository,
-            IIncidenciasRepository incidenciasRepository)
+            IIncidenciasRepository incidenciasRepository,
+            ILogRepository logRepository,
+            IGamaRepository gamaRepository)
         {
             _context = context;
             _configuration = configuration;
@@ -42,6 +46,8 @@ namespace SoftCRP.Web.Repositories
             _vehiculoProvGpsRepository = vehiculoProvGpsRepository;
             _vehiculoGpsRepository = vehiculoGpsRepository;
             _incidenciasRepository = incidenciasRepository;
+            _logRepository = logRepository;
+            _gamaRepository = gamaRepository;
         }
         public async Task<DatosAuto> GetDatosAutoAsync(string placa)
         {
@@ -851,8 +857,10 @@ namespace SoftCRP.Web.Repositories
             var vehiculosCGB = await _vehiculoProvGpsRepository.GetVehiculosGCBAsync();
             foreach(var item in vehiculosCGB)
             {
-                await getPlate(item.Placa, item.Id, auth);
+                var proc= await getPlate(item.Placa, item.Id, auth);
+                await _logRepository.SaveLogsGPS("Success", "Insertar Placa CGB " + item.Placa, "CGB", item.user.UserName);
             }
+            await _logRepository.SaveLogs("Success", "Proceso Completo CGB", "CGB", "");
             return "Procesado";
         }
 
@@ -872,61 +880,96 @@ namespace SoftCRP.Web.Repositories
 
             if(response!=null)
             {
-                var datosgps = await _vehiculoGpsRepository.GetVehiculoByDateAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, vehiculoId);
-                var vehiculopro = await _vehiculoProvGpsRepository.GetVehiculoByIdAsync(vehiculoId);
-                var incidencias = await _incidenciasRepository.GetIncidenciaByNitAsync(vehiculopro.user.Cedula);
-                
-                var conductores = await GetConductoresAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
-                var talleres = await GetIngresosTallerAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
-                var siniestros = await GetSiniestrosAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
-
-
-                var suma = incidencias.ExcesoVelocidad * Convert.ToInt32(response["speeding"].Value<string>())
-                    + incidencias.FrenazoBrusco * Convert.ToInt32(response["hardBraking"].Value<string>())
-                    + incidencias.AceleracionesBruscas * Convert.ToInt32(response["sharpAcceleration"].Value<string>())
-                    + incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>());
-
-                var kilo = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100;
-
-                var score = 100 - (suma / (Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100));
-
-                if (datosgps==null)
+                try
                 {
-                    VehiculoGps vehiculo = new VehiculoGps
+
+
+                    var datosgps = await _vehiculoGpsRepository.GetVehiculoByDateAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, vehiculoId);
+                    var vehiculopro = await _vehiculoProvGpsRepository.GetVehiculoByIdAsync(vehiculoId);
+                    var incidencias = await _incidenciasRepository.GetIncidenciaByNitAsync(vehiculopro.user.Cedula);
+
+                    var conductores = await GetConductoresAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+                    var talleres = await GetIngresosTallerAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+                    var siniestros = await GetSiniestrosAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+
+                    var sustitutos = await GetDiasSustitutosAsync(vehiculopro.user.Cedula, vehiculopro.Placa);
+                    int diassustitutos = 0;
+
+                    var conductor = await GetConductorPlacasAsync(placa);
+
+                    if (sustitutos.Count()>0)
                     {
-                        vehiculo = vehiculopro,
-                        dia = DateTime.Now.Day,
-                        mes = DateTime.Now.Month,
-                        anio = DateTime.Now.Year,
-                        //kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>().Replace(".","")),
-                        kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")),
-                        trips = Convert.ToInt32(response["trips"].Value<string>()),
-                        speeding = Convert.ToInt32(response["speeding"].Value<string>()),
-                        hardbraking= Convert.ToInt32(response["hardBraking"].Value<string>()),
-                        sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>()),
-                        sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>()),
-                        latitude= response["latitude"].Value<string>(),
-                        longitude = response["longitude"].Value<string>(),
-                        score=score,
-                        conductores= conductores.Count()>0 ? conductores.Sum(c=>c.Conductores) : 0,
-                        talleres=talleres.Count()>0 ? talleres.Sum(t=>t.Ingresos) : 0 ,
-                        siniestros= siniestros.Count()>0 ? siniestros.Sum(s=>s.Total_Siniestros) : 0,
-                    };
-                    await _vehiculoGpsRepository.CreateAsync(vehiculo);
-                }
-                else
-                {
-                    //datosgps.kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ","));
-                    //datosgps.trips = Convert.ToInt32(response["trips"].Value<string>());
-                    //datosgps.speeding = Convert.ToInt32(response["speeding"].Value<string>());
-                    //datosgps.hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>());
-                    //datosgps.sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>());
-                    //datosgps.sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>());
-                    //datosgps.latitude = response["latitude"].Value<string>();
-                    //datosgps.longitude = response["longitude"].Value<string>();
-                    //datosgps.score = score;
+                        var strgama = sustitutos.ToList().FirstOrDefault().Gama.ToString();
+                        var diassust = sustitutos.ToList().FirstOrDefault().Dias.ToString();
+                        var gama = await _gamaRepository.GetGamaByTypeAsync(strgama);
+                        if(gama!=null)
+                        {
+                            diassustitutos = gama.Monto * Convert.ToInt32(diassust);
+                        }
+                    }
 
-                    //await _vehiculoGpsRepository.UpdateAsync(datosgps);
+
+                    var suma = incidencias.ExcesoVelocidad * Convert.ToInt32(response["speeding"].Value<string>())
+                        + incidencias.FrenazoBrusco * Convert.ToInt32(response["hardBraking"].Value<string>())
+                        + incidencias.AceleracionesBruscas * Convert.ToInt32(response["sharpAcceleration"].Value<string>())
+                        + incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>());
+                    
+                    var score = 0M;
+
+                    if (Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ","))>0)
+                    {
+                        score = 100 - (suma / (Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100));
+                    }
+                    //var kilo = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")) / 100;
+                   
+                    if (datosgps == null)
+                    {
+                        VehiculoGps vehiculo = new VehiculoGps
+                        {
+                            vehiculo = vehiculopro,
+                            dia = DateTime.Now.Day,
+                            mes = DateTime.Now.Month,
+                            anio = DateTime.Now.Year,
+                            //kilometerstraveled = Convert.ToInt32(response["odometer"].Value<string>().Replace(".","")),
+                            kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ",")),
+                            trips = Convert.ToInt32(response["trips"].Value<string>()),
+                            speeding = Convert.ToInt32(response["speeding"].Value<string>()),
+                            hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>()),
+                            sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>()),
+                            sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>()),
+                            latitude = response["latitude"].Value<string>(),
+                            longitude = response["longitude"].Value<string>(),
+                            score = score,
+                            conductores = conductores.Count() > 0 ? conductores.Sum(c => c.Conductores) : 0,
+                            talleres = talleres.Count() > 0 ? talleres.Sum(t => t.Ingresos) : 0,
+                            siniestros = siniestros.Count() > 0 ? siniestros.Sum(s => s.Total_Siniestros) : 0,
+                            ahorro = sustitutos.Count() > 0 ? diassustitutos : 0,
+                            usuario = conductor.ToUpper(),
+                        };
+                        await _vehiculoGpsRepository.CreateAsync(vehiculo);
+                    }
+                    else
+                    {
+                        datosgps.kilometerstraveled = Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ","));
+                        datosgps.trips = Convert.ToInt32(response["trips"].Value<string>());
+                        datosgps.speeding = Convert.ToInt32(response["speeding"].Value<string>());
+                        datosgps.hardbraking = Convert.ToInt32(response["hardBraking"].Value<string>());
+                        datosgps.sharpacceleration = Convert.ToInt32(response["sharpAcceleration"].Value<string>());
+                        datosgps.sharpturn = Convert.ToInt32(response["sharpTurn"].Value<string>());
+                        datosgps.latitude = response["latitude"].Value<string>();
+                        datosgps.longitude = response["longitude"].Value<string>();
+                        datosgps.score = score;
+                        datosgps.conductores = conductores.Count() > 0 ? conductores.Sum(c => c.Conductores) : 0;
+                        datosgps.talleres = talleres.Count() > 0 ? talleres.Sum(t => t.Ingresos) : 0;
+                        datosgps.siniestros = siniestros.Count() > 0 ? siniestros.Sum(s => s.Total_Siniestros) : 0;
+                        datosgps.ahorro = sustitutos.Count() > 0 ? diassustitutos : 0;
+                        datosgps.usuario = conductor;
+                        await _vehiculoGpsRepository.UpdateAsync(datosgps);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await _logRepository.SaveLogsGPS("Error", ex.Message, "CGB", "");
                 }
             }
             return "Ok";
@@ -977,39 +1020,42 @@ namespace SoftCRP.Web.Repositories
             List<ConductoresViewModel> Conductores = new List<ConductoresViewModel>();
 
             var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_CONDUCTORESAsync(key,Placa,Nit);
-
-            XmlDocument document = new XmlDocument();
-
-            document.LoadXml(dataxml.Nodes[1].ToString());
-            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
-
-            if (Datos.Count > 0)
+            
+            if (dataxml != null)
             {
-                XmlNodeList lista1 =
-                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+                XmlDocument document = new XmlDocument();
 
-                foreach (XmlElement nodo in lista1)
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+                if (Datos.Count > 0)
                 {
-                    //var dat= nodo[0].InnerText
-                    XmlNodeList valor =
-                        nodo.GetElementsByTagName("conductores");
+                    XmlNodeList lista1 =
+                        ((XmlElement)Datos[0]).GetElementsByTagName("data");
 
-                    XmlNodeList NitCliente =
-                        nodo.GetElementsByTagName("Nit_cliente");
+                    foreach (XmlElement nodo in lista1)
+                    {
+                        //var dat= nodo[0].InnerText
+                        XmlNodeList valor =
+                            nodo.GetElementsByTagName("conductores");
 
-                    XmlNodeList Cliente =
-                        nodo.GetElementsByTagName("Cliente");
+                        XmlNodeList NitCliente =
+                            nodo.GetElementsByTagName("Nit_cliente");
 
-                    ConductoresViewModel estado = new ConductoresViewModel();
+                        XmlNodeList Cliente =
+                            nodo.GetElementsByTagName("Cliente");
 
-                    estado.Conductores = int.Parse(valor[0].InnerText);
-                    estado.Nit = NitCliente[0].InnerText;
-                    estado.Cliente = Cliente[0].InnerText;
+                        ConductoresViewModel estado = new ConductoresViewModel();
+
+                        estado.Conductores = int.Parse(valor[0].InnerText);
+                        estado.Nit = NitCliente[0].InnerText;
+                        estado.Cliente = Cliente[0].InnerText;
 
 
-                    Conductores.Add(estado);
+                        Conductores.Add(estado);
+                    }
+
                 }
-
             }
 
             return Conductores
@@ -1313,6 +1359,65 @@ namespace SoftCRP.Web.Repositories
             return Resumen
                 //.Where(t => t.Tipo == tipo)
                 .ToList();
+
+        }
+
+        public async Task<string> GetConductorPlacasAsync(string Placa)
+        {
+            string nombre="";
+            var key = _configuration["KeyWs"];
+
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_NOMBRE_CONDUCTOR_PLACAAsync(key, Placa);
+
+            XmlDocument document = new XmlDocument();
+
+            document.LoadXml(dataxml.Nodes[1].ToString());
+            XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+            if (Datos.Count > 0)
+            {
+                XmlNodeList lista1 =
+                    ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                foreach (XmlElement nodo in lista1)
+                {
+                    nombre = verificanodo(nodo, "conductor");
+                    //var Nit_cliente = verificanodo(nodo, "Nit_cliente");
+                    //var Cliente = verificanodo(nodo, "Cliente");
+                    //var placa = verificanodo(nodo, "placa");
+                    //var usuario = verificanodo(nodo, "usuario");
+                    //var evento = verificanodo(nodo, "evento");
+                    //var tipo = verificanodo(nodo, "tipo");
+                    //var estado = verificanodo(nodo, "estado");
+                    //var detalle_cita = verificanodo(nodo, "detalle_cita");
+                    //var detalle_oc = verificanodo(nodo, "detalle_oc");
+                    //var usuario_asesor = verificanodo(nodo, "usuario_asesor");
+                    //var ciudad_ult_mmto = verificanodo(nodo, "ciudad_ult_mmto");
+                    //var ult_rutina = verificanodo(nodo, "ult_rutina");
+                    //var fecha_mmto = verificanodo(nodo, "fecha_mmto");
+
+                    //ResumenPlacasViewModel resumen = new ResumenPlacasViewModel();
+
+                    //resumen.Nit_cliente = Nit_cliente;
+                    //resumen.Cliente = Cliente;
+                    //resumen.placa = placa;
+                    //resumen.usuario = usuario;
+                    //resumen.evento = evento;
+                    //resumen.tipo = tipo;
+                    //resumen.estado = estado;
+                    //resumen.detalle_cita = detalle_cita;
+                    //resumen.detalle_oc = detalle_oc;
+                    //resumen.usuario_asesor = usuario_asesor;
+                    //resumen.ciudad_ult_mmto = ciudad_ult_mmto;
+                    //resumen.ult_rutina = ult_rutina;
+                    //resumen.fecha_mmto = fecha_mmto;
+
+                    //Resumen.Add(resumen);
+                }
+
+            }
+
+            return nombre;
 
         }
     }
