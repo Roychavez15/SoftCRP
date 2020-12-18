@@ -963,7 +963,7 @@ namespace SoftCRP.Web.Repositories
                         datosgps.talleres = talleres.Count() > 0 ? talleres.Sum(t => t.Ingresos) : 0;
                         datosgps.siniestros = siniestros.Count() > 0 ? siniestros.Sum(s => s.Total_Siniestros) : 0;
                         datosgps.ahorro = sustitutos.Count() > 0 ? diassustitutos : 0;
-                        datosgps.usuario = conductor;
+                        datosgps.usuario = conductor.ToUpper();
                         await _vehiculoGpsRepository.UpdateAsync(datosgps);
                     }
                 }
