@@ -277,7 +277,13 @@ namespace SoftCRP.Web.Controllers
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
                 var emails = user.Email.Trim()+','+datos.Email.Trim();
 
-                //TODO: cambiar direccion de correo
+                //v2 email conductores
+                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
+
+                if (!string.IsNullOrEmpty(emailsdrivers))
+                {
+                    emails = emails + ',' + emailsdrivers;
+                }
 
 
 

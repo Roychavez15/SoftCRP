@@ -36,22 +36,25 @@
 </div>
 <hr />
 
-<div id="Estadisticasv1">
+@*<div id="Estadisticasv1">
     <partial name="_EstadisticasV1PartialView" , model="@Model.EstadisticasV1ViewModel">
 </div>
 
 
 <div id="Estadisticasv2">
     <partial name="_EstadisticasV2PartialView" , model="@Model.EstadisticasV2ViewModel">
-</div>
+</div>*@
+<div id="Estadisticas">
+    <partial name="_EstadisticasPartialView" , model="@Model.EstadisticasViewModel">
+</div
 
-<div class="loaderbody" id="loaderbody">
+><div class="loaderbody" id="loaderbody">
     <div class="loader"></div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+<script type="text/javascript">
         $("#loaderbody").addClass('hide');
         $(document).ready(function () {
             $("#ClienteId").change(function () {
@@ -77,8 +80,35 @@
                         }
                     });
                 }
-                ////actualiza estadisticas
-                $.ajax({
+                else {
+                    $("#PlacaId").empty();
+                    $("#PlacaId").append('<option value="0">[Seleccionar Placa...]</option>');
+                }
+                @*$.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetEstadisticasV1")',
+                    //dataType: 'json',
+                    data: { UserId: $("#ClienteId").val() },
+                    success: function (result) {
+                        console.log(result);
+
+                        if (result) {
+                            $("#Estadisticasv1").html(result);
+                            $("#loaderbody").addClass('hide');
+                        }
+                        else {
+                            $("#loaderbody").addClass('hide');
+                            return false;
+                        }
+                    },
+                    error: function (ex) {
+                        $("#loaderbody").addClass('hide');
+                        alert('Failed to retrieve Estadisticas.' + ex);
+                    }
+                });*@
+
+                ////actualiza estadisticas V2
+                @*$.ajax({
                     type: 'POST',
                     url: '@Url.Action("GetEstadisticasV2")',
                     //dataType: 'json',
@@ -99,9 +129,32 @@
                         $("#loaderbody").addClass('hide');
                         alert('Failed to retrieve Estadisticas.' + ex);
                     }
+                });*@
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetEstadisticas")',
+                    //dataType: 'json',
+                    data: { UserId: $("#ClienteId").val(), Placa:"" },
+                    success: function (result) {
+                        console.log(result);
+
+                        if (result) {
+                            $("#Estadisticas").html(result);
+                            $("#loaderbody").addClass('hide');
+                        }
+                        else {
+                            $("#loaderbody").addClass('hide');
+                            return false;
+                        }
+                    },
+                    error: function (ex) {
+                        $("#loaderbody").addClass('hide');
+                        alert('Failed to retrieve Estadisticas.' + ex);
+                    }
                 });
 
-                return false;
+                //return false;
             });
 
             //consultar con placa
@@ -109,13 +162,13 @@
                 $("#loaderbody").removeClass('hide');
                 $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("GetEstadisticasV2Placa")',
+                    url: '@Url.Action("GetEstadisticas")',
                     //dataType: 'json',
                     data: { UserId: $("#ClienteId").val(), Placa: $("#PlacaId").val()},
                     success: function (result) {
                         console.log(result);
                         if (result) {
-                            $("#Estadisticasv2").html(result);
+                            $("#Estadisticas").html(result);
                             $("#loaderbody").addClass('hide');
                         }
                         else {
@@ -133,5 +186,5 @@
 
 
         });
-    </script>
+</script>
 }

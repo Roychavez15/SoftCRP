@@ -140,6 +140,7 @@ namespace SoftCRP.Web.Models
         [Display(Name = "Pickup")]
         public string pickup { get; set; }
          
+        public List<ParticularidadViewModel> particularidadViewModels { get; set; }
     }
 
 }

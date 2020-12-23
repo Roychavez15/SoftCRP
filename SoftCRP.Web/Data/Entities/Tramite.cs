@@ -49,5 +49,16 @@ namespace SoftCRP.Web.Data.Entities
             set;
         }
 
+        public string Ciudad { get; set; }
+        public int Dia { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime Desde { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        public DateTime Hasta { get; set; }
+        public string Estado { get; set; }
     }
 }

@@ -115,12 +115,15 @@ namespace SoftCRP.Web.Controllers
             }
 
             var vehiculo = await _datosRepository.GetDatosAutoAsync(id);
-
-
+            var particularidades = await _datosRepository.GetParticularidadesAsync(id);
+            List<ParticularidadViewModel> particularidadViewModel = new List<ParticularidadViewModel>();
+            particularidadViewModel = particularidades.ToList();
+            
             if (vehiculo == null)
             {
                 return NotFound();
             }
+            vehiculo.particularidadViewModels = particularidadViewModel;
 
             await _logRepository.SaveLogs("Get", "Obtiene Información de Vehículo: "+vehiculo.Placa, "Información", User.Identity.Name);
             return View(vehiculo);

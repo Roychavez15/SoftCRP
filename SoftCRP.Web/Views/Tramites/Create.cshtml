@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <input type="hidden" asp-for="cedula" id="cedula"/>
+                    <input type="hidden" asp-for="cedula" id="cedula" />
 
                     <div class="form-group">
                         <label asp-for="PlacaId" class="control-label"></label>
@@ -36,7 +36,35 @@
                         <select asp-for="MesId" asp-items="Model.Meses" class="form-control" id="Mesobj"></select>
                         <span asp-validation-for="MesId" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="DiaId" class="control-label"></label>
+                        <select asp-for="DiaId" asp-items="Model.Dias" class="form-control"></select>
+                        <span asp-validation-for="DiaId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CiudadId" class="control-label"></label>
+                        <select asp-for="CiudadId" asp-items="Model.Ciudades" class="form-control" id="Ciudadobj"></select>
+                        <span asp-validation-for="CiudadId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="checkboxPrimary1" checked>
+                            <label for="checkboxPrimary1">
+                                Validez
+                            </label>
+                        </div>
 
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control float-right" id="reservation">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <!-- /.form group -->
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
                         <textarea asp-for="Observaciones" class="form-control" id="Obsobj"></textarea>
@@ -67,10 +95,18 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script type="text/javascript">
+<script type="text/javascript">
         @Html.Raw(ViewBag.SweetAlertShowMessage)
         $(document).ready(function () {
             $('.select2').select2();
+            //Date range picker
+            $('#reservation').daterangepicker({
+
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+
             $("#btnsubmit").click(function () {
                 var placas = $('#Placasobj').val();
                 var Tipo = $('#Tipoobj').val();
@@ -79,6 +115,14 @@
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
                 var cedula = $('#cedula').val();
+                var dia = $('#DiaId').val();
+                var ciudad = $('#Ciudadobj').val();
+                var validez = "0";
+                var fechas = $('#reservation').val();
+
+                if ($('#checkboxPrimary1').is(':checked')) {
+                    validez = "1";
+                }
 
                 var viewModel = {
                     "Cedula": cedula,
@@ -99,7 +143,10 @@
                 fileData.append("MesId", Mes);
                 fileData.append("AnioId", Anio);
                 fileData.append("Observaciones", Obs);
-
+                fileData.append("DiaId", dia);
+                fileData.append("CiudadId", ciudad);
+                fileData.append("validez", validez);
+                fileData.append("fechas", fechas);
 
                 var FileSize = 0; // in MB
                 debugger;
@@ -115,13 +162,13 @@
                     fileData.append("Files", '');
                 }
                 if (files.length > 5) {
-                    swal("Error Carga de Archivo!", "No se puede anexar mas de 5 archivos", "error");                                        
+                    swal("Error Carga de Archivo!", "No se puede anexar mas de 5 archivos", "error");
                     return false;
                 }
-                
+
 
                 if (FileSize >= 4) {
-                    swal("Error Carga de Archivo!", "El tamaño total de los archivos supera el limite permitido " + FileSize.toString() + " MB", "error");                                        
+                    swal("Error Carga de Archivo!", "El tamaño total de los archivos supera el limite permitido " + FileSize.toString() + " MB", "error");
                     return false;
 
                 }
@@ -134,7 +181,7 @@
                         confirmButtonClass: "btn-info",
                         confirmButtonText: "Si, Crearlo!",
                         cancelButtonText: "No, Cancelar!",
-                        closeOnConfirm: false,                        
+                        closeOnConfirm: false,
                         closeOnCancel: false,
                         showLoaderOnConfirm: true,
                     },
@@ -195,9 +242,43 @@
                     return false
             });
 
+
+
+
+            $("#Mesobj").change(function () {
+
+                $("#DiaId").empty();
+                $("#DiaId").append('<option value="0">[Seleccionar Dia...]</option>');
+                if ($("#Mesobj").val() != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetDias")',
+                        dataType: 'json',
+                        data: { Anio: $("#Aniosobj").val(), Mes: $("#Mesobj").val() },
+                        success: function (subcategories) {
+                            $.each(subcategories, function (i, dato) {
+
+                                $("#DiaId").append('<option value="'
+                                    + dato.text + '">'
+                                    + dato.value + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve Dias.' + ex);
+                        }
+                    });
+                }
+                else {
+                    $("#DiaId").empty();
+                    $("#DiaId").append('<option value="0">[Seleccionar Dia...]</option>');
+                }
+
+            });
+
+
         });
 
-    </script>
+</script>
 
 
 }

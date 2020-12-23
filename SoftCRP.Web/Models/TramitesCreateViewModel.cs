@@ -41,5 +41,18 @@ namespace SoftCRP.Web.Models
         public string Observaciones { get; set; }
 
         public List<IFormFile> Files { get; set; }
+
+        
+        public IEnumerable<SelectListItem> Ciudades { get; set; }
+        [Display(Name = "Ciudad")]
+        public string CiudadId { get; set; }
+
+        public IEnumerable<SelectListItem> Dias { get; set; }
+        [Display(Name = "Dia")]
+        public string DiaId { get; set; }
+
+
+        public string validez { get; set; }
+        public string fechas { get; set; }
     }
 }

@@ -24,5 +24,10 @@ namespace SoftCRP.Web.Models
         public string ClienteId { get; set; }
         public IEnumerable<SelectListItem> Clientes { get; set; }
 
+        [Display(Name = "Ciudad")]
+        //[Range(1, int.MaxValue, ErrorMessage = "Debes seleccionar un Tipo.")]
+        public string CiudadId { get; set; }
+        public IEnumerable<SelectListItem> Ciudad { get; set; }
+
     }
 }

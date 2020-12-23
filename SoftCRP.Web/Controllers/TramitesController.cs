@@ -127,6 +127,7 @@ namespace SoftCRP.Web.Controllers
                 tramitesCreateViewModel.TramitesTypes = _combosHelper.GetComboTipoTramites();
                 tramitesCreateViewModel.Meses = _combosHelper.GetComboMes();
                 tramitesCreateViewModel.Anios = _combosHelper.GetComboAnio();
+                tramitesCreateViewModel.Ciudades = _combosHelper.GetComboCiudades();
             }
             else
             {
@@ -175,7 +176,9 @@ namespace SoftCRP.Web.Controllers
                     Anio=model.AnioId,
                     Mes=model.MesId,  
                     archivoTramites=archivoTramitesList,
-                    user = user
+                    user = user,
+                    Ciudad=model.CiudadId,
+                    Dia= Convert.ToInt32(model.DiaId)
                 };
 
                 _dataContext.tramites.Add(tramite);
@@ -221,6 +224,15 @@ namespace SoftCRP.Web.Controllers
             if (ModelState.IsValid)
             {
                 List<ArchivoTramites> archivoTramitesList = new List<ArchivoTramites>();
+                var validez = "NO AVISO";
+                if(model.validez=="1")
+                {
+                    validez = "AVISO";
+                }
+                string[] fechas = model.fechas.Split('-');
+                var fechainicio = Convert.ToDateTime(fechas[0]);
+                var fechafin = Convert.ToDateTime(fechas[1]);
+
                 if (model.Files != null)
                 {
                     foreach (IFormFile file in model.Files)
@@ -256,7 +268,12 @@ namespace SoftCRP.Web.Controllers
                     Anio = model.AnioId,
                     Mes = model.MesId,
                     archivoTramites=archivoTramitesList,
-                    user = user
+                    user = user,
+                    Ciudad = model.CiudadId,
+                    Dia = Convert.ToInt32(model.DiaId),
+                    Estado=validez,
+                    Desde=fechainicio,
+                    Hasta=fechafin,
                 };
 
                 _dataContext.tramites.Add(tramite);
@@ -270,6 +287,14 @@ namespace SoftCRP.Web.Controllers
                 //var emails = "roy_chavez15@hotmail.com";
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
                 var emails = user.Email + ',' + datos.Email;
+
+                //v2 email conductores
+                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
+
+                if(!string.IsNullOrEmpty(emailsdrivers))
+                {
+                    emails = emails + ',' + emailsdrivers;
+                }
 
                 //TODO: cambiar direccion de correo
                 _mailHelper.SendMailAttachment(emails, "Plataforma Clientes",
@@ -520,6 +545,22 @@ namespace SoftCRP.Web.Controllers
             await _logRepository.SaveLogs("Descargar", "Descargar Archivo Trámites Id: " + file.Id.ToString(), "Trámites", User.Identity.Name);
             //return _fileHelper.GetFileAsStream(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
             return _fileHelper.GetFile(file.ArchivoPath.Substring(1)) ?? (IActionResult)NotFound();
+        }
+
+        public async Task<JsonResult> GetDias(string Anio, string Mes)
+        {
+
+            if (string.IsNullOrEmpty(Anio) && string.IsNullOrEmpty(Mes))
+            {
+                return null;
+            }
+
+            var dias = _combosHelper.GetComboDias(Anio, Mes);
+            if (dias == null)
+            {
+                return null;
+            }
+            return Json(dias.ToList().OrderBy(d => d.Text));
         }
 
     }

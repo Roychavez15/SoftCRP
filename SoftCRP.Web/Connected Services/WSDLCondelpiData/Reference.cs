@@ -268,9 +268,13 @@ namespace WSDLCondelpiData
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_NOMBRE_CONDUCTOR_PLACAAsync(string key, string placa);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_RENTING10", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_consulta_total_renting_vh_particularidades", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_RENTING10Async(string key, string placa, string ruc);
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_consulta_total_renting_vh_particularidadesAsync(string key, string placa);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_clientes_renting_nombre_conductor", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_clientes_renting_nombre_conductorAsync(string key, string placa);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_RENTING11", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -717,9 +721,14 @@ namespace WSDLCondelpiData
             return base.Channel.RENTING_CLIENTES_RENTING_NOMBRE_CONDUCTOR_PLACAAsync(key, placa);
         }
         
-        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_RENTING10Async(string key, string placa, string ruc)
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_consulta_total_renting_vh_particularidadesAsync(string key, string placa)
         {
-            return base.Channel.WS_RENTING10Async(key, placa, ruc);
+            return base.Channel.WS_consulta_total_renting_vh_particularidadesAsync(key, placa);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_clientes_renting_nombre_conductorAsync(string key, string placa)
+        {
+            return base.Channel.WS_clientes_renting_nombre_conductorAsync(key, placa);
         }
         
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_RENTING11Async(string key, string placa, string ruc)

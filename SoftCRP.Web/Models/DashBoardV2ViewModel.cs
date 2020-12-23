@@ -15,6 +15,8 @@ namespace SoftCRP.Web.Models
 
         public EstadisticasV2ViewModel EstadisticasV2ViewModel { get; set; }
 
+        public EstadisticasViewModel EstadisticasViewModel { get; set; }
+
 
         public string ClienteId { get; set; }
         public IEnumerable<SelectListItem> Clientes { get; set; }

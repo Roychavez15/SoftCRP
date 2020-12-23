@@ -8,6 +8,9 @@ namespace SoftCRP.Web.Helpers
 {
     public interface ICombosHelper
     {
+        IEnumerable<SelectListItem> GetComboMesNew();
+        IEnumerable<SelectListItem> GetComboDias(string Anio, string Mes);
+        IEnumerable<SelectListItem> GetComboCiudades();
         Task<IEnumerable<SelectListItem>> GetComboPlacasGPS(string Nit);
         IEnumerable<SelectListItem> GetComboAnio();
         IEnumerable<SelectListItem> GetComboMes();

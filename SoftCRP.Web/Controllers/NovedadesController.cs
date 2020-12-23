@@ -292,7 +292,8 @@ namespace SoftCRP.Web.Controllers
                 var datos = await _userHelper.GetUserByCedulaAsync(model.cedula);
                 var emails = user.Email + ',' + datos.Email;
 
-                    var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
+
+                var idMotivo = await _datosRepository.GetTipoIncidenciaIdAsync(model.MotivoId);
                     var idSubmotivo = await _datosRepository.GetSubMotivosIncidenciaIdAsync(model.SubMotivoId);
                     var incidencia = new IncidenciaCreateViewModel
                     {
@@ -309,7 +310,14 @@ namespace SoftCRP.Web.Controllers
                     {
                         emails = emails + ',' + idSubmotivo.Correo_solucionadores;
                     }
-                
+
+                //v2 email conductores
+                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
+
+                if (!string.IsNullOrEmpty(emailsdrivers))
+                {
+                    emails = emails + ',' + emailsdrivers;
+                }
                 ///
                 var lognovedad = new LogNovedad
                 {

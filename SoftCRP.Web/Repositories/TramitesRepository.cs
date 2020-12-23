@@ -72,23 +72,48 @@ namespace SoftCRP.Web.Repositories
 
         }
 
-        public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin, string filter)
+        public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin, string filter, string Ciudad)
         {
             if (!string.IsNullOrEmpty(filter))
             {
-                return await _dataContext.tramites
-                    .Include(t => t.tipoTramite)
-                    .Include(a => a.archivoTramites)
-                    .Include(u => u.user)
-                    .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1))).ToListAsync();
+                if(!string.IsNullOrEmpty(Ciudad))
+                {
+                    return await _dataContext.tramites
+                        .Include(t => t.tipoTramite)
+                        .Include(a => a.archivoTramites)
+                        .Include(u => u.user)
+                        .Where(f => f.Cedula == filter && f.Ciudad== Ciudad && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1))).ToListAsync();
+                }
+                else
+                {
+                    return await _dataContext.tramites
+                        .Include(t => t.tipoTramite)
+                        .Include(a => a.archivoTramites)
+                        .Include(u => u.user)
+                        .Where(f => f.Cedula == filter && (f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1))).ToListAsync();
+                }
+
             }
             else
             {
-                return await _dataContext.tramites
-                    .Include(t => t.tipoTramite)
-                    .Include(a => a.archivoTramites)
-                    .Include(u => u.user)
-                    .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
+                if (!string.IsNullOrEmpty(Ciudad))
+                {
+                    return await _dataContext.tramites
+                        .Include(t => t.tipoTramite)
+                        .Include(a => a.archivoTramites)
+                        .Include(u => u.user)
+                        .Where(f => f.Ciudad == Ciudad && f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
+                }
+                else
+                {
+                    return await _dataContext.tramites
+                        .Include(t => t.tipoTramite)
+                        .Include(a => a.archivoTramites)
+                        .Include(u => u.user)
+                        .Where(f => f.Fecha >= Inicio && f.Fecha <= Fin.AddDays(1)).ToListAsync();
+                }
+
+
             }
         }
     }

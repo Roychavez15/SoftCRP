@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftCRP.Web.Data;
 
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201222022226_newfieldTramites")]
+    partial class newfieldTramites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,23 +295,6 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("capacitaciones");
                 });
 
-            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Ciudad", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<bool>("isActive");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ciudades");
-                });
-
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -556,15 +541,9 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<string>("Ciudad");
 
-                    b.Property<DateTime>("Desde");
-
                     b.Property<int>("Dia");
 
-                    b.Property<string>("Estado");
-
                     b.Property<DateTime>("Fecha");
-
-                    b.Property<DateTime>("Hasta");
 
                     b.Property<string>("Mes")
                         .IsRequired();

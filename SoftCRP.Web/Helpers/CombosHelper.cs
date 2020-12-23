@@ -54,6 +54,34 @@ namespace SoftCRP.Web.Helpers
             return list;
             //throw new NotImplementedException();
         }
+        public IEnumerable<SelectListItem> GetComboMesNew()
+        {
+            var list = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Enero", Value = "1"},
+                new SelectListItem {Text = "Febrero", Value = "2"},
+                new SelectListItem {Text = "Marzo", Value = "3"},
+                new SelectListItem {Text = "Abril", Value = "4"},
+                new SelectListItem {Text = "Mayo", Value = "5"},
+                new SelectListItem {Text = "Junio", Value = "6"},
+                new SelectListItem {Text = "Julio", Value = "7"},
+                new SelectListItem {Text = "Agosto", Value = "8"},
+                new SelectListItem {Text = "Septiembre", Value = "9"},
+                new SelectListItem {Text = "Octubre", Value = "10"},
+                new SelectListItem {Text = "Noviembre", Value = "11"},
+                new SelectListItem {Text = "Diciembre", Value = "12"}
+            };
+
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Seleccionar un Mes...)",
+                Value = ""
+            });
+
+            return list;
+            //throw new NotImplementedException();
+        }
         public IEnumerable<SelectListItem> GetComboAnio()
         {
             var list = new List<SelectListItem>
@@ -376,6 +404,93 @@ namespace SoftCRP.Web.Helpers
 
             return myList.OrderBy(n=>n.Text);
             //throw new NotImplementedException();
+        }
+
+        public IEnumerable<SelectListItem> GetComboCiudades()
+        {
+            var list = _dataContext.ciudades.Where(a => a.isActive == true).Select(ta => new SelectListItem
+            {
+                Text = ta.Nombre,
+                Value = $"{ta.Nombre}",
+            })
+                .OrderBy(ta => ta.Text)
+                .ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Seleccionar Ciudad...]",
+                Value = ""
+            });
+
+            return list;
+            //throw new NotImplementedException();
+        }
+        public IEnumerable<SelectListItem> GetComboDias(string Anio, string Mes)
+        {
+            List<SelectListItem> myList = new List<SelectListItem>();
+
+            int mes = 0;
+            if(Mes=="Enero")
+            {
+                mes = 1;
+            }
+            else if(Mes=="Febrero")
+            {
+                mes = 2;
+            }
+            else if (Mes == "Marzo")
+            {
+                mes = 3;
+            }
+            else if (Mes == "Abril")
+            {
+                mes = 4;
+            }
+            else if (Mes == "Mayo")
+            {
+                mes = 5;
+            }
+            else if (Mes == "Junio")
+            {
+                mes = 6;
+            }
+            else if (Mes == "Julio")
+            {
+                mes = 7;
+            }
+            else if (Mes == "Agosto")
+            {
+                mes = 8;
+            }
+            else if (Mes == "Septiembre")
+            {
+                mes = 9;
+            }
+            else if (Mes == "Octubre")
+            {
+                mes = 10;
+            }
+            else if (Mes == "Noviembre")
+            {
+                mes = 11;
+            }
+            else if (Mes == "Diciembre")
+            {
+                mes = 12;
+            }
+            int days = System.DateTime.DaysInMonth(Convert.ToInt32(Anio), mes);
+
+            for(int i=1;i<=days;i++)
+            {
+                var data =
+                     new SelectListItem
+                     {
+                         Value = i.ToString(),
+                         Text = i.ToString("00"),
+                     };
+                myList.Add(data);
+            }
+            return myList.OrderBy(n => n.Text);
         }
     }
 }

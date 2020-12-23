@@ -194,6 +194,7 @@ namespace SoftCRP.Web.Controllers
             reporte.Fin = DateTime.Now;
             reporte.tramites = null;
             reporte.Clientes = _combosHelper.GetComboClientes();
+            reporte.Ciudad = _combosHelper.GetComboCiudades();
             return View(reporte);
         }
 
@@ -208,9 +209,10 @@ namespace SoftCRP.Web.Controllers
 
             reporte.Inicio = inicio;
             reporte.Fin = fin;
-            var tramiteslist = await _tramitesRepository.GetTramiteReportesAsync(model.Inicio, model.Fin, model.ClienteId);
+            var tramiteslist = await _tramitesRepository.GetTramiteReportesAsync(model.Inicio, model.Fin, model.ClienteId, model.CiudadId);
             reporte.tramites = await TonewTramites(tramiteslist.ToList());
             reporte.Clientes = _combosHelper.GetComboClientes();
+            reporte.Ciudad = _combosHelper.GetComboCiudades();
             return View(reporte);
         }
         private async Task<List<Tramite>> TonewTramites(List<Tramite> tramites)
@@ -230,6 +232,8 @@ namespace SoftCRP.Web.Controllers
                 ali.tipoTramite = ana.tipoTramite;
                 ali.tipoTramiteId = ana.tipoTramiteId;
                 ali.user = ana.user;
+                ali.Ciudad = ana.Ciudad;
+                ali.Dia = ana.Dia;
                 ali.userCliente = await _userHelper.GetUserByCedulaAsync(ana.Cedula);
                 
                 lista.Add(ali);
