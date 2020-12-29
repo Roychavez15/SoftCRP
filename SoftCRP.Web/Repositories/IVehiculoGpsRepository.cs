@@ -8,6 +8,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IVehiculoGpsRepository : IGenericRepository<VehiculoGps>
     {
+        Task InsertaVehiculo(VehiculoGps vehiculoGps);
         IEnumerable<VehiculoGps> GetVehiculosGPSAsync(int dia, int mes, int anio, string userId, string vehiculoId);
         Task<VehiculoGps> GetVehiculoByDateAsync(int dia, int mes, int anio, int vehiculoId);
     }

@@ -28,6 +28,7 @@ namespace SoftCRP.Web.Repositories
         private readonly ILogRepository _logRepository;
         private readonly IGamaRepository _gamaRepository;
 
+
         public DatosRepository(
             DataContext context,
             IConfiguration configuration,
@@ -48,6 +49,7 @@ namespace SoftCRP.Web.Repositories
             _incidenciasRepository = incidenciasRepository;
             _logRepository = logRepository;
             _gamaRepository = gamaRepository;
+
         }
         public async Task<DatosAuto> GetDatosAutoAsync(string placa)
         {
@@ -295,7 +297,17 @@ namespace SoftCRP.Web.Repositories
                                         vehiculo.user = usuario;
                                         vehiculo.Placa = auto.Placa;
                                         vehiculo.gps_provider = vehiculoProvGps.Gps.Trim();
-                                        vehiculo.gps_id = vehiculoProvGps.Gps.Trim();
+                                        
+                                        if (vehiculoProvGps.Gps.Trim() != "LOCATION-WORLD")
+                                        {
+                                            vehiculo.gps_id = vehiculoProvGps.Gps.Trim();
+                                        }
+                                        else
+                                        {
+                                            //var token = _locationWorldRepository.getToken();
+                                            //var dispositivos = _locationWorldRepository.getDataDevices(token);
+                                            vehiculo.gps_id = null;
+                                        }
 
                                         try
                                         {
@@ -306,6 +318,10 @@ namespace SoftCRP.Web.Repositories
                                         {
 
                                         }
+
+                                    }
+                                    else //para id de location world
+                                    {
 
                                     }
                                 }

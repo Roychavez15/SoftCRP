@@ -127,6 +127,7 @@ namespace SoftCRP.Web
             services.AddScoped<IVehiculoGpsRepository, VehiculoGpsRepository>();
             services.AddScoped<IIncidenciasRepository, IncidenciasRepository>();
             services.AddScoped<IGamaRepository, GamaRepository>();
+            services.AddScoped<ILocationWorldRepository, LocationWorldRepository>();
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -171,6 +172,7 @@ namespace SoftCRP.Web
             //servicios
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateProvGpsService>();
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateCGBService>();
+            services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateLWDeviceIDService>();
 
             services.AddMvc(properties =>
             {

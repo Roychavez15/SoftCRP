@@ -80,5 +80,10 @@ namespace SoftCRP.Web.Repositories
             }
 
         }
+        public async Task InsertaVehiculo(VehiculoGps vehiculoGps)
+        {
+            await _dataContext.vehiculosGps.AddAsync(vehiculoGps);
+            await _dataContext.SaveChangesAsync();
+        }
     }
 }

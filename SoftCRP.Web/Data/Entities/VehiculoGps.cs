@@ -24,7 +24,7 @@ namespace SoftCRP.Web.Data.Entities
         public string latitude { get; set; }
         public string longitude { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public decimal score { get; set; }
         public int ahorro { get; set; }
 
