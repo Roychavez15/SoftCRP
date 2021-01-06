@@ -1,0 +1,111 @@
+﻿@model IEnumerable<SoftCRP.Web.Models.ResumenPlacasViewModel>
+@{
+    ViewData["Title"] = "Mantenimiento";
+}
+
+@if (Model == null)
+{
+    <h2> No existen Datos de GPS</h2>
+
+}
+else
+{
+    <table class="table table-bordered table-striped table-responsive" id="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>PLACA</th>
+                <th>EVENTO</th>
+                <th>TIPO</th>
+                <th>ESTADO</th>
+                <th>USUARIO</th>
+                <th>DETALLE OC</th>
+                <th>ASESOR ASIGNADO</th>
+                <th>CIUDAD ÚLTIMO MMTO</th>
+                <th>ÚLTIMA RUTINA EJECUTADA</th>
+                <th>FECHA MANTENIMIENTO</th>
+                <th>Mes</th>
+                <th>Anio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ToList())
+            {
+                <tr>
+                    <td></td>
+                    <td>@Html.DisplayFor(modelItem => item.placa)</td>
+                    <td>@Html.DisplayFor(modelItem => item.evento)</td>
+                    <td>@Html.DisplayFor(modelItem => item.tipo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.usuario)</td>
+                    <td>@Html.DisplayFor(modelItem => item.detalle_oc)</td>
+                    <td>@Html.DisplayFor(modelItem => item.estado)</td>
+                    <td>@Html.DisplayFor(modelItem => item.usuario_asesor)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ciudad_ult_mmto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ult_rutina)</td>
+                    <td>@Html.DisplayFor(modelItem => item.fecha_mmto)</td>
+                    <td>
+                        @{
+                            var mes = Convert.ToDateTime(item.fecha_mmto).Month;
+                            var messalida = "";
+                            if (mes == 1)
+                            {
+                                messalida = "Enero";
+                            }
+                            else if (mes == 2)
+                            {
+                                messalida = "Febrero";
+                            }
+                            else if (mes == 3)
+                            {
+                                messalida = "Marzo";
+                            }
+                            else if (mes == 4)
+                            {
+                                messalida = "Abril";
+                            }
+                            else if (mes == 5)
+                            {
+                                messalida = "Mayo";
+                            }
+                            else if (mes == 6)
+                            {
+                                messalida = "Junio";
+                            }
+                            else if (mes == 7)
+                            {
+                                messalida = "Julio";
+                            }
+                            else if (mes == 8)
+                            {
+                                messalida = "Agosto";
+                            }
+                            else if (mes == 9)
+                            {
+                                messalida = "Septiembre";
+                            }
+                            else if (mes == 10)
+                            {
+                                messalida = "Octubre";
+                            }
+                            else if (mes == 11)
+                            {
+                                messalida = "Noviembre";
+                            }
+                            else if (mes == 12)
+                            {
+                                messalida = "Diciembre";
+                            }
+                            @messalida;
+                        }
+                    </td>
+                    <td>
+                        @{
+                            var anio = Convert.ToDateTime(item.fecha_mmto).Year;
+                            @Html.DisplayFor(modelItem => anio);
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

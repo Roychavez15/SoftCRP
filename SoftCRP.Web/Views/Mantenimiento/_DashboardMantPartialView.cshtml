@@ -1,0 +1,40 @@
+﻿@model SoftCRP.Web.Models.DashboardMantViewModel
+@{
+    ViewData["Title"] = "Mantenimiento";
+}
+
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Registrado para ingreso mantenimiento</p>
+                <h3>@Model.vehiculo_registrado_ingreso</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Cita confirmada</p>
+                <h3>@Model.cita_confirmada</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Vehículo ingresado</p>
+                <h3>@Model.vehiculo_ingresado</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Fuera de taller</p>
+                <h3>@Model.vehiculo_fuera_taller</h3>
+            </div>
+        </div>
+    </div>
+</div>

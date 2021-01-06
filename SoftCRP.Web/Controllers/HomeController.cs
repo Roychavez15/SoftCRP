@@ -143,7 +143,7 @@ namespace SoftCRP.Web.Controllers
                     }
                     else if (this.User.IsInRole("Admin") || this.User.IsInRole("Renting"))
                     {
-
+                        
                         model.Clientes = _combosHelper.GetComboClientes();
                         await GetPlacas("0");
                         model.Meses = _combosHelper.GetComboMes();

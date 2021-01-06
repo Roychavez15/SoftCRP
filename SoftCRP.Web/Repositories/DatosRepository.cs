@@ -217,6 +217,7 @@ namespace SoftCRP.Web.Repositories
             var key = _configuration["KeyWs"];
 
             var dataxml = await _service1Soap.Get_consulta_totalAsync(key);
+            
             if (dataxml != null)
             {
                 XmlDocument document = new XmlDocument();
@@ -1485,6 +1486,50 @@ namespace SoftCRP.Web.Repositories
             }
 
             return nombre;
+
+        }
+        public async Task<IEnumerable<MantEstadosCuantosViewModel>> GetMantenimientoEstadoCuantos(string Nit)
+        {
+            var key = _configuration["KeyWs"];
+            List<MantEstadosCuantosViewModel> Cuantos = new List<MantEstadosCuantosViewModel>();
+
+            var dataxml = await _service1Soap.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, Nit);
+            if (dataxml != null)
+            {
+                XmlDocument document = new XmlDocument();
+
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+
+                if (Datos.Count > 0)
+                {
+                    XmlNodeList lista1 =
+                        ((XmlElement)Datos[0]).GetElementsByTagName("data");
+
+                    foreach (XmlElement nodo in lista1)
+                    {
+                        var Nit_cliente = verificanodo(nodo, "Nit_cliente");
+                        var Cliente = verificanodo(nodo, "Cliente");
+                        var id_estado = verificanodo(nodo, "id_estado");
+                        var estado = verificanodo(nodo, "estado");
+                        var cuantos = verificanodo(nodo, "cuantos");
+
+                        MantEstadosCuantosViewModel cuantosVM = new MantEstadosCuantosViewModel();
+
+                        cuantosVM.Nit_cliente = Nit_cliente;
+                        cuantosVM.Cliente = Cliente;
+                        cuantosVM.id_estado = id_estado;
+                        cuantosVM.estado = estado;
+                        cuantosVM.cuantos = cuantos;
+
+                        Cuantos.Add(cuantosVM);
+                    }
+
+                }
+            }
+            return Cuantos
+                //.Where(t => t.Tipo == tipo)
+                .ToList();
 
         }
     }
