@@ -46,7 +46,7 @@ namespace SoftCRP.Web.Repositories
 
             return await _dataContext.vehiculos
                 .Include(u=> u.user)
-                .Where(c => c.gps_provider=="CGB")
+                .Where(c => c.gps_provider.Contains("CGB"))
                 .ToListAsync();
         }
         public async Task<Vehiculo> GetVehiculoByIdAsync(int Id)

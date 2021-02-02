@@ -243,6 +243,7 @@ namespace SoftCRP.Web.Repositories
                     var score = 0M;
                     var longitude = "";
                     var latitude = "";
+                    var sharpTurn = 0;
 
                     if (valores.Count() > 0)
                     {
@@ -266,7 +267,7 @@ namespace SoftCRP.Web.Repositories
                         year = dateDT.Year.ToString();
                         month = dateDT.Month.ToString();
                         trips = items.Count;
-                        score /= trips;
+                        //score /= trips;
                         //hardBreaking /= trips;
                         //sharpAcceleration /= trips;
 
@@ -294,18 +295,26 @@ namespace SoftCRP.Web.Repositories
                             }
                         }
 
+                        var suma = 0M;
+                        
+                        if(incidencias!=null)
+                        {
+                            suma = incidencias.ExcesoVelocidad * Convert.ToInt32(speeding)
+                                + incidencias.FrenazoBrusco * Convert.ToInt32(hardBreaking)
+                                + incidencias.AceleracionesBruscas * Convert.ToInt32(sharpAcceleration)
+                                + incidencias.GiroBrusco * Convert.ToInt32(sharpTurn); //TODO
 
-                        //var suma = incidencias.ExcesoVelocidad * Convert.ToInt32(speeding)
-                        //    + incidencias.FrenazoBrusco * Convert.ToInt32(hardBreaking)
-                        //    + incidencias.AceleracionesBruscas * Convert.ToInt32(sharpAcceleration);
-                        //    //+ incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>()); //TODO
+                        }
+                        else
+                        {
+                            suma = 0;
+                        }
 
-                        //var score = 0M;
 
-                        //if (distance > 0)
-                        //{
-                        //    score = 100 - (suma / (Convert.ToDecimal(distance) / 100));
-                        //}
+                        if (distance > 0)
+                        {
+                            score = 100 - (suma / (Convert.ToDecimal(distance) / 100));
+                        }
 
                         if (datosgps == null)
                         {
@@ -390,7 +399,7 @@ namespace SoftCRP.Web.Repositories
         {
             return await _dataContext.vehiculos
                 .Include(u => u.user)
-                .Where(p => p.gps_provider == "LOCATION-WORLD" && p.gps_id != null)
+                .Where(p => p.gps_provider.Contains("LOCATION-WORLD") && p.gps_id != null)
                 .ToListAsync();
 
 

@@ -45,7 +45,10 @@ namespace SoftCRP.Web.Data
         public DbSet<VehiculoGps> vehiculosGps { get; set; }
         public DbSet<Gama> gamas { get; set; }
         public DbSet<Incidencia> incidencias { get; set; }
-        public DbSet<Ciudad> ciudades { get; set; } 
+        public DbSet<Ciudad> ciudades { get; set; }
+
+        public DbSet<LastRecordIturan> lastRecords { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<VehiculoGps>()

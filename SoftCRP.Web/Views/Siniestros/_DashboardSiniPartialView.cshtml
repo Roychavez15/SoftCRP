@@ -1,0 +1,32 @@
+﻿@model SoftCRP.Web.Models.SiniestrosViewModel
+@{
+    ViewData["Title"] = "Siniestro";
+}
+
+<div class="row" style="justify-content:center">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Total siniestros</p>
+                <h3>@Model.Total_Siniestros</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Siniestros no finalizados</p>
+                <h3>@Model.Eventos_Siniestros1</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Siniestros finalizados</p>
+                <h3>@Model.Eventos_Siniestros</h3>
+            </div>
+        </div>
+    </div>
+</div>

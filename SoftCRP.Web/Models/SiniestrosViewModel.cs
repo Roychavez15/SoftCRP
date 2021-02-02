@@ -13,5 +13,7 @@ namespace SoftCRP.Web.Models
         public string Nit { get; set; }
         public string Placa { get; set; }
         public string Cliente { get; set; }
+        public int mes { get; set; }
+        public int anio { get; set; }
     }
 }

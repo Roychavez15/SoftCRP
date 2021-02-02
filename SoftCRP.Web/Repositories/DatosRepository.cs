@@ -57,7 +57,7 @@ namespace SoftCRP.Web.Repositories
             DatosAuto datos = new DatosAuto();
 
             var key = _configuration["KeyWs"];
-
+            
             var dataxml = await _service1Soap.Consulta_Data_autoAsync(key, placa);
             if (dataxml != null)
             {
@@ -476,11 +476,21 @@ namespace SoftCRP.Web.Repositories
                 }
                 
             }
-
-            return Vehiculos
+            if(nit!= "1791287835001")
+            {
+                return Vehiculos
                 .Where(s => s.historial_vh == "VIGENTE CON CONTRATO" || s.historial_vh == "STAND BY")
-                .OrderBy(o=> o.codigo_activo)
-                .ToList();            
+                .OrderBy(o => o.codigo_activo)
+                .ToList();
+                        }
+            else
+            {
+                return Vehiculos
+                .Where(s => s.historial_vh != "VIGENTE CON CONTRATO" && s.historial_vh != "STAND BY")
+                .OrderBy(o => o.codigo_activo)
+                .ToList();
+            }
+            
         } 
 
 
@@ -930,12 +940,16 @@ namespace SoftCRP.Web.Repositories
                         }
                     }
 
+                    var suma = 0M;
+                    if(incidencias!=null)
+                    {
+                        suma = incidencias.ExcesoVelocidad * Convert.ToInt32(response["speeding"].Value<string>())
+                            + incidencias.FrenazoBrusco * Convert.ToInt32(response["hardBraking"].Value<string>())
+                            + incidencias.AceleracionesBruscas * Convert.ToInt32(response["sharpAcceleration"].Value<string>())
+                            + incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>());
 
-                    var suma = incidencias.ExcesoVelocidad * Convert.ToInt32(response["speeding"].Value<string>())
-                        + incidencias.FrenazoBrusco * Convert.ToInt32(response["hardBraking"].Value<string>())
-                        + incidencias.AceleracionesBruscas * Convert.ToInt32(response["sharpAcceleration"].Value<string>())
-                        + incidencias.GiroBrusco * Convert.ToInt32(response["sharpTurn"].Value<string>());
-                    
+                    }
+
                     var score = 0M;
 
                     if (Convert.ToDecimal(response["odometer"].Value<string>().Replace(".", ","))>0)
@@ -1197,13 +1211,94 @@ namespace SoftCRP.Web.Repositories
 
         }
 
+        public async Task<IEnumerable<SiniestrosDetalleViewModel>> GetSiniestrosDetalleAsync(string Nit, string Placa)
+        {
+            var key = _configuration["KeyWs"];
+            List<SiniestrosDetalleViewModel> Siniestros = new List<SiniestrosDetalleViewModel>();
 
-        public async Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa)
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_SINIESTROS_DETALLEAsync(key, Placa, Nit);
+
+            if (dataxml != null)
+            {
+                XmlDocument document = new XmlDocument();
+
+                document.LoadXml(dataxml.Nodes[1].ToString());
+                XmlNodeList Datos = document.GetElementsByTagName("NewDataSet");
+                if (Datos.Count > 0)
+                {
+                    XmlNodeList lista1 =
+                        ((XmlElement)Datos[0]).GetElementsByTagName("data");
+                    foreach (XmlElement nodo in lista1)
+                    {
+                        //var dat= nodo[0].InnerText
+                        XmlNodeList placa =
+                            nodo.GetElementsByTagName("placa");
+                        XmlNodeList usuario =
+                            nodo.GetElementsByTagName("usuario");
+                        XmlNodeList evento =
+                            nodo.GetElementsByTagName("evento");
+                        XmlNodeList estado =
+                            nodo.GetElementsByTagName("estado");
+                        XmlNodeList tiempo_siniestro =
+                            nodo.GetElementsByTagName("tiempo_siniestro");
+                        XmlNodeList cliente =
+                            nodo.GetElementsByTagName("cliente");
+                        XmlNodeList nombre_cliente =
+                            nodo.GetElementsByTagName("nom_cliente");
+                        XmlNodeList tipo_siniestro =
+                            nodo.GetElementsByTagName("tipo_siniestro");
+                        XmlNodeList anotaciones =
+                            nodo.GetElementsByTagName("anotaciones");
+                        XmlNodeList fecha_siniestro =
+                            nodo.GetElementsByTagName("fecha_siniestro");
+                        XmlNodeList ano =
+                            nodo.GetElementsByTagName("ano");
+                        XmlNodeList mes =
+                            nodo.GetElementsByTagName("mes");
+
+                        SiniestrosDetalleViewModel siniestroData = new SiniestrosDetalleViewModel();
+
+                        siniestroData.placa = placa[0].InnerText;
+                        siniestroData.usuario = usuario[0].InnerText;
+                        siniestroData.evento = int.Parse(evento[0].InnerText);
+                        siniestroData.estado = estado[0].InnerText;
+                        siniestroData.tiempo_siniestro = tiempo_siniestro[0].InnerText;
+                        siniestroData.cliente = cliente[0].InnerText;
+                        siniestroData.nombre_cliente = nombre_cliente[0].InnerText;
+                        siniestroData.tipo_siniestro = tipo_siniestro[0].InnerText;
+                        if (anotaciones.Count > 0)
+                        {
+                            siniestroData.anotaciones = anotaciones[0].InnerText;
+                        }
+                        if (fecha_siniestro.Count > 0)
+                        {
+                            siniestroData.fecha_siniestro = fecha_siniestro[0].InnerText;
+                        }
+                        if (ano.Count > 0)
+                        {
+                            siniestroData.anio = int.Parse(ano[0].InnerText);
+                        }
+                        if (mes.Count > 0)
+                        {
+                            siniestroData.mes = int.Parse(mes[0].InnerText);
+                        }
+
+                        Siniestros.Add(siniestroData);
+                    }
+
+                }
+            }
+            return Siniestros
+            //.Where(t => t.Tipo == tipo)
+            .ToList();
+        }
+
+        public async Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa, string mes, string anio)
         {
             var key = _configuration["KeyWs"];
             List<SustitutosViewModel> Sustitutos = new List<SustitutosViewModel>();
 
-            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(key, Placa, Nit);
+            var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(key, Placa, Nit, mes, anio);
 
             XmlDocument document = new XmlDocument();
 
@@ -1488,12 +1583,12 @@ namespace SoftCRP.Web.Repositories
             return nombre;
 
         }
-        public async Task<IEnumerable<MantEstadosCuantosViewModel>> GetMantenimientoEstadoCuantos(string Nit)
+        public async Task<IEnumerable<MantEstadosCuantosViewModel>> GetMantenimientoEstadoCuantos(string Nit, string mes, string anio)
         {
             var key = _configuration["KeyWs"];
             List<MantEstadosCuantosViewModel> Cuantos = new List<MantEstadosCuantosViewModel>();
 
-            var dataxml = await _service1Soap.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, Nit);
+            var dataxml = await _service1Soap.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, Nit, mes, anio);
             if (dataxml != null)
             {
                 XmlDocument document = new XmlDocument();

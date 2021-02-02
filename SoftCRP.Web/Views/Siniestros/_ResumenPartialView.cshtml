@@ -1,6 +1,6 @@
-﻿@model IEnumerable<SoftCRP.Web.Models.ResumenPlacasViewModel>
+﻿@model IEnumerable<SoftCRP.Web.Models.SiniestrosDetalleViewModel>
 @{
-    ViewData["Title"] = "Mantenimiento";
+    ViewData["Title"] = "Siniestros";
 }
 
 @if (Model == null)
@@ -16,14 +16,12 @@ else
                 <th></th>
                 <th>PLACA</th>
                 <th>EVENTO</th>
-                <th>TIPO</th>
-                <th>USUARIO</th>
                 <th>ESTADO</th>
-                <th>DETALLE OC</th>
-                <th>ASESOR ASIGNADO</th>
-                <th>CIUDAD ÚLTIMO MMTO</th>
-                <th>ÚLTIMA RUTINA EJECUTADA</th>
-                <th>FECHA MANTENIMIENTO</th>
+                <th>USUARIO</th>
+                <th>TIEMPO DE SINIESTRO</th>
+                <th>TIPO DE SINIESTRO</th>
+                <th>ANOTACIONES</th>
+                <th>FECHA</th>
                 <th>Mes</th>
                 <th>Anio</th>
             </tr>
@@ -35,15 +33,13 @@ else
                 <td></td>
                 <td>@Html.DisplayFor(modelItem => item.placa)</td>
                 <td>@Html.DisplayFor(modelItem => item.evento)</td>
-                <td>@Html.DisplayFor(modelItem => item.tipo)</td>
-                <td>@Html.DisplayFor(modelItem => item.usuario)</td>
-                <td>@Html.DisplayFor(modelItem => item.detalle_oc)</td>
                 <td>@Html.DisplayFor(modelItem => item.estado)</td>
-                <td>@Html.DisplayFor(modelItem => item.usuario_asesor)</td>
-                <td>@Html.DisplayFor(modelItem => item.ciudad_ult_mmto)</td>
-                <td>@Html.DisplayFor(modelItem => item.ult_rutina)</td>
-                <td>@Html.DisplayFor(modelItem => item.fecha_mmto)</td>
-                @if (item.fecha_mmto.Trim() == "")
+                <td>@Html.DisplayFor(modelItem => item.usuario)</td>
+                <td>@Html.DisplayFor(modelItem => item.tiempo_siniestro)</td>
+                <td>@Html.DisplayFor(modelItem => item.tipo_siniestro)</td>
+                <td>@Html.DisplayFor(modelItem => item.anotaciones)</td>
+                <td>@Html.DisplayFor(modelItem => item.fecha_siniestro)</td>
+                @if (string.IsNullOrEmpty(item.fecha_siniestro))
                 {
                     <td></td>
                     <td></td>
@@ -52,7 +48,7 @@ else
                 {
                     <td>
                         @{
-                            var mes = Convert.ToDateTime(item.fecha_mmto).Month;
+                            var mes = item.mes;
                             var messalida = "";
                             if (mes == 1)
                             {
@@ -104,16 +100,14 @@ else
                             }
                             @messalida;
                         }
-
                     </td>
+                            }
                     <td>
                         @{
-                            var anio = Convert.ToDateTime(item.fecha_mmto).Year;
-                            @Html.DisplayFor(modelItem => anio);
+                            @Html.DisplayFor(modelItem => item.anio);
                         }
                     </td>
-                }
-            </tr>
+                </tr>
             }
         </tbody>
     </table>

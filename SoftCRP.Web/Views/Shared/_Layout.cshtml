@@ -467,19 +467,27 @@
                                     Capacitaciones Renting
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Conduccion" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-car"></i>
-                                    Conduccion
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-area="" class="nav-link" asp-controller="Mantenimiento" asp-action="Index" style="color:#ffffff">
-                                    <i class="nav-icon fas fa-tools"></i>
-                                    Mantenimiento
-                                </a>
-                            </li>
-
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Conduccion" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-car"></i>
+                                        Conduccion
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Mantenimiento" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-tools"></i>
+                                        Mantenimiento
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Siniestros" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-car-crash"></i>
+                                        Siniestros
+                                    </a>
+                                </li>
+                            }
                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                             {
                                 @*<li class="nav-item">

@@ -27,7 +27,7 @@ namespace SoftCRP.Web.Data
             await CheckAnalisisTypesAsync();
             await CheckTramitesTypesAsync();
             await CheckCapacitacionesTypesAsync();
-
+            await CheckLastRecordIturan();
             //var user = await this._userHelper.GetUserByEmailAsync("roy_chavez15@hotmail.com");
             var user = await this._userHelper.GetUserAsync("rchavez");
             if (user == null)
@@ -141,6 +141,15 @@ namespace SoftCRP.Web.Data
                 //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura", isActive = true });
                 await _context.SaveChangesAsync();
             }
+        }
+        private async Task CheckLastRecordIturan()
+        {
+            if (!_context.lastRecords.Any())
+            {
+                _context.lastRecords.Add(new Entities.LastRecordIturan { dia = DateTime.Now, codigo = "1182221432" });
+                await _context.SaveChangesAsync();
+            }
+
         }
     }
 }

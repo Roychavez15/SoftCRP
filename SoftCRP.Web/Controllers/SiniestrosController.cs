@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SoftCRP.Web.Data;
+using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
@@ -11,24 +13,24 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class MantenimientoController : Controller
+    public class SiniestrosController : Controller
     {
         private readonly IUserHelper _userHelper;
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;
         private readonly IVehiculoGpsRepository _vehiculoGpsRepository;
-        private readonly ILogger<MantenimientoController> _logger;
+        private readonly ILogger<SiniestrosController> _logger;
         private readonly DataContext _context;
         private readonly ICombosHelper _combosHelper;
         private readonly IDatosRepository _datosRepository;
-        public MantenimientoController(
-            IUserHelper userHelper,
-            IVehiculoProvGpsRepository vehiculoProvGpsRepository,
-            IVehiculoGpsRepository vehiculoGpsRepository,
-            ILogRepository logRepository,
-            IDatosRepository datosRepository,
-            ILogger<MantenimientoController> logger,
-            DataContext context,
-            ICombosHelper combosHelper)
+        public SiniestrosController(
+        IUserHelper userHelper,
+        IVehiculoProvGpsRepository vehiculoProvGpsRepository,
+        IVehiculoGpsRepository vehiculoGpsRepository,
+        ILogRepository logRepository,
+        IDatosRepository datosRepository,
+        ILogger<SiniestrosController> logger,
+        DataContext context,
+        ICombosHelper combosHelper)
         {
             _userHelper = userHelper;
             _logger = logger;
@@ -40,61 +42,46 @@ namespace SoftCRP.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            MantenimientoViewModel modelView = new MantenimientoViewModel();
+            SiniestrosDataViewModel modelView = new SiniestrosDataViewModel();
             DashBoardV2ViewModel model = new DashBoardV2ViewModel();
-            modelView.DashboardMantViewModel = new DashboardMantViewModel();
-
             if (!string.IsNullOrEmpty(this.User.Identity.Name))
             {
                 var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
 
                 if (user != null)
                 {
-                    model.Anios = _combosHelper.GetComboAnio();
-                    model.Meses = _combosHelper.GetComboMes();
                     if (this.User.IsInRole("Cliente"))
                     {
-                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
-                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos(user.Cedula, "", "");
-                        modelView.DashboardMantViewModel = getCuantos(cuantos);
+                        model.Anios = _combosHelper.GetComboAnio();
+                        model.Meses = _combosHelper.GetComboMes();
+                        var cuantos = await _datosRepository.GetSiniestrosAsync(user.Cedula, "");
+                        modelView.SiniestrosViewModel = getCuantos(cuantos);
+                        modelView.SiniestrosDetalleViewModel = await _datosRepository.GetSiniestrosDetalleAsync(user.Cedula, "");
                     }
                     else if (this.User.IsInRole("Admin") || this.User.IsInRole("Renting"))
                     {
                         model.Clientes = _combosHelper.GetComboClientes();
                         model.Anios = _combosHelper.GetComboAnio();
                         model.Meses = _combosHelper.GetComboMes();
-                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
-                        
-                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
-                        modelView.DashboardMantViewModel = getCuantos(cuantos);
+                        var cuantos = await _datosRepository.GetSiniestrosAsync("", "");
+                        modelView.SiniestrosViewModel = getCuantos(cuantos);
+                        modelView.SiniestrosDetalleViewModel = await _datosRepository.GetSiniestrosDetalleAsync("", "");
                     }
+                    modelView.DashBoardV2ViewModel = model;
                 }
             }
-            modelView.DashBoardV2ViewModel = model;
             return View(modelView);
         }
-        public DashboardMantViewModel getCuantos(IEnumerable<MantEstadosCuantosViewModel> cuantos)
+        public SiniestrosViewModel getCuantos(IEnumerable<SiniestrosViewModel> data)
         {
-            DashboardMantViewModel dashboardMant = new DashboardMantViewModel();
-            foreach (var dato in cuantos)
+            SiniestrosViewModel cuantos = new SiniestrosViewModel();
+            foreach (var dato in data)
             {
-                switch (dato.estado)
-                {
-                    case "VEHICULO FUERA DE TALLER":
-                        dashboardMant.vehiculo_fuera_taller += 1;
-                        break;
-                    case "CITA CONFIRMADA":
-                        dashboardMant.cita_confirmada += 1;
-                        break;
-                    case "VEHICULO INGRESADO":
-                        dashboardMant.vehiculo_ingresado += 1;
-                        break;
-                    case "REGISTRADO":
-                        dashboardMant.vehiculo_registrado_ingreso += 1;
-                        break;
-                }
+                cuantos.Total_Siniestros += dato.Total_Siniestros;
+                cuantos.Eventos_Siniestros += dato.Eventos_Siniestros;
+                cuantos.Eventos_Siniestros1 += dato.Eventos_Siniestros1;
             }
-            return dashboardMant;
+            return cuantos;
         }
         public async Task<IActionResult> GetEstadisticasV2(string UserId)
         {
@@ -103,46 +90,37 @@ namespace SoftCRP.Web.Controllers
                 UserId = "";
             }
 
-            var resultado = await _datosRepository.GetResumePlacasAsync(UserId, "");
+            var resultado = await _datosRepository.GetSiniestrosDetalleAsync(UserId, "");
             return PartialView("_ResumenPartialView", resultado);
         }
 
         public async Task<IActionResult> GetEstadisticasV2all()
         {
-            var resultado = await _datosRepository.GetResumePlacasAsync("", "");
+            var resultado = await _datosRepository.GetSiniestrosDetalleAsync("", "");
             return PartialView("_ResumenPartialView", resultado);
         }
 
 
         public async Task<IActionResult> getDashboard(string UserId)
         {
-            DashboardMantViewModel dashboardMant = new DashboardMantViewModel();
-            var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos(UserId, "", "");
+            var cuantos = await _datosRepository.GetSiniestrosAsync(UserId, "");
             var result = getCuantos(cuantos);
-            return PartialView("_DashboardMantPartialView", result);
+            return PartialView("_DashboardSiniPartialView", result);
         }
 
-
-        public async Task<IActionResult> getDashboardAll()
-        {
-            DashboardMantViewModel dashboardMant = new DashboardMantViewModel();
-            var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
-            var result = getCuantos(cuantos);
-            return PartialView("_DashboardMantPartialView", result);
-        }
         public async Task<IActionResult> getDashboardDate(string UserId, string mes, string anio)
         {
-            if (mes == null)
+            var cuantos = await _datosRepository.GetSiniestrosAsync(UserId, "");
+            if (mes != null)
             {
-                mes = "";
+                cuantos = cuantos.Where<SiniestrosViewModel>(u => u.mes == getMes(mes));
             }
-            if (anio == null)
+            if (anio != null)
             {
-                anio = "";
+                cuantos = cuantos.Where<SiniestrosViewModel>(u => u.anio == int.Parse(anio));
             }
-            var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos(UserId, mes, anio);
             var result = getCuantos(cuantos);
-            return PartialView("_DashboardMantPartialView", result);
+            return PartialView("_DashboardSiniPartialView", result);
         }
         public int getMes(string mes)
         {

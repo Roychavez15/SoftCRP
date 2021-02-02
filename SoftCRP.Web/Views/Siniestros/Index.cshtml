@@ -1,18 +1,19 @@
-﻿@model SoftCRP.Web.Models.MantenimientoViewModel
+﻿
+@model SoftCRP.Web.Models.SiniestrosDataViewModel
 @{
-    ViewData["Title"] = "Mantenimiento";
+    ViewData["Title"] = "Siniestros";
 }
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header" style="background-color:#002D73; color:#ffffff;">
-                <h2 class="card-title"><strong>MANTENIMIENTO</strong></h2>
+                <h2 class="card-title"><strong>SINIESTROS</strong></h2>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col" style="overflow-x:auto">
                         <div id="Dashboard">
-                            <partial name="_DashboardMantPartialView" , model="@Model.DashboardMantViewModel">
+                            <partial name="_DashboardSiniPartialView" , model="@Model.SiniestrosViewModel">
                         </div>
 
                     </div>
@@ -28,20 +29,12 @@
                         <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
                         </select>
                     </div>
-
-                    @*<div class="form-group col-md-2 col-sm-6">
-                            <label for="anio_search">Año</label>
-                            <input type="text" class="form-control" id="anio_search">
-                        </div>*@
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="AnioId">Año</label>
                         <select asp-for="DashBoardV2ViewModel.AnioId" asp-items="Model.DashBoardV2ViewModel.Anios" class="form-control select2">
                         </select>
                     </div>
-                    @*<div class="form-group col-md-2 col-sm-6">
-                            <label for="mes_search">Mes</label>
-                            <input type="text" class="form-control" id="mes_search">
-                        </div>*@
+
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="MesId">Mes</label>
                         <select asp-for="DashBoardV2ViewModel.MesId" asp-items="Model.DashBoardV2ViewModel.Meses" class="form-control select2">
@@ -51,7 +44,7 @@
                 <div class="row">
                     <div class="col" style="overflow-x:auto">
                         <div id="ResumenV2">
-                            <partial name="_ResumenPartialView" , model="@Model.ResumenPlacasViewModel">
+                            <partial name="_ResumenPartialView" , model="@Model.SiniestrosDetalleViewModel">
                         </div>
 
                     </div>
@@ -86,7 +79,7 @@
                         var id = $("#DashBoardV2ViewModel_ClienteId").val();
                         var urlEst = '';
                         var urlDash = '';
-                       var mes =  $('#DashBoardV2ViewModel_MesId').val();
+                        var mes = $('#DashBoardV2ViewModel_MesId').val();
                         var anio = $('#DashBoardV2ViewModel_AnioId').val();
                         if ($("#DashBoardV2ViewModel_ClienteId").val()) {
                             urlEst = '@Url.Action("GetEstadisticasV2")';
@@ -95,10 +88,9 @@
                             urlEst = '@Url.Action("GetEstadisticasV2all")';
                             urlDash = '@Url.Action("getDashboardAll")';
                         }
-
-                        $("#loaderbody").removeClass('hide');
                         searchDate(id, mes, anio);
-                    $.ajax({
+                        $("#loaderbody").removeClass('hide');
+                        $.ajax({
                             type: 'POST',
                             url: urlEst,
                             //dataType: 'json',
@@ -119,7 +111,7 @@
                                 console.log(ex);
                                 $("#loaderbody").addClass('hide');
                             }
-                    });
+                        });
 
                     });
 
@@ -157,6 +149,7 @@
                                 .draw();
                             searchDate(id, mes, anio);
                         });
+
                         $(".buttons-excel").hide();
 
                         $("#table_filter").remove();
@@ -203,6 +196,7 @@
                     });
 
         }
+
         function searchDate(id, mes, anio) {
             $.ajax({
                                     type: 'POST',
@@ -214,7 +208,7 @@
                                      anio: anio
                                  },
                                     success: function (result) {
-                                     if (result) {
+                                        if (result) {
                                             $("#Dashboard").html(result);
                                         }
                                     },
@@ -224,6 +218,7 @@
                                         $("#loaderbody").addClass('hide');
                                     }});
         }
+
     </script>
 
 }

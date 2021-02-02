@@ -246,7 +246,7 @@ namespace WSDLCondelpiData
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RENTING_clientes_renting_mantenimientos_estados_cuantos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(string key, string ruc);
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(string key, string ruc, string mes, string anio);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RENTING_CLIENTES_RENTING_DIAS_SUSTITUTO_PLACA", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -254,7 +254,7 @@ namespace WSDLCondelpiData
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOS", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(string key, string placa, string ruc);
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(string key, string placa, string ruc, string MES, string ANIO);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/RENTING_CLIENTES_RENTING_SINIESTROS_DETALLE", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -691,9 +691,9 @@ namespace WSDLCondelpiData
             return base.Channel.RENTING_CLIENTES_RENTING_RESUMEN_PLACASAsync(key, placa, ruc);
         }
         
-        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(string key, string ruc)
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(string key, string ruc, string mes, string anio)
         {
-            return base.Channel.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, ruc);
+            return base.Channel.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, ruc, mes, anio);
         }
         
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_DIAS_SUSTITUTO_PLACAAsync(string key, string placa, string ruc)
@@ -701,9 +701,9 @@ namespace WSDLCondelpiData
             return base.Channel.RENTING_CLIENTES_RENTING_DIAS_SUSTITUTO_PLACAAsync(key, placa, ruc);
         }
         
-        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(string key, string placa, string ruc)
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(string key, string placa, string ruc, string MES, string ANIO)
         {
-            return base.Channel.RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(key, placa, ruc);
+            return base.Channel.RENTING_CLIENTES_RENTING_CUANTOS_SUSTITUTOSAsync(key, placa, ruc, MES, ANIO);
         }
         
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> RENTING_CLIENTES_RENTING_SINIESTROS_DETALLEAsync(string key, string placa, string ruc)

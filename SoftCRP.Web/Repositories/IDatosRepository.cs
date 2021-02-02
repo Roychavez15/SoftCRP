@@ -13,10 +13,11 @@ namespace SoftCRP.Web.Repositories
         Task<IEnumerable<ParticularidadViewModel>> GetParticularidadesAsync(string Placa);
         Task<string> GetConductorPlacasAsync(string Placa);
         Task<IEnumerable<ResumenPlacasViewModel>> GetResumePlacasAsync(string Nit, string Placa);
-        Task<IEnumerable<MantEstadosCuantosViewModel>> GetMantenimientoEstadoCuantos(string Nit);
+        Task<IEnumerable<MantEstadosCuantosViewModel>> GetMantenimientoEstadoCuantos(string Nit, string mes, string anio);
         Task<IEnumerable<DiasSustitutosViewModel>> GetDiasSustitutosAsync(string Nit, string Placa);
-        Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa);
+        Task<IEnumerable<SustitutosViewModel>> GetCuantosSustitutosAsync(string Nit, string Placa, string mes, string anio);
         Task<IEnumerable<SiniestrosViewModel>> GetSiniestrosAsync(string Nit, string Placa);
+        Task<IEnumerable<SiniestrosDetalleViewModel>> GetSiniestrosDetalleAsync(string Nit, string Placa);
         Task<IEnumerable<IngresosTallerViewModel>> GetIngresosTallerAsync(string Nit, string Placa);
         Task<IEnumerable<ConductoresViewModel>> GetConductoresAsync(string Nit, string Placa);
         Task<string> ProcesoCGB();
