@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using SoftCRP.Web.Models
+@using SoftCRP.Web.Repositories
 @*@inject UserManager<ApplicationUser> userManager*@
-
+@inject IAccesosRepository AccesosRep
 <!DOCTYPE html>
 <html>
 
@@ -467,14 +468,16 @@
                                     Capacitaciones Renting
                                 </a>
                             </li>
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                             {
-                                <li class="nav-item">
-                                    <a asp-area="" class="nav-link" asp-controller="Conduccion" asp-action="Index" style="color:#ffffff">
-                                        <i class="nav-icon fas fa-car"></i>
-                                        Conduccion
-                                    </a>
-                                </li>
+
+                                    <li class="nav-item">
+                                        <a asp-area="" class="nav-link" asp-controller="Conduccion" asp-action="Index" style="color:#ffffff">
+                                            <i class="nav-icon fas fa-car"></i>
+                                            Conduccion
+                                        </a>
+                                    </li>
+                                
                                 <li class="nav-item">
                                     <a asp-area="" class="nav-link" asp-controller="Mantenimiento" asp-action="Index" style="color:#ffffff">
                                         <i class="nav-icon fas fa-tools"></i>
@@ -487,15 +490,74 @@
                                         Siniestros
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Sustitutos" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-recycle"></i>
+                                        Sustitutos
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" class="nav-link" asp-controller="Graficos" asp-action="Index" style="color:#ffffff">
+                                        <i class="nav-icon fas fa-chart-bar"></i>
+                                        Gráficos
+                                    </a>
+                                </li>
                             }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Cliente"))
+                            {
+                                var accceso1 = await AccesosRep.GetAcceso(User.Identity.Name);
+                                if (accceso1 != null)
+                                {
+                                    if (accceso1.Conduccion)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-area="" class="nav-link" asp-controller="Conduccion" asp-action="Index" style="color:#ffffff">
+                                                <i class="nav-icon fas fa-car"></i>
+                                                Conducción
+                                            </a>
+                                        </li>
+                                    }
+                                    if (accceso1.Mantenimiento)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-area="" class="nav-link" asp-controller="Mantenimiento" asp-action="Index" style="color:#ffffff">
+                                                <i class="nav-icon fas fa-tools"></i>
+                                                Mantenimiento
+                                            </a>
+                                        </li>
+                                    }
+                                    if (accceso1.Siniestros)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-area="" class="nav-link" asp-controller="Siniestros" asp-action="Index" style="color:#ffffff">
+                                                <i class="nav-icon fas fa-car-crash"></i>
+                                                Siniestros
+                                            </a>
+                                        </li>
+                                    }
+                                    if (accceso1.Sustitutos)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-area="" class="nav-link" asp-controller="Sustitutos" asp-action="Index" style="color:#ffffff">
+                                                <i class="nav-icon fas fa-recycle"></i>
+                                                Sustitutos
+                                            </a>
+                                        </li>
+                                    }
+                                    if (accceso1.Graficos)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-area="" class="nav-link" asp-controller="Graficos" asp-action="Index" style="color:#ffffff">
+                                                <i class="nav-icon fas fa-chart-bar"></i>
+                                                Gráficos
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            }
+
                             @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
                             {
-                                @*<li class="nav-item">
-                    <a asp-area="" class="nav-link" asp-controller="Reportes" asp-action="Index" style="color:#ffffff">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        Reportes
-                    </a>
-                </li>*@
                                 <li class="nav-item has-treeview">
                                     <a href="#" class="nav-link" style="color:#ffffff">
                                         <i class="nav-icon fas fa-chart-line"></i>
@@ -551,6 +613,12 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-header">Configuraciones</li>
+                            <li class="nav-item">
+                                <a asp-area="" class="nav-link" asp-controller="Accesos" asp-action="Index" style="color:#ffffff">
+                                    <i class="nav-icon fa fa-key"></i>
+                                    <p>Accesos</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a asp-area="" class="nav-link" asp-controller="TipoAnalisis" asp-action="Index" style="color:#ffffff">
                                     <i class="nav-icon fa fa-ellipsis-h"></i>

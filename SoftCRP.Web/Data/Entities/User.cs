@@ -41,6 +41,8 @@ namespace SoftCRP.Web.Data.Entities
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
             ? "https://localhost:44338/images/Usuarios/noImage.jpg"
             : $"https://localhost:44338/{ImageUrl.Substring(1)}";
+
+
     }
 
 }

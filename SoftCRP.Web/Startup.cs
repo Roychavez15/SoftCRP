@@ -129,6 +129,7 @@ namespace SoftCRP.Web
             services.AddScoped<IGamaRepository, GamaRepository>();
             services.AddScoped<ILocationWorldRepository, LocationWorldRepository>();
             services.AddScoped<IIturanRepository, IturanRepository>();
+            services.AddScoped<IAccesosRepository, AccesosRepository>();
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

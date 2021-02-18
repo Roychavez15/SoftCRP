@@ -1360,57 +1360,41 @@ namespace SoftCRP.Web.Repositories
                 foreach (XmlElement nodo in lista1)
                 {
                     //var dat= nodo[0].InnerText
-                    XmlNodeList Dias =
-                        nodo.GetElementsByTagName("Dias");
 
-                    XmlNodeList Placa_sustituto =
-                        nodo.GetElementsByTagName("Placa_sustituto");
-
-                    XmlNodeList Ram_sustituto =
-                        nodo.GetElementsByTagName("Ram_sustituto");
-
-                    XmlNodeList Gama_sustituto =
-                        nodo.GetElementsByTagName("Gama_sustituto");
-
-                    XmlNodeList Estado =
-                        nodo.GetElementsByTagName("Estado");
-
-                    XmlNodeList Disponible =
-                        nodo.GetElementsByTagName("Disponible");
-
-                    XmlNodeList Regional =
-                        nodo.GetElementsByTagName("Regional");
-
-                    XmlNodeList Tipo_sustituto =
-                        nodo.GetElementsByTagName("Tipo_sustituto");
-
-                    XmlNodeList Modelo_sustituto =
-                        nodo.GetElementsByTagName("Modelo_sustituto");
-
-                    XmlNodeList Marca_sustituto =
-                        nodo.GetElementsByTagName("Marca_sustituto");
-
-                    XmlNodeList Año_sustituto =
-                        nodo.GetElementsByTagName("Año_sustituto");
-
-                    XmlNodeList Estatus =
-                        nodo.GetElementsByTagName("Estatus");
+                    var Placa_cliente = verificanodo(nodo, "Placa_cliente");
+                    var detalle = verificanodo(nodo, "Notas_asignación");
+                    var Cliente = verificanodo(nodo, "Cliente");
+                    var Dias = verificanodo(nodo, "Dias");
+                    var Placa_sustituto = verificanodo(nodo, "Placa_sustituto");
+                    var Ram_sustituto = verificanodo(nodo, "Ram_sustituto");
+                    var Gama_sustituto = verificanodo(nodo, "Gama_sustituto");
+                    var Estado = verificanodo(nodo, "Estado");
+                    var Disponible = verificanodo(nodo, "Disponible");
+                    var Regional = verificanodo(nodo, "Regional");
+                    var Tipo_sustituto = verificanodo(nodo, "Tipo_sustituto");
+                    var Modelo_sustituto = verificanodo(nodo, "Modelo_sustituto");
+                    var Marca_sustituto = verificanodo(nodo, "Marca_sustituto");
+                    var Año_sustituto = verificanodo(nodo, "Año_sustituto");
+                    var Estatus = verificanodo(nodo, "Estatus");
+                    var Fecha_asignacion = verificanodo(nodo, "Fecha_asignacion");
 
                     DiasSustitutosViewModel estado = new DiasSustitutosViewModel();
-
-                    estado.Dias = int.Parse(Dias[0].InnerText);
-                    estado.Placa = Placa_sustituto[0].InnerText;
-                    estado.Ram = Ram_sustituto[0].InnerText;
-                    estado.Gama = Gama_sustituto[0].InnerText;
-                    estado.Estado = Estado[0].InnerText;
-                    estado.Disponible = Disponible[0].InnerText;
-                    estado.Regional = Regional[0].InnerText;
-                    estado.TipoSustituto = Tipo_sustituto[0].InnerText;
-                    estado.ModeloSustituto = Modelo_sustituto[0].InnerText;
-                    estado.MarcaSustituto = Marca_sustituto[0].InnerText;
-                    estado.AnioSustituto = Año_sustituto[0].InnerText;
-                    estado.Estatus = Estatus[0].InnerText;
-
+                    estado.Dias = int.Parse(Dias);
+                    estado.Placa = Placa_cliente;
+                    estado.PlacaSustituto = Placa_sustituto;
+                    estado.Ram = Ram_sustituto;
+                    estado.Gama = Gama_sustituto;
+                    estado.Estado = Estado;
+                    estado.Disponible = Disponible;
+                    estado.Regional = Regional;
+                    estado.TipoSustituto = Tipo_sustituto;
+                    estado.ModeloSustituto = Modelo_sustituto;
+                    estado.MarcaSustituto = Marca_sustituto;
+                    estado.AnioSustituto = Año_sustituto;
+                    estado.Estatus = Estatus;
+                    estado.Usuario = Cliente;
+                    estado.Detalle = detalle;
+                    estado.Fecha_asignacion = Fecha_asignacion;
                     Sustitutos.Add(estado);
                 }
 

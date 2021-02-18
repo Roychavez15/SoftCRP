@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class SiniestrosController : Controller
+    public class SiniestrosController : BaseController
     {
         private readonly IUserHelper _userHelper;
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;

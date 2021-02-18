@@ -30,6 +30,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ILogRepository _logRepository;
         private readonly ILogger _logger;
         private readonly ILoggerFactory _loggerFactory;
+        private readonly IIncidenciasRepository _incidenciasRepository;
 
         public AccountController(
             IUserHelper userHelper,
@@ -38,7 +39,8 @@ namespace SoftCRP.Web.Controllers
             IConfiguration configuration,
             ILogRepository logRepository,
             ILogger<AccountController> logger,
-            ILoggerFactory loggerFactory
+            ILoggerFactory loggerFactory,
+            IIncidenciasRepository incidenciasRepository
             )
         {
             _userHelper = userHelper;
@@ -48,6 +50,7 @@ namespace SoftCRP.Web.Controllers
             _logRepository = logRepository;
             _logger = logger;
             _loggerFactory = loggerFactory;
+            _incidenciasRepository = incidenciasRepository;
         }
 
         [HttpGet]
@@ -299,6 +302,9 @@ namespace SoftCRP.Web.Controllers
                         }
                     }
 
+                    //v2
+                    await _incidenciasRepository.CreateIncidencia(user);
+                    //
                     await _logRepository.SaveLogs("Success", "Registrar Usuario:" + model.Username, "Account", User.Identity.Name);
                     return this.RedirectToAction(nameof(Index));
                     //var loginViewModel = new LoginViewModel

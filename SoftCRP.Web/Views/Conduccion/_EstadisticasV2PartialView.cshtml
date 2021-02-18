@@ -12,10 +12,10 @@
 }
 else
 {
-    <table class="table table-bordered table-striped table-responsive" id="table">
+    <table class="table table-bordered table-striped" id="table">
         <thead>
             <tr>
-                <th></th>
+
                 <th>PLACA</th>
                 <th>CANTIDAD DE VIAJES</th>
                 <th>USUARIO</th>
@@ -34,7 +34,7 @@ else
             @foreach (var item in Model.vehiculosGps.ToList())
             {
                 <tr>
-                    <td></td>
+
                     <td>@Html.DisplayFor(modelItem => item.vehiculo.Placa)</td>
                     <td>@Html.DisplayFor(modelItem => item.trips)</td>
                     <td>@Html.DisplayFor(modelItem => item.usuario)</td>

@@ -3,117 +3,169 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-
-
 <div class="row">
-    <div class="col-md-12 col-sm-6">
-        <div class="card">
-            <div class="card-header" style="background-color:#002D73; color:#ffffff;">
-                <h2 class="card-title"><strong>TIPOS INCIDENCIAS</strong></h2>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered table-striped" id="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.User.FullName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ExcesoVelocidad)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FrenazoBrusco)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AceleracionesBruscas)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.GiroBrusco)
-                            </th>
-
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.User.FullName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ExcesoVelocidad)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FrenazoBrusco)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AceleracionesBruscas)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.GiroBrusco)
-                                </td>
-
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>&nbsp;
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a> &nbsp;
-                                    @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">Cambios Globales</h3>
         </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+            <div class="card-body">
+                @*<div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Exceso Velocidad</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">Frenazo Brusco</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputPassword3" placeholder="Password">
+                    </div>
+                </div>*@
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-success">Exceso Velocidad</button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="number" class="form-control" value="1.6">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-success">Frenazo Brusco</button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="number" class="form-control" value="5.8">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-success">Aceleraciones Bruscas</button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="number" class="form-control" value="1.6">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-success">Giro Brusco</button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="number" class="form-control" value="1.6" >
+                </div>
+            </div>
+
+        </form>
     </div>
 </div>
 
+    <div class="row">
+        <div class="col-md-12 col-sm-6">
+            <div class="card">
+                <div class="card-header" style="background-color:#002D73; color:#ffffff;">
+                    <h2 class="card-title"><strong>TIPOS INCIDENCIAS</strong></h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped" id="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.User.FullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ExcesoVelocidad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FrenazoBrusco)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AceleracionesBruscas)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.GiroBrusco)
+                                </th>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ExcesoVelocidad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FrenazoBrusco)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AceleracionesBruscas)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GiroBrusco)
+                                    </td>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" style="background-color:#F2AE0B; color:#ffffff" class="btn btn-default"><i class="fa fa-edit"></i></a>&nbsp;
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fa fa-info-circle"></i></a> &nbsp;
+                                        @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
 
 
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
 
-        $(document).ready(function () {
+            $(document).ready(function () {
 
-            var table = $("#table").DataTable({
-                autoFill: true,
-                paging: true,
-                lengthChange: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                autoWidth: false,
-                responsive: true,
-                processing: true,
+                var table = $("#table").DataTable({
+                    autoFill: true,
+                    paging: true,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    responsive: true,
+                    processing: true,
 
-                language: {
+                    language: {
 
-                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                },
+                        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                    },
 
-                order: [[0, 'asc']]
+                    order: [[0, 'asc']]
+                });
+
+                //new $.fn.dataTable.Buttons( table, {
+                //    buttons: [
+                //    'copy', 'excel', 'pdf'
+                //    ]
+                //});
+
+                //table.buttons().container()
+                //    .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+
             });
-
-            //new $.fn.dataTable.Buttons( table, {
-            //    buttons: [
-            //    'copy', 'excel', 'pdf'
-            //    ]
-            //});
-
-            //table.buttons().container()
-            //    .appendTo($('.col-sm-6:eq(0)', table.table().container()));
-
-        });
-    </script>
-}
+        </script>
+    }

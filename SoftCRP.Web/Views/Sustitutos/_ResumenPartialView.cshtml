@@ -1,0 +1,113 @@
+﻿@model IEnumerable<SoftCRP.Web.Models.DiasSustitutosViewModel>
+    @{
+        ViewData["Title"] = "Sustitutos";
+    }
+
+    @if (Model == null)
+    {
+        <h2> No existen Datos de GPS</h2>
+
+    }
+    else
+    {
+        <table class="table table-bordered table-striped" id="table">
+            <thead>
+                <tr>
+
+                    <th>PLACA</th>
+                    <th>PLACA SUSTITUTO</th>
+                    <th>DÍAS DE SUSTITUCIÓN</th>
+                    <th>REGIONAL</th>
+                    <th>USUARIO</th>
+                    <th>ESTADO</th>
+                    <th>DETALLE</th>
+                    <th>Mes</th>
+                    <th>Anio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Placa)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PlacaSustituto)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TipoSustituto)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Dias)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Regional)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Detalle)</td>
+                        <td>
+                            @{
+                                var mes = 0;
+                                if (item.Fecha_asignacion != "")
+                                {
+                                    mes = Convert.ToDateTime(item.Fecha_asignacion).Month;
+                                }
+
+                                var messalida = "";
+                                if (mes == 1)
+                                {
+                                    messalida = "Enero";
+                                }
+                                else if (mes == 2)
+                                {
+                                    messalida = "Febrero";
+                                }
+                                else if (mes == 3)
+                                {
+                                    messalida = "Marzo";
+                                }
+                                else if (mes == 4)
+                                {
+                                    messalida = "Abril";
+                                }
+                                else if (mes == 5)
+                                {
+                                    messalida = "Mayo";
+                                }
+                                else if (mes == 6)
+                                {
+                                    messalida = "Junio";
+                                }
+                                else if (mes == 7)
+                                {
+                                    messalida = "Julio";
+                                }
+                                else if (mes == 8)
+                                {
+                                    messalida = "Agosto";
+                                }
+                                else if (mes == 9)
+                                {
+                                    messalida = "Septiembre";
+                                }
+                                else if (mes == 10)
+                                {
+                                    messalida = "Octubre";
+                                }
+                                else if (mes == 11)
+                                {
+                                    messalida = "Noviembre";
+                                }
+                                else if (mes == 12)
+                                {
+                                    messalida = "Diciembre";
+                                }
+                                @messalida;
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var anio = 0;
+                                if (item.Fecha_asignacion != "")
+                                {
+                                    anio = Convert.ToDateTime(item.Fecha_asignacion).Year;
+                                }
+                                @Html.DisplayFor(modelItem => anio);
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }

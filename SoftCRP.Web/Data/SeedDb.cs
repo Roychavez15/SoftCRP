@@ -58,6 +58,7 @@ namespace SoftCRP.Web.Data
 
             //v2
             await CheckIncidenciasAsync();
+            await CheckAccesosAsync();
         }
 
         private async Task CheckRoles()
@@ -129,16 +130,33 @@ namespace SoftCRP.Web.Data
                         isActive=true
                     });
                 }
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como cuidar mi vehículo?", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Debemos Reportar", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Cobertura póliza de seguros y exclusiones", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Siniestros y reclamación", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Documentos habilitantes", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Infracciones", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Como ocurre un accidente de tránsito?", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Factores que influyen en un accidente de tránsito", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Daños ocasionados en un accidente de tránsito y consecuencias", isActive = true });
-                //_context.tipoCapacitaciones.Add(new Entities.TipoCapacitacion { Tipo = "Limitaciones frente a una conducción segura", isActive = true });
+                await _context.SaveChangesAsync();
+            }
+        }
+        private async Task CheckAccesosAsync()
+        {
+            if (!_context.accesos.Any())
+            {
+                var usuarios = await _userHelper.GetListUsersInRole("Cliente");
+
+                foreach (var item in usuarios)
+                {
+                    _context.accesos.Add(new Entities.Acceso
+                    {
+                        User = item,
+                        Informacion = true,
+                        Analisis = true,
+                        Seguimiento = true,
+                        Tramites=true,
+                        Capacitaciones=true,
+                        Conduccion=true,
+                        Mantenimiento=true,
+                        Siniestros=true,
+                        Sustitutos=true,
+                        Graficos=true,
+                        isActive = true
+                    }) ;
+                }
                 await _context.SaveChangesAsync();
             }
         }

@@ -10,10 +10,10 @@
 }
 else
 {
-    <table class="table table-bordered table-striped table-responsive" id="table">
+    <table class="table table-bordered table-striped" id="table">
         <thead>
             <tr>
-                <th></th>
+
                 <th>PLACA</th>
                 <th>EVENTO</th>
                 <th>TIPO</th>
@@ -32,7 +32,7 @@ else
             @foreach (var item in Model.ToList())
             {
             <tr>
-                <td></td>
+
                 <td>@Html.DisplayFor(modelItem => item.placa)</td>
                 <td>@Html.DisplayFor(modelItem => item.evento)</td>
                 <td>@Html.DisplayFor(modelItem => item.tipo)</td>

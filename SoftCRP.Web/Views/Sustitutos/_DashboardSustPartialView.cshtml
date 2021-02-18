@@ -1,0 +1,32 @@
+﻿@model SoftCRP.Web.Models.SustitutosCuantosViewModel
+@{
+    ViewData["Title"] = "Sustitutos";
+}
+
+<div class="row" style="justify-content:center">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Sustitutos utilizados</p>
+                <h3>@Model.sustitutos_utilizados</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Ahorro</p>
+                <h3>@Model.ahorro</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-yellow text-white text-center" style="height:80%">
+            <div class="inner">
+                <p>Ahorro acumulado</p>
+                <h3>@Model.ahorro_acumulado</h3>
+            </div>
+        </div>
+    </div>
+</div>

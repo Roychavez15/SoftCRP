@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SoftCRP.Web.Controllers
 {
-    public class MantenimientoController : Controller
+    public class MantenimientoController : BaseController
     {
         private readonly IUserHelper _userHelper;
         private readonly IVehiculoProvGpsRepository _vehiculoProvGpsRepository;

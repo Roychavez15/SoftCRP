@@ -40,5 +40,18 @@ namespace SoftCRP.Web.Repositories
                 .Include(u => u.User)
                 .ToListAsync();
         }
+        public async Task<int> CreateIncidencia(User user)
+        {
+            await _dataContext.incidencias.AddAsync(new Data.Entities.Incidencia
+            {
+                User = user,
+                AceleracionesBruscas = 1.6M,
+                ExcesoVelocidad = 1.6M,
+                FrenazoBrusco = 5.8M,
+                GiroBrusco = 1.6M,
+                isActive = true
+            });
+            return await _dataContext.SaveChangesAsync();
+        }
     }
 }
