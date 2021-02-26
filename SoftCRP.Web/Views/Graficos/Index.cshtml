@@ -1,15 +1,56 @@
-﻿
+﻿@model SoftCRP.Web.Models.GraficosViewModel
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
-
 <div class="row mb-2">
     <div class="col-sm-6">
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Opciones</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-control select2" style="width: 100%;">
+                            </select>
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                            <label>Placa</label>
+                            <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control select2" style="width: 100%;">
+                            </select>
+                        </div>
+                        <!-- /.form-group -->
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+        </div>
+        <!-- /.card -->
+
         <div id="dvMap" style="width: 800px; height: 600px">
 
         </div>
+
+        @*<div id="Mapa">
+            <partial name="_MapaPartialView" , model="@Model.Markers">
+        </div>*@
     </div><!-- /.col -->
     <div class="col-sm-6">
 
@@ -18,7 +59,9 @@
 
 </div>
 
-
+><div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
 
 
 @section Scripts {
@@ -30,11 +73,20 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdJn4LtdTIskKQBfOC202XrIMY8Jm1u6g"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script type="text/javascript">
-        var markers = @Html.Raw(ViewBag.Markers);
+        var markers = @Html.Raw(@Model.Markers);
         window.onload = function () {
+            $("#loaderbody").addClass('hide');
+
+
+            var image = "/icon/car.png";
+            var shape = {
+                coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                type: 'poly'
+            };
+
             var mapOptions = {
                 center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
                 zoom: 8,
@@ -47,6 +99,9 @@
                 var myLatlng = new google.maps.LatLng(data.lat, data.lng);
                 var marker = new google.maps.Marker({
                     position: myLatlng,
+                    icon: image,
+                    //shape: shape,
+                    //label: data.title,
                     map: map,
                     title: data.title
                 });
@@ -57,6 +112,179 @@
                     });
                 })(marker, data);
             }
+
+
+            $("#ClienteId").change(function () {
+
+                $("#loaderbody").removeClass('hide');
+                $("#PlacaId").empty();
+                $("#PlacaId").append('<option value="">[Seleccionar Placa...]</option>');
+                if ($("#ClienteId").val() != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetPlacas")',
+                        dataType: 'json',
+                        data: { UserId: $("#ClienteId").val() },
+                        success: function (subcategories) {
+                            $.each(subcategories, function (i, dato) {
+
+                                $("#PlacaId").append('<option value="'
+                                    + dato.text + '">'
+                                    + dato.value + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve Plaques.' + ex);
+                        }
+                    });
+                }
+                else {
+                    $("#PlacaId").empty();
+                    $("#PlacaId").append('<option value="0">[Seleccionar Placa...]</option>');
+                }
+
+                        var id = $("#ClienteId").val();
+                        var urlEst = '';
+                        if ($("#ClienteId").val()) {
+                            urlEst = '@Url.Action("GetMapaCliente")';
+                        } else {
+                            urlEst = '@Url.Action("GetMapaAll")';
+                        }
+                        console.log(urlEst);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: urlEst,
+                            dataType: 'json',
+                            data: { UserId: id },
+                            success: function (result) {
+                                console.log(result);
+
+                                if (result) {
+                                    var markers = result;
+                                    console.log(markers.length);
+                                    console.log(markers[0].latitude);
+                                    var image = "/icon/car.png";
+                                    var shape = {
+                                        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                                        type: 'poly'
+                                    };
+
+                                    var mapOptions = {
+                                        center: new google.maps.LatLng(markers[0].latitude, markers[0].longitude),
+                                        zoom: 8,
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    };
+                                    var infoWindow = new google.maps.InfoWindow();
+                                    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                                    for (i = 0; i < markers.length; i++) {
+                                        var data = markers[i]
+                                        var myLatlng = new google.maps.LatLng(data.latitude, data.longitude);
+                                        var marker = new google.maps.Marker({
+                                            position: myLatlng,
+                                            icon: image,
+                                            //shape: shape,
+                                            //label: data.title,
+                                            map: map,
+                                            title: data.vehiculo.placa
+                                        });
+                                        (function (marker, data) {
+                                            google.maps.event.addListener(marker, "click", function (e) {
+                                                infoWindow.setContent(data.vehiculo.user.fullName);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, data);
+                                    }
+
+                                    //$("#dvMap").html(result);
+                                    $("#loaderbody").addClass('hide');
+                                }
+                                else {
+                                    $("#loaderbody").addClass('hide');
+                                    return false;
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to retrieve Estadisticas.' + ex);
+                                console.log(ex);
+                                $("#loaderbody").addClass('hide');
+                            }
+                        });
+            });
+
+            $("#PlacaId").change(function () {
+                $("#loaderbody").removeClass('hide');
+                var id = $("#ClienteId").val();
+                var placa = $("#PlacaId").val();
+                var urlEst = '';
+                if ($("#PlacaId").val()) {
+                            urlEst = '@Url.Action("GetMapaClientePlaca")';
+                        } else {
+                            urlEst = '@Url.Action("GetMapaClientePlacaAll")';
+                        }
+                        console.log(urlEst);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: urlEst,
+                            dataType: 'json',
+                            data: { UserId: id, Placa: placa },
+                            success: function (result) {
+                                console.log(result);
+
+                                if (result) {
+                                    var markers = result;
+                                    console.log(markers.length);
+                                    console.log(markers[0].latitude);
+                                    var image = "/icon/car.png";
+                                    var shape = {
+                                        coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                                        type: 'poly'
+                                    };
+
+                                    var mapOptions = {
+                                        center: new google.maps.LatLng(markers[0].latitude, markers[0].longitude),
+                                        zoom: 8,
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    };
+                                    var infoWindow = new google.maps.InfoWindow();
+                                    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                                    for (i = 0; i < markers.length; i++) {
+                                        var data = markers[i]
+                                        var myLatlng = new google.maps.LatLng(data.latitude, data.longitude);
+                                        var marker = new google.maps.Marker({
+                                            position: myLatlng,
+                                            icon: image,
+                                            //shape: shape,
+                                            //label: data.title,
+                                            map: map,
+                                            title: data.vehiculo.placa
+                                        });
+                                        (function (marker, data) {
+                                            google.maps.event.addListener(marker, "click", function (e) {
+                                                infoWindow.setContent(data.vehiculo.user.fullName);
+                                                infoWindow.open(map, marker);
+                                            });
+                                        })(marker, data);
+                                    }
+
+                                    //$("#dvMap").html(result);
+                                    $("#loaderbody").addClass('hide');
+                                }
+                                else {
+                                    $("#loaderbody").addClass('hide');
+                                    return false;
+                                }
+                            },
+                            error: function (ex) {
+                                alert('Failed to retrieve Estadisticas.' + ex);
+                                console.log(ex);
+                                $("#loaderbody").addClass('hide');
+                            }
+                        });
+            });
+
+            $("#loaderbody").addClass('hide');
         }
     </script>
 }

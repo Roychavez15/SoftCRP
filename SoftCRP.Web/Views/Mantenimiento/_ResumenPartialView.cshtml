@@ -17,8 +17,8 @@ else
                 <th>PLACA</th>
                 <th>EVENTO</th>
                 <th>TIPO</th>
-                <th>USUARIO</th>
                 <th>ESTADO</th>
+                <th>USUARIO</th>
                 <th>DETALLE OC</th>
                 <th>ASESOR ASIGNADO</th>
                 <th>CIUDAD ÚLTIMO MMTO</th>
@@ -33,12 +33,13 @@ else
             {
             <tr>
 
+
                 <td>@Html.DisplayFor(modelItem => item.placa)</td>
                 <td>@Html.DisplayFor(modelItem => item.evento)</td>
                 <td>@Html.DisplayFor(modelItem => item.tipo)</td>
+                <td>@Html.DisplayFor(modelItem => item.estado)</td>
                 <td>@Html.DisplayFor(modelItem => item.usuario)</td>
                 <td>@Html.DisplayFor(modelItem => item.detalle_oc)</td>
-                <td>@Html.DisplayFor(modelItem => item.estado)</td>
                 <td>@Html.DisplayFor(modelItem => item.usuario_asesor)</td>
                 <td>@Html.DisplayFor(modelItem => item.ciudad_ult_mmto)</td>
                 <td>@Html.DisplayFor(modelItem => item.ult_rutina)</td>

@@ -64,7 +64,8 @@ namespace SoftCRP.Web.Controllers
                         model.Anios = _combosHelper.GetComboAnio();
                         model.Meses = _combosHelper.GetComboMes();
                         modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
-                        
+                        //modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync("", "");
+
                         var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
                         modelView.DashboardMantViewModel = getCuantos(cuantos);
                     }
@@ -132,6 +133,10 @@ namespace SoftCRP.Web.Controllers
         }
         public async Task<IActionResult> getDashboardDate(string UserId, string mes, string anio)
         {
+            if (UserId == null)
+            {
+                UserId = "";
+            }
             if (mes == null)
             {
                 mes = "";

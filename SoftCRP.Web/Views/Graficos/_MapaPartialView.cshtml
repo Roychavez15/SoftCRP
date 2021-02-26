@@ -1,0 +1,65 @@
+﻿
+@model SoftCRP.Web.Models.GraficosViewModel
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+        var markers = @Html.Raw(@Model.Markers);
+        window.onload = function () {
+
+            //var icon = { // car icon
+            //    path: 'M29.395,0H17.636c-3.117,0-5.643,3.467-5.643,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759   c3.116,0,5.644-2.527,5.644-5.644V6.584C35.037,3.467,32.511,0,29.395,0z M34.05,14.188v11.665l-2.729,0.351v-4.806L34.05,14.188z    M32.618,10.773c-1.016,3.9-2.219,8.51-2.219,8.51H16.631l-2.222-8.51C14.41,10.773,23.293,7.755,32.618,10.773z M15.741,21.713   v4.492l-2.73-0.349V14.502L15.741,21.713z M13.011,37.938V27.579l2.73,0.343v8.196L13.011,37.938z M14.568,40.882l2.218-3.336   h13.771l2.219,3.336H14.568z M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805',
+            //    scale: 0.4,
+            //    fillColor: "#427af4", //<-- Car Color, you can change it
+            //    fillOpacity: 1,
+            //    strokeWeight: 1,
+            //    anchor: new google.maps.Point(0, 5),
+            //    rotation: data.val().angle //<-- Car angle
+            //};
+            //const image = {
+            //    url:
+            //        "http://maps.google.com/mapfiles/kml/shapes/cabs.png",
+            //    // This marker is 20 pixels wide by 32 pixels high.
+            //    size: new google.maps.Size(80, 80),
+            //    // The origin for this image is (0, 0).
+            //    origin: new google.maps.Point(0, 0),
+            //    // The anchor for this image is the base of the flagpole at (0, 32).
+            //    anchor: new google.maps.Point(0, 32),
+            //};
+
+            var image = "/icon/car.png";
+            //var image = "https://developers.google.com/maps/documentation/javascript/examples/full/images/cabs.png";
+            var shape = {
+                coords: [1, 1, 1, 20, 18, 20, 18, 1],
+                type: 'poly'
+            };
+
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 8,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            for (i = 0; i < markers.length; i++) {
+                var data = markers[i]
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    icon: image,
+                    //shape: shape,
+                    //label: data.title,
+                    map: map,
+                    title: data.title
+                });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+
+
+        }
+</script>
