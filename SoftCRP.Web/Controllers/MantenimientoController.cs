@@ -63,8 +63,8 @@ namespace SoftCRP.Web.Controllers
                         model.Clientes = _combosHelper.GetComboClientes();
                         model.Anios = _combosHelper.GetComboAnio();
                         model.Meses = _combosHelper.GetComboMes();
-                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
-                        //modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync("", "");
+                        //modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
+                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync("", "");
 
                         var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
                         modelView.DashboardMantViewModel = getCuantos(cuantos);
