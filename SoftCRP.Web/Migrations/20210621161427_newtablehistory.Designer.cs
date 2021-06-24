@@ -10,8 +10,8 @@ using SoftCRP.Web.Data;
 namespace SoftCRP.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201209040158_tableGama")]
-    partial class tableGama
+    [Migration("20210621161427_newtablehistory")]
+    partial class newtablehistory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,6 +129,45 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Acceso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Analisis");
+
+                    b.Property<bool>("Capacitaciones");
+
+                    b.Property<bool>("Conduccion");
+
+                    b.Property<bool>("GPS");
+
+                    b.Property<bool>("Graficos");
+
+                    b.Property<bool>("Informacion");
+
+                    b.Property<bool>("Mantenimiento");
+
+                    b.Property<bool>("Seguimiento");
+
+                    b.Property<bool>("Siniestros");
+
+                    b.Property<bool>("Sustitutos");
+
+                    b.Property<bool>("Tramites");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("accesos");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Analisis", b =>
@@ -295,6 +334,23 @@ namespace SoftCRP.Web.Migrations
                     b.ToTable("capacitaciones");
                 });
 
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Ciudad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ciudades");
+                });
+
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Cliente", b =>
                 {
                     b.Property<int>("Id")
@@ -331,6 +387,73 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("gamas");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.History", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Desde");
+
+                    b.Property<DateTime>("Hasta");
+
+                    b.Property<string>("Placa");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Histories");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Incidencia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("AceleracionesBruscas")
+                        .HasColumnType("decimal(18,1)");
+
+                    b.Property<decimal>("ExcesoVelocidad")
+                        .HasColumnType("decimal(18,1)");
+
+                    b.Property<decimal>("FrenazoBrusco")
+                        .HasColumnType("decimal(18,1)");
+
+                    b.Property<decimal>("GiroBrusco")
+                        .HasColumnType("decimal(18,1)");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("incidencias");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.LastRecordIturan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("codigo");
+
+                    b.Property<DateTime>("dia");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("lastRecords");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>
@@ -510,7 +633,17 @@ namespace SoftCRP.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
+                    b.Property<string>("Ciudad");
+
+                    b.Property<DateTime>("Desde");
+
+                    b.Property<int>("Dia");
+
+                    b.Property<string>("Estado");
+
                     b.Property<DateTime>("Fecha");
+
+                    b.Property<DateTime>("Hasta");
 
                     b.Property<string>("Mes")
                         .IsRequired();
@@ -631,7 +764,11 @@ namespace SoftCRP.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ahorro");
+
                     b.Property<int>("anio");
+
+                    b.Property<int>("conductores");
 
                     b.Property<int>("dia");
 
@@ -646,13 +783,21 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<int>("mes");
 
+                    b.Property<decimal>("score");
+
                     b.Property<int>("sharpacceleration");
 
                     b.Property<int>("sharpturn");
 
+                    b.Property<int>("siniestros");
+
                     b.Property<int>("speeding");
 
+                    b.Property<int>("talleres");
+
                     b.Property<int>("trips");
+
+                    b.Property<string>("usuario");
 
                     b.Property<int?>("vehiculoId");
 
@@ -706,6 +851,13 @@ namespace SoftCRP.Web.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Acceso", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Analisis", b =>
@@ -774,6 +926,20 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.History", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.Incidencia", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Log", b =>

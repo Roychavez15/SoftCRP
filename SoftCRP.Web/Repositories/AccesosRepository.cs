@@ -38,5 +38,24 @@ namespace SoftCRP.Web.Repositories
                 .Where(c => c.User.UserName == user)
                 .FirstOrDefaultAsync();
         }
+        public async Task<int> CreateAcceso(User user)
+        {
+            await _dataContext.accesos.AddAsync(new Data.Entities.Acceso
+            {
+                User = user,
+                isActive= true,
+                Informacion= true,
+                Analisis= true,
+                Capacitaciones= true,
+                Conduccion= true,
+                Graficos= true,
+                Mantenimiento= true,
+                Seguimiento= true,
+                Siniestros= true,
+                Sustitutos= true,
+                Tramites= true,
+            });
+            return await _dataContext.SaveChangesAsync();
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SoftCRP.Web.Data.Entities;
 using SoftCRP.Web.Helpers;
 using SoftCRP.Web.Models;
 using SoftCRP.Web.Repositories;
@@ -145,7 +146,8 @@ namespace SoftCRP.Web.Controllers
                     {
                         
                         model.Clientes = _combosHelper.GetComboClientes();
-                        await GetPlacas("0");
+                        //wait GetPlacas("0");
+                        model.Placas = await _combosHelper.GetComboPlacasGPS("0");
                         model.Meses = _combosHelper.GetComboMes();
                         model.Anios = _combosHelper.GetComboAnio();
 
@@ -236,7 +238,8 @@ namespace SoftCRP.Web.Controllers
             //return Json(country.Departments.OrderBy(d => d.Name));
             if (string.IsNullOrEmpty(UserId))
             {
-                return null;
+                //return null;
+                UserId = "0";
             }
 
             //var placas = await _datosRepository.GetPlacasClienteAsync(UserId);
@@ -330,7 +333,7 @@ namespace SoftCRP.Web.Controllers
             };
             return PartialView("_EstadisticasV2PartialView", estadisticasV2ViewModel);
         }
-        public async Task<IActionResult> GetEstadisticas(string UserId, string Placa)
+        public async Task<IActionResult> GetEstadisticas(string UserId, string Placa, string anio, string mes)
         {
             if (string.IsNullOrEmpty(UserId))
             {
@@ -340,6 +343,14 @@ namespace SoftCRP.Web.Controllers
             if (string.IsNullOrEmpty(Placa) || Placa == "0")
             {
                 Placa = "";
+            }
+            if (string.IsNullOrEmpty(anio) || anio == "0")
+            {
+                anio = "";
+            }
+            if (string.IsNullOrEmpty(mes) || mes == "0")
+            {
+                mes = "";
             }
 
             EstadisticasViewModel estadisticasViewModel = new EstadisticasViewModel();
@@ -379,11 +390,113 @@ namespace SoftCRP.Web.Controllers
 
             var resumen = await _datosRepository.GetResumePlacasAsync(UserId, Placa);
 
-            EstadisticasV2ViewModel estadisticasV2ViewModel = new EstadisticasV2ViewModel
+            //EstadisticasV2ViewModel estadisticasV2ViewModel = new EstadisticasV2ViewModel
+            //{
+            //    vehiculos = await _vehiculoProvGpsRepository.GetVehiculosAsync(UserId),
+            //    vehiculosGps = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, UserId, Placa),
+            //};
+            IEnumerable<VehiculoGps> vhc = null;
+            EstadisticasV2ViewModel estadisticasV2ViewModel = new EstadisticasV2ViewModel();
+            
+            if(Placa=="")
             {
-                vehiculos = await _vehiculoProvGpsRepository.GetVehiculosAsync(UserId),
-                vehiculosGps = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, UserId, Placa),
-            };
+                estadisticasV2ViewModel.vehiculos = await _vehiculoProvGpsRepository.GetVehiculosAsync(UserId);
+            }
+            else
+            {
+                var vehiaux = await _vehiculoProvGpsRepository.GetVehiculosAsync(UserId);
+                estadisticasV2ViewModel.vehiculos = vehiaux.Where(p => p.Placa.ToUpper() == Placa.ToUpper());
+            }
+            
+            if (anio=="")
+            {                
+                //estadisticasV2ViewModel.vehiculosGps = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, UserId, Placa);
+                vhc = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, UserId, Placa);
+            }
+            else
+            {
+                var vhcaux = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, UserId, Placa);
+                if(vhcaux.Where(a => a.anio == Convert.ToInt32(anio)).Count()>0)
+                {
+                    //estadisticasV2ViewModel.vehiculosGps = vhc.Where(a => a.anio == Convert.ToInt32(anio));
+                    vhc = vhcaux.Where(a => a.anio == Convert.ToInt32(anio));
+                }
+                else
+                {
+                    //estadisticasV2ViewModel.vehiculosGps = null;
+                    vhc = null;
+                }
+
+            }
+
+            if(mes!="")
+            {
+                var mesint = 0;
+                if(mes.ToUpper()=="ENERO")
+                {
+                    mesint = 1;
+                }
+                else if(mes.ToUpper() == "FEBRERO")
+                {
+                    mesint = 2;
+                }
+                else if (mes.ToUpper() == "MARZO")
+                {
+                    mesint = 3;
+                }
+                else if (mes.ToUpper() == "ABRIL")
+                {
+                    mesint = 4;
+                }
+                else if (mes.ToUpper() == "MAYO")
+                {
+                    mesint = 5;
+                }
+                else if (mes.ToUpper() == "JUNIO")
+                {
+                    mesint = 6;
+                }
+                else if (mes.ToUpper() == "JULIO")
+                {
+                    mesint = 7;
+                }
+                else if (mes.ToUpper() == "AGOSTO")
+                {
+                    mesint = 8;
+                }
+                else if (mes.ToUpper() == "SEPTIEMBRE")
+                {
+                    mesint = 9;
+                }
+                else if (mes.ToUpper() == "OCTUBRE")
+                {
+                    mesint = 10;
+                }
+                else if (mes.ToUpper() == "NOVIEMBRE")
+                {
+                    mesint = 11;
+                }
+                else if (mes.ToUpper() == "DICIEMBRE")
+                {
+                    mesint = 12;
+                }
+                else
+                {
+                    mesint = 0;
+                }
+
+                var vhcaux = vhc.Where(a => a.mes == Convert.ToInt32(mesint));
+                if(vhcaux.Count()>0)
+                {
+                    vhc = vhcaux;
+                }
+                else
+                {
+                    vhc = null;
+                }
+            }
+
+            estadisticasV2ViewModel.vehiculosGps = vhc;
             estadisticasViewModel.EstadisticasV2ViewModel = estadisticasV2ViewModel;
 
 

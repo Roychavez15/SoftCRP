@@ -16,6 +16,7 @@
 
                     <th>PLACA</th>
                     <th>PLACA SUSTITUTO</th>
+                    <th>DISPONIBLE</th>
                     <th>DÍAS DE SUSTITUCIÓN</th>
                     <th>REGIONAL</th>
                     <th>USUARIO</th>
@@ -31,6 +32,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Placa)</td>
                     <td>@Html.DisplayFor(modelItem => item.PlacaSustituto)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Disponible)</td>
                     <td>@Html.DisplayFor(modelItem => item.Dias)</td>
                     <td>@Html.DisplayFor(modelItem => item.Regional)</td>
                     <td>@Html.DisplayFor(modelItem => item.Usuario)</td>
@@ -39,9 +41,9 @@
                     <td>
                         @{
                             var mes = 0;
-                            if (item.Fecha_asignacion != "")
+                            if (item.mes != "")
                             {
-                                mes = Convert.ToDateTime(item.Fecha_asignacion).Month;
+                                mes = Convert.ToInt32(item.mes);
                             }
 
                             var messalida = "";
@@ -99,9 +101,9 @@
                     <td>
                         @{
                             var anio = 0;
-                            if (item.Fecha_asignacion != "")
+                            if (item.ano != "")
                             {
-                                anio = Convert.ToDateTime(item.Fecha_asignacion).Year;
+                                anio = Convert.ToInt32(item.ano);
                             }
                             @Html.DisplayFor(modelItem => anio);
                         }

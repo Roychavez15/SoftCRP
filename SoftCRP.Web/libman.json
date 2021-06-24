@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "amcharts4@4.10.18",
+      "destination": "wwwroot/node_modules/amcharts4/"
+    }
+  ]
+}

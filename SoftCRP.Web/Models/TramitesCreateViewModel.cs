@@ -54,5 +54,9 @@ namespace SoftCRP.Web.Models
 
         public string validez { get; set; }
         public string fechas { get; set; }
+
+        [Display(Name = "Correo")]
+        public string SendEmail { get; set; }
+
     }
 }

@@ -38,8 +38,10 @@ namespace SoftCRP.Web.Repositories
                     .Include(t => t.tipoAnalisis)
                     .Include(a => a.ArchivosAnalisis)
                     .Include(u => u.user)
+                    //.Include(h=>h.history)
                     //.ThenInclude(l=>l.tipo)
                     .Where(c => c.Cedula == cedula)
+                    //.Where(p=>p.history.isActive==true)
                     .OrderByDescending(o => o.Fecha).ToListAsync();
 
 

@@ -199,7 +199,11 @@ namespace SoftCRP.Web.Repositories
 
                         //VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
                         
-                        //var particularidades = await GetParticularidadesAsync(auto.Placa);
+                        var particularidades = await GetParticularidadesAsync(auto.Placa);
+                        List<ParticularidadViewModel> particularidadViewModel = new List<ParticularidadViewModel>();
+                        particularidadViewModel = particularidades.ToList();
+
+                        auto.particularidadViewModels = particularidadViewModel;
 
                         datos.Add(auto);
                     }
@@ -278,6 +282,16 @@ namespace SoftCRP.Web.Repositories
                             pickup = verificanodo(nodo, "pickup"),
 
                         };
+                        //1790027864001
+                        if(auto.Cliente== "1790027864001")
+                        {
+                            var ss = "levapan";
+                        }
+
+                        if (auto.Cliente.Length==12)
+                        {
+                            auto.Cliente = "0" + auto.Cliente;
+                        }
 
                         VehiculoProvGpsViewModel vehiculoProvGps = await GetDatosAutoProvGpsAsync(auto.Cliente, auto.Placa);
 
@@ -519,7 +533,11 @@ namespace SoftCRP.Web.Repositories
                     cliente.nit = nodo.GetElementsByTagName("nit_cliente")[0].InnerText;
                     cliente.nombre = nodo.GetElementsByTagName("nom_cliente")[0].InnerText;
                     cliente.correo = nodo.GetElementsByTagName("correo")[0].InnerText;
-                    cliente.correo_factura = nodo.GetElementsByTagName("correo_facturacion")[0].InnerText;
+                    if(nodo.GetElementsByTagName("correo_facturacion")[0]!=null)
+                    {
+                        cliente.correo_factura = nodo.GetElementsByTagName("correo_facturacion")[0].InnerText;
+                    }
+                    
                 }
             }
 
@@ -1250,7 +1268,7 @@ namespace SoftCRP.Web.Repositories
                         XmlNodeList anotaciones =
                             nodo.GetElementsByTagName("anotaciones");
                         XmlNodeList fecha_siniestro =
-                            nodo.GetElementsByTagName("fecha_siniestro");
+                            nodo.GetElementsByTagName("fecha");
                         XmlNodeList ano =
                             nodo.GetElementsByTagName("ano");
                         XmlNodeList mes =
@@ -1377,7 +1395,10 @@ namespace SoftCRP.Web.Repositories
                     var Año_sustituto = verificanodo(nodo, "Año_sustituto");
                     var Estatus = verificanodo(nodo, "Estatus");
                     var Fecha_asignacion = verificanodo(nodo, "Fecha_asignacion");
-
+                    var ano = verificanodo(nodo, "ano");
+                    var mes = verificanodo(nodo, "mes");
+                    var Dias_historia = verificanodo(nodo, "Dias_historia");
+                    
                     DiasSustitutosViewModel estado = new DiasSustitutosViewModel();
                     estado.Dias = int.Parse(Dias);
                     estado.Placa = Placa_cliente;
@@ -1395,6 +1416,10 @@ namespace SoftCRP.Web.Repositories
                     estado.Usuario = Cliente;
                     estado.Detalle = detalle;
                     estado.Fecha_asignacion = Fecha_asignacion;
+                    estado.ano = ano;
+                    estado.mes = mes;
+                    estado.Dias_historia = int.Parse(Dias_historia);
+
                     Sustitutos.Add(estado);
                 }
 
@@ -1439,6 +1464,8 @@ namespace SoftCRP.Web.Repositories
                         var ciudad_ult_mmto = verificanodo(nodo, "ciudad_ult_mmto");
                         var ult_rutina = verificanodo(nodo, "ult_rutina");
                         var fecha_mmto = verificanodo(nodo, "fecha_mmto");
+                        var anio = verificanodo(nodo, "ano");
+                        var mes = verificanodo(nodo, "mes");
 
                         ResumenPlacasViewModel resumen = new ResumenPlacasViewModel();
 
@@ -1455,6 +1482,61 @@ namespace SoftCRP.Web.Repositories
                         resumen.ciudad_ult_mmto = ciudad_ult_mmto;
                         resumen.ult_rutina = ult_rutina;
                         resumen.fecha_mmto = fecha_mmto;
+                        resumen.anio = anio;
+                        resumen.mes = mes;
+                        if(mes=="1")
+                        {
+                            resumen.mesletras = "Enero";
+                        }
+                        else if(mes == "2")
+                        {
+                            resumen.mesletras = "Febrero";
+                        }
+                        else if (mes == "3")
+                        {
+                            resumen.mesletras = "Marzo";
+                        }
+                        else if (mes == "4")
+                        {
+                            resumen.mesletras = "Abril";
+                        }
+                        else if (mes == "5")
+                        {
+                            resumen.mesletras = "Mayo";
+                        }
+                        else if (mes == "6")
+                        {
+                            resumen.mesletras = "Junio";
+                        }
+                        else if (mes == "7")
+                        {
+                            resumen.mesletras = "Julio";
+                        }
+                        else if (mes == "8")
+                        {
+                            resumen.mesletras = "Agosto";
+                        }
+                        else if (mes == "9")
+                        {
+                            resumen.mesletras = "Septiembre";
+                        }
+                        else if (mes == "10")
+                        {
+                            resumen.mesletras = "Octubre";
+                        }
+                        else if (mes == "11")
+                        {
+                            resumen.mesletras = "Noviembre";
+                        }
+                        else if (mes == "12")
+                        {
+                            resumen.mesletras = "Diciembre";
+                        }
+                        else
+                        {
+                            resumen.mesletras = "";
+                        }
+
 
                         Resumen.Add(resumen);
                     }
@@ -1571,6 +1653,12 @@ namespace SoftCRP.Web.Repositories
         {
             var key = _configuration["KeyWs"];
             List<MantEstadosCuantosViewModel> Cuantos = new List<MantEstadosCuantosViewModel>();
+
+            if(Nit.Length==12)
+            {
+                Nit = "0" + Nit;
+            }
+
 
             var dataxml = await _service1Soap.RENTING_clientes_renting_mantenimientos_estados_cuantosAsync(key, Nit, mes, anio);
             if (dataxml != null)

@@ -64,6 +64,11 @@
                         </div>
                         <!-- /.input group -->
                     </div>
+                    <div class="form-group">
+                        <label asp-for="SendEmail" class="control-label">Correo Conductor (separar por ',' si hay mas de uno)</label>
+                        <textarea asp-for="SendEmail" class="form-control" id="SendEmail"></textarea>
+                        <span asp-validation-for="SendEmail" class="text-danger"></span>
+                    </div>
                     <!-- /.form group -->
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
@@ -107,6 +112,39 @@
                 }
             });
 
+            $("#Placasobj").change(function () {
+                var fileData = new FormData();
+                var placa = $('#Placasobj').val();
+                fileData.append("placa", placa);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Tramites/EmailConductor',
+                    //url: '/SoftCRPWeb/Analisis/Crear',
+                    //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
+                    data: fileData,
+                    //dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (result, textStatus, jqXHR) {
+                        console.log(result);
+                        if (result) {
+                            $('#SendEmail').val(result);
+                        }
+                        else {
+                            $('#SendEmail').val('');
+                            return false;
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#SendEmail').val('');
+                        return false;
+
+                    }
+                });
+
+
+            });
+
             $("#btnsubmit").click(function () {
                 var placas = $('#Placasobj').val();
                 var Tipo = $('#Tipoobj').val();
@@ -119,6 +157,7 @@
                 var ciudad = $('#Ciudadobj').val();
                 var validez = "0";
                 var fechas = $('#reservation').val();
+                var correo = $('#SendEmail').val();
 
                 if ($('#checkboxPrimary1').is(':checked')) {
                     validez = "1";
@@ -147,6 +186,7 @@
                 fileData.append("CiudadId", ciudad);
                 fileData.append("validez", validez);
                 fileData.append("fechas", fechas);
+                fileData.append("SendEmail", correo);
 
                 var FileSize = 0; // in MB
                 debugger;

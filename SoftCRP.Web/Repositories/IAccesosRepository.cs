@@ -8,6 +8,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface IAccesosRepository : IGenericRepository<Acceso>
     {
+        Task<int> CreateAcceso(User user);
         Task<Acceso> GetAcceso(string user);
         Task<int> Actualiza(IEnumerable<Acceso> accesos);
         Task<IEnumerable<Acceso>> GetListAccesosAsync();

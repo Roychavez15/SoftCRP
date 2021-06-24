@@ -22,26 +22,30 @@
                         <label for="search">Buscar</label>
                         <input type="text" class="form-control" id="search">
                     </div>
-                    <div class="form-group col-md-4 col-sm-6">
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                    {
+                        <div class="form-group col-md-4 col-sm-6">
 
-                        <label for="ClienteId">Cliente</label>
-                        <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
-                        </select>
-                    </div>
+                            <label for="ClienteId">Cliente</label>
+                            <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
+                            </select>
+                        </div>
+                    }
+
 
                     @*<div class="form-group col-md-2 col-sm-6">
-                            <label for="anio_search">Año</label>
-                            <input type="text" class="form-control" id="anio_search">
-                        </div>*@
+            <label for="anio_search">Año</label>
+            <input type="text" class="form-control" id="anio_search">
+        </div>*@
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="AnioId">Año</label>
                         <select asp-for="DashBoardV2ViewModel.AnioId" asp-items="Model.DashBoardV2ViewModel.Anios" class="form-control select2">
                         </select>
                     </div>
                     @*<div class="form-group col-md-2 col-sm-6">
-                            <label for="mes_search">Mes</label>
-                            <input type="text" class="form-control" id="mes_search">
-                        </div>*@
+            <label for="mes_search">Mes</label>
+            <input type="text" class="form-control" id="mes_search">
+        </div>*@
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="MesId">Mes</label>
                         <select asp-for="DashBoardV2ViewModel.MesId" asp-items="Model.DashBoardV2ViewModel.Meses" class="form-control select2">
@@ -65,118 +69,43 @@
         </div>
     </div>
 </div>
+
+
 <div class="loaderbody" id="loaderbody">
     <div class="loader"></div>
 </div>
-@section Scripts {
 
+
+@section Scripts {
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
+    
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>*@
+
 
     <script type="text/javascript">
 
 
-                $(document).ready(function () {
+        $(document).ready(function () {
+            $("#loaderbody").removeClass('hide');
 
-                    $("#DashBoardV2ViewModel_ClienteId").change(function () {
-                        var id = $("#DashBoardV2ViewModel_ClienteId").val();
-                        var urlEst = '';
-                        var urlDash = '';
-                       var mes =  $('#DashBoardV2ViewModel_MesId').val();
-                        var anio = $('#DashBoardV2ViewModel_AnioId').val();
-                        if ($("#DashBoardV2ViewModel_ClienteId").val()) {
-                            urlEst = '@Url.Action("GetEstadisticasV2")';
-                            urlDash = '@Url.Action("getDashboard")';
-                        } else {
-                            urlEst = '@Url.Action("GetEstadisticasV2all")';
-                            urlDash = '@Url.Action("getDashboardAll")';
-                        }
+            @*var date = new Date();
+            console.log("ini: " + date);
+                    var date = new Date();
+                    console.log("tabla: " + date);
 
-                        $("#loaderbody").removeClass('hide');
-                        searchDate(id, mes, anio);
-                    $.ajax({
-                            type: 'POST',
-                            url: urlEst,
-                            //dataType: 'json',
-                            data: { UserId: id },
-                            success: function (result) {
-                                if (result) {
-                                    $("#ResumenV2").html(result);
-                                    $("#loaderbody").addClass('hide');
-                                    chargeTable();
-                                }
-                                else {
-                                    $("#loaderbody").addClass('hide');
-                                    return false;
-                                }
-                            },
-                            error: function (ex) {
-                                alert('Failed to retrieve Estadisticas.' + ex);
-                                console.log(ex);
-                                $("#loaderbody").addClass('hide');
-                            }
-                    });
+                    var tabladat = '@Html.Raw(Json.Serialize(@Model.ResumenPlacasViewModel))';*@
+                    //console.log(tabladat);
 
-                    });
-
-                    chargeTable();
-
-                });
-                function chargeTable() {
-                    $("#table").one("preInit.dt", function () {
-                        $("#loaderbody").addClass('hide');
-                        table.column(':contains(Mes)').visible(false);
-                        table.column(':contains(Anio)').visible(false);
-                        $('#search').keyup(function () {
-
-                            table
-                                .search(this.value)
-                                .draw();
-                        });
-                        $('#DashBoardV2ViewModel_AnioId').change(function () {
-                            var id = $("#DashBoardV2ViewModel_ClienteId").val();
-                            var anio = this.value;
-                            var mes = $('#DashBoardV2ViewModel_MesId').val();
-                            table
-                                .column(':contains(Anio)')
-                                .search(this.value)
-                                .draw();
-                            searchDate(id, mes, anio);
-                        });
-                        $('#DashBoardV2ViewModel_MesId').change(function () {
-                            var id = $("#DashBoardV2ViewModel_ClienteId").val();
-                            var mes = this.value;
-                            var anio = $('#DashBoardV2ViewModel_AnioId').val();
-                            table
-                                .column(':contains(Mes)')
-                                .search(this.value)
-                                .draw();
-                            searchDate(id, mes, anio);
-                        });
-                        $(".buttons-excel").hide();
-
-                        $("#table_filter").remove();
-
-                        $("#excelExport").on("click", function () {
-                            $(".buttons-excel").trigger("click");
-                        });
+                    var table= $('#table').DataTable({
 
 
-                    });
-
-
-                    $("#excelExport").css('background-color', '#002D73');
-                    $("#excelExport").hover(function () {
-                        $(this).css('background-color', '#007bff');
-                    }, function () {
-                        $(this).css('background-color', '#002D73');
-                    });
-
-                    var table = $("#table").DataTable({
+                        dataType: "json",
                         autoFill: true,
                         paging: true,
                         lengthChange: true,
@@ -186,6 +115,29 @@
                         autoWidth: true,
                         responsive: true,
                         processing: true,
+                        deferRender: true,
+                        //pagingType: "full_numbers",
+                        ajax: {
+                            url: '@Url.Action("IndexPost")',
+                            type: "POST",
+                            dataSrc: ""
+                        },
+
+                        columns: [
+                            { data: "placa" },
+                            { data: "evento" },
+                            { data: "tipo" },
+                            { data: "estado" },
+                            { data: "usuario" },
+                            { data: "detalle_oc" },
+                            { data: "usuario_asesor" },
+                            { data: "ciudad_ult_mmto" },
+                            { data: "ult_rutina" },
+                            { data: "fecha_mmto" },
+                            { data: "mesletras" },
+                            { data: "anio" },
+                            { data: "nit_cliente" }
+                        ],
                         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                             "<'row'<'col-sm-12'B>>" +
                             "<'row'<'col-sm-12'tr>>" +
@@ -202,28 +154,162 @@
                         order: [[0, 'asc']]
                     });
 
-        }
-        function searchDate(id, mes, anio) {
-            $.ajax({
-                                    type: 'POST',
-                                    url: '@Url.Action("getDashboardDate")',
-                                    //dataType: 'json',
-                                 data: {
-                                     UserId: id,
-                                     mes: mes,
-                                     anio: anio
-                                 },
-                                    success: function (result) {
-                                     if (result) {
-                                            $("#Dashboard").html(result);
-                                        }
-                                    },
-                                    error: function (ex) {
-                                        alert('Failed to retrieve Estadisticas.' + ex);
-                                        console.log(ex);
+                   // $("#loaderbody").addClass('hide');
+
+                    @*$("#DashBoardV2ViewModel_ClienteId").change(function () {
+                        var id = $("#DashBoardV2ViewModel_ClienteId").val();
+                        var urlEst = '';
+                        var urlDash = '';
+                       var mes =  $('#DashBoardV2ViewModel_MesId').val();
+                        var anio = $('#DashBoardV2ViewModel_AnioId').val();
+                        if ($("#DashBoardV2ViewModel_ClienteId").val()) {
+                            urlEst = '@Url.Action("GetEstadisticasV2")';
+                            urlDash = '@Url.Action("getDashboard")';
+                        } else {
+                            urlEst = '@Url.Action("GetEstadisticasV2all")';
+                            urlDash = '@Url.Action("getDashboardAll")';
+                        }
+
+                        $("#loaderbody").removeClass('hide');
+                        searchDate(id, mes, anio);
+                        $.ajax({
+                                type: 'POST',
+                                url: urlEst,
+                                //dataType: 'json',
+                                data: { UserId: id },
+                                success: function (result) {
+                                    if (result) {
+                                        $("#ResumenV2").html(result);
                                         $("#loaderbody").addClass('hide');
-                                    }});
+                                        chargeTable();
+                                    }
+                                    else {
+                                        $("#loaderbody").addClass('hide');
+                                        return false;
+                                    }
+                                },
+                                error: function (ex) {
+                                    alert('Failed to retrieve Estadisticas.' + ex);
+                                    console.log(ex);
+                                    $("#loaderbody").addClass('hide');
+                                }
+                        });
+
+                    });*@
+
+                    
+                    chargeTable();
+            });
+
+
+        function chargeTable() {
+            var date = new Date();
+            console.log("chargeTable: " + date);
+
+            $("#table").one("preInit.dt", function () {
+                var date = new Date();
+                console.log("preInit: " + date);
+
+                var table = $('#table').DataTable();
+
+                table.column(':contains(Mes)').visible(false);
+                table.column(':contains(Anio)').visible(false);
+                table.column(':contains(nit_cliente)').visible(false);
+
+                    $('#search').keyup(function () {
+
+                        table
+                            .search(this.value)
+                            .draw();
+
+                        //var id = $("#DashBoardV2ViewModel_ClienteId").val();
+                        //var mes = $('#DashBoardV2ViewModel_MesId').val();
+                        //var anio = $('#DashBoardV2ViewModel_AnioId').val();
+                        //searchDate(id, mes, anio);
+                    });
+                    $('#DashBoardV2ViewModel_AnioId').change(function () {
+                        var id = $("#DashBoardV2ViewModel_ClienteId").val();
+                        var anio = this.value;
+                        var mes = $('#DashBoardV2ViewModel_MesId').val();
+                        table
+                            .column(':contains(Anio)')
+                            .search(this.value)
+                            .draw();
+                        searchDate(id, mes, anio);
+                    });
+                    $('#DashBoardV2ViewModel_MesId').change(function () {
+                        var id = $("#DashBoardV2ViewModel_ClienteId").val();
+                        var mes = this.value;
+                        var anio = $('#DashBoardV2ViewModel_AnioId').val();
+                        table
+                            .column(':contains(Mes)')
+                            .search(this.value)
+                            .draw();
+                        searchDate(id, mes, anio);
+                    });
+                $('#DashBoardV2ViewModel_ClienteId').change(function () {
+                    var id = this.value;
+                    var mes = $('#DashBoardV2ViewModel_MesId').val();
+                    var anio = $('#DashBoardV2ViewModel_AnioId').val();
+                    table
+                        .column(':contains(nit_cliente)')
+                        .search(this.value)
+                        .draw();
+                    searchDate(id, mes, anio);
+                });
+                    $(".buttons-excel").hide();
+
+                    $("#table_filter").remove();
+
+                    $("#excelExport").on("click", function () {
+                        $(".buttons-excel").trigger("click");
+                    });                        
+            });
+
+            $("#excelExport").css('background-color', '#002D73');
+            $("#excelExport").hover(function () {
+                $(this).css('background-color', '#007bff');
+            }, function () {
+                $(this).css('background-color', '#002D73');
+            });
+
+            $("#loaderbody").addClass('hide');
+        }//fin chagtabl
+
+        function searchDate(id, mes, anio) {
+            var date = new Date();
+            console.log("searchDate: " + date);
+            $("#loaderbody").removeClass('hide');
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getDashboardDate")',
+                    //dataType: 'json',
+                    data: {
+                        UserId: id,
+                        mes: mes,
+                        anio: anio
+                    },
+                    success: function (result) {
+                        if (result) {
+                            $("#Dashboard").html(result);
+                            
+                        }
+                        
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Estadisticas.' + ex);
+                        console.log(ex);
+                        $("#loaderbody").addClass('hide');
+                    }
+            });
+
+            $("#loaderbody").addClass('hide');
+            
         }
+
     </script>
+
+
 
 }

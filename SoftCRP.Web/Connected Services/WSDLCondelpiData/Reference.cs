@@ -100,6 +100,26 @@ namespace WSDLCondelpiData
                     string COD_REGIONAL, 
                     string CODE);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Cotizador_Apc_AEADE", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<bool> Cotizador_Apc_AEADEAsync(
+                    string key, 
+                    string NOMBRE1, 
+                    string NOMBRE2, 
+                    string APELLIDO1, 
+                    string APELLIDO2, 
+                    string CEDULA, 
+                    string TELEFONO, 
+                    string MAIL, 
+                    System.DateTime FECHA_REGISTRO, 
+                    string TIPCLI_CODIGO, 
+                    string ID_PLAN, 
+                    string Monto, 
+                    string REFERIDO, 
+                    string RELACION_REF, 
+                    string COD_REGIONAL, 
+                    string CODE);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/LOG_LOGIN", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<bool> LOG_LOGINAsync(string key, string Aplicacion, string Usuario, string Equipo, string Tipo, string Descripcion, int error);
@@ -139,6 +159,18 @@ namespace WSDLCondelpiData
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Validacion_user_apc", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Validacion_user_apcAsync(string key, string cedula);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_DATOS_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> APC_DATOS_FMAAsync(string key, int MES, int ANIO);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/NW_DATOS_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> NW_DATOS_FMAAsync(string key, int MES, int ANIO);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_DATOS_DW_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> APC_DATOS_DW_FMAAsync(string key, int MES, int ANIO);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Inserta_Prospectos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -279,6 +311,50 @@ namespace WSDLCondelpiData
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_RENTING11", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_RENTING11Async(string key, string placa, string ruc);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_COBRANZA1", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_COBRANZA1Async(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_COBRANZA2", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_COBRANZA2Async(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_EVENTO_adj", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_adjAsync(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_EVENTO_Ofertas", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_OfertasAsync(string key, int mes, int anio);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_EVENTO_Felicitación", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_FelicitaciónAsync(string key, int mes, int anio);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_ADJ_Recorda_pago", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_ADJ_Recorda_pagoAsync(string key, string fecha);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CUMPLEAÑOS_activos", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_CUMPLEAÑOS_activosAsync(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_AGRADECIMIENTO_PAGO", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_AGRADECIMIENTO_PAGOAsync(string key, string fecha);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_beneficios_AIG", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_beneficios_AIGAsync(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_próximos_liquidar", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_próximos_liquidarAsync(string key, int mes, int anio);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CNJ_proces", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_CNJ_procesAsync(string key);
     }
     
     /// <remarks/>
@@ -502,6 +578,27 @@ namespace WSDLCondelpiData
             return base.Channel.CotizadorApc_LANDAsync(key, NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2, CEDULA, TELEFONO, MAIL, FECHA_REGISTRO, TIPCLI_CODIGO, ID_PLAN, Monto, REFERIDO, RELACION_REF, COD_REGIONAL, CODE);
         }
         
+        public System.Threading.Tasks.Task<bool> Cotizador_Apc_AEADEAsync(
+                    string key, 
+                    string NOMBRE1, 
+                    string NOMBRE2, 
+                    string APELLIDO1, 
+                    string APELLIDO2, 
+                    string CEDULA, 
+                    string TELEFONO, 
+                    string MAIL, 
+                    System.DateTime FECHA_REGISTRO, 
+                    string TIPCLI_CODIGO, 
+                    string ID_PLAN, 
+                    string Monto, 
+                    string REFERIDO, 
+                    string RELACION_REF, 
+                    string COD_REGIONAL, 
+                    string CODE)
+        {
+            return base.Channel.Cotizador_Apc_AEADEAsync(key, NOMBRE1, NOMBRE2, APELLIDO1, APELLIDO2, CEDULA, TELEFONO, MAIL, FECHA_REGISTRO, TIPCLI_CODIGO, ID_PLAN, Monto, REFERIDO, RELACION_REF, COD_REGIONAL, CODE);
+        }
+        
         public System.Threading.Tasks.Task<bool> LOG_LOGINAsync(string key, string Aplicacion, string Usuario, string Equipo, string Tipo, string Descripcion, int error)
         {
             return base.Channel.LOG_LOGINAsync(key, Aplicacion, Usuario, Equipo, Tipo, Descripcion, error);
@@ -559,6 +656,21 @@ namespace WSDLCondelpiData
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Validacion_user_apcAsync(string key, string cedula)
         {
             return base.Channel.Validacion_user_apcAsync(key, cedula);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> APC_DATOS_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.APC_DATOS_FMAAsync(key, MES, ANIO);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> NW_DATOS_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.NW_DATOS_FMAAsync(key, MES, ANIO);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> APC_DATOS_DW_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.APC_DATOS_DW_FMAAsync(key, MES, ANIO);
         }
         
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> Inserta_ProspectosAsync(string key, float CODIGO, string NOMBRE1, string APELLIDO1, string CEDULA, string TIPODOCU, string MAIL, string TELEFONO, string BUSSINES_ADVISOR, string ESTABLIS_TYPE_ID, float MONTO, string FUENTE, string OS, string ESTABLIS_NAME, int USER_CODE)
@@ -734,6 +846,61 @@ namespace WSDLCondelpiData
         public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_RENTING11Async(string key, string placa, string ruc)
         {
             return base.Channel.WS_RENTING11Async(key, placa, ruc);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_COBRANZA1Async(string key)
+        {
+            return base.Channel.WS_COBRANZA1Async(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_COBRANZA2Async(string key)
+        {
+            return base.Channel.WS_COBRANZA2Async(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_adjAsync(string key)
+        {
+            return base.Channel.WS_EVENTO_adjAsync(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_OfertasAsync(string key, int mes, int anio)
+        {
+            return base.Channel.WS_EVENTO_OfertasAsync(key, mes, anio);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_EVENTO_FelicitaciónAsync(string key, int mes, int anio)
+        {
+            return base.Channel.WS_EVENTO_FelicitaciónAsync(key, mes, anio);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_ADJ_Recorda_pagoAsync(string key, string fecha)
+        {
+            return base.Channel.WS_ADJ_Recorda_pagoAsync(key, fecha);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_CUMPLEAÑOS_activosAsync(string key)
+        {
+            return base.Channel.WS_CUMPLEAÑOS_activosAsync(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_AGRADECIMIENTO_PAGOAsync(string key, string fecha)
+        {
+            return base.Channel.WS_AGRADECIMIENTO_PAGOAsync(key, fecha);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_beneficios_AIGAsync(string key)
+        {
+            return base.Channel.WS_beneficios_AIGAsync(key);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_próximos_liquidarAsync(string key, int mes, int anio)
+        {
+            return base.Channel.WS_próximos_liquidarAsync(key, mes, anio);
+        }
+        
+        public System.Threading.Tasks.Task<WSDLCondelpiData.ArrayOfXElement> WS_CNJ_procesAsync(string key)
+        {
+            return base.Channel.WS_CNJ_procesAsync(key);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

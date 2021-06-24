@@ -85,14 +85,26 @@ namespace SoftCRP.Web.Controllers
                 {
                     monto = confirmacion[0].Monto;
                 }
-                var valor = monto * dias;
-                if (info.Placa != "" && info.Estado == "No disponible")
+                //var valor = monto * dias;
+                //if (info.Placa != "" && info.Estado == "No disponible")
+                //{
+                //    viewModel.sustitutos_utilizados += 1;
+                //    viewModel.ahorro += valor;
+                //}
+                //else
+                //{
+                //    viewModel.ahorro_acumulado += valor;
+                //}
+                var valor = 0;
+                if(info.Disponible.ToUpper()=="SI")
                 {
                     viewModel.sustitutos_utilizados += 1;
+                    valor = monto * info.Dias;
                     viewModel.ahorro += valor;
                 }
                 else
                 {
+                    valor = monto * info.Dias_historia;
                     viewModel.ahorro_acumulado += valor;
                 }
             }

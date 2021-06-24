@@ -16,26 +16,28 @@
                         <label for="search">Buscar</label>
                         <input type="text" class="form-control" id="search">
                     </div>
-                    <div class="form-group col-md-4 col-sm-6">
-
-                        <label for="ClienteId">Cliente</label>
-                        <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-control select2">
-                        </select>
-                    </div>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                    {
+                        <div class="form-group col-md-4 col-sm-6">
+                            <label for="ClienteId">Cliente</label>
+                            <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-control select2">
+                            </select>
+                        </div>
+                    }
 
                     @*<div class="form-group col-md-2 col-sm-6">
-                        <label for="anio_search">Año</label>
-                        <input type="text" class="form-control" id="anio_search">
-                    </div>*@
+            <label for="anio_search">Año</label>
+            <input type="text" class="form-control" id="anio_search">
+        </div>*@
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="AnioId">Año</label>
                         <select asp-for="AnioId" asp-items="Model.Anios" class="form-control select2">
                         </select>
                     </div>
                     @*<div class="form-group col-md-2 col-sm-6">
-                        <label for="mes_search">Mes</label>
-                        <input type="text" class="form-control" id="mes_search">
-                    </div>*@
+            <label for="mes_search">Mes</label>
+            <input type="text" class="form-control" id="mes_search">
+        </div>*@
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="MesId">Mes</label>
                         <select asp-for="MesId" asp-items="Model.Meses" class="form-control select2">
@@ -115,11 +117,12 @@
                     chargeTable();
 
                 });
+
                 function chargeTable() {
                     $("#table").one("preInit.dt", function () {
                         $("#loaderbody").addClass('hide');
-                        table.column(':contains(Mes)').visible(false);
-                        table.column(':contains(Anio)').visible(false);
+                        //table.column(':contains(Mes)').visible(false);
+                        //table.column(':contains(Anio)').visible(false);
                         $('#search').keyup(function () {
 
                             table
@@ -159,7 +162,7 @@
                                 .search(this.value)                                
                                 .draw();
                         });
-                        $(".buttons-excel").hide();
+                        //$(".buttons-excel").hide();
 
                         $("#table_filter").remove();
 
@@ -193,7 +196,7 @@
                             "<'row'<'col-sm-12'tr>>" +
                             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                         buttons: [
-                            'excel'
+                            'copy', 'csv', 'excel', 'pdf'
                         ],
                         language: {
 

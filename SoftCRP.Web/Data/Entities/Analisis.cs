@@ -41,5 +41,11 @@ namespace SoftCRP.Web.Data.Entities
             set;
         }
 
+        //[NotMapped]
+        //public History history
+        //{
+        //    get;
+        //    set;
+        //}
     }
 }

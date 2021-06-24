@@ -16,6 +16,38 @@ namespace SWDLCondelpi
     public interface Service1Soap
     {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getdatosfull_ci", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> Getdatosfull_ciAsync(SWDLCondelpi.Getdatosfull_ciRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getfamilianew", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> GetfamilianewAsync(SWDLCondelpi.GetfamilianewRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getfamilia", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> GetfamiliaAsync(SWDLCondelpi.GetfamiliaRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Autoriz_EQUIFAX", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<bool> Autoriz_EQUIFAXAsync(string key, string CEDULA, string NOMBRES, string CORREO, string IP_CLIENTE, string NAVEGADOR, string CIUDAD, string PAIS, string ASESOR_COMERCIAL);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/URLAutoriz_EQUIFAX", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> URLAutoriz_EQUIFAXAsync(string key, string CEDULA);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/CNJ_envio", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> CNJ_envioAsync(string key, string CEDULA);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/CNJ_envio_RUC", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> CNJ_envio_RUCAsync(string key, string CEDULA);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDataCNJ_Load", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataCNJ_LoadAsync(string key, string identidad, string nombre);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GET_DATA_IP", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_IPAsync(string key, string CEDULA);
@@ -80,6 +112,22 @@ namespace SWDLCondelpi
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<string> Get_LicenciaAsync(string key, string placa);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CNJ_proces", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> WS_CNJ_procesAsync(string key);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CNJ_proces_actu", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> WS_CNJ_proces_actuAsync(string key, string Identificacion);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CNJ_ingreso_actores", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> WS_CNJ_ingreso_actoresAsync(string key, string Identificacion, string IdActor, string Nombre, string No, string FechaIngreso, string NoProceso, string Accion);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/WS_CNJ_ingreso_demandados", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> WS_CNJ_ingreso_demandadosAsync(string key, string Identificacion, string IdActor, string Nombre, string No, string FechaIngreso, string NoProceso, string Accion);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetIpSuver", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<string> GetIpSuverAsync(string key, string equipo);
@@ -127,6 +175,22 @@ namespace SWDLCondelpi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDataNw", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataNwAsync(string key, string identidad);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/botGetDataRC", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> botGetDataRCAsync(string key, string identidad);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/botGetDataplaca", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> botGetDataplacaAsync(string key, string placa);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/botGetDataNWSTRING", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> botGetDataNWSTRINGAsync(string key, string cedula);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/botGetDataVENTAS", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> botGetDataVENTASAsync(string key);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetSoftCRP", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -211,6 +275,10 @@ namespace SWDLCondelpi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetRegsitro_IMG_FOT1", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<SWDLCondelpi.GetRegsitro_IMG_FOT1Response> GetRegsitro_IMG_FOT1Async(SWDLCondelpi.GetRegsitro_IMG_FOT1Request request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/put_Biocli_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<string> put_Biocli_userAsync(string key, string USER, string tipo);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDataverificacion", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -331,6 +399,18 @@ namespace SWDLCondelpi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_cotizador_cedula", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<string> APC_cotizador_cedulaAsync(string key, string cotizador);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_DATOS_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> APC_DATOS_FMAAsync(string key, int MES, int ANIO);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/NW_DATOS_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> NW_DATOS_FMAAsync(string key, int MES, int ANIO);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_DATOS_DW_FMA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> APC_DATOS_DW_FMAAsync(string key, int MES, int ANIO);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/APC_cedula", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -491,38 +571,6 @@ namespace SWDLCondelpi
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GET_DATA_FAMILIA_FULL_MUERTO", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_MUERTOAsync(string key, string CEDULA);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getdatosfull_ci", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> Getdatosfull_ciAsync(SWDLCondelpi.Getdatosfull_ciRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getfamilianew", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> GetfamilianewAsync(SWDLCondelpi.GetfamilianewRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Getfamilia", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> GetfamiliaAsync(SWDLCondelpi.GetfamiliaRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/Autoriz_EQUIFAX", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<bool> Autoriz_EQUIFAXAsync(string key, string CEDULA, string NOMBRES, string CORREO, string IP_CLIENTE, string NAVEGADOR, string CIUDAD, string PAIS, string ASESOR_COMERCIAL);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/URLAutoriz_EQUIFAX", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> URLAutoriz_EQUIFAXAsync(string key, string CEDULA);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/CNJ_envio", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> CNJ_envioAsync(string key, string CEDULA);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/CNJ_envio_RUC", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<string> CNJ_envio_RUCAsync(string key, string CEDULA);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetDataCNJ_Load", ReplyAction="*")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataCNJ_LoadAsync(string key, string identidad, string nombre);
     }
     
     /// <remarks/>
@@ -562,6 +610,157 @@ namespace SWDLCondelpi
             {
                 this.any1Field = value;
             }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Getdatosfull_ci", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class Getdatosfull_ciRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string key;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string cedula;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public string parametro;
+        
+        public Getdatosfull_ciRequest()
+        {
+        }
+        
+        public Getdatosfull_ciRequest(string key, string cedula, string parametro)
+        {
+            this.key = key;
+            this.cedula = cedula;
+            this.parametro = parametro;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Getdatosfull_ciResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class Getdatosfull_ciResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
+        public SWDLCondelpi.ArrayOfDataTableDataTable[] Getdatosfull_ciResult;
+        
+        public Getdatosfull_ciResponse()
+        {
+        }
+        
+        public Getdatosfull_ciResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] Getdatosfull_ciResult)
+        {
+            this.Getdatosfull_ciResult = Getdatosfull_ciResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Getfamilianew", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetfamilianewRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string key;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string cedula;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public string parametro;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
+        public string tipobusqueda;
+        
+        public GetfamilianewRequest()
+        {
+        }
+        
+        public GetfamilianewRequest(string key, string cedula, string parametro, string tipobusqueda)
+        {
+            this.key = key;
+            this.cedula = cedula;
+            this.parametro = parametro;
+            this.tipobusqueda = tipobusqueda;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetfamilianewResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetfamilianewResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
+        public SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamilianewResult;
+        
+        public GetfamilianewResponse()
+        {
+        }
+        
+        public GetfamilianewResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamilianewResult)
+        {
+            this.GetfamilianewResult = GetfamilianewResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="Getfamilia", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetfamiliaRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public string key;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
+        public string cedula;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
+        public string parametro;
+        
+        public GetfamiliaRequest()
+        {
+        }
+        
+        public GetfamiliaRequest(string key, string cedula, string parametro)
+        {
+            this.key = key;
+            this.cedula = cedula;
+            this.parametro = parametro;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="GetfamiliaResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class GetfamiliaResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
+        public SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamiliaResult;
+        
+        public GetfamiliaResponse()
+        {
+        }
+        
+        public GetfamiliaResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamiliaResult)
+        {
+            this.GetfamiliaResult = GetfamiliaResult;
         }
     }
     
@@ -1627,157 +1826,6 @@ namespace SWDLCondelpi
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="Getdatosfull_ci", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class Getdatosfull_ciRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public string key;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
-        public string cedula;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
-        public string parametro;
-        
-        public Getdatosfull_ciRequest()
-        {
-        }
-        
-        public Getdatosfull_ciRequest(string key, string cedula, string parametro)
-        {
-            this.key = key;
-            this.cedula = cedula;
-            this.parametro = parametro;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="Getdatosfull_ciResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class Getdatosfull_ciResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
-        public SWDLCondelpi.ArrayOfDataTableDataTable[] Getdatosfull_ciResult;
-        
-        public Getdatosfull_ciResponse()
-        {
-        }
-        
-        public Getdatosfull_ciResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] Getdatosfull_ciResult)
-        {
-            this.Getdatosfull_ciResult = Getdatosfull_ciResult;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="Getfamilianew", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetfamilianewRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public string key;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
-        public string cedula;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
-        public string parametro;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=3)]
-        public string tipobusqueda;
-        
-        public GetfamilianewRequest()
-        {
-        }
-        
-        public GetfamilianewRequest(string key, string cedula, string parametro, string tipobusqueda)
-        {
-            this.key = key;
-            this.cedula = cedula;
-            this.parametro = parametro;
-            this.tipobusqueda = tipobusqueda;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetfamilianewResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetfamilianewResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
-        public SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamilianewResult;
-        
-        public GetfamilianewResponse()
-        {
-        }
-        
-        public GetfamilianewResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamilianewResult)
-        {
-            this.GetfamilianewResult = GetfamilianewResult;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="Getfamilia", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetfamiliaRequest
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        public string key;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=1)]
-        public string cedula;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=2)]
-        public string parametro;
-        
-        public GetfamiliaRequest()
-        {
-        }
-        
-        public GetfamiliaRequest(string key, string cedula, string parametro)
-        {
-            this.key = key;
-            this.cedula = cedula;
-            this.parametro = parametro;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="GetfamiliaResponse", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
-    public partial class GetfamiliaResponse
-    {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("DataTable")]
-        public SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamiliaResult;
-        
-        public GetfamiliaResponse()
-        {
-        }
-        
-        public GetfamiliaResponse(SWDLCondelpi.ArrayOfDataTableDataTable[] GetfamiliaResult)
-        {
-            this.GetfamiliaResult = GetfamiliaResult;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.2")]
     public interface Service1SoapChannel : SWDLCondelpi.Service1Soap, System.ServiceModel.IClientChannel
     {
@@ -1819,6 +1867,77 @@ namespace SWDLCondelpi
         public Service1SoapClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> SWDLCondelpi.Service1Soap.Getdatosfull_ciAsync(SWDLCondelpi.Getdatosfull_ciRequest request)
+        {
+            return base.Channel.Getdatosfull_ciAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> Getdatosfull_ciAsync(string key, string cedula, string parametro)
+        {
+            SWDLCondelpi.Getdatosfull_ciRequest inValue = new SWDLCondelpi.Getdatosfull_ciRequest();
+            inValue.key = key;
+            inValue.cedula = cedula;
+            inValue.parametro = parametro;
+            return ((SWDLCondelpi.Service1Soap)(this)).Getdatosfull_ciAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> SWDLCondelpi.Service1Soap.GetfamilianewAsync(SWDLCondelpi.GetfamilianewRequest request)
+        {
+            return base.Channel.GetfamilianewAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> GetfamilianewAsync(string key, string cedula, string parametro, string tipobusqueda)
+        {
+            SWDLCondelpi.GetfamilianewRequest inValue = new SWDLCondelpi.GetfamilianewRequest();
+            inValue.key = key;
+            inValue.cedula = cedula;
+            inValue.parametro = parametro;
+            inValue.tipobusqueda = tipobusqueda;
+            return ((SWDLCondelpi.Service1Soap)(this)).GetfamilianewAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> SWDLCondelpi.Service1Soap.GetfamiliaAsync(SWDLCondelpi.GetfamiliaRequest request)
+        {
+            return base.Channel.GetfamiliaAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> GetfamiliaAsync(string key, string cedula, string parametro)
+        {
+            SWDLCondelpi.GetfamiliaRequest inValue = new SWDLCondelpi.GetfamiliaRequest();
+            inValue.key = key;
+            inValue.cedula = cedula;
+            inValue.parametro = parametro;
+            return ((SWDLCondelpi.Service1Soap)(this)).GetfamiliaAsync(inValue);
+        }
+        
+        public System.Threading.Tasks.Task<bool> Autoriz_EQUIFAXAsync(string key, string CEDULA, string NOMBRES, string CORREO, string IP_CLIENTE, string NAVEGADOR, string CIUDAD, string PAIS, string ASESOR_COMERCIAL)
+        {
+            return base.Channel.Autoriz_EQUIFAXAsync(key, CEDULA, NOMBRES, CORREO, IP_CLIENTE, NAVEGADOR, CIUDAD, PAIS, ASESOR_COMERCIAL);
+        }
+        
+        public System.Threading.Tasks.Task<string> URLAutoriz_EQUIFAXAsync(string key, string CEDULA)
+        {
+            return base.Channel.URLAutoriz_EQUIFAXAsync(key, CEDULA);
+        }
+        
+        public System.Threading.Tasks.Task<string> CNJ_envioAsync(string key, string CEDULA)
+        {
+            return base.Channel.CNJ_envioAsync(key, CEDULA);
+        }
+        
+        public System.Threading.Tasks.Task<string> CNJ_envio_RUCAsync(string key, string CEDULA)
+        {
+            return base.Channel.CNJ_envio_RUCAsync(key, CEDULA);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataCNJ_LoadAsync(string key, string identidad, string nombre)
+        {
+            return base.Channel.GetDataCNJ_LoadAsync(key, identidad, nombre);
         }
         
         public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_IPAsync(string key, string CEDULA)
@@ -1906,6 +2025,26 @@ namespace SWDLCondelpi
             return base.Channel.Get_LicenciaAsync(key, placa);
         }
         
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> WS_CNJ_procesAsync(string key)
+        {
+            return base.Channel.WS_CNJ_procesAsync(key);
+        }
+        
+        public System.Threading.Tasks.Task<string> WS_CNJ_proces_actuAsync(string key, string Identificacion)
+        {
+            return base.Channel.WS_CNJ_proces_actuAsync(key, Identificacion);
+        }
+        
+        public System.Threading.Tasks.Task<string> WS_CNJ_ingreso_actoresAsync(string key, string Identificacion, string IdActor, string Nombre, string No, string FechaIngreso, string NoProceso, string Accion)
+        {
+            return base.Channel.WS_CNJ_ingreso_actoresAsync(key, Identificacion, IdActor, Nombre, No, FechaIngreso, NoProceso, Accion);
+        }
+        
+        public System.Threading.Tasks.Task<string> WS_CNJ_ingreso_demandadosAsync(string key, string Identificacion, string IdActor, string Nombre, string No, string FechaIngreso, string NoProceso, string Accion)
+        {
+            return base.Channel.WS_CNJ_ingreso_demandadosAsync(key, Identificacion, IdActor, Nombre, No, FechaIngreso, NoProceso, Accion);
+        }
+        
         public System.Threading.Tasks.Task<string> GetIpSuverAsync(string key, string equipo)
         {
             return base.Channel.GetIpSuverAsync(key, equipo);
@@ -1964,6 +2103,26 @@ namespace SWDLCondelpi
         public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataNwAsync(string key, string identidad)
         {
             return base.Channel.GetDataNwAsync(key, identidad);
+        }
+        
+        public System.Threading.Tasks.Task<string> botGetDataRCAsync(string key, string identidad)
+        {
+            return base.Channel.botGetDataRCAsync(key, identidad);
+        }
+        
+        public System.Threading.Tasks.Task<string> botGetDataplacaAsync(string key, string placa)
+        {
+            return base.Channel.botGetDataplacaAsync(key, placa);
+        }
+        
+        public System.Threading.Tasks.Task<string> botGetDataNWSTRINGAsync(string key, string cedula)
+        {
+            return base.Channel.botGetDataNWSTRINGAsync(key, cedula);
+        }
+        
+        public System.Threading.Tasks.Task<string> botGetDataVENTASAsync(string key)
+        {
+            return base.Channel.botGetDataVENTASAsync(key);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2228,6 +2387,11 @@ namespace SWDLCondelpi
             return ((SWDLCondelpi.Service1Soap)(this)).GetRegsitro_IMG_FOT1Async(inValue);
         }
         
+        public System.Threading.Tasks.Task<string> put_Biocli_userAsync(string key, string USER, string tipo)
+        {
+            return base.Channel.put_Biocli_userAsync(key, USER, tipo);
+        }
+        
         public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataverificacionAsync(string key, string cedula)
         {
             return base.Channel.GetDataverificacionAsync(key, cedula);
@@ -2376,6 +2540,21 @@ namespace SWDLCondelpi
         public System.Threading.Tasks.Task<string> APC_cotizador_cedulaAsync(string key, string cotizador)
         {
             return base.Channel.APC_cotizador_cedulaAsync(key, cotizador);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> APC_DATOS_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.APC_DATOS_FMAAsync(key, MES, ANIO);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> NW_DATOS_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.NW_DATOS_FMAAsync(key, MES, ANIO);
+        }
+        
+        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> APC_DATOS_DW_FMAAsync(string key, int MES, int ANIO)
+        {
+            return base.Channel.APC_DATOS_DW_FMAAsync(key, MES, ANIO);
         }
         
         public System.Threading.Tasks.Task<string> APC_cedulaAsync(string key, string cedula)
@@ -2585,77 +2764,6 @@ namespace SWDLCondelpi
         public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GET_DATA_FAMILIA_FULL_MUERTOAsync(string key, string CEDULA)
         {
             return base.Channel.GET_DATA_FAMILIA_FULL_MUERTOAsync(key, CEDULA);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> SWDLCondelpi.Service1Soap.Getdatosfull_ciAsync(SWDLCondelpi.Getdatosfull_ciRequest request)
-        {
-            return base.Channel.Getdatosfull_ciAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SWDLCondelpi.Getdatosfull_ciResponse> Getdatosfull_ciAsync(string key, string cedula, string parametro)
-        {
-            SWDLCondelpi.Getdatosfull_ciRequest inValue = new SWDLCondelpi.Getdatosfull_ciRequest();
-            inValue.key = key;
-            inValue.cedula = cedula;
-            inValue.parametro = parametro;
-            return ((SWDLCondelpi.Service1Soap)(this)).Getdatosfull_ciAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> SWDLCondelpi.Service1Soap.GetfamilianewAsync(SWDLCondelpi.GetfamilianewRequest request)
-        {
-            return base.Channel.GetfamilianewAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SWDLCondelpi.GetfamilianewResponse> GetfamilianewAsync(string key, string cedula, string parametro, string tipobusqueda)
-        {
-            SWDLCondelpi.GetfamilianewRequest inValue = new SWDLCondelpi.GetfamilianewRequest();
-            inValue.key = key;
-            inValue.cedula = cedula;
-            inValue.parametro = parametro;
-            inValue.tipobusqueda = tipobusqueda;
-            return ((SWDLCondelpi.Service1Soap)(this)).GetfamilianewAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> SWDLCondelpi.Service1Soap.GetfamiliaAsync(SWDLCondelpi.GetfamiliaRequest request)
-        {
-            return base.Channel.GetfamiliaAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SWDLCondelpi.GetfamiliaResponse> GetfamiliaAsync(string key, string cedula, string parametro)
-        {
-            SWDLCondelpi.GetfamiliaRequest inValue = new SWDLCondelpi.GetfamiliaRequest();
-            inValue.key = key;
-            inValue.cedula = cedula;
-            inValue.parametro = parametro;
-            return ((SWDLCondelpi.Service1Soap)(this)).GetfamiliaAsync(inValue);
-        }
-        
-        public System.Threading.Tasks.Task<bool> Autoriz_EQUIFAXAsync(string key, string CEDULA, string NOMBRES, string CORREO, string IP_CLIENTE, string NAVEGADOR, string CIUDAD, string PAIS, string ASESOR_COMERCIAL)
-        {
-            return base.Channel.Autoriz_EQUIFAXAsync(key, CEDULA, NOMBRES, CORREO, IP_CLIENTE, NAVEGADOR, CIUDAD, PAIS, ASESOR_COMERCIAL);
-        }
-        
-        public System.Threading.Tasks.Task<string> URLAutoriz_EQUIFAXAsync(string key, string CEDULA)
-        {
-            return base.Channel.URLAutoriz_EQUIFAXAsync(key, CEDULA);
-        }
-        
-        public System.Threading.Tasks.Task<string> CNJ_envioAsync(string key, string CEDULA)
-        {
-            return base.Channel.CNJ_envioAsync(key, CEDULA);
-        }
-        
-        public System.Threading.Tasks.Task<string> CNJ_envio_RUCAsync(string key, string CEDULA)
-        {
-            return base.Channel.CNJ_envio_RUCAsync(key, CEDULA);
-        }
-        
-        public System.Threading.Tasks.Task<SWDLCondelpi.ArrayOfXElement> GetDataCNJ_LoadAsync(string key, string identidad, string nombre)
-        {
-            return base.Channel.GetDataCNJ_LoadAsync(key, identidad, nombre);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

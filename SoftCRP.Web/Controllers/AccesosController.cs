@@ -64,6 +64,10 @@ namespace SoftCRP.Web.Controllers
             {
                 accesos.ForEach(i => i.Graficos = true);
             }
+            if (Valor == "GPS")
+            {
+                accesos.ForEach(i => i.GPS = true);
+            }
             await _accesosRepository.Actualiza(accesos);
 
 
@@ -113,7 +117,10 @@ namespace SoftCRP.Web.Controllers
             {
                 accesos.ForEach(i => i.Graficos = false);
             }
-
+            if (Valor == "GPS")
+            {
+                accesos.ForEach(i => i.GPS = false);
+            }
 
             await _accesosRepository.Actualiza(accesos);
 
@@ -163,6 +170,10 @@ namespace SoftCRP.Web.Controllers
             if (dats[0].Trim() == "Graficos")
             {
                 accesos.ForEach(i => i.Graficos = true);
+            }
+            if (dats[0].Trim() == "GPS")
+            {
+                accesos.ForEach(i => i.GPS = true);
             }
             await _accesosRepository.Actualiza(accesos);
 
@@ -215,7 +226,10 @@ namespace SoftCRP.Web.Controllers
             {
                 accesos.ForEach(i => i.Graficos = false);
             }
-
+            if (dats[0].Trim() == "GPS")
+            {
+                accesos.ForEach(i => i.GPS = false);
+            }
 
             await _accesosRepository.Actualiza(accesos);
 

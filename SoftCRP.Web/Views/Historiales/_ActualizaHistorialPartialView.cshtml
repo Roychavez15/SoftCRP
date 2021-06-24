@@ -1,0 +1,98 @@
+﻿@model SoftCRP.Web.Data.Entities.History
+
+@{
+    ViewData["Title"] = "Actualiza Historial";
+}
+
+
+<div class="row">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" id="id" disabled />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Placa" class="control-label"></label>
+            <input asp-for="Placa" class="form-control" id="placa" disabled />
+            <span asp-validation-for="Placa" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Desde"></label>
+            <input asp-for="Desde" class="form-control" id="desde" />
+            <span asp-validation-for="Desde" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Hasta"></label>
+            <input asp-for="Hasta" class="form-control" id="hasta" />
+            <span asp-validation-for="Hasta" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <div class="form-check">
+                    <input asp-for="isActive" type="checkbox" class="form-check-input" name="isActive" id="isActive">
+                    <label class="form-check-label" for="isActive">Activar/Desactivar </label>
+                </div>
+            </div>
+        </div>
+        @*<button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>*@
+        <button id="btnadd" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnadd").click(function (e) {
+            e.preventDefault();
+            var habilita = false;
+            $("#btnadd").prop("disabled", true);
+            if ($("#isActive").is(":checked")) {
+                habilita = true;
+            }
+            //else if ($("#isActive").is(":not(:checked)")) {
+            //    habilita = false;
+
+            //}
+            //if ($('#isActive').prop('checked')) {
+            //    habilita = true;
+            //}
+            console.log(habilita);
+            $.ajax({
+                url: "@Url.Action("GuardaHistorial", "Historiales")", // Url
+                data: {
+                    // Datos / Parámetros
+                    Id: $("#id").val(),
+                    Desde: $("#desde").val(),
+                    Hasta: $("#hasta").val(),
+                    isActive: habilita,
+                    Placa: $("#placa").val(),
+                },
+                type: "post",  // Verbo HTTP
+
+                success: function (datos) {
+                    console.log(datos);
+                    if (datos.status == "OK") {
+                        $("#myModal").modal('hide');
+                        //alert('Cita Guardada con exito, Continuar con la Calificación');
+                        window.location.href = '/Historiales/Retorno/' + datos.description;
+                    }
+                    else {
+                        alert(datos.description);
+                        $("#myModal").modal('hide');
+                    }
+                }
+
+            })
+
+
+            //fin
+        })
+    })
+
+</script>

@@ -23,12 +23,16 @@
                         <label for="search">Buscar</label>
                         <input type="text" class="form-control" id="search">
                     </div>
-                    <div class="form-group col-md-4 col-sm-6">
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                    {
+                        <div class="form-group col-md-4 col-sm-6">
 
-                        <label for="ClienteId">Cliente</label>
-                        <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
-                        </select>
-                    </div>
+                            <label for="ClienteId">Cliente</label>
+                            <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
+                            </select>
+                        </div>
+                    }
+
                     <div class="form-group col-md-2 col-sm-6">
                         <label for="AnioId">Año</label>
                         <select asp-for="DashBoardV2ViewModel.AnioId" asp-items="Model.DashBoardV2ViewModel.Anios" class="form-control select2">
@@ -76,6 +80,7 @@
                 $(document).ready(function () {
 
                     $("#DashBoardV2ViewModel_ClienteId").change(function () {
+                        console.log('inicia consulta');
                         var id = $("#DashBoardV2ViewModel_ClienteId").val();
                         var urlEst = '';
                         var urlDash = '';
@@ -210,6 +215,7 @@
                                     success: function (result) {
                                         if (result) {
                                             $("#Dashboard").html(result);
+
                                         }
                                     },
                                     error: function (ex) {

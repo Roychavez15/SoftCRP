@@ -24,7 +24,7 @@
             <span asp-validation-for="Fecha" class="text-danger"></span>
         </div>*@
 
-                    <input type="hidden" asp-for="cedula" id="cedula"/>
+                    <input type="hidden" asp-for="cedula" id="cedula" />
 
                     <div class="form-group">
                         <label asp-for="PlacaId" class="control-label"></label>
@@ -48,7 +48,11 @@
                         <select asp-for="ViaIngresoId" asp-items="Model.ViaIngresoTypes" class="form-control" id="Viaobj"></select>
                         <span asp-validation-for="ViaIngresoId" class="text-danger"></span>
                     </div>
-
+                    <div class="form-group">
+                        <label asp-for="SendEmail" class="control-label">Correo Conductor (separar por ',' si hay mas de uno)</label>
+                        <textarea asp-for="SendEmail" class="form-control" id="SendEmail"></textarea>
+                        <span asp-validation-for="SendEmail" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
                         <textarea asp-for="Observaciones" class="form-control" id="Obsobj"></textarea>
@@ -84,7 +88,38 @@
         @Html.Raw(ViewBag.SweetAlertShowMessage)
     $(document).ready(function () {
             $('.select2').select2();
+        $("#Placasobj").change(function () {
+            var fileData = new FormData();
+            var placa = $('#Placasobj').val();
+            fileData.append("placa", placa);
+            $.ajax({
+                type: 'POST',
+                url: '/Novedades/EmailConductor',
+                //url: '/SoftCRPWeb/Analisis/Crear',
+                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
+                data: fileData,
+                //dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (result, textStatus, jqXHR) {
+                    console.log(result);
+                    if (result) {
+                        $('#SendEmail').val(result);
+                    }
+                    else {
+                        $('#SendEmail').val('');
+                        return false;
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#SendEmail').val('');
+                    return false;
 
+                }
+            });
+
+
+        });
             $("#btnsubmit").click(function () {
                 debugger;
                 var placas = $('#Placasobj').val();                
@@ -94,7 +129,7 @@
                 var Obs = $('#Obsobj').val();
                 var formu = $('#PlanForm').serialize();
                 var cedula = $('#cedula').val();
-
+                var correo = $('#SendEmail').val();
                 var viewModel = {
                     "Cedula": cedula,
                     "PlacaId": placas,
@@ -114,6 +149,8 @@
                 fileData.append("SubMotivoId", SubMotivo);
                 fileData.append("ViaIngresoId", Via);
                 fileData.append("Observaciones", Obs);
+                fileData.append("SendEmail", correo);
+
 
                 var FileSize = 0; // in MB
                 debugger;

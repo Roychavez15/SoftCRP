@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <Compile Remove="wwwroot\node_modules\amcharts4\**" />
     <Content Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <Content Remove="wwwroot\node_modules\amcharts4\**" />
     <EmbeddedResource Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <EmbeddedResource Remove="wwwroot\node_modules\amcharts4\**" />
     <None Remove="wwwroot\node_modules\AdminLTE\plugins\**" />
+    <None Remove="wwwroot\node_modules\amcharts4\**" />
   </ItemGroup>
 
   <ItemGroup>

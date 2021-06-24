@@ -18,8 +18,7 @@
                 <table class="table table-bordered table-striped" id="TableUser">
                     <thead>
                         <tr>
-                            <th>
-                            </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.Cliente)
                             </th>
@@ -107,103 +106,129 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.KmAnual)
                             </th>
+                            <th>
+                                Particularidades
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td></td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nom_cliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Placa)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Marca)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Modelo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Año)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Color)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Motor)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Chasis)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Ramv)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Clase)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Ciudad_operacion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Fechacontrato)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FechafinContrato)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Plazo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Canon)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Ultima_rutina)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Siniestros)
-                            </td>
+                            <tr>                                
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cliente)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nom_cliente)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Placa)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Marca)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Modelo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Año)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Color)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Motor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Chasis)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ramv)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Clase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ciudad_operacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Fechacontrato)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechafinContrato)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Plazo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Canon)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ultima_rutina)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Siniestros)
+                                </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Dispositivo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mto_sustituto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.pickup)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mto_preventivo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mto_correctivo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Mto_llantas)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NombreAseguradora)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Plan_Seguro)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Plazo_pago)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FormaFacturacion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.KmAnual)
-                            </td>
-                        </tr>
-                        }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Dispositivo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mto_sustituto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.pickup)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mto_preventivo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mto_correctivo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Mto_llantas)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreAseguradora)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Plan_Seguro)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Plazo_pago)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FormaFacturacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.KmAnual)
+                                </td>
+                                <td>
+
+                                    @foreach (var part in item.particularidadViewModels)
+                                    {
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => part.Particularidad)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => part.Fecha)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => part.Asesor)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => part.Tipo)
+                                                </td>
+                                            </tr>
+                                        </table>
+                                     }
+
+                                </td>
+
+                            </tr>
+                         }
                     </tbody>
                 </table>
                 @*</div>*@

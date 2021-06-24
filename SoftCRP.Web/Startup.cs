@@ -176,6 +176,7 @@ namespace SoftCRP.Web
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateCGBService>();
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateLWDeviceIDService>();
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, UpdateIturanService>();
+            services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, AlarmaTramites>();
 
             services.AddMvc(properties =>
             {

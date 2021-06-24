@@ -61,7 +61,7 @@
                 $("#loaderbody").removeClass('hide');
                 $("#PlacaId").empty();
                 $("#PlacaId").append('<option value="0">[Seleccionar Placa...]</option>');
-                if ($("#ClienteId").val() != "") {
+                @*if ($("#ClienteId").val() != "") {
                     $.ajax({
                         type: 'POST',
                         url: '@Url.Action("GetPlacas")',
@@ -83,59 +83,31 @@
                 else {
                     $("#PlacaId").empty();
                     $("#PlacaId").append('<option value="0">[Seleccionar Placa...]</option>');
-                }
-                @*$.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetEstadisticasV1")',
-                    //dataType: 'json',
-                    data: { UserId: $("#ClienteId").val() },
-                    success: function (result) {
-                        console.log(result);
+                }*@
+                   $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetPlacas")',
+                        dataType: 'json',
+                        data: { UserId: $("#ClienteId").val() },
+                        success: function (subcategories) {
+                            $.each(subcategories, function (i, dato) {
 
-                        if (result) {
-                            $("#Estadisticasv1").html(result);
-                            $("#loaderbody").addClass('hide');
+                                $("#PlacaId").append('<option value="'
+                                    + dato.text + '">'
+                                    + dato.value + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve Plaques.' + ex);
                         }
-                        else {
-                            $("#loaderbody").addClass('hide');
-                            return false;
-                        }
-                    },
-                    error: function (ex) {
-                        $("#loaderbody").addClass('hide');
-                        alert('Failed to retrieve Estadisticas.' + ex);
-                    }
-                });*@
+                   });
 
-                ////actualiza estadisticas V2
-                @*$.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetEstadisticasV2")',
-                    //dataType: 'json',
-                    data: { UserId: $("#ClienteId").val() },
-                    success: function (result) {
-                        console.log(result);
-
-                        if (result) {
-                            $("#Estadisticasv2").html(result);
-                            $("#loaderbody").addClass('hide');
-                        }
-                        else {
-                            $("#loaderbody").addClass('hide');
-                            return false;
-                        }
-                    },
-                    error: function (ex) {
-                        $("#loaderbody").addClass('hide');
-                        alert('Failed to retrieve Estadisticas.' + ex);
-                    }
-                });*@
 
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("GetEstadisticas")',
                     //dataType: 'json',
-                    data: { UserId: $("#ClienteId").val(), Placa:"" },
+                    data: { UserId: $("#ClienteId").val(), Placa: "", anio: $("#AnioId").val(), mes: $("#MesId").val() },
                     success: function (result) {
                         console.log(result);
 
@@ -150,7 +122,7 @@
                     },
                     error: function (ex) {
                         $("#loaderbody").addClass('hide');
-                        alert('Failed to retrieve Estadisticas.' + ex);
+                        alert('Failed to retrieve Estadisticas Cliente.' + ex);
                     }
                 });
 
@@ -164,7 +136,7 @@
                     type: 'POST',
                     url: '@Url.Action("GetEstadisticas")',
                     //dataType: 'json',
-                    data: { UserId: $("#ClienteId").val(), Placa: $("#PlacaId").val()},
+                    data: { UserId: $("#ClienteId").val(), Placa: $("#PlacaId").val(), anio: $("#AnioId").val(), mes: $("#MesId").val()},
                     success: function (result) {
                         console.log(result);
                         if (result) {
@@ -178,12 +150,64 @@
                     },
                     error: function (ex) {
                         $("#loaderbody").addClass('hide');
-                        alert('Failed to retrieve Estadisticas.' + ex);
+                        alert('Failed to retrieve Estadisticas Placa.' + ex);
                     }
                 });
 
             });
 
+            //consultar con placa
+            $("#AnioId").change(function () {
+                $("#loaderbody").removeClass('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetEstadisticas")',
+                    //dataType: 'json',
+                    data: { UserId: $("#ClienteId").val(), Placa: $("#PlacaId").val(), anio: $("#AnioId").val(), mes: $("#MesId").val()},
+                    success: function (result) {
+                        console.log(result);
+                        if (result) {
+                            $("#Estadisticas").html(result);
+                            $("#loaderbody").addClass('hide');
+                        }
+                        else {
+                            $("#loaderbody").addClass('hide');
+                            return false;
+                        }
+                    },
+                    error: function (ex) {
+                        $("#loaderbody").addClass('hide');
+                        alert('Failed to retrieve Estadisticas Año.' + ex);
+                    }
+                });
+
+            });
+
+            $("#MesId").change(function () {
+                $("#loaderbody").removeClass('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetEstadisticas")',
+                    //dataType: 'json',
+                    data: { UserId: $("#ClienteId").val(), Placa: $("#PlacaId").val(), anio: $("#AnioId").val(), mes: $("#MesId").val()},
+                    success: function (result) {
+                        console.log(result);
+                        if (result) {
+                            $("#Estadisticas").html(result);
+                            $("#loaderbody").addClass('hide');
+                        }
+                        else {
+                            $("#loaderbody").addClass('hide');
+                            return false;
+                        }
+                    },
+                    error: function (ex) {
+                        $("#loaderbody").addClass('hide');
+                        alert('Failed to retrieve Estadisticas Mes.' + ex);
+                    }
+                });
+
+            });
 
         });
 </script>

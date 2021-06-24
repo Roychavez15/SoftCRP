@@ -71,7 +71,14 @@ namespace SoftCRP.Web.Repositories
             }
 
         }
-
+        public async Task<IEnumerable<Tramite>> GetTramitesAlarmaAsync()
+        {
+            return await _dataContext.tramites
+            .Include(t => t.tipoTramite)
+            .Include(a => a.archivoTramites)
+            .Include(u => u.user)
+            .Where(f => f.Estado=="AVISO" && f.Hasta.Subtract(DateTime.Now).Days <= 7).ToListAsync();
+        }
         public async Task<IEnumerable<Tramite>> GetTramiteReportesAsync(DateTime Inicio, DateTime Fin, string filter, string Ciudad)
         {
             if (!string.IsNullOrEmpty(filter))

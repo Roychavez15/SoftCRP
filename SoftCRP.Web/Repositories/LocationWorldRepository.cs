@@ -227,6 +227,12 @@ namespace SoftCRP.Web.Repositories
                 using (HttpResponseMessage response = await cliente.GetAsync(urlQuery))
                 {
                     var content = response.Content.ReadAsStringAsync();
+                      
+                    if(content.Result=="")
+                    {
+                        return;
+                    }
+
                     var resp = (JObject)JsonConvert.DeserializeObject(content.Result);
 
                     var valores = resp["items"];

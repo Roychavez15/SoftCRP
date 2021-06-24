@@ -49,6 +49,8 @@ namespace SoftCRP.Web.Data
 
         public DbSet<LastRecordIturan> lastRecords { get; set; }
         public DbSet<Acceso> accesos { get; set; }
+
+        public DbSet<History> Histories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<VehiculoGps>()

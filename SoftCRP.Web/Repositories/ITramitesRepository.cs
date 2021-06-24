@@ -9,6 +9,7 @@ namespace SoftCRP.Web.Repositories
 {
     public interface ITramitesRepository : IGenericRepository<Tramite>
     {
+        Task<IEnumerable<Tramite>> GetTramitesAlarmaAsync();
         Task<TramitesViewModel> GetTramiteAsync(string cedula);
         Task<Tramite> GetTramiteByIdAsync(int? id);
         int GetCountAllTramites(string nit);

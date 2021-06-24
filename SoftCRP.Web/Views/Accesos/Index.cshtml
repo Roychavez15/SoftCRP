@@ -61,6 +61,10 @@
                                 <input type="checkbox" class="select-all checkbox" name="select-all" value="Graficos" />
                                 @Html.DisplayNameFor(model => model.Graficos)
                             </th>
+                            <th>
+                                <input type="checkbox" class="select-all checkbox" name="select-all" value="GPS" />
+                                @Html.DisplayNameFor(model => model.GPS)
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,34 +75,37 @@
                                 @Html.DisplayFor(modelItem => item.User.FullName)
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Informacion-@item.Id" @(item.Informacion==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Informacion-@item.Id" @(item.Informacion == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Analisis-@item.Id" @(item.Analisis==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Analisis-@item.Id" @(item.Analisis == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Seguimiento-@item.Id" @(item.Seguimiento==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Seguimiento-@item.Id" @(item.Seguimiento == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Tramites-@item.Id" @(item.Tramites==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Tramites-@item.Id" @(item.Tramites == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Capacitaciones-@item.Id" @(item.Capacitaciones==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Capacitaciones-@item.Id" @(item.Capacitaciones == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Conduccion-@item.Id" @(item.Conduccion==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Conduccion-@item.Id" @(item.Conduccion == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Mantenimiento-@item.Id" @(item.Mantenimiento==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Mantenimiento-@item.Id" @(item.Mantenimiento == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Siniestros-@item.Id" @(item.Siniestros==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Siniestros-@item.Id" @(item.Siniestros == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Sustitutos-@item.Id" @(item.Sustitutos==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Sustitutos-@item.Id" @(item.Sustitutos == true ? "checked" : "") />
                             </td>
                             <td>
-                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Graficos-@item.Id" @(item.Graficos==true ? "checked" : "")/>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="Graficos-@item.Id" @(item.Graficos == true ? "checked" : "") />
+                            </td>
+                            <td>
+                                <input type="checkbox" class="select-item checkbox" name="select-item" value="GPS-@item.Id" @(item.GPS == true ? "checked" : "") />
                             </td>
                         </tr>
                         }

@@ -50,9 +50,9 @@
                                     @Html.DisplayNameFor(model => model.placa)
                                 </th>
 
-                                @*<th>
+                                <th>
                                         @Html.DisplayNameFor(model => model.historial_vh)
-                                    </th>*@
+                                    </th>
                                 <th>Ver detalles</th>
                             </tr>
                         </thead>
@@ -67,9 +67,9 @@
                                     @Html.DisplayFor(modelItem => item.placa)
                                 </td>
 
-                                @*<td>
+                                <td>
                                         @Html.DisplayFor(modelItem => item.historial_vh)
-                                    </td>*@
+                                    </td>
                                 <td id="@item.placa">
                                     <a asp-action="Details" asp-route-id="@item.placa" class="btn btn" style="background-color:#F2AE0B    ; color:#ffffff;"><i class="fa fa-list"></i></a>
                                 </td>

@@ -31,6 +31,7 @@ namespace SoftCRP.Web.Controllers
         private readonly ILogger _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IIncidenciasRepository _incidenciasRepository;
+        private readonly IAccesosRepository _accesosRepository;
 
         public AccountController(
             IUserHelper userHelper,
@@ -40,7 +41,8 @@ namespace SoftCRP.Web.Controllers
             ILogRepository logRepository,
             ILogger<AccountController> logger,
             ILoggerFactory loggerFactory,
-            IIncidenciasRepository incidenciasRepository
+            IIncidenciasRepository incidenciasRepository, 
+            IAccesosRepository accesosRepository
             )
         {
             _userHelper = userHelper;
@@ -51,6 +53,7 @@ namespace SoftCRP.Web.Controllers
             _logger = logger;
             _loggerFactory = loggerFactory;
             _incidenciasRepository = incidenciasRepository;
+            _accesosRepository = accesosRepository;
         }
 
         [HttpGet]
@@ -304,7 +307,11 @@ namespace SoftCRP.Web.Controllers
 
                     //v2
                     await _incidenciasRepository.CreateIncidencia(user);
+                    // crear acceso
+                    await _accesosRepository.CreateAcceso(user);
                     //
+
+
                     await _logRepository.SaveLogs("Success", "Registrar Usuario:" + model.Username, "Account", User.Identity.Name);
                     return this.RedirectToAction(nameof(Index));
                     //var loginViewModel = new LoginViewModel
@@ -650,6 +657,14 @@ namespace SoftCRP.Web.Controllers
                 var roles = await _userHelper.GetAllListRoles(usermodel);
                 userRoleViewModel.Roles = roles.ToList();
                 model.Add(userRoleViewModel);
+
+                //v2
+                var useracceso = await _accesosRepository.GetAcceso(user.UserName);
+                if(useracceso==null)
+                {
+                    await _accesosRepository.CreateAcceso(usermodel);
+                }
+                //
             }
 
             return model;

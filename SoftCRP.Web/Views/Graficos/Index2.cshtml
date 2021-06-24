@@ -1,0 +1,1152 @@
+﻿@model SoftCRP.Web.Models.GraficosViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Filtros</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="Proceso">
+                                <option selected="selected">(Seleccionar..)</option>
+                                <option>Conducción</option>
+                                <option>Mantenimientos</option>
+                                <option>Sustitutos</option>
+                                <option>Siniestros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sub Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="SubProceso">
+                            </select>
+                        </div>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                        {
+                            <div class="form-group">
+                                <label>Cliente</label>
+                                <select class="form-control select2" style="width: 100%;" id="Cliente">
+                                </select>
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label>Fecha:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right" id="reservation">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                            <label>Placa</label>
+                            <select class="form-control select2" style="width: 100%;" id="Placa">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Usuarios</label>
+                            <select class="form-control select2" style="width: 100%;" id="Usuarios">
+                            </select>
+                        </div>
+                        <!-- /.form-group -->
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+        </div>
+        <!-- /.card -->
+
+
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+        <div id="sliders">
+            <table>
+                <tr>
+                    <td><label for="alpha">Alpha Angle</label></td>
+                    <td><input id="alpha" type="range" min="0" max="45" value="15" /> <span id="alpha-value" class="value"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="beta">Beta Angle</label></td>
+                    <td><input id="beta" type="range" min="-45" max="45" value="15" /> <span id="beta-value" class="value"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="depth">Depth</label></td>
+                    <td><input id="depth" type="range" min="20" max="100" value="50" /> <span id="depth-value" class="value"></span></td>
+                </tr>
+            </table>
+        </div>
+
+    </div><!-- /.col -->
+
+
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="Tarjeta">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Graficos</h3>
+                    @*<a href="javascript:void(0);">View Report</a>*@
+                </div>
+            </div>
+            <div class="card-body">
+                <!--<div class="row">
+    <div class="col-sm-6">
+        <div id="container"></div>
+    </div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-6">
+        <div id="container1"></div>
+    </div>-->
+                <!-- /.col -->
+                <!--</div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div id="container2"></div>
+        </div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-6">
+        <div id="container3"></div>
+    </div>-->
+                <!-- /.col -->
+                <!--</div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div id="container4"></div>
+        </div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-6">
+        <div id="container5"></div>
+    </div>-->
+                <!-- /.col -->
+                <!--</div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div id="container6"></div>
+        </div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-6">
+        <div id="container7"></div>
+    </div>-->
+                <!-- /.col -->
+                <!--</div>-->
+                <div class="row" id="viajes">
+                    <div id="container"></div>
+                </div>
+                <div class="row" id="distancia">
+                    <div id="container1"></div>
+                </div>
+                <div class="row" id="eventos">
+                    <div id="container2"></div>
+                </div>
+                <div class="row" id="aceleraciones">
+                    <div id="container3"></div>
+                </div>
+                <div class="row" id="frenazos">
+                    <div id="container4"></div>
+                </div>
+                <div class="row" id="excesos">
+                    <div id="container5"></div>
+                </div>
+                <div class="row" id="giros">
+                    <div id="container6"></div>
+                </div>
+                <div class="row" id="calificacciones">
+                    <div id="container7"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
+
+
+@section Scripts {
+
+    <style>
+        #container {
+            height: 400px;
+            width:100%;
+        }
+
+        #container1 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container2 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container3 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container4 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container5 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container6 {
+            height: 400px;
+            width: 100%;
+        }
+
+        #container7 {
+            height: 400px;
+            width: 100%;
+        }
+
+        .highcharts-figure, .highcharts-data-table table {
+            min-width: 310px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        #sliders td input[type=range] {
+            display: inline;
+        }
+
+        #sliders td {
+            padding-right: 1em;
+            white-space: nowrap;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+    <script type="text/javascript">
+        window.onload = function () {
+            labelserie = false;
+            $("#container").hide();
+            $("#container1").hide();
+            $("#container2").hide();
+            $("#container3").hide();
+            $("#container4").hide();
+            $("#container5").hide();
+            $("#container6").hide();
+            $("#container7").hide();
+            MostrarOcultarDiv();
+
+            $("#Proceso").change(function () {
+                $("#loaderbody").removeClass('hide');
+                
+                labelserie = false;
+                var x = $("#Proceso").val();
+                $("#SubProceso").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSubProcess")',
+                    dataType: 'json',
+                    data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#SubProceso").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#SubProceso").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve subprocesos.' + ex.statusText);
+                    }
+                });
+                
+
+                //clientes
+                $("#Cliente").empty();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClientes")',
+                    dataType: 'json',
+                    //data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#Cliente").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Cliente").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Clientes.' + ex.statusText);
+                    }
+                });
+               
+                MostrarOcultarDiv();
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+                return false;
+            });
+            //subprocesos
+            $("#SubProceso").change(function () {
+                labelserie = false;
+                $("#loaderbody").removeClass('hide');
+                MostrarOcultarDiv();
+                $("#loaderbody").addClass('hide');
+            });
+            ////////////
+            $("#Cliente").change(function () {
+                MostrarOcultarDiv();
+                if ($("#Cliente").val() != "(Seleccionar...)") {
+                    labelserie = true;
+                }
+                
+                $("#loaderbody").removeClass('hide');
+                var x = $("#Cliente").val();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPlacas")',
+                    dataType: 'json',
+                    data: { nit: $("#Cliente").val() },
+                    success: function (subs) {
+                        $("#Placa").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Placa").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Placas.' + ex.statusText);
+                    }
+                });
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+                return false;
+            });
+
+            ///placa
+            $("#Placa").change(function () {
+                MostrarOcultarDiv();
+                labelserie = true;
+                $("#loaderbody").removeClass('hide');
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+            });
+
+            $("#loaderbody").addClass('hide');
+            
+       }
+
+        function MostrarOcultarDiv() {
+            $("#container").hide();
+            $("#container1").hide();
+            $("#container2").hide();
+            $("#container3").hide();
+            $("#container4").hide();
+            $("#container5").hide();
+            $("#container6").hide();
+            $("#container7").hide();
+            if ($("#Proceso").val() == "Conducción") {
+
+                console.log($("#SubProceso").val());
+                if ($("#SubProceso").val() == "(Seleccionar...)") {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                    $("#container3").show();
+                    $("#container4").show();
+                    $("#container5").show();
+                    $("#container6").show();
+                    $("#container7").show();
+                }
+                else if ($("#SubProceso").val() == "Cantidad de viajes") {
+                    $("#container").show();
+                }
+                else if ($("#SubProceso").val() == "Distancia recorrida") {
+                    $("#container1").show();
+                }
+                else if ($("#SubProceso").val() == "Cantidad de eventos") {
+                    $("#container2").show();
+                }
+                else if ($("#SubProceso").val() == "Aceleraciones bruscas") {
+                    $("#container3").show();
+                }
+                else if ($("#SubProceso").val() == "Frenasos bruscos") {
+                    $("#container4").show();
+                }
+                else if ($("#SubProceso").val() == "Excesos de velocidad") {
+                    $("#container5").show();
+                }
+                else if ($("#SubProceso").val() == "Giros bruscos") {
+                    $("#container6").show();
+                }
+                else if ($("#SubProceso").val() == "Calificación promedio") {
+                    $("#container7").show();
+                }
+                else {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                    $("#container3").show();
+                    $("#container4").show();
+                    $("#container5").show();
+                    $("#container6").show();
+                    $("#container7").show();
+                }
+            }
+            else if ($("#Proceso").val() == "Mantenimientos") {
+                if ($("#SubProceso").val() == "(Seleccionar...)") {
+                    $("#container").show();
+                    $("#container1").show();
+                }
+                else if ($("#SubProceso").val() == "Estados") {
+                    $("#container").show();
+                }
+                else if ($("#SubProceso").val() == "Tipos") {
+                    $("#container1").show();
+                }
+                else {
+                    $("#container").show();
+                    $("#container1").show();
+                }
+            }
+        };
+
+        let chart;
+        let chart1;
+        let chart2;
+        let chart3;
+        let chart4;
+        let chart5;
+        let chart6;
+        let chart7;
+        let labelserie = false;
+
+       function GenerateRuntimeGraph() {
+            var proceso = $('#Proceso').val();
+            var subproceso = $('#SubProceso').val();
+            var cliente = $('#Cliente').val();
+            var fecha = $('#reservation').val();
+            var placa = $('#Placa').val();
+           var usuario = $('#Usuarios').val();
+           var nombre = $('#Cliente').text;
+           //console.log(proceso);
+        //setting default values
+           if (proceso == "null") {
+               proceso = "";
+        }
+        if (subproceso == "null") {
+            subproceso = "";
+        }
+           if (cliente == "null") {
+               cliente = "";
+               nombre = "";
+        }
+        if (fecha == "null" || fecha=="") {
+            fecha = "";
+           }
+        if (placa == "null" || placa=="0") {
+            placa = "";
+        }
+        if (usuario == "null") {
+            usuario = "";
+           }
+
+
+           var fileData = new FormData();
+
+           fileData.append("Proceso", proceso);
+           fileData.append("SubProceso", subproceso);
+           fileData.append("Cliente", cliente);
+           fileData.append("Placa", placa);
+           fileData.append("Fecha", fecha);
+           fileData.append("Usuario", usuario);
+
+
+           var resp = [];
+           var dist = [];
+           var eventos = [];
+           var aceler = [];
+           var frena = [];
+           var excesos = [];
+           var giros = [];
+           var califi = [];
+
+           var lbl = [];
+           var lbldist = [];
+           var lbleventos = [];
+           var lblaceler = [];
+           var lblfren = [];
+           var lblexcesos = [];
+           var lblgiros = [];
+           var lblcalifi = [];
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Chart", "Graficos")',
+            data: fileData,
+            //contentType: "application/json",
+            //dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (chData) {
+
+                if (proceso == "Conducción") {
+
+
+                    var sorted = _.sortBy(chData, "trips")
+                    var sorted1 = _.sortBy(chData, "kilometerstraveled")
+                    var sorted2 = _.sortBy(chData, "sharpacceleration")
+                    var sorted3 = _.sortBy(chData, "sharpacceleration")
+                    var sorted4 = _.sortBy(chData, "hardbraking")
+                    var sorted5 = _.sortBy(chData, "speeding")
+                    var sorted6 = _.sortBy(chData, "sharpturn")
+                    var sorted7 = _.sortBy(chData, "score")
+
+                    //console.log(chData);
+                    //For Bar Chart
+                    $.each(sorted, function (i, item) {
+                        resp.push(item.trips);
+                        lbl.push(item.vehiculo.placa);
+                    });
+                    $.each(sorted1, function (i, item) {
+                        dist.push(item.kilometerstraveled);
+                        lbldist.push(item.vehiculo.placa);
+                    });
+                    //eventos
+                    $.each(sorted2, function (i, item) {
+                        eventos.push(item.sharpacceleration + item.sharpturn + item.hardbraking + item.speeding);
+                        lbleventos.push(item.vehiculo.placa);
+                    });
+                    //aceler
+                    $.each(sorted3, function (i, item) {
+                        aceler.push(item.sharpacceleration);
+                        lblaceler.push(item.vehiculo.placa);
+                    });
+                    //frenazos
+                    $.each(sorted4, function (i, item) {
+                        frena.push(item.hardbraking);
+                        lblfren.push(item.vehiculo.placa);
+                    });
+                    //excesos
+                    $.each(sorted5, function (i, item) {
+                        excesos.push(item.speeding);
+                        lblexcesos.push(item.vehiculo.placa);
+                    });
+                    //giros
+                    $.each(sorted6, function (i, item) {
+                        giros.push(item.sharpturn);
+                        lblgiros.push(item.vehiculo.placa);
+                    });
+                    //score
+                    $.each(sorted7, function (i, item) {
+                        califi.push(item.score);
+                        lblcalifi.push(item.vehiculo.placa);
+                    });
+
+                    //cantidad de viajes
+                    chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Cantidad de Viajes'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lbl
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Cantidad'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Viajes',
+                            data: resp,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+
+                    //distancia recorrida
+                    chart1 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container1',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Distancia Recorrida'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lbldist
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Km'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Distancia',
+                            data: dist,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.2f}', // two decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+
+                    chart2 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container2',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Cantidad de Eventos'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lbleventos
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Eventos'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Eventos',
+                            data: eventos,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+                    //aceleraciones bruscas
+                    chart3 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container3',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Aceleraciones Bruscas'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lblaceler
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Aceleraciones'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Aceleraciones',
+                            data: aceler,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+                    //frenazos bruscos
+                    chart4 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container4',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Frenazos Bruscos'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lblfren
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Frenazos'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Frenazos',
+                            data: frena,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+                    //excesos de velocidad
+                    chart5 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container5',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Excesos de Velocidad'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lblexcesos
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Excesos'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Excesos',
+                            data: excesos,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+
+                    //Giros Bruscos
+                    chart6 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container6',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Giros Bruscos'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lblgiros
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Giros'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Giros',
+                            data: giros,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.0f}', // one decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+                    //Calificaciones
+                    chart7 = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container7',
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: parseFloat($("#alpha").val()),
+                                beta: parseFloat($("#beta").val()),
+                                depth: parseFloat($("#depth").val()),
+                                viewDistance: 25
+                            }
+                        },
+                        title: {
+                            text: 'Calificación'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        xAxis: {
+                            categories: lblcalifi
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Calificación'
+                            }
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        series: [{
+                            name: 'Calificación',
+                            data: califi,
+                            dataLabels: {
+                                enabled: labelserie,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.2f}', // two decimal
+                                y: -30, // 10 pixels down from the top
+                                style: {
+                                    fontSize: '10px',
+                                    fontFamily: 'Verdana, sans-serif'
+                                }
+                            }
+                        }]
+                    });
+
+                }
+                else if (proceso == "Mantenimientos") {
+                    var tipos = [];
+                    var lbltipos = [];
+                    var estado = [];
+                    var lblestado = [];
+                    var tiposarray = [];
+                    var estadosarray = [];
+
+                    var eventosgroup = _.groupBy(chData, 'tipo');
+                    var estadosgroup = _.groupBy(chData, 'estado');
+
+                    //console.log(chData);
+                    //console.log(eventosgroup);
+                    //console.log(estadosgroup);
+
+
+                    $.each(eventosgroup, function (i, item) {
+                        tipos.push(i);
+                        lbltipos.push(item.length);
+                        tiposarray.push({ "name": i, "y": item.length });
+  
+                    });
+                    console.log(tiposarray);
+
+
+                    $.each(estadosgroup, function (i, item) {
+                        estado.push(i);
+                        lblestado.push(item.length);
+                        estadosarray.push({ "name": i, "y": item.length })
+                    });
+                    console.log(estadosarray);
+
+                    chart1 = new Highcharts.chart('container', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Tipos de Mantenimientos'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: tiposarray
+                        }]
+                        
+                    });
+                    ///////
+                    chart2 = new Highcharts.chart('container1', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Estados de Mantenimientos'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: estadosarray
+                        }]
+
+                    });
+
+                }
+                else if (proceso == "Sustitutos") {
+
+                }
+                else if (proceso == "Siniestros") {
+
+                }
+                else {
+                    //limpiar todo
+                }
+            },//fin de respuestas de ajax
+            "error": function (data) {
+
+                alert("Some Error Occured!");
+            }
+        });
+           ////
+
+
+        }
+        function showValues() {
+            document.getElementById('alpha-value').innerHTML = chart.options.chart.options3d.alpha;
+            document.getElementById('beta-value').innerHTML = chart.options.chart.options3d.beta;
+            document.getElementById('depth-value').innerHTML = chart.options.chart.options3d.depth;
+        } // Activate the sliders
+
+
+        document.querySelectorAll('#sliders input').forEach(function (input) {
+            return input.addEventListener('input', function (e) {
+                chart.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart1.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart2.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart3.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart4.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart5.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart6.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                chart7.options.chart.options3d[e.target.id] = parseFloat(e.target.value);
+                showValues();
+                chart.redraw(false);
+                chart1.redraw(false);
+                chart2.redraw(false);
+                chart3.redraw(false);
+                chart4.redraw(false);
+                chart5.redraw(false);
+                chart6.redraw(false);
+                chart7.redraw(false);
+            });
+        });
+        showValues();
+    </script>
+
+
+}

@@ -28,7 +28,9 @@ namespace SoftCRP.Web.Models
         public string PlacaId { get; set; }
         public IEnumerable<SelectListItem> Placas { get; set; }
         public string Observaciones { get; set; }
-
         public List<IFormFile> Files { get; set; }
+
+        [Display(Name = "Correo")]
+        public string SendEmail { get; set; }
     }
 }

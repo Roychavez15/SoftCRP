@@ -63,11 +63,11 @@ namespace SoftCRP.Web.Controllers
                         model.Clientes = _combosHelper.GetComboClientes();
                         model.Anios = _combosHelper.GetComboAnio();
                         model.Meses = _combosHelper.GetComboMes();
+                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
+                        modelView.DashboardMantViewModel = getCuantos(cuantos);
                         //modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
                         modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync("", "");
 
-                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
-                        modelView.DashboardMantViewModel = getCuantos(cuantos);
                     }
                 }
             }
@@ -82,16 +82,16 @@ namespace SoftCRP.Web.Controllers
                 switch (dato.estado)
                 {
                     case "VEHICULO FUERA DE TALLER":
-                        dashboardMant.vehiculo_fuera_taller += 1;
+                        dashboardMant.vehiculo_fuera_taller += Convert.ToInt32(dato.cuantos);
                         break;
                     case "CITA CONFIRMADA":
-                        dashboardMant.cita_confirmada += 1;
+                        dashboardMant.cita_confirmada += Convert.ToInt32(dato.cuantos);
                         break;
                     case "VEHICULO INGRESADO":
-                        dashboardMant.vehiculo_ingresado += 1;
+                        dashboardMant.vehiculo_ingresado += Convert.ToInt32(dato.cuantos);
                         break;
                     case "REGISTRADO":
-                        dashboardMant.vehiculo_registrado_ingreso += 1;
+                        dashboardMant.vehiculo_registrado_ingreso += Convert.ToInt32(dato.cuantos);
                         break;
                 }
             }
@@ -202,6 +202,44 @@ namespace SoftCRP.Web.Controllers
                 messalida = 12;
             }
             return messalida;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IndexPost()
+        {
+            MantenimientoViewModel modelView = new MantenimientoViewModel();
+            DashBoardV2ViewModel model = new DashBoardV2ViewModel();
+            modelView.DashboardMantViewModel = new DashboardMantViewModel();
+
+            if (!string.IsNullOrEmpty(this.User.Identity.Name))
+            {
+                var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+
+                if (user != null)
+                {
+                    model.Anios = _combosHelper.GetComboAnio();
+                    model.Meses = _combosHelper.GetComboMes();
+                    if (this.User.IsInRole("Cliente"))
+                    {
+                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
+                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos(user.Cedula, "", "");
+                        modelView.DashboardMantViewModel = getCuantos(cuantos);
+                    }
+                    else if (this.User.IsInRole("Admin") || this.User.IsInRole("Renting"))
+                    {
+                        model.Clientes = _combosHelper.GetComboClientes();
+                        model.Anios = _combosHelper.GetComboAnio();
+                        model.Meses = _combosHelper.GetComboMes();
+                        var cuantos = await _datosRepository.GetMantenimientoEstadoCuantos("", "", "");
+                        modelView.DashboardMantViewModel = getCuantos(cuantos);
+                        //modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync(user.Cedula, "");
+                        modelView.ResumenPlacasViewModel = await _datosRepository.GetResumePlacasAsync("", "");
+
+                    }
+                }
+            }
+            modelView.DashBoardV2ViewModel = model;
+            return Json( modelView.ResumenPlacasViewModel.ToList());
         }
     }
 }

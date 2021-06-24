@@ -141,6 +141,8 @@ namespace SoftCRP.Web.Migrations
 
                     b.Property<bool>("Conduccion");
 
+                    b.Property<bool>("GPS");
+
                     b.Property<bool>("Graficos");
 
                     b.Property<bool>("Informacion");
@@ -383,6 +385,29 @@ namespace SoftCRP.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("gamas");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.History", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Desde");
+
+                    b.Property<DateTime>("Hasta");
+
+                    b.Property<string>("Placa");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<bool>("isActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Histories");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Incidencia", b =>
@@ -899,6 +924,13 @@ namespace SoftCRP.Web.Migrations
                     b.HasOne("SoftCRP.Web.Data.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("userId");
+                });
+
+            modelBuilder.Entity("SoftCRP.Web.Data.Entities.History", b =>
+                {
+                    b.HasOne("SoftCRP.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SoftCRP.Web.Data.Entities.Incidencia", b =>

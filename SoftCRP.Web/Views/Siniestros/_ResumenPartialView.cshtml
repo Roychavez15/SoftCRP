@@ -38,14 +38,17 @@ else
                 <td>@Html.DisplayFor(modelItem => item.tiempo_siniestro)</td>
                 <td>@Html.DisplayFor(modelItem => item.tipo_siniestro)</td>
                 <td>@Html.DisplayFor(modelItem => item.anotaciones)</td>
-                <td>@Html.DisplayFor(modelItem => item.fecha_siniestro)</td>
+
                 @if (string.IsNullOrEmpty(item.fecha_siniestro))
+
                 {
+                    <td></td>
                     <td></td>
                     <td></td>
                 }
                 else
                 {
+                    <td>@Html.DisplayFor(modelItem => item.fecha_siniestro)</td>
                     <td>
                         @{
                             var mes = item.mes;
@@ -101,13 +104,13 @@ else
                             @messalida;
                         }
                     </td>
-                            }
-                    <td>
-                        @{
-                            @Html.DisplayFor(modelItem => item.anio);
-                        }
-                    </td>
-                </tr>
+                }
+                <td>
+                    @{
+                        @Html.DisplayFor(modelItem => item.anio);
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>

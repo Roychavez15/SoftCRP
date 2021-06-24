@@ -94,13 +94,73 @@ namespace SoftCRP.Web.Controllers
         {
             
             AnalisisViewModel model = new AnalisisViewModel();
+            AnalisisViewModel model1 = new AnalisisViewModel();
+            List<Analisis> analisis = new List<Analisis>();
             if (!string.IsNullOrEmpty(id))
             {
                 model = await _analisisRepository.GetAnalisis(id);
+                var historial = _dataContext.Histories
+                    .Where(c => c.User.Cedula == id && c.Placa!="")
+                    .ToList();
+                if (historial != null && historial.Count()>0)
+                {
+                    foreach (var his in historial)
+                    {
+                        if (his.isActive)
+                        {
+                            var newmodel = model.analisis.Where(p => p.Placa.ToUpper() == his.Placa.ToUpper() && p.Fecha >= his.Desde && p.Fecha <= his.Hasta);
+                            foreach (var mo in newmodel)
+                            {
+                                Analisis analisis1 = new Analisis();
+                                analisis1.ArchivosAnalisis = mo.ArchivosAnalisis;
+                                analisis1.Cedula = mo.Cedula;
+                                analisis1.Fecha = mo.Fecha;
+                                analisis1.Id = mo.Id;
+                                analisis1.Observaciones = mo.Observaciones;
+                                analisis1.Placa = mo.Placa;
+                                analisis1.tipoAnalisis = mo.tipoAnalisis;
+                                analisis1.tipoAnalisisId = mo.tipoAnalisisId;
+                                analisis1.user = mo.user;
+                                analisis1.userCliente = mo.userCliente;
+
+                                analisis.Add(analisis1);
+                            }
+                        }
+                        else
+                        {
+                            var newmodel = model.analisis.Where(p => p.Placa.ToUpper() == his.Placa.ToUpper());
+                            foreach (var mo in newmodel)
+                            {
+                                Analisis analisis1 = new Analisis();
+                                analisis1.ArchivosAnalisis = mo.ArchivosAnalisis;
+                                analisis1.Cedula = mo.Cedula;
+                                analisis1.Fecha = mo.Fecha;
+                                analisis1.Id = mo.Id;
+                                analisis1.Observaciones = mo.Observaciones;
+                                analisis1.Placa = mo.Placa;
+                                analisis1.tipoAnalisis = mo.tipoAnalisis;
+                                analisis1.tipoAnalisisId = mo.tipoAnalisisId;
+                                analisis1.user = mo.user;
+                                analisis1.userCliente = mo.userCliente;
+
+                                analisis.Add(analisis1);
+                            }
+                        }
+                    }
+                    model1.cedula = id;
+                    model1.analisis = analisis;
+
+                }
+                else
+                {
+                    
+                    model1 = model;
+                }
+
                 ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
             }
             await _logRepository.SaveLogs("Get", "Obtiene lista de Análisis", "Análisis", User.Identity.Name);
-            return View(model);
+            return View(model1);
         }
 
         [HttpPost]
@@ -140,6 +200,11 @@ namespace SoftCRP.Web.Controllers
             return View(analisisCreateViewModel);
         }
 
+        [HttpPost]
+        public async Task<string> EmailConductor(string placa)
+        {
+            return await _datosRepository.GetEmailConductorAsync(placa);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(AnalisisCreateViewModel model)
@@ -278,8 +343,8 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email.Trim()+','+datos.Email.Trim();
 
                 //v2 email conductores
-                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
-
+                //var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);//se cambio 14/06/2021
+                var emailsdrivers = model.SendEmail;
                 if (!string.IsNullOrEmpty(emailsdrivers))
                 {
                     emails = emails + ',' + emailsdrivers;

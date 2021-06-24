@@ -23,12 +23,17 @@
                         <label for="search">Buscar</label>
                         <input type="text" class="form-control" id="search">
                     </div>
-                    <div class="form-group col-md-4 col-sm-6">
 
-                        <label for="ClienteId">Cliente</label>
-                        <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
-                        </select>
-                    </div>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Renting")))
+                    {
+                        <div class="form-group col-md-4 col-sm-6">
+
+                            <label for="ClienteId">Cliente</label>
+                            <select asp-for="DashBoardV2ViewModel.ClienteId" asp-items="Model.DashBoardV2ViewModel.Clientes" class="form-control select2">
+                            </select>
+                        </div>
+                    }
+
 
 
                     <div class="form-group col-md-2 col-sm-6">

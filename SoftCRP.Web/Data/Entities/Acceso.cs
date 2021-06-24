@@ -41,6 +41,9 @@ namespace SoftCRP.Web.Data.Entities
         [Display(Name = "Gráficos")]
         public bool Graficos { get; set; }
 
+        [Display(Name = "GPS")]
+        public bool GPS { get; set; }
+
         public bool isActive { get; set; }
     }
 }

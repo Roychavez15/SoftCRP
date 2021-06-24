@@ -185,23 +185,54 @@ namespace SoftCRP.Web.Helpers
         public async Task<IEnumerable<SelectListItem>> GetComboPlacasGPS(string Nit)
         {
 
-            var list = await _dataContext.vehiculos.Include(u=>u.user)
-                .Where(a => a.user.Cedula==Nit)
-                .Select(ta => new SelectListItem
+            //var list = await _dataContext.vehiculos.Include(u=>u.user)
+            //    .Where(a => a.user.Cedula==Nit)
+            //    .Select(ta => new SelectListItem
+            //{
+            //    Text = ta.Placa,
+            //    Value = ta.Placa,
+            //})
+            //.OrderBy(ta => ta.Text)
+            //.ToListAsync();
+
+            ////list.Insert(0, new SelectListItem
+            ////{
+            ////    Text = "[Seleccionar Placa...]",
+            ////    Value = "0"
+            ////});
+
+            //return list;
+
+            if(Nit=="0")
             {
-                Text = ta.Placa,
-                Value = ta.Placa,
-            })
+                var list = await _dataContext.vehiculos.Include(u => u.user)
+                    //.Where(a => a.user.Cedula == Nit)
+                    .Select(ta => new SelectListItem
+                    {
+                        Text = ta.Placa,
+                        Value = ta.Placa,
+                    })
+                .OrderBy(ta => ta.Text)
+                .ToListAsync();
+
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "[Seleccionar Placa...]",
+                    Value = "0"
+                });
+
+                return list;
+            }
+
+            return await _dataContext.vehiculos.Include(u => u.user)
+                .Where(a => a.user.Cedula == Nit)
+                .Select(ta => new SelectListItem
+                {
+                    Text = ta.Placa,
+                    Value = ta.Placa,
+                })
             .OrderBy(ta => ta.Text)
             .ToListAsync();
-
-            //list.Insert(0, new SelectListItem
-            //{
-            //    Text = "[Seleccionar Placa...]",
-            //    Value = "0"
-            //});
-
-            return list;
 
             //throw new NotImplementedException();
         }
@@ -489,6 +520,57 @@ namespace SoftCRP.Web.Helpers
                          Text = i.ToString("00"),
                      };
                 myList.Add(data);
+            }
+            return myList.OrderBy(n => n.Text);
+        }
+
+        public IEnumerable<SelectListItem> GetComboSubProcesos(string proceso)
+        {
+            var myList = new List<SelectListItem>();
+
+            if (proceso=="Conducción")
+            {
+                myList = new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Cantidad de viajes", Value =  "Cantidad de viajes"},
+                        new SelectListItem {Text = "Distancia recorrida", Value =  "Distancia recorrida"},
+                        new SelectListItem {Text = "Cantidad de eventos", Value =  "Cantidad de eventos"},
+                        new SelectListItem {Text = "Aceleraciones bruscas", Value =  "Aceleraciones bruscas"},
+                        new SelectListItem {Text = "Frenasos bruscos", Value =  "Frenasos bruscos"},
+                        new SelectListItem {Text = "Excesos de velocidad", Value =  "Excesos de velocidad"},
+                        new SelectListItem {Text = "Giros bruscos", Value =  "Giros bruscos"},
+                        new SelectListItem {Text = "Calificación promedio", Value =  "Calificación promedio"},
+                    };
+                
+            }
+            if (proceso == "Mantenimientos")
+            {
+                myList = new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Tipos", Value =  "Tipos"},
+                        new SelectListItem {Text = "Estados", Value =  "Estados"},
+                    };
+
+            }
+            if (proceso == "Sustitutos")
+            {
+                myList = new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Días de sustitución", Value =  "Días de sustitución"},
+                        new SelectListItem {Text = "Regional", Value =  "Regional"},
+                        new SelectListItem {Text = "Estados", Value =  "Estados"},
+                    };
+
+            }
+            if (proceso == "Siniestros")
+            {
+                myList = new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Estado", Value =  "Estado"},
+                        new SelectListItem {Text = "Tiempo de siniestro", Value =  "Tiempo de siniestro"},
+                        new SelectListItem {Text = "Tipo de siniestro", Value =  "Tipo de siniestro"},
+                    };
+
             }
             return myList.OrderBy(n => n.Text);
         }

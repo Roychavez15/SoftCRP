@@ -1,0 +1,817 @@
+﻿@model SoftCRP.Web.Models.GraficosViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Filtros</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="Proceso">
+                                <option selected="selected">(Seleccionar..)</option>
+                                <option>Conducción</option>
+                                <option>Mantenimientos</option>
+                                <option>Sustitutos</option>
+                                <option>Siniestros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sub Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="SubProceso">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <select class="form-control select2" style="width: 100%;" id="Cliente">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right" id="reservation">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                            <label>Placa</label>
+                            <select class="form-control select2" style="width: 100%;" id="Placa">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Usuarios</label>
+                            <select class="form-control select2" style="width: 100%;" id="Usuarios">
+                            </select>
+                        </div>
+                        <!-- /.form-group -->
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+        </div>
+        <!-- /.card -->
+
+
+    </div><!-- /.col -->
+    <div class="col-sm-6">
+
+
+    </div><!-- /.col -->
+
+
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Conducción</h3>
+                    @*<a href="javascript:void(0);">View Report</a>*@
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartdiv"></div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartdiv1"></div>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartdiv2"></div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartdiv3"></div>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartdiv4"></div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartdiv5"></div>
+                    </div><!-- /.col -->
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartdiv6"></div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartdiv7"></div>
+                    </div><!-- /.col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
+
+
+@section Scripts {
+
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv1 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv2 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv3 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv4 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv5 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv6 {
+            width: 100%;
+            height: 400px;
+        }
+
+        #chartdiv7 {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
+
+
+    <script type="text/javascript">
+        window.onload = function () {
+            $("#Proceso").change(function () {
+                $("#loaderbody").removeClass('hide');
+
+                var x = $("#Proceso").val();
+                $("#SubProceso").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSubProcess")',
+                    dataType: 'json',
+                    data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#SubProceso").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#SubProceso").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve subprocesos.' + ex.statusText);
+                    }
+                });
+
+
+                //clientes
+                $("#Cliente").empty();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClientes")',
+                    dataType: 'json',
+                    //data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#Cliente").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Cliente").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Clientes.' + ex.statusText);
+                    }
+                });
+
+                $("#loaderbody").addClass('hide');
+                GenerateRuntimeGraph();
+
+                return false;
+            });
+
+            ////////////
+            $("#Cliente").change(function () {
+                $("#loaderbody").removeClass('hide');
+                var x = $("#Cliente").val();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPlacas")',
+                    dataType: 'json',
+                    data: { nit: $("#Cliente").val() },
+                    success: function (subs) {
+                        $("#Placa").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Placa").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Placas.' + ex.statusText);
+                    }
+                });
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+                return false;
+            });
+
+            ///placa
+            $("#Placa").change(function () {
+                $("#loaderbody").removeClass('hide');
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+            });
+
+            $("#loaderbody").addClass('hide');
+       }
+
+       function GenerateRuntimeGraph() {
+            var proceso = $('#Proceso').val();
+            var subproceso = $('#SubProceso').val();
+            var cliente = $('#Cliente').val();
+            var fecha = $('#reservation').val();
+            var placa = $('#Placa').val();
+           var usuario = $('#Usuarios').val();
+           //console.log(proceso);
+        //setting default values
+           if (proceso == "null") {
+               proceso = "";
+        }
+        if (subproceso == "null") {
+            subproceso = "";
+        }
+           if (cliente == "null") {
+               cliente = "";
+        }
+        if (fecha == "null" || fecha=="") {
+            fecha = "";
+           }
+        if (placa == "null" || placa=="0") {
+            placa = "";
+        }
+        if (usuario == "null") {
+            usuario = "";
+           }
+
+
+           var fileData = new FormData();
+
+           fileData.append("Proceso", proceso);
+           fileData.append("SubProceso", subproceso);
+           fileData.append("Cliente", cliente);
+           fileData.append("Placa", placa);
+           fileData.append("Fecha", fecha);
+           fileData.append("Usuario", usuario);
+
+
+           var viajes = [];
+           var distancia = [];
+           var eventos = [];
+           var aceleraciones = [];
+           var frenazos = [];
+           var excesos = [];
+           var giros = [];
+           var calificacion = [];
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Chart", "Graficos")',
+            data: fileData,
+            //contentType: "application/json",
+            //dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (chData) {
+                var sorted = _.sortBy(chData, "trips")
+                var sorted1 = _.sortBy(chData, "kilometerstraveled")
+                var sorted2 = _.sortBy(chData, "sharpacceleration")
+                var sorted3 = _.sortBy(chData, "sharpacceleration")
+                var sorted4 = _.sortBy(chData, "hardbraking")
+                var sorted5 = _.sortBy(chData, "speeding")
+                var sorted6 = _.sortBy(chData, "sharpturn")
+                var sorted7 = _.sortBy(chData, "score")
+
+                //console.log(chData);
+                //For Bar Chart
+                $.each(sorted, function (i, item) {
+                    if (item.trips > 0) {
+                        viajes.push({
+                            "placa": item.vehiculo.placa,
+                            "trips": item.trips
+                        });
+                    }
+                });
+                $.each(sorted1, function (i, item) {
+                    if (item.kilometerstraveled > 0) {
+                        distancia.push({
+                            "placa": item.vehiculo.placa,
+                            "distancia": item.kilometerstraveled
+                        });
+                    }
+                });
+                //eventos
+                $.each(sorted2, function (i, item) {
+                    if ((item.sharpacceleration + item.sharpturn + item.hardbraking + item.speeding) > 0) {
+                        eventos.push({
+                            "placa": item.vehiculo.placa,
+                            "eventos": item.sharpacceleration + item.sharpturn + item.hardbraking + item.speeding
+                        });
+                    }
+                });
+                //aceler
+                $.each(sorted3, function (i, item) {
+                    if (item.sharpacceleration > 0) {
+                        aceleraciones.push({
+                            "placa": item.vehiculo.placa,
+                            "aceleraciones": item.sharpacceleration
+                        });
+                    }
+                });
+                //frenazos
+                $.each(sorted4, function (i, item) {
+                    if (item.hardbraking > 0) {
+                        frenazos.push({
+                            "placa": item.vehiculo.placa,
+                            "frenazos": item.hardbraking
+                        });
+                    }
+                });
+                //excesos
+                $.each(sorted5, function (i, item) {
+                    if (item.speeding > 0) {
+                        excesos.push({
+                            "placa": item.vehiculo.placa,
+                            "excesos": item.speeding
+                        });
+                    }
+                });
+                //giros
+                $.each(sorted6, function (i, item) {
+                    if (item.sharpturn > 0) {
+                        giros.push({
+                            "placa": item.vehiculo.placa,
+                            "giros": item.sharpturn
+                        });
+                    }
+                });
+                //score
+                $.each(sorted7, function (i, item) {
+                    if (item.score > 0) {
+                        calificacion.push({
+                            "placa": item.vehiculo.placa,
+                            "score": item.score
+                        });
+                    }
+                });
+
+
+
+                am4core.ready(function () {
+
+                    // Themes begin
+                    am4core.useTheme(am4themes_animated);
+                    // Themes end
+
+                    // Create chart instance viajes
+                    var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+                    // Add data
+                    chart.data = viajes;
+                    // Create axes
+                    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "placa";
+                    categoryAxis.renderer.labels.template.rotation = 270;
+                    categoryAxis.renderer.labels.template.hideOversized = false;
+                    categoryAxis.renderer.minGridDistance = 20;
+                    categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis.tooltip.label.rotation = 270;
+                    categoryAxis.tooltip.label.horizontalCenter = "right";
+                    categoryAxis.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis.title.text = "Cantidad de Viajes";
+                    valueAxis.title.fontWeight = "bold";
+
+                    // Create series
+                    var series = chart.series.push(new am4charts.ColumnSeries3D());
+                    series.dataFields.valueY = "trips";
+                    series.dataFields.categoryX = "placa";
+                    series.name = "trips";
+                    series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series.columns.template.fillOpacity = .8;
+
+                    var columnTemplate = series.columns.template;
+                    columnTemplate.strokeWidth = 2;
+                    columnTemplate.strokeOpacity = 1;
+                    columnTemplate.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate.adapter.add("fill", function (fill, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate.adapter.add("stroke", function (stroke, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart.cursor = new am4charts.XYCursor();
+                    chart.cursor.lineX.strokeOpacity = 0;
+                    chart.cursor.lineY.strokeOpacity = 0;
+
+
+                    // Create chart instance distancia
+                    var chart1 = am4core.create("chartdiv1", am4charts.XYChart3D);
+                    // Add data
+                    chart1.data = distancia;
+                    // Create axes
+                    let categoryAxis1 = chart1.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis1.dataFields.category = "placa";
+                    categoryAxis1.renderer.labels.template.rotation = 270;
+                    categoryAxis1.renderer.labels.template.hideOversized = false;
+                    categoryAxis1.renderer.minGridDistance = 20;
+                    categoryAxis1.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis1.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis1.tooltip.label.rotation = 270;
+                    categoryAxis1.tooltip.label.horizontalCenter = "right";
+                    categoryAxis1.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis1 = chart1.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis1.title.text = "Distancia Recorrida";
+                    valueAxis1.title.fontWeight = "bold";
+
+                    // Create series
+                    var series1 = chart1.series.push(new am4charts.ColumnSeries3D());
+                    series1.dataFields.valueY = "distancia";
+                    series1.dataFields.categoryX = "placa";
+                    series1.name = "Distancia Recorrida";
+                    series1.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series1.columns.template.fillOpacity = .8;
+
+                    var columnTemplate1 = series1.columns.template;
+                    columnTemplate1.strokeWidth = 2;
+                    columnTemplate1.strokeOpacity = 1;
+                    columnTemplate1.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate1.adapter.add("fill", function (fill, target) {
+                        return chart1.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate1.adapter.add("stroke", function (stroke, target) {
+                        return chart1.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart1.cursor = new am4charts.XYCursor();
+                    chart1.cursor.lineX.strokeOpacity = 0;
+                    chart1.cursor.lineY.strokeOpacity = 0;
+
+                    // Create chart instance eventos
+                    var chart2 = am4core.create("chartdiv2", am4charts.XYChart3D);
+                    // Add data
+                    chart2.data = eventos;
+                    // Create axes
+                    let categoryAxis2 = chart2.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis2.dataFields.category = "placa";
+                    categoryAxis2.renderer.labels.template.rotation = 270;
+                    categoryAxis2.renderer.labels.template.hideOversized = false;
+                    categoryAxis2.renderer.minGridDistance = 20;
+                    categoryAxis2.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis2.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis2.tooltip.label.rotation = 270;
+                    categoryAxis2.tooltip.label.horizontalCenter = "right";
+                    categoryAxis2.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis2 = chart2.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis2.title.text = "Cantidad de Eventos";
+                    valueAxis2.title.fontWeight = "bold";
+
+                    // Create series
+                    var series2 = chart2.series.push(new am4charts.ColumnSeries3D());
+                    series2.dataFields.valueY = "eventos";
+                    series2.dataFields.categoryX = "placa";
+                    series2.name = "Cantidad de Eventos";
+                    series2.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series2.columns.template.fillOpacity = .8;
+
+                    var columnTemplate2 = series2.columns.template;
+                    columnTemplate2.strokeWidth = 2;
+                    columnTemplate2.strokeOpacity = 1;
+                    columnTemplate2.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate2.adapter.add("fill", function (fill, target) {
+                        return chart2.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate2.adapter.add("stroke", function (stroke, target) {
+                        return chart2.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart2.cursor = new am4charts.XYCursor();
+                    chart2.cursor.lineX.strokeOpacity = 0;
+                    chart2.cursor.lineY.strokeOpacity = 0;
+
+                    // Create chart instance Aceleraciones
+                    var chart3 = am4core.create("chartdiv3", am4charts.XYChart3D);
+                    // Add data
+                    chart3.data = aceleraciones;
+                    // Create axes
+                    let categoryAxis3 = chart3.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis3.dataFields.category = "placa";
+                    categoryAxis3.renderer.labels.template.rotation = 270;
+                    categoryAxis3.renderer.labels.template.hideOversized = false;
+                    categoryAxis3.renderer.minGridDistance = 20;
+                    categoryAxis3.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis3.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis3.tooltip.label.rotation = 270;
+                    categoryAxis3.tooltip.label.horizontalCenter = "right";
+                    categoryAxis3.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis3 = chart3.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis3.title.text = "Aceleraciones Bruscas";
+                    valueAxis3.title.fontWeight = "bold";
+
+                    // Create series
+                    var series3 = chart3.series.push(new am4charts.ColumnSeries3D());
+                    series3.dataFields.valueY = "aceleraciones";
+                    series3.dataFields.categoryX = "placa";
+                    series3.name = "Distancia Recorrida";
+                    series3.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series3.columns.template.fillOpacity = .8;
+
+                    var columnTemplate3 = series3.columns.template;
+                    columnTemplate3.strokeWidth = 2;
+                    columnTemplate3.strokeOpacity = 1;
+                    columnTemplate3.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate3.adapter.add("fill", function (fill, target) {
+                        return chart3.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate3.adapter.add("stroke", function (stroke, target) {
+                        return chart3.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart3.cursor = new am4charts.XYCursor();
+                    chart3.cursor.lineX.strokeOpacity = 0;
+                    chart3.cursor.lineY.strokeOpacity = 0;
+
+
+                    // Create chart instance frenazos
+                    var chart4 = am4core.create("chartdiv4", am4charts.XYChart3D);
+                    // Add data
+                    chart4.data = frenazos;
+                    // Create axes
+                    let categoryAxis4 = chart4.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis4.dataFields.category = "placa";
+                    categoryAxis4.renderer.labels.template.rotation = 270;
+                    categoryAxis4.renderer.labels.template.hideOversized = false;
+                    categoryAxis4.renderer.minGridDistance = 20;
+                    categoryAxis4.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis4.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis4.tooltip.label.rotation = 270;
+                    categoryAxis4.tooltip.label.horizontalCenter = "right";
+                    categoryAxis4.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis4 = chart4.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis4.title.text = "Frenazos Bruscos";
+                    valueAxis4.title.fontWeight = "bold";
+
+                    // Create series
+                    var series4 = chart4.series.push(new am4charts.ColumnSeries3D());
+                    series4.dataFields.valueY = "frenazos";
+                    series4.dataFields.categoryX = "placa";
+                    series4.name = "Frenazos Bruscos";
+                    series4.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series4.columns.template.fillOpacity = .8;
+
+                    var columnTemplate4 = series4.columns.template;
+                    columnTemplate4.strokeWidth = 2;
+                    columnTemplate4.strokeOpacity = 1;
+                    columnTemplate4.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate4.adapter.add("fill", function (fill, target) {
+                        return chart4.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate4.adapter.add("stroke", function (stroke, target) {
+                        return chart4.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart4.cursor = new am4charts.XYCursor();
+                    chart4.cursor.lineX.strokeOpacity = 0;
+                    chart4.cursor.lineY.strokeOpacity = 0;
+
+                    // Create chart instance excesos
+                    var chart5 = am4core.create("chartdiv5", am4charts.XYChart3D);
+                    // Add data
+                    chart5.data = excesos;
+                    // Create axes
+                    let categoryAxis5 = chart5.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis5.dataFields.category = "placa";
+                    categoryAxis5.renderer.labels.template.rotation = 270;
+                    categoryAxis5.renderer.labels.template.hideOversized = false;
+                    categoryAxis5.renderer.minGridDistance = 20;
+                    categoryAxis5.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis5.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis5.tooltip.label.rotation = 270;
+                    categoryAxis5.tooltip.label.horizontalCenter = "right";
+                    categoryAxis5.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis5 = chart5.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis5.title.text = "Excesos de Velocidad";
+                    valueAxis5.title.fontWeight = "bold";
+
+                    // Create series
+                    var series5 = chart5.series.push(new am4charts.ColumnSeries3D());
+                    series5.dataFields.valueY = "excesos";
+                    series5.dataFields.categoryX = "placa";
+                    series5.name = "Excesos de Velocidad";
+                    series5.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series5.columns.template.fillOpacity = .8;
+
+                    var columnTemplate5 = series5.columns.template;
+                    columnTemplate5.strokeWidth = 2;
+                    columnTemplate5.strokeOpacity = 1;
+                    columnTemplate5.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate5.adapter.add("fill", function (fill, target) {
+                        return chart5.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate5.adapter.add("stroke", function (stroke, target) {
+                        return chart5.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart5.cursor = new am4charts.XYCursor();
+                    chart5.cursor.lineX.strokeOpacity = 0;
+                    chart5.cursor.lineY.strokeOpacity = 0;
+
+
+                    // Create chart instance giros
+                    var chart6 = am4core.create("chartdiv6", am4charts.XYChart3D);
+                    // Add data
+                    chart6.data = giros;
+                    // Create axes
+                    let categoryAxis6 = chart6.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis6.dataFields.category = "placa";
+                    categoryAxis6.renderer.labels.template.rotation = 270;
+                    categoryAxis6.renderer.labels.template.hideOversized = false;
+                    categoryAxis6.renderer.minGridDistance = 20;
+                    categoryAxis6.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis6.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis6.tooltip.label.rotation = 270;
+                    categoryAxis6.tooltip.label.horizontalCenter = "right";
+                    categoryAxis6.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis6 = chart6.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis6.title.text = "Giros Bruscos";
+                    valueAxis6.title.fontWeight = "bold";
+
+                    // Create series
+                    var series6 = chart6.series.push(new am4charts.ColumnSeries3D());
+                    series6.dataFields.valueY = "giros";
+                    series6.dataFields.categoryX = "placa";
+                    series6.name = "Giros Bruscos";
+                    series6.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series6.columns.template.fillOpacity = .8;
+
+                    var columnTemplate6 = series6.columns.template;
+                    columnTemplate6.strokeWidth = 2;
+                    columnTemplate6.strokeOpacity = 1;
+                    columnTemplate6.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate6.adapter.add("fill", function (fill, target) {
+                        return chart6.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate6.adapter.add("stroke", function (stroke, target) {
+                        return chart6.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart6.cursor = new am4charts.XYCursor();
+                    chart6.cursor.lineX.strokeOpacity = 0;
+                    chart6.cursor.lineY.strokeOpacity = 0;
+
+
+                    // Create chart instance calificacion
+                    var chart7 = am4core.create("chartdiv7", am4charts.XYChart3D);
+                    // Add data
+                    chart7.data = calificacion;
+                    // Create axes
+                    let categoryAxis7 = chart7.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis7.dataFields.category = "placa";
+                    categoryAxis7.renderer.labels.template.rotation = 270;
+                    categoryAxis7.renderer.labels.template.hideOversized = false;
+                    categoryAxis7.renderer.minGridDistance = 20;
+                    categoryAxis7.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis7.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis7.tooltip.label.rotation = 270;
+                    categoryAxis7.tooltip.label.horizontalCenter = "right";
+                    categoryAxis7.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis7 = chart7.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis7.title.text = "Calificación";
+                    valueAxis7.title.fontWeight = "bold";
+
+                    // Create series
+                    var series7 = chart7.series.push(new am4charts.ColumnSeries3D());
+                    series7.dataFields.valueY = "score";
+                    series7.dataFields.categoryX = "placa";
+                    series7.name = "Calificación";
+                    series7.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series7.columns.template.fillOpacity = .8;
+
+                    var columnTemplate7 = series7.columns.template;
+                    columnTemplate7.strokeWidth = 2;
+                    columnTemplate7.strokeOpacity = 1;
+                    columnTemplate7.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate7.adapter.add("fill", function (fill, target) {
+                        return chart7.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate7.adapter.add("stroke", function (stroke, target) {
+                        return chart7.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart7.cursor = new am4charts.XYCursor();
+                    chart7.cursor.lineX.strokeOpacity = 0;
+                    chart7.cursor.lineY.strokeOpacity = 0;
+
+                }); // end am4core.ready()
+            },
+            "error": function (data) {
+
+                alert("Some Error Occured!");
+            }
+        });
+           ////
+
+
+    }
+    </script>
+
+
+}

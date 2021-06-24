@@ -8,7 +8,7 @@
 
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">Opciones</h3>
+                <h3 class="card-title">Filtros</h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -20,14 +20,47 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Cliente</label>
-                            <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-control select2" style="width: 100%;">
+                            <label>Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="Proceso">
+                                <option selected="selected">(Seleccionar..)</option>
+                                <option>Conducción</option>
+                                <option>Mantenimientos</option>
+                                <option>Sustitutos</option>
+                                <option>Siniestros</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Sub Proceso</label>
+                            <select class="form-control select2" style="width: 100%;" id="SubProceso">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <select class="form-control select2" style="width: 100%;" id="Cliente">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha:</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control float-right" id="reservation">
+                            </div>
+                            <!-- /.input group -->
                         </div>
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Placa</label>
-                            <select asp-for="PlacaId" asp-items="Model.Placas" class="form-control select2" style="width: 100%;">
+                            <select class="form-control select2" style="width: 100%;" id="Placa">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Usuarios</label>
+                            <select class="form-control select2" style="width: 100%;" id="Usuarios">
                             </select>
                         </div>
                         <!-- /.form-group -->
@@ -44,247 +77,758 @@
         </div>
         <!-- /.card -->
 
-        <div id="dvMap" style="width: 800px; height: 600px">
 
-        </div>
-
-        @*<div id="Mapa">
-            <partial name="_MapaPartialView" , model="@Model.Markers">
-        </div>*@
     </div><!-- /.col -->
     <div class="col-sm-6">
 
 
     </div><!-- /.col -->
 
+
 </div>
 
-><div class="loaderbody" id="loaderbody">
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Conducción</h3>
+                    @*<a href="javascript:void(0);">View Report</a>*@
+                </div>
+            </div>
+            <div class="card-body">              
+                <div class="row">
+                    <div class="col-sm-6">
+                        @*<div id="chartReport" class="position-relative mb-4">
+                            <canvas id="myChart" height="100"></canvas>
+                        </div>*@
+                        <div id="chartdiv"></div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartKM" class="position-relative mb-4">
+                            <canvas id="myChart1" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="charteventos" class="position-relative mb-4">
+                            <canvas id="myChart2" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartacel" class="position-relative mb-4">
+                            <canvas id="myChart3" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartfren" class="position-relative mb-4">
+                            <canvas id="myChart4" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartexce" class="position-relative mb-4">
+                            <canvas id="myChart5" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="chartgiros" class="position-relative mb-4">
+                            <canvas id="myChart6" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <div id="chartusr" class="position-relative mb-4">
+                            <canvas id="myChart7" height="100"></canvas>
+                        </div>
+                    </div><!-- /.col -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="loaderbody" id="loaderbody">
     <div class="loader"></div>
 </div>
 
 
 @section Scripts {
 
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdJn4LtdTIskKQBfOC202XrIMY8Jm1u6g"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-colvis-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdJn4LtdTIskKQBfOC202XrIMY8Jm1u6g"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/maps.js"></script>
 
     <script type="text/javascript">
-        var markers = @Html.Raw(@Model.Markers);
         window.onload = function () {
-            $("#loaderbody").addClass('hide');
-
-
-            var image = "/icon/car.png";
-            var shape = {
-                coords: [1, 1, 1, 20, 18, 20, 18, 1],
-                type: 'poly'
-            };
-
-            var mapOptions = {
-                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-                zoom: 8,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var infoWindow = new google.maps.InfoWindow();
-            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-            for (i = 0; i < markers.length; i++) {
-                var data = markers[i]
-                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    icon: image,
-                    //shape: shape,
-                    //label: data.title,
-                    map: map,
-                    title: data.title
+            $("#Proceso").change(function () {
+                $("#loaderbody").removeClass('hide');
+                var x = $("#Proceso").val();
+                $("#SubProceso").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetSubProcess")',
+                    dataType: 'json',
+                    data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#SubProceso").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#SubProceso").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve subprocesos.' + ex.statusText);
+                    }
                 });
-                (function (marker, data) {
-                    google.maps.event.addListener(marker, "click", function (e) {
-                        infoWindow.setContent(data.description);
-                        infoWindow.open(map, marker);
-                    });
-                })(marker, data);
-            }
 
 
-            $("#ClienteId").change(function () {
-
-                $("#loaderbody").removeClass('hide');
-                $("#PlacaId").empty();
-                $("#PlacaId").append('<option value="">[Seleccionar Placa...]</option>');
-                if ($("#ClienteId").val() != "") {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("GetPlacas")',
-                        dataType: 'json',
-                        data: { UserId: $("#ClienteId").val() },
-                        success: function (subcategories) {
-                            $.each(subcategories, function (i, dato) {
-
-                                $("#PlacaId").append('<option value="'
-                                    + dato.text + '">'
-                                    + dato.value + '</option>');
-                            });
-                        },
-                        error: function (ex) {
-                            alert('Failed to retrieve Plaques.' + ex);
-                        }
-                    });
-                }
-                else {
-                    $("#PlacaId").empty();
-                    $("#PlacaId").append('<option value="0">[Seleccionar Placa...]</option>');
-                }
-
-                        var id = $("#ClienteId").val();
-                        var urlEst = '';
-                        if ($("#ClienteId").val()) {
-                            urlEst = '@Url.Action("GetMapaCliente")';
-                        } else {
-                            urlEst = '@Url.Action("GetMapaAll")';
-                        }
-                        console.log(urlEst);
-
-                        $.ajax({
-                            type: 'POST',
-                            url: urlEst,
-                            dataType: 'json',
-                            data: { UserId: id },
-                            success: function (result) {
-                                console.log(result);
-
-                                if (result) {
-                                    var markers = result;
-                                    console.log(markers.length);
-                                    console.log(markers[0].latitude);
-                                    var image = "/icon/car.png";
-                                    var shape = {
-                                        coords: [1, 1, 1, 20, 18, 20, 18, 1],
-                                        type: 'poly'
-                                    };
-
-                                    var mapOptions = {
-                                        center: new google.maps.LatLng(markers[0].latitude, markers[0].longitude),
-                                        zoom: 8,
-                                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                                    };
-                                    var infoWindow = new google.maps.InfoWindow();
-                                    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-                                    for (i = 0; i < markers.length; i++) {
-                                        var data = markers[i]
-                                        var myLatlng = new google.maps.LatLng(data.latitude, data.longitude);
-                                        var marker = new google.maps.Marker({
-                                            position: myLatlng,
-                                            icon: image,
-                                            //shape: shape,
-                                            //label: data.title,
-                                            map: map,
-                                            title: data.vehiculo.placa
-                                        });
-                                        (function (marker, data) {
-                                            google.maps.event.addListener(marker, "click", function (e) {
-                                                infoWindow.setContent(data.vehiculo.user.fullName);
-                                                infoWindow.open(map, marker);
-                                            });
-                                        })(marker, data);
-                                    }
-
-                                    //$("#dvMap").html(result);
-                                    $("#loaderbody").addClass('hide');
-                                }
-                                else {
-                                    $("#loaderbody").addClass('hide');
-                                    return false;
-                                }
-                            },
-                            error: function (ex) {
-                                alert('Failed to retrieve Estadisticas.' + ex);
-                                console.log(ex);
-                                $("#loaderbody").addClass('hide');
-                            }
+                //clientes
+                $("#Cliente").empty();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetClientes")',
+                    dataType: 'json',
+                    //data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#Cliente").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Cliente").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
                         });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Clientes.' + ex.statusText);
+                    }
+                });
+
+                $("#loaderbody").addClass('hide');
+                GenerateRuntimeGraph();
+
+                return false;
             });
 
-            $("#PlacaId").change(function () {
-                $("#loaderbody").removeClass('hide');
-                var id = $("#ClienteId").val();
-                var placa = $("#PlacaId").val();
-                var urlEst = '';
-                if ($("#PlacaId").val()) {
-                            urlEst = '@Url.Action("GetMapaClientePlaca")';
-                        } else {
-                            urlEst = '@Url.Action("GetMapaClientePlacaAll")';
-                        }
-                        console.log(urlEst);
-
-                        $.ajax({
-                            type: 'POST',
-                            url: urlEst,
-                            dataType: 'json',
-                            data: { UserId: id, Placa: placa },
-                            success: function (result) {
-                                console.log(result);
-
-                                if (result) {
-                                    var markers = result;
-                                    console.log(markers.length);
-                                    console.log(markers[0].latitude);
-                                    var image = "/icon/car.png";
-                                    var shape = {
-                                        coords: [1, 1, 1, 20, 18, 20, 18, 1],
-                                        type: 'poly'
-                                    };
-
-                                    var mapOptions = {
-                                        center: new google.maps.LatLng(markers[0].latitude, markers[0].longitude),
-                                        zoom: 8,
-                                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                                    };
-                                    var infoWindow = new google.maps.InfoWindow();
-                                    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-                                    for (i = 0; i < markers.length; i++) {
-                                        var data = markers[i]
-                                        var myLatlng = new google.maps.LatLng(data.latitude, data.longitude);
-                                        var marker = new google.maps.Marker({
-                                            position: myLatlng,
-                                            icon: image,
-                                            //shape: shape,
-                                            //label: data.title,
-                                            map: map,
-                                            title: data.vehiculo.placa
-                                        });
-                                        (function (marker, data) {
-                                            google.maps.event.addListener(marker, "click", function (e) {
-                                                infoWindow.setContent(data.vehiculo.user.fullName);
-                                                infoWindow.open(map, marker);
-                                            });
-                                        })(marker, data);
-                                    }
-
-                                    //$("#dvMap").html(result);
-                                    $("#loaderbody").addClass('hide');
-                                }
-                                else {
-                                    $("#loaderbody").addClass('hide');
-                                    return false;
-                                }
-                            },
-                            error: function (ex) {
-                                alert('Failed to retrieve Estadisticas.' + ex);
-                                console.log(ex);
-                                $("#loaderbody").addClass('hide');
-                            }
+            ////////////
+            $("#Cliente").change(function () {
+                //$("#loaderbody").removeClass('hide');
+                var x = $("#Cliente").val();
+                $("#Placa").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPlacas")',
+                    dataType: 'json',
+                    data: { nit: $("#Cliente").val() },
+                    success: function (subs) {
+                        $("#Placa").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Placa").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
                         });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve Placas.' + ex.statusText);
+                    }
+                });
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
+                return false;
+            });
+
+            ///placa
+            $("#Placa").change(function () {
+                $("#loaderbody").removeClass('hide');
+                GenerateRuntimeGraph();
+                $("#loaderbody").addClass('hide');
             });
 
             $("#loaderbody").addClass('hide');
+       }
+
+
+        let myChart;
+        let myChart1;
+        let myChart2;
+        let myChart3;
+        let myChart4;
+        let myChart5;
+        let myChart6;
+        let myChart7;
+
+       function GenerateRuntimeGraph() {
+            var proceso = $('#Proceso').val();
+            var subproceso = $('#SubProceso').val();
+            var cliente = $('#Cliente').val();
+            var fecha = $('#reservation').val();
+            var placa = $('#Placa').val();
+           var usuario = $('#Usuarios').val();
+           //console.log(proceso);
+        //setting default values
+           if (proceso == "null") {
+               proceso = "";
         }
+        if (subproceso == "null") {
+            subproceso = "";
+        }
+           if (cliente == "null") {
+               cliente = "";
+        }
+        if (fecha == "null" || fecha=="") {
+            fecha = "";
+           }
+        if (placa == "null" || placa=="0") {
+            placa = "";
+        }
+        if (usuario == "null") {
+            usuario = "";
+           }
+
+
+           var fileData = new FormData();
+
+           fileData.append("Proceso", proceso);
+           fileData.append("SubProceso", subproceso);
+           fileData.append("Cliente", cliente);
+           fileData.append("Placa", placa);
+           fileData.append("Fecha", fecha);
+           fileData.append("Usuario", usuario);
+
+           var resp = [];
+           var dist = [];
+           var eventos = [];
+           var aceler = [];
+           var frena = [];
+           var excesos = [];
+           var giros = [];
+           var califi = [];
+
+           var lbl = [];
+           var lbldist = [];
+           var lbleventos = [];
+           var lblaceler = [];
+           var lblfren = [];
+           var lblexcesos = [];
+           var lblgiros = [];
+           var lblcalifi = [];
+
+           var nuevo = [];
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Chart", "Graficos")',
+            data: fileData,
+            //contentType: "application/json",
+            //dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (chData) {
+                var sorted = _.sortBy(chData, "trips")
+                var sorted1 = _.sortBy(chData, "kilometerstraveled")
+                var sorted2 = _.sortBy(chData, "sharpacceleration")
+                var sorted3 = _.sortBy(chData, "sharpacceleration")
+                var sorted4 = _.sortBy(chData, "hardbraking")
+                var sorted5 = _.sortBy(chData, "speeding")
+                var sorted6 = _.sortBy(chData, "sharpturn")
+                var sorted7 = _.sortBy(chData, "score")
+
+                //console.log(chData);
+                //For Bar Chart
+                $.each(sorted, function (i, item) {
+                    resp.push(item.trips);
+                    lbl.push(item.vehiculo.placa);
+                    nuevo.push({
+                        "placa": item.vehiculo.placa,
+                        "trips": item.trips
+                    });
+                });
+                $.each(sorted1, function (i, item) {
+                    dist.push(item.kilometerstraveled);
+                    lbldist.push(item.vehiculo.placa);
+                });
+                //eventos
+                $.each(sorted2, function (i, item) {
+                    eventos.push(item.sharpacceleration + item.sharpturn + item.hardbraking + item.speeding);
+                    lbleventos.push(item.vehiculo.placa);
+                });
+                //aceler
+                $.each(sorted3, function (i, item) {
+                    aceler.push(item.sharpacceleration);
+                    lblaceler.push(item.vehiculo.placa);
+                });
+                //frenazos
+                $.each(sorted4, function (i, item) {
+                    frena.push(item.hardbraking);
+                    lblfren.push(item.vehiculo.placa);
+                });
+                //excesos
+                $.each(sorted5, function (i, item) {
+                    excesos.push(item.speeding);
+                    lblexcesos.push(item.vehiculo.placa);
+                });
+                //giros
+                $.each(sorted6, function (i, item) {
+                    giros.push(item.sharpturn);
+                    lblgiros.push(item.vehiculo.placa);
+                });
+                //score
+                $.each(sorted7, function (i, item) {
+                    califi.push(item.score);
+                    lblcalifi.push(item.vehiculo.placa);
+                });
+
+                //var ctx = document.getElementById("myChart").getContext('2d');
+                //if (myChart) {
+                //    myChart.destroy();
+                //}
+                ////ctx.height = 900;
+                //myChart = new Chart(ctx, {
+                //    type: 'bar',
+                //    height: "100px",
+                //    width: "100px",
+                //    autoSkip: false,
+                //    responsive: true,
+                //    animation: true,
+                //    showDatapoints: true,
+                //    legend: { position: 'bottom' },
+                //    data: {
+                //        labels: lbl,
+                //        datasets: [{
+                //            label: 'Cantidad de Viajes',
+                //            data: resp,
+                //            backgroundColor: ["blue"],
+                //        }]
+                //    }, options: {
+                //        events: ['click'],
+                //        scaleShowValues: true,
+                //        scales: {
+                //            yAxes: [{
+                //                ticks: {
+                //                    beginAtZero: true
+                //                }
+                //            }],
+                //            xAxes: [{
+                //                ticks: {
+                //                    autoSkip: false
+                //                }
+                //            }]
+                //        }
+                //    }
+                //});
+                ///////////km
+
+                var ctx1 = document.getElementById("myChart1").getContext('2d');
+                if (myChart1) {
+                    myChart1.destroy();
+                }
+                //ctx.height = 900;
+                myChart1 = new Chart(ctx1, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lbldist,
+                        datasets: [{
+                            label: 'Kilometros Recorridos',
+                            data: dist,
+                            backgroundColor: ["green"]
+                        }]
+                        //labels: ["Education", "Lodging", "Fooding", "Travelling", "Communication", "Others"],
+                        //datasets: [{
+                        //    label: 'Monthly Expenses',
+                        //    data: [educationValue, lodgingValue, foodingValue, travellingValue, communicationValue, othersValue],
+                        //    backgroundColor: ["red", "blue", "green", "yellow", "pink", "brown"]
+                        //}]
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+                ///////////eventos
+                var ctx2 = document.getElementById("myChart2").getContext('2d');
+                if (myChart2) {
+                    myChart2.destroy();
+                }
+                //ctx.height = 900;
+                myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lbleventos,
+                        datasets: [{
+                            label: 'Cantidad de Eventos',
+                            data: eventos,
+                            backgroundColor: ["yellow"]
+                        }]
+                        //labels: ["Education", "Lodging", "Fooding", "Travelling", "Communication", "Others"],
+                        //datasets: [{
+                        //    label: 'Monthly Expenses',
+                        //    data: [educationValue, lodgingValue, foodingValue, travellingValue, communicationValue, othersValue],
+                        //    backgroundColor: ["red", "blue", "green", "yellow", "pink", "brown"]
+                        //}]
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                ////////////aceleraciones
+                var ctx3 = document.getElementById("myChart3").getContext('2d');
+                if (myChart3) {
+                    myChart3.destroy();
+                }
+                //ctx.height = 900;
+                myChart3 = new Chart(ctx3, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lblaceler,
+                        datasets: [{
+                            label: 'Aceleraciones Bruscas',
+                            data: aceler,
+                            backgroundColor: ["pink"]
+                        }]
+
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+                //////////frenazos
+                var ctx4 = document.getElementById("myChart4").getContext('2d');
+                if (myChart4) {
+                    myChart4.destroy();
+                }
+                //ctx.height = 900;
+                myChart4 = new Chart(ctx4, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lblfren,
+                        datasets: [{
+                            label: 'Frenazos Bruscos',
+                            data: frena,
+                            backgroundColor: ["brown"]
+                        }]
+
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                //////////excesos
+                var ctx5 = document.getElementById("myChart5").getContext('2d');
+                if (myChart5) {
+                    myChart5.destroy();
+                }
+                //ctx.height = 900;
+                myChart5 = new Chart(ctx5, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lblexcesos,
+                        datasets: [{
+                            label: 'Excesos de Velocidad',
+                            data: excesos,
+                            backgroundColor: ["blue"]
+                        }]
+
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+                ///////////giros
+                var ctx6 = document.getElementById("myChart6").getContext('2d');
+                if (myChart6) {
+                    myChart6.destroy();
+                }
+                //ctx.height = 900;
+                myChart6 = new Chart(ctx6, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lblgiros,
+                        datasets: [{
+                            label: 'Giros Bruscos',
+                            data: giros,
+                            backgroundColor: ["blue"]
+                        }]
+
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+                /////calificacion
+                var ctx7 = document.getElementById("myChart7").getContext('2d');
+                if (myChart7) {
+                    myChart7.destroy();
+                }
+                //ctx.height = 900;
+                myChart7 = new Chart(ctx7, {
+                    type: 'bar',
+                    height: "100px",
+                    width: "100px",
+                    autoSkip: false,
+                    responsive: true,
+                    animation: true,
+                    showDatapoints: true,
+                    legend: { position: 'bottom' },
+                    data: {
+                        labels: lblcalifi,
+                        datasets: [{
+                            label: 'Calificación',
+                            data: califi,
+                            backgroundColor: ["blue"]
+                        }]
+
+                    }, options: {
+                        events: ['click'],
+                        scaleShowValues: true,
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                am4core.ready(function () {
+
+                    // Themes begin
+                    am4core.useTheme(am4themes_animated);
+                    // Themes end
+
+                    // Create chart instance
+                    var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+                    // Add data
+                    chart.data = nuevo;
+                    // Create axes
+                    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "placa";
+                    categoryAxis.renderer.labels.template.rotation = 270;
+                    categoryAxis.renderer.labels.template.hideOversized = false;
+                    categoryAxis.renderer.minGridDistance = 20;
+                    categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                    categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                    categoryAxis.tooltip.label.rotation = 270;
+                    categoryAxis.tooltip.label.horizontalCenter = "right";
+                    categoryAxis.tooltip.label.verticalCenter = "middle";
+
+                    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis.title.text = "Cantidad de Viajes";
+                    valueAxis.title.fontWeight = "bold";
+
+                    // Create series
+                    var series = chart.series.push(new am4charts.ColumnSeries3D());
+                    series.dataFields.valueY = "trips";
+                    series.dataFields.categoryX = "placa";
+                    series.name = "trips";
+                    series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                    series.columns.template.fillOpacity = .8;
+
+                    var columnTemplate = series.columns.template;
+                    columnTemplate.strokeWidth = 2;
+                    columnTemplate.strokeOpacity = 1;
+                    columnTemplate.stroke = am4core.color("#FFFFFF");
+
+                    columnTemplate.adapter.add("fill", function (fill, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                    })
+
+                    columnTemplate.adapter.add("stroke", function (stroke, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                    })
+
+                    chart.cursor = new am4charts.XYCursor();
+                    chart.cursor.lineX.strokeOpacity = 0;
+                    chart.cursor.lineY.strokeOpacity = 0;
+
+                }); // end am4core.ready()
+            },
+            "error": function (data) {
+                if (myChart) {
+                    myChart.destroy();
+                }
+                if (myChart1) {
+                    myChart1.destroy();
+                }
+                if (myChart2) {
+                    myChart2.destroy();
+                }
+                if (myChart3) {
+                    myChart3.destroy();
+                }
+                if (myChart4) {
+                    myChart4.destroy();
+                }
+                if (myChart5) {
+                    myChart5.destroy();
+                }
+                if (myChart6) {
+                    myChart6.destroy();
+                }
+                if (myChart7) {
+                    myChart7.destroy();
+                }
+                alert("Some Error Occured!");
+            }
+        });
+           ////
+
+
+    }
     </script>
+
+    <script>
+
+    </script>
+
 }

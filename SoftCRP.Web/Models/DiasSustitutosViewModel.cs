@@ -37,5 +37,8 @@ namespace SoftCRP.Web.Models
         public string AnioSustituto { get; set; }
         public string Estatus { get; set; }
         public string Fecha_asignacion { get; set; }
+        public string ano { get; set; }
+        public string mes { get; set; }
+        public int Dias_historia { get; set; }
     }
 }

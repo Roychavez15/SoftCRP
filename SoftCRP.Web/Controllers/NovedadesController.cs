@@ -91,13 +91,89 @@ namespace SoftCRP.Web.Controllers
         {
 
             NovedadesViewModel model = new NovedadesViewModel();
+            NovedadesViewModel model1 = new NovedadesViewModel();
+            List<Novedad> novedad = new List<Novedad>();
+
             if (!string.IsNullOrEmpty(id))
             {
                 model = await _novedadesRepository.GetNovedadAsync(id);
+
+                var historial = _dataContext.Histories
+                    .Include(u=>u.User)
+                    .Where(c => c.User.Cedula == id && c.Placa != "")
+                    .ToList();
+                if (historial != null && historial.Count() > 0)
+                {
+                    foreach (var his in historial)
+                    {
+                        if (his.isActive)
+                        {
+                            var newmodel = model.novedades
+                                .Where(p => p.Placa.ToUpper() == his.Placa.ToUpper() && p.Fecha >= his.Desde && p.Fecha <= his.Hasta);
+                            foreach (var mo in newmodel)
+                            {
+                                Novedad novedad1 = new Novedad();
+                                novedad1.archivoNovedades = mo.archivoNovedades;
+                                novedad1.Cedula = mo.Cedula;
+                                novedad1.Fecha = mo.Fecha;
+                                novedad1.Id = mo.Id;
+                                novedad1.Observaciones = mo.Observaciones;
+                                novedad1.Placa = mo.Placa;
+                                novedad1.user = mo.user;
+                                novedad1.userCliente = mo.userCliente;
+                                novedad1.EstadoSolucion = mo.EstadoSolucion;
+                                novedad1.FechaSolucion = mo.FechaSolucion;
+                                novedad1.logNovedades = mo.logNovedades;
+                                novedad1.Motivo = mo.Motivo;
+                                novedad1.SubMotivo = mo.SubMotivo;
+                                novedad1.userSolucion = mo.userSolucion;
+                                novedad1.ViaIngreso = mo.ViaIngreso;
+
+                                novedad.Add(novedad1);
+                            }
+                        }
+                        else
+                        {
+                            var newmodel = model.novedades.Where(p => p.Placa.ToUpper() == his.Placa.ToUpper());
+                            foreach (var mo in newmodel)
+                            {
+                                Novedad novedad1 = new Novedad();
+                                novedad1.archivoNovedades = mo.archivoNovedades;
+                                novedad1.Cedula = mo.Cedula;
+                                novedad1.Fecha = mo.Fecha;
+                                novedad1.Id = mo.Id;
+                                novedad1.Observaciones = mo.Observaciones;
+                                novedad1.Placa = mo.Placa;
+                                novedad1.user = mo.user;
+                                novedad1.userCliente = mo.userCliente;
+                                novedad1.EstadoSolucion = mo.EstadoSolucion;
+                                novedad1.FechaSolucion = mo.FechaSolucion;
+                                novedad1.logNovedades = mo.logNovedades;
+                                novedad1.Motivo = mo.Motivo;
+                                novedad1.SubMotivo = mo.SubMotivo;
+                                novedad1.userSolucion = mo.userSolucion;
+                                novedad1.ViaIngreso = mo.ViaIngreso;
+
+                                novedad.Add(novedad1);
+                            }
+                        }
+                    }
+                    model1.cedula = id;
+                    model1.novedades = novedad;
+
+                }
+                else
+                {
+                    
+                    model1 = model;
+                }
+
+
+
                 ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
             }
             await _logRepository.SaveLogs("Get", "Obtiene lista de Novedades", "Novedades", User.Identity.Name);
-            return View(model);
+            return View(model1);
         }
 
         [HttpPost]
@@ -138,6 +214,11 @@ namespace SoftCRP.Web.Controllers
             return View(novedadesCreateViewModel);
         }
 
+        [HttpPost]
+        public async Task<string> EmailConductor(string placa)
+        {
+            return await _datosRepository.GetEmailConductorAsync(placa);
+        }
 
         [HttpPost]
 
@@ -312,7 +393,8 @@ namespace SoftCRP.Web.Controllers
                     }
 
                 //v2 email conductores
-                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
+                //var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);//se cambio 14/06/2021
+                var emailsdrivers = model.SendEmail;
 
                 if (!string.IsNullOrEmpty(emailsdrivers))
                 {

@@ -89,13 +89,90 @@ namespace SoftCRP.Web.Controllers
         {
 
             TramitesViewModel model = new TramitesViewModel();
+            TramitesViewModel model1 = new TramitesViewModel();
+            List<Tramite> tramites = new List<Tramite>();
+
             if (!string.IsNullOrEmpty(id))
             {
                 model = await _tramitesRepository.GetTramiteAsync(id);
+
+                var historial = _dataContext.Histories
+                    .Where(c => c.User.Cedula == id && c.Placa != "")
+                    .ToList();
+                if (historial != null && historial.Count() > 0)
+                {
+                    foreach (var his in historial)
+                    {
+                        if (his.isActive)
+                        {
+                            var newmodel = model.tramites.Where(p => p.Placa.ToUpper() == his.Placa.ToUpper() && p.Fecha >= his.Desde && p.Fecha <= his.Hasta);
+                            foreach (var mo in newmodel)
+                            {
+                                Tramite tramites1 = new Tramite();
+                                tramites1.archivoTramites = mo.archivoTramites;
+                                tramites1.Cedula = mo.Cedula;
+                                tramites1.Fecha = mo.Fecha;
+                                tramites1.Id = mo.Id;
+                                tramites1.Observaciones = mo.Observaciones;
+                                tramites1.Placa = mo.Placa;
+                                tramites1.user = mo.user;
+                                tramites1.userCliente = mo.userCliente;
+                                tramites1.Anio = mo.Anio;
+                                tramites1.Ciudad = mo.Ciudad;
+                                tramites1.Desde = mo.Desde;
+                                tramites1.Dia = mo.Dia;
+                                tramites1.Estado = mo.Estado;
+                                tramites1.Hasta = mo.Hasta;
+                                tramites1.Mes = mo.Mes;
+                                tramites1.tipoTramite = mo.tipoTramite;
+                                tramites1.tipoTramiteId = mo.tipoTramiteId;
+                                
+                                tramites.Add(tramites1);
+                            }
+                        }
+                        else
+                        {
+                            var newmodel = model.tramites.Where(p => p.Placa.ToUpper() == his.Placa.ToUpper());
+                            foreach (var mo in newmodel)
+                            {
+                                Tramite tramites1 = new Tramite();
+                                tramites1.archivoTramites = mo.archivoTramites;
+                                tramites1.Cedula = mo.Cedula;
+                                tramites1.Fecha = mo.Fecha;
+                                tramites1.Id = mo.Id;
+                                tramites1.Observaciones = mo.Observaciones;
+                                tramites1.Placa = mo.Placa;
+                                tramites1.user = mo.user;
+                                tramites1.userCliente = mo.userCliente;
+                                tramites1.Anio = mo.Anio;
+                                tramites1.Ciudad = mo.Ciudad;
+                                tramites1.Desde = mo.Desde;
+                                tramites1.Dia = mo.Dia;
+                                tramites1.Estado = mo.Estado;
+                                tramites1.Hasta = mo.Hasta;
+                                tramites1.Mes = mo.Mes;
+                                tramites1.tipoTramite = mo.tipoTramite;
+                                tramites1.tipoTramiteId = mo.tipoTramiteId;
+
+                                tramites.Add(tramites1);
+                            }
+                        }
+                    }
+                    model1.cedula = id;
+                    model1.tramites = tramites;
+
+                }
+                else
+                {
+
+                    model1 = model;
+                }
+
+
                 ViewBag.ClienteViewModel = await _datosRepository.GetDatosCliente(id);
             }
             await _logRepository.SaveLogs("Get", "Obtiene lista de Trámites", "Trámites", User.Identity.Name);
-            return View(model);
+            return View(model1);
 
         }
 
@@ -136,6 +213,13 @@ namespace SoftCRP.Web.Controllers
 
             return View(tramitesCreateViewModel);
         }
+
+        [HttpPost]
+        public async Task<string> EmailConductor(string placa)
+        {
+            return await _datosRepository.GetEmailConductorAsync(placa);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(TramitesCreateViewModel model)
         {
@@ -289,9 +373,10 @@ namespace SoftCRP.Web.Controllers
                 var emails = user.Email + ',' + datos.Email;
 
                 //v2 email conductores
-                var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);
+                //var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);//se cambio 14/06/2021
+                var emailsdrivers = model.SendEmail;
 
-                if(!string.IsNullOrEmpty(emailsdrivers))
+                if (!string.IsNullOrEmpty(emailsdrivers))
                 {
                     emails = emails + ',' + emailsdrivers;
                 }
