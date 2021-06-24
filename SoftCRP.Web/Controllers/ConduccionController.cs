@@ -105,6 +105,7 @@ namespace SoftCRP.Web.Controllers
                 vehiculosGps = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, "", ""),
 
             };
+
             return PartialView("_EstadisticasV2PartialView", estadisticasV2ViewModel);
         }
 
