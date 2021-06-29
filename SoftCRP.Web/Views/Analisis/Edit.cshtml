@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Data.Entities.Analisis
+﻿@model SoftCRP.Web.Models.AnalisisEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,40 +13,47 @@
             <form asp-action="Edit">
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
+                    @*<input type="hidden" asp-for="Id" />
                     <input type="hidden" asp-for="Fecha" />
                     <input type="hidden" asp-for="ArchivosAnalisis" />
                     <input type="hidden" asp-for="tipoAnalisisId" />
                     <input type="hidden" asp-for="Placa" />
-                    <input type="hidden" asp-for="Cedula" />
+                    <input type="hidden" asp-for="Cedula" />*@
 
                     <div class="form-group">
                         <label asp-for="tipoAnalisis.Tipo" class="control-label"></label>
-                        <input asp-for="tipoAnalisis.Tipo" class="form-control" disabled />
+                        <input asp-for="tipoAnalisis.Tipo" class="form-control" disabled id="Tipoobj"/>
                         <span asp-validation-for="tipoAnalisis.Tipo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Placa" class="control-label"></label>
-                        <input asp-for="Placa" class="form-control" disabled />
+                        <input asp-for="Placa" class="form-control" disabled id="Placasobj"/>
                         <span asp-validation-for="Placa" class="text-danger"></span>
                     </div>
 
                     @*<div class="form-group">
-                            <label asp-for="Fecha" class="control-label"></label>
-                            <input asp-for="Fecha" class="form-control" />
-                            <span asp-validation-for="Fecha" class="text-danger"></span>
-                        </div>*@
+                        <label asp-for="Fecha" class="control-label"></label>
+                        <input asp-for="Fecha" class="form-control" />
+                        <span asp-validation-for="Fecha" class="text-danger"></span>
+                    </div>*@
+
+                    <div class="form-group">
+                        <label asp-for="SendEmail" class="control-label">Correo Conductor (separar por ',' si hay mas de uno)</label>
+                        <textarea asp-for="SendEmail" class="form-control" id="SendEmail"></textarea>
+                        <span asp-validation-for="SendEmail" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
-                        <textarea asp-for="Observaciones" class="form-control"></textarea>
+                        <textarea asp-for="Observaciones" class="form-control" id="Obsobj"></textarea>
                         <span asp-validation-for="Observaciones" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="card-footer">
-                    <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
+                    <button type="submit" id ="btnsubmit" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
                     @*<a asp-action="Index" class="btn btn-primary">Regresar</a>*@
-                    <a asp-action="Retorno" asp-route-id="@Model.Cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
                 </div>
             </form>
         </div>
@@ -59,7 +66,7 @@
 
 @if (Model.ArchivosAnalisis.Count < 5)
 {
-    <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
+    <a asp-action="AddFile" asp-route-id="@Model.id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
 
 }
 <br />
@@ -205,6 +212,123 @@
                 } else {
                     window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                 }
+            });
+
+            $("#btnsubmit").click(function () {
+                var placas = $('#Placasobj').val();
+                var Tipo = $('#Tipoobj').val();
+                var Obs = $('#Obsobj').val();
+                var formu = $('#PlanForm').serialize();
+                var cedula = '@Model.cedula';
+                var correo = $('#SendEmail').val();
+                var id = '@Model.id';
+                var viewModel = {
+                    "Cedula":cedula,
+                    "PlacaId": placas,
+                    "tipoAnalisisId": Tipo,
+                    "Observaciones": Obs
+                };
+
+                //var files = $("#Files").get(0).files;
+
+                var fileData = new FormData();
+                fileData.append("id", id);
+                fileData.append("Cedula", cedula);
+                fileData.append("Placa", placas);
+                fileData.append("tipoAnalisisId", Tipo);
+                fileData.append("Observaciones", Obs);
+                fileData.append("SendEmail", correo);
+
+                var datos = fileData.getAll('Cedula');
+                //var FileSize = 0; // in MB
+                //debugger;
+
+                //if (files.length > 0) {
+                //    for (var i = 0; i < files.length; i++) {
+
+                //        fileData.append("Files", files[i]);
+                //        FileSize = FileSize + files[i].size / 1024 / 1024; // in MB
+                //    }
+                //}
+                //else {
+                //    fileData.append("Files", '');
+                //}
+                //if (files.length > 5) {
+                //    swal("Error Carga de Archivo!", "No se puede anexar mas de 5 archivos", "error");
+                //    return false;
+                //}
+
+
+                //if (FileSize >= 4) {
+                //    swal("Error Carga de Archivo!", "El tamaño total de los archivos supera el limite permitido " + FileSize.toString() + " MB", "error");
+                //    return false;
+
+                //}
+
+                swal({
+                        title: "Estan los datos correctos?",
+                        text: "Recuerde que al Editarlo se enviaran correos al cliente!!",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Si, Crearlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false,
+                        showLoaderOnConfirm: true,
+                    },
+                    function (isConfirm) {
+
+                        if (isConfirm) {
+
+                                $.ajax({
+                                type: 'POST',
+                                url: '/Analisis/Editar',
+                                //url: '/SoftCRPWeb/Analisis/Crear',
+                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
+                                data:fileData,
+                                //dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                success: function (result, textStatus, jqXHR) {
+
+                                    //swal(data.Cedula, 'success');
+                                    //console.log(result.statusText);
+                                    console.log(textStatus);
+                                    if (result) {
+                                        swal("Buen trabajo!","Registro Editado", "success");
+                                        //window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
+                                        window.location.href = '/Analisis/Retorno/@Model.cedula';
+                                    }
+                                    else {
+                                        swal('No se pudo crear','warning');
+                                        return false;
+                                    }
+                                    },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    //Do Stuff or Nothing
+                                    debugger;
+                                    swal("Error", jqXHR.statusText, "error");
+                                    //window.location.href = '/SoftCRPWeb/Analisis/Retorno/@Model.cedula';
+                                    window.location.href = '/Analisis/Retorno/@Model.cedula';
+                                    return false;
+
+                                    }
+                                });
+
+
+                            @*swal('Registro Creado', 'success');
+                            window.location.href = '/Analisis/Retorno/@Model.cedula';
+                            return false*@
+
+                        } else {
+                            swal("Cancelar", "Crear cancelado :)", "error");
+                            return false
+                        }
+
+                    });
+
+                    return false
             });
         });
     </script>

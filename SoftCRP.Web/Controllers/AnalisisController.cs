@@ -433,8 +433,18 @@ namespace SoftCRP.Web.Controllers
                 
                 return NotFound();
             }
-            
-            return View(analisis);
+            AnalisisEditViewModel model = new AnalisisEditViewModel();
+
+            model.id = analisis.Id;
+            model.cedula = analisis.Cedula;
+            model.ArchivosAnalisis = analisis.ArchivosAnalisis;
+            model.Observaciones = analisis.Observaciones;
+            model.Placa = analisis.Placa;
+            model.tipoAnalisis = analisis.tipoAnalisis;
+            model.SendEmail = await EmailConductor(analisis.Placa);
+
+
+            return View(model);
         }
 
 
@@ -473,7 +483,102 @@ namespace SoftCRP.Web.Controllers
             }
             return View(_dataContext);
         }
+        [HttpPost]
 
+        public async Task<IActionResult> Editar(AnalisisEditViewModel analisis)
+        {
+            //if (id != analisis.Id)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                var model = await _analisisRepository.GetAnalisisByIdAsync(analisis.id);
+                model.Observaciones = analisis.Observaciones;
+
+                try
+                {
+                    _dataContext.Update(model);
+                    await _dataContext.SaveChangesAsync();
+
+                    await _logRepository.SaveLogs("Editar", "Análisis Id: " + analisis.id.ToString(), "Análisis", User.Identity.Name);
+                    var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+
+                    //var tipoAnalisis = await _dataContext.TiposAnalisis.FindAsync(analisis.tipoAnalisis.Id);
+
+                    //var emails = "roy_chavez15@hotmail.com";
+                    var datos = await _userHelper.GetUserByCedulaAsync(analisis.cedula);
+                    var emails = user.Email.Trim() + ',' + datos.Email.Trim();
+
+                    //v2 email conductores
+                    //var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);//se cambio 14/06/2021
+                    var emailsdrivers = analisis.SendEmail;
+                    if (!string.IsNullOrEmpty(emailsdrivers))
+                    {
+                        emails = emails + ',' + emailsdrivers;
+                    }
+
+                    _mailHelper.SendMailAttachmentFileAnalisis(emails, "Plataforma Clientes",
+                        $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
+                        $"<head>" +
+                        $"<meta http-equiv='Content-Type' content='text/html; charset = UTF-8'/>" +
+                        $"<meta content = 'text/html; charset=utf-8'/>" +
+                        $"<title>" +
+                        $"</title>" +
+                        $"</head>" +
+                        $"<body>" +
+                        //$"<h1>Plataforma Clientes Nuevo Análisis</h1>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                        $"<br><br>" +
+                        $"<p>Estimado Cliente" +
+                        $"<p>Renting Pichincha comunica que se ha editado en la plataforma de clientes un Análisis perteneciente al vehículo:" +
+                        $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
+                        $"<tr><td style='font-weight:bold'>Placa</td><td>{analisis.Placa}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Tipo</td><td>{model.tipoAnalisis.Tipo}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Observación</td><td>{analisis.Observaciones}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Fecha</td><td>{model.Fecha}</td></tr></table>" +
+                        $"<br><br>" +
+                        $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
+                        $"<div align='center'><a href='https://clientes.rentingpichincha.com'><img src='https://clientes.rentingpichincha.com/images/email1.png' align='center'></a></div>" +
+                        $"<br><br>" +
+                        $"<p>Es un placer estar en contacto.<br>" +
+                        $"<p>Saludos cordiales<br>" +
+                        $"<br><br>" +
+                        $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                        $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
+                        $"<p>Quito-Ecuador" +
+                        $"<br><br>" +
+                        $"<img src='https://clientes.rentingpichincha.com/images/email2.png' width=200px>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                        , model.ArchivosAnalisis.ToList());
+
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AnalisisExists(analisis.id))
+                    {
+
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Retorno), new { id = analisis.cedula });
+            }
+
+            return View(analisis);
+        }
         [Authorize(Roles = "Admin,Renting")]
         public async Task<IActionResult> Delete(int? id)
         {

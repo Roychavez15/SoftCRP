@@ -9,6 +9,8 @@ namespace SoftCRP.Web.Helpers
 {
     public interface IMailHelper
     {
+        void SendMailAttachmentFileAnalisis(string to, string subject, string body, List<ArchivoAnalisis> files);
+        void SendMailAttachmentFileTramite(string to, string subject, string body, List<ArchivoTramites> files);
         void SendMailAlarma(string to, string subject, string body, List<ArchivoTramites> files);
         void SendMail(string to, string subject, string body);
         void SendMailAttachment(string to, string subject, string body, List<IFormFile> files);

@@ -459,12 +459,49 @@ namespace SoftCRP.Web.Controllers
             }
 
             //var analisis = await _dataContext.Analises.FindAsync(id);
-            var analisis = await _tramitesRepository.GetTramiteByIdAsync(id);
-            if (analisis == null)
+            var tramite = await _tramitesRepository.GetTramiteByIdAsync(id);
+            if (tramite == null)
             {
                 return NotFound();
             }
-            return View(analisis);
+
+            TramitesEditViewModel tramitesEditViewModel = new TramitesEditViewModel();
+            if (!string.IsNullOrEmpty(tramite.Cedula))
+            {
+                tramitesEditViewModel.Id = tramite.Id;
+                tramitesEditViewModel.cedula = tramite.Cedula;
+                tramitesEditViewModel.Placas = await _combosHelper.GetComboPlacas(tramite.Cedula);
+                tramitesEditViewModel.TramitesTypes = _combosHelper.GetComboTipoTramites();
+                tramitesEditViewModel.Meses = _combosHelper.GetComboMes();
+                tramitesEditViewModel.Anios = _combosHelper.GetComboAnio();
+                tramitesEditViewModel.Ciudades = _combosHelper.GetComboCiudades();
+                
+                if(tramite.Dia!=0)
+                {
+                    tramitesEditViewModel.Dias = _combosHelper.GetComboDias(tramite.Anio, tramite.Mes);
+                    tramitesEditViewModel.DiaId = tramite.Dia.ToString();
+                }
+                
+                tramitesEditViewModel.PlacaId = tramite.Placa;
+                tramitesEditViewModel.AnioId = tramite.Anio;
+                tramitesEditViewModel.TipoTramiteId = tramite.tipoTramiteId;
+                tramitesEditViewModel.SendEmail = await EmailConductor(tramite.Placa);
+                tramitesEditViewModel.MesId = tramite.Mes;
+                tramitesEditViewModel.Observaciones = tramite.Observaciones;
+                tramitesEditViewModel.CiudadId = tramite.Ciudad;
+                //tramitesEditViewModel.DiaId = tramite.Dia.ToString();
+                tramitesEditViewModel.fechas = tramite.Desde + "-" + tramite.Hasta;
+                tramitesEditViewModel.Estado = tramite.Estado;
+                tramitesEditViewModel.Files = tramite.archivoTramites.ToList();
+
+            }
+            else
+            {
+
+            }
+
+
+            return View(tramitesEditViewModel);
         }
 
 
@@ -500,6 +537,120 @@ namespace SoftCRP.Web.Controllers
                 return RedirectToAction(nameof(Retorno), new { id = tramite.Cedula });
             }
             return View(_dataContext);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Editar(TramitesEditViewModel tramite)
+        {
+            //if (id != tramite.Id)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                var tramiteUpdate = await _tramitesRepository.GetTramiteByIdAsync(tramite.Id);
+
+                tramiteUpdate.Anio = tramite.AnioId;
+                tramiteUpdate.Mes = tramite.MesId;
+                tramiteUpdate.Dia = Convert.ToInt32(tramite.DiaId);
+                tramiteUpdate.Observaciones = tramite.Observaciones;
+                tramiteUpdate.tipoTramiteId = tramite.TipoTramiteId;
+                var validez = "NO AVISO";
+                if (tramite.validez == "1")
+                {
+                    validez = "AVISO";
+                }
+                string[] fechas = tramite.fechas.Split('-');
+                var fechainicio = Convert.ToDateTime(fechas[0]);
+                var fechafin = Convert.ToDateTime(fechas[1]);
+                tramiteUpdate.Estado = validez;
+                tramiteUpdate.Desde = fechainicio;
+                tramiteUpdate.Hasta = fechafin;
+                tramiteUpdate.Ciudad = tramite.CiudadId;
+
+                try
+                {
+                    _dataContext.Update(tramiteUpdate);
+                    await _dataContext.SaveChangesAsync();
+                    await _logRepository.SaveLogs("Editar", "Trámites Id: " + tramite.Id.ToString(), "Trámites", User.Identity.Name);
+
+                    var user = await _userHelper.GetUserAsync(this.User.Identity.Name);
+                    //enviar correo
+                    //var datos = await _datosRepository.GetDatosCliente(model.cedula);
+                    var tipoTramite = await _dataContext.tipoTramites.FindAsync(tramite.TipoTramiteId);
+
+                    //var emails = "roy_chavez15@hotmail.com";
+                    var datos = await _userHelper.GetUserByCedulaAsync(tramite.cedula);
+                    var emails = user.Email + ',' + datos.Email;
+
+                    //v2 email conductores
+                    //var emailsdrivers = await _datosRepository.GetEmailConductorAsync(model.PlacaId);//se cambio 14/06/2021
+                    var emailsdrivers = tramite.SendEmail;
+
+                    if (!string.IsNullOrEmpty(emailsdrivers))
+                    {
+                        emails = emails + ',' + emailsdrivers;
+                    }
+
+                    //TODO: cambiar direccion de correo
+                    _mailHelper.SendMailAttachmentFileTramite(emails, "Plataforma Clientes",
+                        $"<html xmlns='http://www.w3.org/1999/xhtml'>" +
+                        $"<head>" +
+                        $"<meta http-equiv=" + "Content-Type" + " content=" + "text/html; charset = UTF-8" + " />" +
+                        $"<title>" +
+                        $"</title>" +
+                        $"</head>" +
+                        $"<body>" +
+                        //$"<h1>Plataforma Clientes Nuevo Trámite</h1>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'>" +
+                        $"<br><br>" +
+                        $"<p>Estimado Cliente" +
+                        $"<p>Renting Pichincha comunica que se ha cambiado en la plataforma de clientes el Trámite perteneciente al vehículo:" +
+
+                        $"<table border='0' cellpadding='0' cellspacing='0' height='100%' width='100%' style='border-collapse:collapse; max-width:600px!important; width:100%; margin: auto'>" +
+                        $"<tr><td style='font-weight:bold'>Placa</td><td>{tramite.PlacaId}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Tipo</td><td>{tipoTramite.Tipo}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Año</td><td>{tramite.AnioId}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Mes</td><td>{tramite.MesId}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Observación</td><td>{tramite.Observaciones}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Creador por</td><td>{user.FullName}</td></tr>" +
+                        $"<tr><td style='font-weight:bold'>Fecha</td><td>{tramiteUpdate.Fecha}</td></tr></table>" +
+                        $"<br><br>" +
+                        $"<p>Para poder revisar la información de su plataforma ingrese a su cuenta con su usuario y contraseña." +
+                        $"<div align='center'><a href='https://clientes.rentingpichincha.com'><img src='https://clientes.rentingpichincha.com/images/email1.png' align='center'></a></div>" +
+                        $"<br><br>" +
+                        $"<p>Es un placer estar en contacto.<br>" +
+                        $"<p>Saludos cordiales<br>" +
+                        $"<br><br>" +
+                        $"<p>Consorcio Pichincha S.A CONDELPI<br>" +
+                        $"<p>Av.González Suárez N32-346 y Coruña<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/call.png' width=30px>Call Center: 1-800 RENTING(736846)<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/email.png' width=25px>E-Mail: inforenting@condelpi.com<br>" +
+                        $"<p><img src='https://clientes.rentingpichincha.com/images/whatsapp.jpg' width=25px>WhatsApp: 0997652137" +
+                        $"<p>Quito-Ecuador" +
+                        $"<br><br>" +
+                        $"<img src='https://clientes.rentingpichincha.com/images/email2.png' width=200px>" +
+                        $"<hr width=100% align='center' size=30 color='#002D73' style='margin:0px;padding:0px'>" +
+                        $"<hr width=100% align='center' size=5 color='#F2AE0B' style='margin:0px;padding:0px'></body></html>"
+                        , tramiteUpdate.archivoTramites.ToList());
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AnalisisExists(tramite.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Retorno), new { id = tramite.cedula });
+            }
+            return View(tramite);
         }
 
         [Authorize(Roles = "Admin,Renting")]

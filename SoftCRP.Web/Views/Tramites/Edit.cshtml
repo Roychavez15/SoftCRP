@@ -1,4 +1,4 @@
-﻿@model SoftCRP.Web.Data.Entities.Tramite
+﻿@model SoftCRP.Web.Models.TramitesEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,51 +10,91 @@
                 <h2 class="card-title" style="font-style:oblique"><strong>EDITAR TRAMITE</strong></h2>
             </div>
 
-            <form asp-action="Edit">
+            <form name="PlanForm" method="post" action="Editar" enctype="multipart/form-data">
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="Fecha" />
-                    <input type="hidden" asp-for="archivoTramites" />
-                    <input type="hidden" asp-for="tipoTramiteId" />
-                    <input type="hidden" asp-for="Placa" />
-                    <input type="hidden" asp-for="Cedula" />
-                    <input type="hidden" asp-for="Anio" />
-                    <input type="hidden" asp-for="Mes" />
+                    @*<input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Fecha" />
+                <input type="hidden" asp-for="archivoTramites" />
+                <input type="hidden" asp-for="tipoTramiteId" />
+                <input type="hidden" asp-for="Placa" />
+                <input type="hidden" asp-for="Cedula" />
+                <input type="hidden" asp-for="Anio" />
+                <input type="hidden" asp-for="Mes" />*@
 
+                    @*<div class="form-group">
+                    <label asp-for="tipoTramite.Tipo" class="control-label"></label>
+                    <input asp-for="tipoTramite.Tipo" class="form-control" disabled />
+                    <span asp-validation-for="tipoTramite.Tipo" class="text-danger"></span>
+                </div>*@
                     <div class="form-group">
-                        <label asp-for="tipoTramite.Tipo" class="control-label"></label>
-                        <input asp-for="tipoTramite.Tipo" class="form-control" disabled />
-                        <span asp-validation-for="tipoTramite.Tipo" class="text-danger"></span>
+                        <label asp-for="PlacaId" class="control-label"></label>
+                        <input asp-for="PlacaId" class="form-control" disabled id="Placasobj" />
+                        <span asp-validation-for="PlacaId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Placa" class="control-label"></label>
-                        <input asp-for="Placa" class="form-control" disabled />
-                        <span asp-validation-for="Placa" class="text-danger"></span>
+                        <label asp-for="TipoTramiteId" class="control-label"></label>
+                        <select asp-for="TipoTramiteId" asp-items="Model.TramitesTypes" class="form-control" id="Tipoobj"></select>
+                        <span asp-validation-for="TipoTramiteId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Anio" class="control-label"></label>
-                        <input asp-for="Anio" class="form-control" disabled />
-                        <span asp-validation-for="Anio" class="text-danger"></span>
+                        <label asp-for="AnioId" class="control-label"></label>
+                        <select asp-for="AnioId" asp-items="Model.Anios" class="form-control" id="Aniosobj"></select>
+                        <span asp-validation-for="AnioId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Mes" class="control-label"></label>
-                        <input asp-for="Mes" class="form-control" disabled />
-                        <span asp-validation-for="Mes" class="text-danger"></span>
+                        <label asp-for="MesId" class="control-label"></label>
+                        <select asp-for="MesId" asp-items="Model.Meses" class="form-control" id="Mesobj"></select>
+                        <span asp-validation-for="MesId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DiaId" class="control-label"></label>
+                        <select asp-for="DiaId" asp-items="Model.Dias" class="form-control"></select>
+                        <span asp-validation-for="DiaId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CiudadId" class="control-label"></label>
+                        <select asp-for="CiudadId" asp-items="Model.Ciudades" class="form-control" id="Ciudadobj"></select>
+                        <span asp-validation-for="CiudadId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="icheck-primary d-inline">
+                            <input type="checkbox" id="checkboxPrimary1" @(!string.IsNullOrEmpty(Model.Estado) ? "checked" : "")>
+                            <label for="checkboxPrimary1">
+                                Validez
+                            </label>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" asp-for="fechas" class="form-control float-right" id="reservation">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SendEmail" class="control-label">Correo Conductor (separar por ',' si hay mas de uno)</label>
+                        <textarea asp-for="SendEmail" class="form-control" id="SendEmail"></textarea>
+                        <span asp-validation-for="SendEmail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Observaciones" class="control-label"></label>
-                        <textarea asp-for="Observaciones" class="form-control"></textarea>
+                        <textarea asp-for="Observaciones" class="form-control" id="Obsobj"></textarea>
                         <span asp-validation-for="Observaciones" class="text-danger"></span>
                     </div>
 
                 </div>
                 <div class="card-footer">
-                    <button type="submit" value="Save" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
+                    <button id="btnsubmit" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
                     @*<a asp-action="Index" class="btn btn-primary">Regresar</a>*@
-                    <a asp-action="Retorno" asp-route-id="@Model.Cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
+                    <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>
                 </div>
             </form>
+            @*<button id="btnsubmit" style="background-color:#002D73; color:#ffffff;" class="btn btn"><i class="fa fa-save">&nbsp;</i>Guardar</button>
+            <a asp-action="Retorno" asp-route-id="@Model.cedula" style="background-color:#F2AE0B; color:#ffffff;" class="btn btn"><i class="fas fa-angle-double-left">&nbsp;</i>Regresar</a>*@
         </div>
     </div>
 </div>
@@ -63,7 +103,7 @@
 <hr />
 
 
-@if (Model.archivoTramites.Count < 5)
+@if (Model.Files.Count < 5)
 {
     <a asp-action="AddFile" asp-route-id="@Model.Id" style="font-style:oblique"><i style="font-style:oblique" @*OnClientClick = "disabled(this.id)"*@ class="fa fa-plus" id="btn_agregar"></i>&nbsp;Agregar Archivo</a>
 
@@ -83,7 +123,7 @@
 
 
 
-                @if (Model.archivoTramites.Count == 0)
+                @if (Model.Files.Count == 0)
                 {
                     <h5>No contiene archivos cargados aun.</h5>
                 }
@@ -117,7 +157,7 @@
                         </table>*@
                     
 
-                        @foreach (var item in Model.archivoTramites)
+                        @foreach (var item in Model.Files)
                         {
                             var tamaniokb = item.tamanio / 1024;
                             <div class="col-md-3">
@@ -237,6 +277,177 @@
                     window.location.href = '/Owners/DeleteContract/' + item_to_delete;
                 }
             });
+
+
+            $("#btnsubmit").click(function () {
+                var id = '@Model.Id';
+                var placas = $('#Placasobj').val();
+                var Tipo = $('#Tipoobj').val();
+                var Anio = $('#Aniosobj').val();
+                var Mes = $('#Mesobj').val();
+                var Obs = $('#Obsobj').val();
+                var formu = $('#PlanForm').serialize();
+                var cedula = '@Model.cedula';
+                var dia = $('#DiaId').val();
+                var ciudad = $('#Ciudadobj').val();
+                var validez = "0";
+                var fechas = $('#reservation').val();
+                var correo = $('#SendEmail').val();
+
+                if ($('#checkboxPrimary1').is(':checked')) {
+                    validez = "1";
+                }
+
+                var viewModel = {
+                    "Cedula": cedula,
+                    "PlacaId": placas,
+                    "TipoTramiteId": Tipo,
+                    "MesId": Mes,
+                    "AnioId": Anio,
+                    "Observaciones": Obs
+                };
+
+                //var files = $("#Files").get(0).files;
+
+                var fileData = new FormData();
+
+                fileData.append("Id", id);
+                fileData.append("Cedula", cedula);
+                fileData.append("PlacaId", placas);
+                fileData.append("TipoTramiteId", Tipo);
+                fileData.append("MesId", Mes);
+                fileData.append("AnioId", Anio);
+                fileData.append("Observaciones", Obs);
+                fileData.append("DiaId", dia);
+                fileData.append("CiudadId", ciudad);
+                fileData.append("validez", validez);
+                fileData.append("fechas", fechas);
+                fileData.append("SendEmail", correo);
+
+                //var FileSize = 0; // in MB
+                //debugger;
+
+                //if (files.length > 0) {
+                //    for (var i = 0; i < files.length; i++) {
+
+                //        fileData.append("Files", files[i]);
+                //        FileSize = FileSize + files[i].size / 1024 / 1024; // in MB
+                //    }
+                //}
+                //else {
+                //    fileData.append("Files", '');
+                //}
+                //if (files.length > 5) {
+                //    swal("Error Carga de Archivo!", "No se puede anexar mas de 5 archivos", "error");
+                //    return false;
+                //}
+
+
+                //if (FileSize >= 4) {
+                //    swal("Error Carga de Archivo!", "El tamaño total de los archivos supera el limite permitido " + FileSize.toString() + " MB", "error");
+                //    return false;
+
+                //}
+
+                swal({
+                        title: "Estan los datos correctos?",
+                        text: "Recuerde que al crearlo se enviaran correos al cliente!!",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Si, Crearlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false,
+                        showLoaderOnConfirm: true,
+                    },
+                    function (isConfirm) {
+
+                        if (isConfirm) {
+
+                                $.ajax({
+                                type: 'POST',
+                                //url: '/SoftCRPWeb/Tramites/Crear',
+                                url: '/Tramites/Editar',
+                                //data: $('#PlanForm').serialize(),   //your form name.it takes all the values of model
+                                data:fileData,
+                                //dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                //init: function () {
+                                //    swal("Procesando!","Procesando", "success");
+                                //    },
+                                success: function (result, textStatus, jqXHR) {
+
+                                    //swal(data.Cedula, 'success');
+                                    //console.log(result.statusText);
+                                    console.log(textStatus);
+                                    if (result) {
+                                        swal("Buen trabajo!","Registro Creado", "success");
+                                        //window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
+                                        window.location.href = '/Tramites/Retorno/@Model.cedula';
+                                    }
+                                    else {
+                                        swal('No se pudo crear','warning');
+                                        return false;
+                                    }
+                                    },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    //Do Stuff or Nothing
+                                    debugger;
+                                    swal("Error", jqXHR.statusText, "error");
+                                    //window.location.href = '/SoftCRPWeb/Tramites/Retorno/@Model.cedula';
+                                    window.location.href = '/Tramites/Retorno/@Model.cedula';
+                                    return false;
+
+                                    }
+                                });
+
+
+                            @*swal('Registro Creado', 'success');
+                            window.location.href = '/Analisis/Retorno/@Model.cedula';
+                            return false*@
+
+                        } else {
+                            swal("Cancelar", "Crear cancelado :)", "error");
+                            return false
+                        }
+
+                    });
+
+                    return false
+                        });
+
+            $("#Mesobj").change(function () {
+
+                $("#DiaId").empty();
+                $("#DiaId").append('<option value="0">[Seleccionar Dia...]</option>');
+                if ($("#Mesobj").val() != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetDias")',
+                        dataType: 'json',
+                        data: { Anio: $("#Aniosobj").val(), Mes: $("#Mesobj").val() },
+                        success: function (subcategories) {
+                            $.each(subcategories, function (i, dato) {
+
+                                $("#DiaId").append('<option value="'
+                                    + dato.text + '">'
+                                    + dato.value + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve Dias.' + ex);
+                        }
+                    });
+                }
+                else {
+                    $("#DiaId").empty();
+                    $("#DiaId").append('<option value="0">[Seleccionar Dia...]</option>');
+                }
+
+            });
+
         });
     </script>
 }
