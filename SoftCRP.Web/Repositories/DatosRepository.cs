@@ -1274,6 +1274,22 @@ namespace SoftCRP.Web.Repositories
                         XmlNodeList mes =
                             nodo.GetElementsByTagName("mes");
 
+
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _context.Histories.FirstOrDefault(x => x.Placa == placa[0].InnerText && x.User.Cedula == Nit);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(ano + "-" + mes + "-" + ("01"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
+
                         SiniestrosDetalleViewModel siniestroData = new SiniestrosDetalleViewModel();
 
                         siniestroData.placa = placa[0].InnerText;
@@ -1398,7 +1414,22 @@ namespace SoftCRP.Web.Repositories
                     var ano = verificanodo(nodo, "ano");
                     var mes = verificanodo(nodo, "mes");
                     var Dias_historia = verificanodo(nodo, "Dias_historia");
-                    
+
+                    /*Range Filter*/
+                    #region RangeFilter
+                    var historial = _context.Histories.FirstOrDefault(x => x.Placa == Placa_cliente && x.User.Cedula == Nit);
+                    if (historial != null && historial.isActive)
+                    {
+                        DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                        DateTime dateFilter = DateTime.Parse(ano + "-" + mes + "-" + ("01"));
+                        var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                        if (!historialIsInRange)
+                        {
+                            continue;
+                        }
+                    }
+                    #endregion
+
                     DiasSustitutosViewModel estado = new DiasSustitutosViewModel();
                     estado.Dias = int.Parse(Dias);
                     estado.Placa = Placa_cliente;
@@ -1466,6 +1497,21 @@ namespace SoftCRP.Web.Repositories
                         var fecha_mmto = verificanodo(nodo, "fecha_mmto");
                         var anio = verificanodo(nodo, "ano");
                         var mes = verificanodo(nodo, "mes");
+
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _context.Histories.FirstOrDefault(x => x.Placa == placa && x.User.Cedula == Nit_cliente);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(anio + "-" + mes + "-" + ("01"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
 
                         ResumenPlacasViewModel resumen = new ResumenPlacasViewModel();
 

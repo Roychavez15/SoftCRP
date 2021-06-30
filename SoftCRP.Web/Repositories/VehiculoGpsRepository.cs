@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoftCRP.Web.Data;
 using SoftCRP.Web.Data.Entities;
+using SoftCRP.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,24 +27,11 @@ namespace SoftCRP.Web.Repositories
         }
         public IEnumerable<VehiculoGps> GetVehiculosGPSAsync(int dia, int mes, int anio, string userId, string vehiculoId)
         {
-
+            List<VehiculoGps> vehiculoGpsList = new List<VehiculoGps>();
             if (userId != "")
             {
                 if (vehiculoId != "")
                 {
-                    //var consultas = _dataContext.vehiculosGps
-                    //.Include(v => v.vehiculo)
-                    //.ThenInclude(u => u.user)
-                    //.Where(v => v.vehiculo.user.Cedula == userId && v.vehiculo.Placa==vehiculoId)
-                    //.OrderByDescending(p => p.anio)
-                    //.OrderByDescending(m => m.mes)
-                    //.OrderByDescending(d => d.dia)
-                    //.GroupBy(v => v.vehiculo)
-                    //.ToList()
-                    //.Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
-                    //.Select(ve => ve.ultimo);
-
-                    //return consultas.Count() > 0 ? consultas : null;
                     var consultas = _dataContext.vehiculosGps
                         .Include(v => v.vehiculo)
                         .ThenInclude(u => u.user)
@@ -84,6 +72,21 @@ namespace SoftCRP.Web.Repositories
                         vehiculos.talleres = registros.Sum(t => t.talleres);
                         vehiculos.trips = registros.Sum(tr => tr.trips);
 
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _dataContext.Histories.FirstOrDefault(x => x.Placa == placa && x.User.Cedula == incidencias.User.Cedula);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(vehiculos.anio + "-" + vehiculos.mes + "-" + (vehiculos.dia + "1"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
+
                         var suma = 0M;
                         var recorrido = registros.Sum(k => k.kilometerstraveled) / 10;
 
@@ -117,7 +120,8 @@ namespace SoftCRP.Web.Repositories
 
                     };
 
-                    return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    //return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    vehiculoGpsList = vehiculoGps.Count() > 0 ? vehiculoGps : null;
                 }
                 else
                 {
@@ -161,6 +165,21 @@ namespace SoftCRP.Web.Repositories
                         vehiculos.talleres = registros.Sum(t => t.talleres);
                         vehiculos.trips = registros.Sum(tr => tr.trips);
 
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _dataContext.Histories.FirstOrDefault(x => x.Placa == placa && x.User.Cedula == incidencias.User.Cedula);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(vehiculos.anio + "-" + vehiculos.mes + "-" + (vehiculos.dia + "1"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
+
                         var suma = 0M;
                         var recorrido = registros.Sum(k => k.kilometerstraveled) / 10;
 
@@ -194,26 +213,14 @@ namespace SoftCRP.Web.Repositories
 
                     };
 
-                    return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    //return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    vehiculoGpsList = vehiculoGps.Count() > 0 ? vehiculoGps : null;
                 }
             }
             else
             {
                 if (vehiculoId != "")
                 {
-                    //var consultas = _dataContext.vehiculosGps
-                    //.Include(v => v.vehiculo)
-                    //.ThenInclude(u => u.user)
-                    //.Where(v => v.vehiculo.Placa == vehiculoId)
-                    //.OrderByDescending(p => p.anio)
-                    //.OrderByDescending(m => m.mes)
-                    //.OrderByDescending(d => d.dia)
-                    //.GroupBy(v => v.vehiculo)
-                    //.ToList()
-                    //.Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
-                    //.Select(ve => ve.ultimo);
-
-                    //return consultas.Count() > 0 ? consultas : null;
                    var consultas = _dataContext.vehiculosGps
                         .Include(v => v.vehiculo)
                         .ThenInclude(u => u.user)
@@ -254,6 +261,21 @@ namespace SoftCRP.Web.Repositories
                         vehiculos.talleres = registros.Sum(t => t.talleres);
                         vehiculos.trips = registros.Sum(tr => tr.trips);
 
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _dataContext.Histories.FirstOrDefault(x => x.Placa == placa && x.User.Cedula == incidencias.User.Cedula);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(vehiculos.anio + "-" + vehiculos.mes + "-" + (vehiculos.dia + "1"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
+
                         var suma = 0M;
                         var recorrido = registros.Sum(k => k.kilometerstraveled) / 10;
 
@@ -287,22 +309,11 @@ namespace SoftCRP.Web.Repositories
 
                     };
 
-                    return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    //return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    vehiculoGpsList = vehiculoGps.Count() > 0 ? vehiculoGps : null;
                 }
                 else
                 {
-                    //var consultas = _dataContext.vehiculosGps
-                    //.Include(v => v.vehiculo)
-                    //.ThenInclude(u => u.user)                    
-                    //.OrderByDescending(p => p.anio)
-                    //.OrderByDescending(m => m.mes)
-                    //.OrderByDescending(d => d.dia)
-                    //.GroupBy(v => v.vehiculo)
-                    //.ToList()
-                    //.Select(g => new { g.Key, ultimo = g.FirstOrDefault() }).ToList()
-                    //.Select(ve => ve.ultimo);
-
-                    //return consultas.Count() > 0 ? consultas : null;
                     var consultas = _dataContext.vehiculosGps
                         .Include(v => v.vehiculo)
                         .ThenInclude(u => u.user)
@@ -341,6 +352,20 @@ namespace SoftCRP.Web.Repositories
                         vehiculos.speeding = registros.Sum(sp => sp.speeding);
                         vehiculos.talleres = registros.Sum(t => t.talleres);
                         vehiculos.trips = registros.Sum(tr => tr.trips);
+                        /*Range Filter*/
+                        #region RangeFilter
+                        var historial = _dataContext.Histories.FirstOrDefault(x => x.Placa == placa && x.User.Cedula == incidencias.User.Cedula);
+                        if (historial != null && historial.isActive)
+                        {
+                            DateHelper dtHelper = new DateHelper(historial.Desde, historial.Hasta);
+                            DateTime dateFilter = DateTime.Parse(vehiculos.anio + "-" + vehiculos.mes + "-" + (vehiculos.dia + "1"));
+                            var historialIsInRange = dtHelper.WithInRange(dateFilter);
+                            if (!historialIsInRange)
+                            {
+                                continue;
+                            }
+                        }
+                        #endregion
 
                         var suma = 0M;
                         var recorrido = registros.Sum(k => k.kilometerstraveled) / 10;
@@ -375,11 +400,12 @@ namespace SoftCRP.Web.Repositories
 
                     };
 
-                    return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    //return vehiculoGps.Count() > 0 ? vehiculoGps : null;
+                    vehiculoGpsList = vehiculoGps.Count() > 0 ? vehiculoGps : null;
                 }
             }
 
-
+            return vehiculoGpsList;
 
 
 
