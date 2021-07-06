@@ -14,5 +14,6 @@ namespace SoftCRP.Web.Models
         public string Placa { get; set; }
 
         public string Usuario { get; set; }
+        public string Validez { get; set; }
     }
 }

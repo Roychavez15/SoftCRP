@@ -68,6 +68,22 @@ namespace SoftCRP.Web.Controllers
             var sub = await _combosHelper.GetComboPlacasSN(nit);
             return Json(sub.ToList());
         }
+        public JsonResult GetUsuarios(string proceso)
+        {
+            if(proceso=="Conducción")
+            {
+                return Json(_combosHelper.UsuariosConduccion().ToList());
+            }
+            else if (proceso == "Mantenimientos")
+            {
+                return Json(_combosHelper.UsuariosConduccion().ToList());
+            }
+            else if (proceso == "Siniestros")
+            {
+                return Json(_combosHelper.UsuariosConduccion().ToList());
+            }
+            return null;
+        }
 
         [HttpPost]
         public async Task<JsonResult> Chart(GrafViewModel model)
@@ -78,6 +94,11 @@ namespace SoftCRP.Web.Controllers
             var placa = model.Placa;
             var fecha = model.Fecha;
             var usuario = model.Usuario;
+            var validez = model.Validez;
+
+            string[] fechas = model.Fecha.Split('-');
+            var fechainicio = Convert.ToDateTime(fechas[0]);
+            var fechafin = Convert.ToDateTime(fechas[1]);
 
             if (model.Cliente=="null" || string.IsNullOrEmpty(model.Cliente) || model.Cliente=="0")
             {
@@ -127,6 +148,15 @@ namespace SoftCRP.Web.Controllers
                             vehiculosGps = _vehiculoGpsRepository.GetVehiculosGPSAsync(DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year, cliente, placa).ToList();
 
                         }
+                        if (validez == "1")
+                        {
+                            //return Json(vehiculosGps.Where(f => Convert.ToDateTime(f.f) >= fechainicio && Convert.ToDateTime(f.Fecha_asignacion) <= fechafin).ToList());
+                            vehiculosGps = vehiculosGps.Where(f => Convert.ToDateTime(f.anio + "-" + f.mes + "-" + f.dia) >= fechainicio && Convert.ToDateTime(f.anio + "-" + f.mes + "-" + f.dia) <= fechafin).ToList();
+                        }
+                        if(usuario!="" && usuario!="0")
+                        {
+                            vehiculosGps = vehiculosGps.Where(u => u.usuario.ToUpper() == usuario).ToList();
+                        }
                         return Json(vehiculosGps);
                     }
                     else if(proceso=="Mantenimientos")
@@ -145,15 +175,58 @@ namespace SoftCRP.Web.Controllers
                             mantenimiento = await _datosRepository.GetResumePlacasAsync(cliente, placa);
 
                         }
+                        if (validez == "1")
+                        {
+                            mantenimiento = mantenimiento.Where(f => Convert.ToDateTime(f.fecha_mmto) >= fechainicio && Convert.ToDateTime(f.fecha_mmto) <= fechafin).ToList();
+                            //return Json(mantenimiento.Where(f => Convert.ToDateTime(f.fecha_mmto) >= fechainicio && Convert.ToDateTime(f.fecha_mmto) <= fechafin).ToList());
+                        }
+                        if (usuario != "" && usuario != "0")
+                        {
+                            mantenimiento = mantenimiento.Where(u => u.usuario.ToUpper() == usuario).ToList();
+                        }
                         return Json(mantenimiento.ToList());
                     }
                     else if (proceso == "Sustitutos")
                     {
+                        IEnumerable<DiasSustitutosViewModel> sustitutos = new List<DiasSustitutosViewModel>();
+                        if (this.User.IsInRole("Cliente"))
+                        {
 
+                            sustitutos = await _datosRepository.GetDiasSustitutosAsync(user.Cedula, placa);
+                        }
+                        else if (this.User.IsInRole("Admin") || this.User.IsInRole("Renting"))
+                        {
+
+                            sustitutos = await _datosRepository.GetDiasSustitutosAsync(cliente, placa);
+                        }
+                        if(validez=="1")
+                        {
+                            //return Json(sustitutos.Where(f=> Convert.ToDateTime(f.Fecha_asignacion)>=fechainicio && Convert.ToDateTime(f.Fecha_asignacion) <= fechafin).ToList());
+                            sustitutos = sustitutos.Where(f => Convert.ToDateTime(f.Fecha_asignacion) >= fechainicio && Convert.ToDateTime(f.Fecha_asignacion) <= fechafin).ToList();
+                        }
+                        return Json(sustitutos.ToList());
                     }
                     else if (proceso == "Siniestros")
                     {
-
+                        IEnumerable<SiniestrosDetalleViewModel> siniestros = new List<SiniestrosDetalleViewModel>();
+                        if (this.User.IsInRole("Cliente"))
+                        {
+                            siniestros = await _datosRepository.GetSiniestrosDetalleAsync(user.Cedula, placa);
+                        }
+                        else if (this.User.IsInRole("Admin") || this.User.IsInRole("Renting"))
+                        {
+                            siniestros = await _datosRepository.GetSiniestrosDetalleAsync(cliente, placa);
+                        }
+                        if (validez == "1")
+                        {
+                            //return Json(siniestros.Where(f => Convert.ToDateTime(f.fecha_siniestro) >= fechainicio && Convert.ToDateTime(f.fecha_siniestro) <= fechafin).ToList());
+                            siniestros = siniestros.Where(f => Convert.ToDateTime(f.fecha_siniestro) >= fechainicio && Convert.ToDateTime(f.fecha_siniestro) <= fechafin).ToList();
+                        }
+                        if (usuario != "" && usuario != "0")
+                        {
+                            siniestros = siniestros.Where(u => u.usuario.ToUpper() == usuario).ToList();
+                        }
+                        return Json(siniestros.ToList());
                     }
                 }
             }

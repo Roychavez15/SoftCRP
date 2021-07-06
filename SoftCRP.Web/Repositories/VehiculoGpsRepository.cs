@@ -500,6 +500,6 @@ namespace SoftCRP.Web.Repositories
             await _dataContext.SaveChangesAsync();
         }
 
-        
+
     }
 }

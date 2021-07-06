@@ -53,7 +53,14 @@
                                     </span>
                                 </div>
                                 <input type="text" class="form-control float-right" id="reservation">
+                                <div class="icheck-primary d-inline ml-3">
+                                    <input type="checkbox" id="checkboxPrimary1">
+                                    <label for="checkboxPrimary1">
+                                        Aplicar
+                                    </label>
+                                </div>
                             </div>
+
                             <!-- /.input group -->
                         </div>
                         <!-- /.form-group -->
@@ -76,7 +83,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-
+                <button class="btn btn-success" id="procesar"> Procesar</button>
             </div>
         </div>
         <!-- /.card -->
@@ -88,11 +95,11 @@
             <table>
                 <tr>
                     <td><label for="alpha">Alpha Angle</label></td>
-                    <td><input id="alpha" type="range" min="0" max="45" value="15" /> <span id="alpha-value" class="value"></span></td>
+                    <td><input id="alpha" type="range" min="0" max="45" value="0" /> <span id="alpha-value" class="value"></span></td>
                 </tr>
                 <tr>
                     <td><label for="beta">Beta Angle</label></td>
-                    <td><input id="beta" type="range" min="-45" max="45" value="15" /> <span id="beta-value" class="value"></span></td>
+                    <td><input id="beta" type="range" min="-45" max="45" value="0" /> <span id="beta-value" class="value"></span></td>
                 </tr>
                 <tr>
                     <td><label for="depth">Depth</label></td>
@@ -108,6 +115,10 @@
 
 
 
+<div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
+
 
 
 <div class="row">
@@ -121,44 +132,44 @@
             </div>
             <div class="card-body">
                 <!--<div class="row">
-    <div class="col-sm-6">
-        <div id="container"></div>
-    </div>-->
+                <div class="col-sm-6">
+                    <div id="container"></div>
+                </div>-->
                 <!-- /.col -->
                 <!--<div class="col-sm-6">
-        <div id="container1"></div>
-    </div>-->
+                    <div id="container1"></div>
+                </div>-->
                 <!-- /.col -->
                 <!--</div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="container2"></div>
-        </div>-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="container2"></div>
+                    </div>-->
                 <!-- /.col -->
                 <!--<div class="col-sm-6">
-        <div id="container3"></div>
-    </div>-->
+                    <div id="container3"></div>
+                </div>-->
                 <!-- /.col -->
                 <!--</div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="container4"></div>
-        </div>-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="container4"></div>
+                    </div>-->
                 <!-- /.col -->
                 <!--<div class="col-sm-6">
-        <div id="container5"></div>
-    </div>-->
+                    <div id="container5"></div>
+                </div>-->
                 <!-- /.col -->
                 <!--</div>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="container6"></div>
-        </div>-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="container6"></div>
+                    </div>-->
                 <!-- /.col -->
                 <!--<div class="col-sm-6">
-        <div id="container7"></div>
-    </div>-->
+                    <div id="container7"></div>
+                </div>-->
                 <!-- /.col -->
                 <!--</div>-->
                 <div class="row" id="viajes">
@@ -193,17 +204,13 @@
 </div>
 
 
-<div class="loaderbody" id="loaderbody">
-    <div class="loader"></div>
-</div>
-
 
 @section Scripts {
 
     <style>
         #container {
             height: 400px;
-            width:100%;
+            width: 100%;
         }
 
         #container1 {
@@ -268,6 +275,24 @@
 
     <script type="text/javascript">
         window.onload = function () {
+            $("#loaderbody").addClass('hide');
+            $("#procesar").click(function () {
+                $("#procesar").prop("disabled", true);
+                MostrarOcultarDiv();
+                GenerateRuntimeGraph();
+
+            });
+
+
+            $('#reservation').daterangepicker({
+
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            });
+            $("#Cliente").append('<option value="0">(Todos...)</option>');
+
+
             labelserie = false;
             $("#container").hide();
             $("#container1").hide();
@@ -280,8 +305,16 @@
             MostrarOcultarDiv();
 
             $("#Proceso").change(function () {
-                $("#loaderbody").removeClass('hide');
-                
+                $("#container").hide();
+                $("#container1").hide();
+                $("#container2").hide();
+                $("#container3").hide();
+                $("#container4").hide();
+                $("#container5").hide();
+                $("#container6").hide();
+                $("#container7").hide();
+                //$("#loaderbody").removeClass('hide');
+                $("#procesar").prop("disabled", true);
                 labelserie = false;
                 var x = $("#Proceso").val();
                 $("#SubProceso").empty();
@@ -300,9 +333,10 @@
                     },
                     error: function (ex) {
                         alert('Failed to retrieve subprocesos.' + ex.statusText);
+                        $("#procesar").prop("disabled", true);
                     }
                 });
-                
+
 
                 //clientes
                 $("#Cliente").empty();
@@ -319,32 +353,69 @@
                                 + sub.value + '">'
                                 + sub.text + '</option>');
                         });
+                        $("#procesar").prop("disabled", false);
                     },
                     error: function (ex) {
                         alert('Failed to retrieve Clientes.' + ex.statusText);
+                        $("#procesar").prop("disabled", false);
                     }
                 });
-               
-                MostrarOcultarDiv();
-                GenerateRuntimeGraph();
-                $("#loaderbody").addClass('hide');
+
+                //usuarios
+                $("#Usuarios").empty();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetUsuarios")',
+                    dataType: 'json',
+                    data: { proceso: $("#Proceso").val() },
+                    success: function (subs) {
+                        $("#Usuarios").append('<option value="0">(Seleccionar...)</option>');
+                        $.each(subs, function (i, sub) {
+                            $("#Usuarios").append('<option value="'
+                                + sub.value + '">'
+                                + sub.text + '</option>');
+                        });
+                        $("#procesar").prop("disabled", false);
+                    },
+                    error: function (ex) {
+                        //alert('Failed to retrieve Clientes.' + ex.statusText);
+                        $("#procesar").prop("disabled", false);
+                    }
+                });
+                //$("#loaderbody").addClass('hide');
+
+                //MostrarOcultarDiv();
+                //GenerateRuntimeGraph();
+
                 return false;
             });
             //subprocesos
             $("#SubProceso").change(function () {
+                $("#procesar").prop("disabled", false);
                 labelserie = false;
-                $("#loaderbody").removeClass('hide');
+                //$("#loaderbody").removeClass('hide');
                 MostrarOcultarDiv();
-                $("#loaderbody").addClass('hide');
+                //$("#loaderbody").addClass('hide');
             });
             ////////////
             $("#Cliente").change(function () {
-                MostrarOcultarDiv();
+                $("#container").hide();
+                $("#container1").hide();
+                $("#container2").hide();
+                $("#container3").hide();
+                $("#container4").hide();
+                $("#container5").hide();
+                $("#container6").hide();
+                $("#container7").hide();
+
+                $("#procesar").prop("disabled", true);
+                //MostrarOcultarDiv();
                 if ($("#Cliente").val() != "(Seleccionar...)") {
                     labelserie = true;
                 }
-                
-                $("#loaderbody").removeClass('hide');
+
+               // $("#loaderbody").removeClass('hide');
                 var x = $("#Cliente").val();
                 $("#Placa").empty();
                 $.ajax({
@@ -359,27 +430,57 @@
                                 + sub.value + '">'
                                 + sub.text + '</option>');
                         });
+                        $("#procesar").prop("disabled", false);
                     },
                     error: function (ex) {
                         alert('Failed to retrieve Placas.' + ex.statusText);
+
                     }
                 });
-                GenerateRuntimeGraph();
-                $("#loaderbody").addClass('hide');
+                //GenerateRuntimeGraph();
+                //$("#loaderbody").addClass('hide');
                 return false;
             });
 
             ///placa
             $("#Placa").change(function () {
+                $("#container").hide();
+                $("#container1").hide();
+                $("#container2").hide();
+                $("#container3").hide();
+                $("#container4").hide();
+                $("#container5").hide();
+                $("#container6").hide();
+                $("#container7").hide();
+
+                $("#procesar").prop("disabled", false);
                 MostrarOcultarDiv();
                 labelserie = true;
-                $("#loaderbody").removeClass('hide');
+                //$("#loaderbody").removeClass('hide');
                 GenerateRuntimeGraph();
-                $("#loaderbody").addClass('hide');
+                //$("#loaderbody").addClass('hide');
             });
 
-            $("#loaderbody").addClass('hide');
-            
+            ///usuarios
+            $("#Usuarios").change(function () {
+                $("#container").hide();
+                $("#container1").hide();
+                $("#container2").hide();
+                $("#container3").hide();
+                $("#container4").hide();
+                $("#container5").hide();
+                $("#container6").hide();
+                $("#container7").hide();
+
+                $("#procesar").prop("disabled", false);
+                //MostrarOcultarDiv();
+                //labelserie = true;
+                //$("#loaderbody").removeClass('hide');
+                //GenerateRuntimeGraph();
+                //$("#loaderbody").addClass('hide');
+            });
+            //$("#loaderbody").addClass('hide');
+
        }
 
         function MostrarOcultarDiv() {
@@ -455,6 +556,48 @@
                     $("#container1").show();
                 }
             }
+            else if ($("#Proceso").val() == "Sustitutos") {
+                if ($("#SubProceso").val() == "(Seleccionar...)") {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                }
+                else if ($("#SubProceso").val() == "Días de sustitución") {
+                    $("#container").show();
+                }
+                else if ($("#SubProceso").val() == "Estados") {
+                    $("#container1").show();
+                }
+                else if ($("#SubProceso").val() == "Regional") {
+                    $("#container2").show();
+                }
+                else {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                }
+            }
+            else if ($("#Proceso").val() == "Siniestros") {
+                if ($("#SubProceso").val() == "(Seleccionar...)") {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                }
+                else if ($("#SubProceso").val() == "Estados") {
+                    $("#container").show();
+                }
+                else if ($("#SubProceso").val() == "Tiempo de siniestro") {
+                    $("#container1").show();
+                }
+                else if ($("#SubProceso").val() == "Tipo de siniestro") {
+                    $("#container2").show();
+                }
+                else {
+                    $("#container").show();
+                    $("#container1").show();
+                    $("#container2").show();
+                }
+            }
         };
 
         let chart;
@@ -467,14 +610,22 @@
         let chart7;
         let labelserie = false;
 
-       function GenerateRuntimeGraph() {
+        function GenerateRuntimeGraph() {
+
+            $("#loaderbody").removeClass('hide');
+
             var proceso = $('#Proceso').val();
             var subproceso = $('#SubProceso').val();
             var cliente = $('#Cliente').val();
             var fecha = $('#reservation').val();
             var placa = $('#Placa').val();
            var usuario = $('#Usuarios').val();
-           var nombre = $('#Cliente').text;
+            var nombre = $('#Cliente').text;
+            var validez = "0";
+            if ($('#checkboxPrimary1').is(':checked')) {
+                validez = "1";
+            }
+
            //console.log(proceso);
         //setting default values
            if (proceso == "null") {
@@ -497,7 +648,6 @@
             usuario = "";
            }
 
-
            var fileData = new FormData();
 
            fileData.append("Proceso", proceso);
@@ -506,7 +656,7 @@
            fileData.append("Placa", placa);
            fileData.append("Fecha", fecha);
            fileData.append("Usuario", usuario);
-
+            fileData.append("Validez", validez);
 
            var resp = [];
            var dist = [];
@@ -537,58 +687,37 @@
             success: function (chData) {
 
                 if (proceso == "Conducción") {
+                    var grupo = _.groupBy(chData, "vehiculo.placa");
 
+                    console.log(grupo);
+                    $.each(grupo, function (i, item) {
+                        resp.push(_.sumBy(item, 'trips'));
+                        lbl.push(i);
 
-                    var sorted = _.sortBy(chData, "trips")
-                    var sorted1 = _.sortBy(chData, "kilometerstraveled")
-                    var sorted2 = _.sortBy(chData, "sharpacceleration")
-                    var sorted3 = _.sortBy(chData, "sharpacceleration")
-                    var sorted4 = _.sortBy(chData, "hardbraking")
-                    var sorted5 = _.sortBy(chData, "speeding")
-                    var sorted6 = _.sortBy(chData, "sharpturn")
-                    var sorted7 = _.sortBy(chData, "score")
+                        dist.push(_.sumBy(item, 'kilometerstraveled'));
+                        lbldist.push(i);
 
-                    //console.log(chData);
-                    //For Bar Chart
-                    $.each(sorted, function (i, item) {
-                        resp.push(item.trips);
-                        lbl.push(item.vehiculo.placa);
-                    });
-                    $.each(sorted1, function (i, item) {
-                        dist.push(item.kilometerstraveled);
-                        lbldist.push(item.vehiculo.placa);
-                    });
-                    //eventos
-                    $.each(sorted2, function (i, item) {
-                        eventos.push(item.sharpacceleration + item.sharpturn + item.hardbraking + item.speeding);
-                        lbleventos.push(item.vehiculo.placa);
-                    });
-                    //aceler
-                    $.each(sorted3, function (i, item) {
-                        aceler.push(item.sharpacceleration);
-                        lblaceler.push(item.vehiculo.placa);
-                    });
-                    //frenazos
-                    $.each(sorted4, function (i, item) {
-                        frena.push(item.hardbraking);
-                        lblfren.push(item.vehiculo.placa);
-                    });
-                    //excesos
-                    $.each(sorted5, function (i, item) {
-                        excesos.push(item.speeding);
-                        lblexcesos.push(item.vehiculo.placa);
-                    });
-                    //giros
-                    $.each(sorted6, function (i, item) {
-                        giros.push(item.sharpturn);
-                        lblgiros.push(item.vehiculo.placa);
-                    });
-                    //score
-                    $.each(sorted7, function (i, item) {
-                        califi.push(item.score);
-                        lblcalifi.push(item.vehiculo.placa);
+                        eventos.push(_.sumBy(item, 'sharpacceleration') + _.sumBy(item, 'sharpturn') + _.sumBy(item, 'hardbraking') + _.sumBy(item, 'speeding'));
+                        lbleventos.push(i);
+
+                        aceler.push(_.sumBy(item, 'sharpacceleration'));
+                        lblaceler.push(i);
+
+                        frena.push(_.sumBy(item, 'hardbraking'));
+                        lblfren.push(i);
+
+                        excesos.push(_.sumBy(item, 'speeding'));
+                        lblexcesos.push(i);
+
+                        giros.push(_.sumBy(item, 'sharpturn'));
+                        lblgiros.push(i);
+
+                        califi.push(_.round(_.meanBy(item, 'score'),2));
+                        lblcalifi.push(i);
+
                     });
 
+                    console.log("viajes")
                     //cantidad de viajes
                     chart = new Highcharts.Chart({
                         chart: {
@@ -623,7 +752,7 @@
                         },
                         series: [{
                             name: 'Viajes',
-                            data: resp,
+                            data: resp.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -638,7 +767,7 @@
                             }
                         }]
                     });
-
+                    console.log("distancia")
                     //distancia recorrida
                     chart1 = new Highcharts.Chart({
                         chart: {
@@ -673,7 +802,7 @@
                         },
                         series: [{
                             name: 'Distancia',
-                            data: dist,
+                            data: dist.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -689,6 +818,7 @@
                         }]
                     });
 
+                    console.log("eventos")
                     chart2 = new Highcharts.Chart({
                         chart: {
                             renderTo: 'container2',
@@ -722,7 +852,7 @@
                         },
                         series: [{
                             name: 'Eventos',
-                            data: eventos,
+                            data: eventos.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -737,6 +867,7 @@
                             }
                         }]
                     });
+                    console.log("aceleraciones")
                     //aceleraciones bruscas
                     chart3 = new Highcharts.Chart({
                         chart: {
@@ -771,7 +902,7 @@
                         },
                         series: [{
                             name: 'Aceleraciones',
-                            data: aceler,
+                            data: aceler.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -786,6 +917,7 @@
                             }
                         }]
                     });
+                    console.log("frenazos")
                     //frenazos bruscos
                     chart4 = new Highcharts.Chart({
                         chart: {
@@ -820,7 +952,7 @@
                         },
                         series: [{
                             name: 'Frenazos',
-                            data: frena,
+                            data: frena.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -835,6 +967,7 @@
                             }
                         }]
                     });
+                    console.log("velocidad")
                     //excesos de velocidad
                     chart5 = new Highcharts.Chart({
                         chart: {
@@ -869,7 +1002,7 @@
                         },
                         series: [{
                             name: 'Excesos',
-                            data: excesos,
+                            data: excesos.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -884,7 +1017,7 @@
                             }
                         }]
                     });
-
+                    console.log("giros")
                     //Giros Bruscos
                     chart6 = new Highcharts.Chart({
                         chart: {
@@ -919,7 +1052,7 @@
                         },
                         series: [{
                             name: 'Giros',
-                            data: giros,
+                            data: giros.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -934,6 +1067,7 @@
                             }
                         }]
                     });
+                    console.log("score")
                     //Calificaciones
                     chart7 = new Highcharts.Chart({
                         chart: {
@@ -968,7 +1102,7 @@
                         },
                         series: [{
                             name: 'Calificación',
-                            data: califi,
+                            data: califi.sort(function (a, b) { return a - b }),
                             dataLabels: {
                                 enabled: labelserie,
                                 rotation: -90,
@@ -1005,7 +1139,7 @@
                         tipos.push(i);
                         lbltipos.push(item.length);
                         tiposarray.push({ "name": i, "y": item.length });
-  
+
                     });
                     console.log(tiposarray);
 
@@ -1054,7 +1188,7 @@
                         series: [{
                             data: tiposarray
                         }]
-                        
+
                     });
                     ///////
                     chart2 = new Highcharts.chart('container1', {
@@ -1100,17 +1234,395 @@
                 }
                 else if (proceso == "Sustitutos") {
 
+                    var tiempos = [];
+                    var lbltiempos = [];
+                    var estado = [];
+                    var lblestado = [];
+                    var region = [];
+                    var lblregion = [];
+                    var regionarray = [];
+                    var estadosarray = [];
+                    var tiemposarray = [];
+
+                    var tiemposgroup = _.groupBy(chData, 'dias');
+                    var regiongroup = _.groupBy(chData, 'regional');
+                    var estadosgroup = _.groupBy(chData, 'estado');
+
+                    var obj = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 0 && rec.dias<100;
+
+                    });
+                    var obj1 = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 100 && rec.dias < 200;
+
+                    });
+                    var obj2 = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 200 && rec.dias < 300;
+
+                    });
+                    var obj3 = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 300 && rec.dias < 400;
+
+                    });
+                    var obj4 = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 400 && rec.dias < 500;
+
+                    });
+                    var obj5 = _.countBy(chData, function (rec) {
+
+                        return rec.dias >= 500;
+
+                    });
+
+                    console.log(obj.true);
+                    console.log(obj1.true);
+
+                    $.each(regiongroup, function (i, item) {
+                        region.push(i);
+                        lblregion.push(item.length);
+                        regionarray.push({ "name": i, "y": item.length });
+
+                    });
+
+
+                    $.each(estadosgroup, function (i, item) {
+                        estado.push(i);
+                        lblestado.push(item.length);
+                        estadosarray.push({ "name": i, "y": item.length })
+                    });
+
+                    //$.each(tiemposgroup, function (i, item) {
+                    //    tiempos.push(i);
+                    //    lbltiempos.push(item.length);
+                    //    tiemposarray.push({ "name": i, "y": item.length })
+                    //});
+                    tiempos.push("0-99");
+                    lbltiempos.push(obj.true);
+                    tiemposarray.push({ "name": '0-99', "y": obj.true})
+
+                    tiempos.push("100-199");
+                    lbltiempos.push(obj1.true);
+                    tiemposarray.push({ "name": '100-199', "y": obj1.true })
+
+                    tiempos.push("200-299");
+                    lbltiempos.push(obj2.true);
+                    tiemposarray.push({ "name": '200-299', "y": obj2.true })
+
+                    tiempos.push("300-399");
+                    lbltiempos.push(obj3.true);
+                    tiemposarray.push({ "name": '300-399', "y": obj3.true })
+
+                    tiempos.push("400-499");
+                    lbltiempos.push(obj4.true);
+                    tiemposarray.push({ "name": '400-499', "y": obj4.true })
+
+                    tiempos.push("500 >");
+                    lbltiempos.push(obj5.true);
+                    tiemposarray.push({ "name": '500 >', "y": obj5.true })
+
+
+                    chart1 = new Highcharts.chart('container', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Dias de Sustitución'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: tiemposarray
+                        }]
+
+                    });
+
+                    ///////
+                    chart2 = new Highcharts.chart('container1', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Estados de Sustitución'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: estadosarray
+                        }]
+
+                    });
+
+
+                    ///////
+                    chart3 = new Highcharts.chart('container2', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Regional'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: regionarray
+                        }]
+
+                    });
+
+
                 }
                 else if (proceso == "Siniestros") {
+                    var tipos = [];
+                    var lbltipos = [];
+                    var estado = [];
+                    var lblestado = [];
+                    var tiempo = [];
+                    var lbltiempo = [];
+                    var tiposarray = [];
+                    var estadosarray = [];
+                    var tiemposarray = [];
+
+                    var tiemposgroup = _.groupBy(chData, 'tiempo_siniestro');
+                    var tiposgroup = _.groupBy(chData, 'tipo_siniestro');
+                    var estadosgroup = _.groupBy(chData, 'estado');
+
+                    $.each(tiposgroup, function (i, item) {
+                        tipos.push(i);
+                        lbltipos.push(item.length);
+                        tiposarray.push({ "name": i, "y": item.length });
+
+                    });
+
+
+                    $.each(estadosgroup, function (i, item) {
+                        estado.push(i);
+                        lblestado.push(item.length);
+                        estadosarray.push({ "name": i, "y": item.length })
+                    });
+
+                    $.each(tiemposgroup, function (i, item) {
+                        tiempo.push(i);
+                        lbltiempo.push(item.length);
+                        tiemposarray.push({ "name": i, "y": item.length })
+                    });
+
+                    chart1 = new Highcharts.chart('container', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Estados de Siniestros'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: estadosarray
+                        }]
+
+                    });
+
+                    ///////
+                    chart2 = new Highcharts.chart('container1', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Tiempo de Siniestros'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: tiemposarray
+                        }]
+
+                    });
+
+
+                    ///////
+                    chart3 = new Highcharts.chart('container2', {
+                        chart: {
+                            type: 'pie',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        title: {
+                            text: 'Tipo de Siniestros'
+                        },
+                        subtitle: {
+                            text: $("#Cliente option:selected").text()
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<span style="color:{point.color};font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{series.name}</span>: <b style="font-size:10px;font-family:Trebuchet MS, Verdana, sans-serif">{point.y} ({point.percentage:.0f}%)</b> <br/>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name} <b>({point.y})</b>'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: tiposarray
+                        }]
+
+                    });
+
+
 
                 }
                 else {
                     //limpiar todo
                 }
+
+                $("#loaderbody").addClass('hide');
+                $("#procesar").prop("disabled", false);
             },//fin de respuestas de ajax
             "error": function (data) {
-
-                alert("Some Error Occured!");
+                $("#loaderbody").addClass('hide');
+                $("#procesar").prop("disabled", false);
+                alert("Error en obtener datos de Graficos!");
             }
         });
            ////

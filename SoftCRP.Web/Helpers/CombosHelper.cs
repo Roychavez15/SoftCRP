@@ -523,7 +523,33 @@ namespace SoftCRP.Web.Helpers
             }
             return myList.OrderBy(n => n.Text);
         }
+        public IEnumerable<SelectListItem> UsuariosConduccion()
+        {
+            List<SelectListItem> myList = new List<SelectListItem>();
+            IQueryable<String> list =
+                (from usuario in _dataContext.vehiculosGps
+                 select usuario.usuario).Distinct();
 
+
+            int id = 1;
+            foreach (var Data in list)
+            {
+                if (Data != "" || Data!="null")
+                {
+                    var data =
+                     new SelectListItem
+                     {
+                         Value = Data,
+                         Text = Data,
+                     };
+                    myList.Add(data);
+                    id = id + 1;
+                }
+            };
+
+            return myList.OrderBy(n => n.Text);
+
+        }
         public IEnumerable<SelectListItem> GetComboSubProcesos(string proceso)
         {
             var myList = new List<SelectListItem>();

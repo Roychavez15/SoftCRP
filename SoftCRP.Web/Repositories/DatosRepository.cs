@@ -1235,7 +1235,7 @@ namespace SoftCRP.Web.Repositories
             List<SiniestrosDetalleViewModel> Siniestros = new List<SiniestrosDetalleViewModel>();
 
             var dataxml = await _service1Soap.RENTING_CLIENTES_RENTING_SINIESTROS_DETALLEAsync(key, Placa, Nit);
-
+            
             if (dataxml != null)
             {
                 XmlDocument document = new XmlDocument();
